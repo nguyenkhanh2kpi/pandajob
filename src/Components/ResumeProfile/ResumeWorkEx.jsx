@@ -59,7 +59,7 @@ export const ResumeWorkEx = ({ isEx, workExps, setResume }) => {
 
   return (
     <Box w={"100%"} m={0}>
-      {worksExp.map((w) => (
+      {worksExp?.map((w) => (
         <ResumeWorkExItem
           item={w}
           addClick={handleAddWorkExpClick}

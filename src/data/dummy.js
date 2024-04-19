@@ -6,6 +6,7 @@ import {
   AiOutlineBarChart,
   AiOutlineStock,
   AiOutlineTeam,
+  AiOutlineSnippets,
 } from 'react-icons/ai'
 import {
   FiShoppingBag,
@@ -674,23 +675,28 @@ export const reccerLink = [
     title: 'RECRUITER',
     links: [
       {
-        title: 'Công ty của tôi',
+        title: 'My Company',
         name: 'my-company',
         icon: <BiBuilding />,
       },
       {
-        title: 'Đăng tuyển dụng',
+        title: 'Post Job',
         name: 'allJob_Recruiter',
         icon: <BiBriefcase />,
       },
       {
-        title: 'Đội ngũ tuyển dụng',
+        title: 'Recruitment Team',
         name: 'manage-interviewer',
         icon: <AiOutlineTeam />,
       },
       {
+        title: 'Screening',
+        name: 'screening',
+        icon: <AiOutlineSnippets  />,
+      },
+      {
         name: 'roomList',
-        title: 'Phòng phỏng vấn',
+        title: 'Interview Rooms',
         icon: <BiVideo />,
       },
       {
@@ -699,12 +705,12 @@ export const reccerLink = [
         icon: <BiNews />,
       },
       {
-        title: 'Lịch trình của tôi',
+        title: 'My Schedule',
         name: 'calendar-admin',
         icon: <BiCalendarCheck />,
       },
       {
-        title: 'Kết quả phỏng vấn',
+        title: 'Interview Results',
         name: 'result',
         icon: <BsPeople />,
       },

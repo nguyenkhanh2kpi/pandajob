@@ -1,33 +1,66 @@
 import React from 'react'
 import {
+  Badge,
   Box,
   Button,
-  Container,
-  Divider,
+  Card,
+  CardBody,
   Flex,
+  Heading,
+  HStack,
   IconButton,
   Image,
+  SlideFade,
+  Stack,
+  Text,
+  Wrap,
+  WrapItem,
+  useDisclosure,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  Stack,
-  useDisclosure,
-} from '@chakra-ui/react'
+  Container,
+  Divider,
+} from '@chakra-ui/react';
+
+
 import mainlogo from '../../Components/req/jobpandacom-logo.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { ChatIcon, PhoneIcon } from '@chakra-ui/icons'
-import { ChatList } from 'react-chat-engine'
-import { MessageList } from '../Message/MessageList'
+import { ChatIcon } from '@chakra-ui/icons'
+import { GoogleLogout } from 'react-google-login'
+import { webHost } from '../../global'
 
+const client_id = '854899780211-p148qqqvv8svo8mmviv8tuf6sbmip7iq.apps.googleusercontent.com'
 const Navbar1 = () => {
   const navigate = useNavigate()
 
-  const employers = useDisclosure()
-  const jobs = useDisclosure()
+  // const employers = useDisclosure()
+  // const jobs = useDisclosure()
   const companies = useDisclosure()
   const services = useDisclosure()
   const data = JSON.parse(localStorage.getItem('data'))
+
+  // const handleLogout = () => {
+  //   console.log('logout')
+  //   const auth2 = window.gapi.auth2.getAuthInstance()
+  //   if (auth2 != null) {
+  //     auth2.signOut().then(auth2.disconnect())
+  //   }
+  //   localStorage.removeItem('data')
+  //   window.location.replace(`${webHost}`)
+  // }
+  const handleLogout = () => {
+    console.log('logout')
+    if (window.gapi && window.gapi.auth2) {
+      const auth2 = window.gapi.auth2.getAuthInstance()
+      if (auth2 != null) {
+        auth2.signOut().then(auth2.disconnect())
+      }
+    }
+    localStorage.removeItem('data')
+    window.location.replace(`${webHost}`)
+  }
 
   return (
     <Box
@@ -107,12 +140,12 @@ const Navbar1 = () => {
             lineHeight={'20px'}
             color={'#445578'}
             cursor={'pointer'}>
-            <Menu isOpen={companies.isOpen}>
+            <Menu isOpen={false}>
               <MenuButton
                 onClick={() => navigate('/companies')}
                 as={Button}
-                onMouseEnter={companies.onOpen}
-                onMouseLeave={companies.onClose}
+                // onMouseEnter={companies.onOpen}
+                // onMouseLeave={companies.onClose}
                 _hover={{
                   background: 'white',
                   border: 'none',
@@ -171,21 +204,43 @@ const Navbar1 = () => {
             lineHeight={'20px'}
             color={'#445578'}
             cursor={'pointer'}>
-            <Menu isOpen={services.isOpen}>
+            <Menu isOpen={companies.isOpen}>
               <MenuButton
-                onClick={() => navigate('/cv-build')}
+                as={Button}
+                onMouseEnter={companies.onOpen}
+                onMouseLeave={companies.onClose}
                 _hover={{
                   background: 'white',
                   border: 'none',
                 }}
                 border={'none'}
                 bgColor={'white'}
-                as={Button}
                 color={'#445578'}>
-                Build MyCV
+                Profile and Carrer
               </MenuButton>
+              <MenuList onMouseEnter={companies.onOpen} onMouseLeave={companies.onClose}>
+                <MenuItem
+                  onClick={() => navigate('/resume')}
+                  _hover={{
+                    color: '#457eff',
+                  }}
+                  fontWeight={'500'}
+                  color={'#445578'}>
+                  Resume
+                </MenuItem>
+                <MenuItem
+                  onClick={() => navigate('/test')}
+                  _hover={{
+                    color: '#457eff',
+                  }}
+                  fontWeight={'500'}
+                  color={'#445578'}>
+                  Test Skill
+                </MenuItem>
+              </MenuList>
             </Menu>
           </Box>
+
           {/*  */}
 
           {/* <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
@@ -304,9 +359,16 @@ const Navbar1 = () => {
                 color={'white'}
                 borderColor={'#ff7555'}
                 bgColor={'#ff7555'}
+                onClick={handleLogout}
                 w={'100px'}>
-                <Link to='/logout'>Log Out</Link>
+                {/* <Link to='/logout'>Log Out</Link> */}
+                Log Out
               </Button>
+              {/* <GoogleLogout
+                clientId={client_id}
+                buttonText='Dang xuat'
+                onLogoutSuccess={() => console.log('logout')}
+              /> */}
             </div>
           ) : (
             <div style={{ width: '100%' }}>

@@ -9,6 +9,7 @@
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.0",
+    "@react-oauth/google": "^0.12.1",
     "@syncfusion/ej2-react-calendars": "^23.1.41",
     "@syncfusion/ej2-react-charts": "^23.1.42",
     "@syncfusion/ej2-react-dropdowns": "^23.1.42",

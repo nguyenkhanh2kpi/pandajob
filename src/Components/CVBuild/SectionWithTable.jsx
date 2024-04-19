@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './indexBuild.css'
+import { useState } from 'react'
 
 export const SectionWithTable = ({
   iconName,
@@ -9,8 +10,13 @@ export const SectionWithTable = ({
   handleUpdateData,
   isShowButton,
 }) => {
+  const [isShow, setIsShow] = useState()
+  useEffect(() => {
+    setIsShow(false)
+  }, [])
   const BtnAddItem = (props) => (
     <button
+      style={{ marginRight: '5px', marginTop: '5px' }}
       data-bs-toggle='tooltip'
       title='Add new item'
       className='btn-add btn btn-outline-primary'
@@ -20,6 +26,7 @@ export const SectionWithTable = ({
   )
   const BtnRemoveItem = (props) => (
     <button
+      style={{ marginTop: '5px' }}
       data-bs-toggle='tooltip'
       title='Remove this item'
       className='btn-remv btn btn-outline-danger'
@@ -37,8 +44,20 @@ export const SectionWithTable = ({
     technology: 'Technology in use',
   }
 
+  const onMouseEnter = () => {
+    setIsShow(true)
+  }
+
+  const onMouseLeave = () => {
+    setIsShow(false)
+  }
+
   return (
-    <div style={{ fontFamily: 'Montserrat' }} className='section'>
+    <div
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      style={{ fontFamily: 'Montserrat' }}
+      className='section'>
       <i className={iconName} style={{ fontSize: '25px', color: 'green' }}>
         {title}
       </i>
@@ -68,8 +87,8 @@ export const SectionWithTable = ({
                 </tr>
               ))}
           </table>
-          {isShowButton && <BtnAddItem idx={idx} />}
-          {isShowButton && <BtnRemoveItem idx={idx} />}
+          {isShow && <BtnAddItem idx={idx} />}
+          {isShow && <BtnRemoveItem idx={idx} />}
         </div>
       ))}
     </div>

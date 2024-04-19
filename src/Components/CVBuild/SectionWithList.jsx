@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './indexBuild.css'
 
 export const SectionWithList = ({
@@ -10,8 +10,13 @@ export const SectionWithList = ({
   handleUpdateData,
   isShowButton,
 }) => {
+  const [isShow, setIsShow] = useState()
+  useEffect(() => {
+    setIsShow(false)
+  }, [])
   const BtnAddItem = (props) => (
     <button
+      style={{ marginRight: '5px' }}
       data-bs-toggle='tooltip'
       title='Add new item'
       className='btn-add btn btn-outline-primary'
@@ -33,8 +38,20 @@ export const SectionWithList = ({
     handleUpdateData(type)
   }
 
+  const onMouseEnter = () => {
+    setIsShow(true)
+  }
+
+  const onMouseLeave = () => {
+    setIsShow(false)
+  }
+
   return (
-    <div style={{ fontFamily: 'Montserrat' }} className='section'>
+    <div
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      style={{ fontFamily: 'Montserrat' }}
+      className='section'>
       <i className={iconName} style={{ fontSize: '25px', color: 'green' }}>
         {' '}
         {title}
@@ -60,8 +77,8 @@ export const SectionWithList = ({
               </td>
             </tr>
           )}
-          {isShowButton && <BtnAddItem idx={idx} />}
-          {isShowButton && <BtnRemoveItem idx={idx} />}
+          {isShow && <BtnAddItem idx={idx} />}
+          {isShow && <BtnRemoveItem idx={idx} />}
         </table>
       ))}
     </div>

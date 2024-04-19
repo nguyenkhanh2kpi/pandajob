@@ -18,6 +18,7 @@ import { Stack } from 'react-bootstrap'
 import { Grid } from 'swiper'
 import { ResumeHelp } from './ResumeHelp'
 import { ResumeProject } from './ResumeProject'
+import { useNavigate } from 'react-router-dom'
 
 export const ResumeProfile = () => {
   const [resume, setResume] = useState({
@@ -37,7 +38,7 @@ export const ResumeProfile = () => {
     mainSkill: '',
     skills: [],
     school: '',
-    startEdudatiomTime: '',
+    startEducationTime: '',
     endEducationTime: '',
     major: '',
     others: '',
@@ -68,6 +69,7 @@ export const ResumeProfile = () => {
   })
 
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  const navigate = useNavigate()
 
   useEffect(() => {
     resumeService
@@ -86,14 +88,18 @@ export const ResumeProfile = () => {
     }))
   }
 
+  const handleSave = () => {
+    resumeService
+      .putResume(accessToken, resume)
+      .then((response) => console.log(response))
+      .catch((er) => console.log(er))
+  }
+
   return (
     <Box fontFamily={'Montserrat'} mt={100} h={10000} display={'flex'} justifyContent={'center'}>
       <Box h={500} w={'74%'}>
         <HStack align='flex-start'>
-          <Box m={5} h={200} w={'30%'} backgroundColor={'yellow'} position='sticky' top={0}>
-            {/* Nội dung bên trong */}
-          </Box>
-          <Box p={5} m={5} w={'62%'} backgroundColor={'#e0dede'}>
+          <Box borderRadius={10} p={5} m={5} w={'100%'} backgroundColor={'#e4ebeb'}>
             <VStack>
               <Box
                 fontWeight={'bold'}
@@ -101,15 +107,13 @@ export const ResumeProfile = () => {
                 borderWidth={1}
                 p={1}
                 w={'100%'}
-                backgroundColor={'grey'}
+                backgroundColor={'#94a6a6'}
                 display='flex'
                 alignItems='baseline'>
-                Nguyễn Lê Quốc Khánh - Back-end Developer.pdf
+                Nguyễn Văn A
               </Box>
 
-              <ResumeHelp />
-
-
+              {/* <ResumeHelp /> */}
 
               <Text w={'100%'} fontSize='3xl'>
                 Personal Information
@@ -119,29 +123,63 @@ export const ResumeProfile = () => {
                 <VStack w={'100%'}>
                   <FormControl isRequired>
                     <FormLabel>Full name</FormLabel>
-                    <Input onChange={handleOnChange} name='fullName' placeholder='Full name' value={resume.fullName} />
+                    <Input
+                      onChange={handleOnChange}
+                      name='fullName'
+                      placeholder='Full name'
+                      value={resume.fullName}
+                    />
 
                     <FormLabel>Current position/Application position</FormLabel>
-                    <Input onChange={handleOnChange} name='applicationPosition' placeholder='Ex: Fresher' value={resume.applicationPosition} />
+                    <Input
+                      onChange={handleOnChange}
+                      name='applicationPosition'
+                      placeholder='Ex: Fresher'
+                      value={resume.applicationPosition}
+                    />
 
                     <FormLabel>Email</FormLabel>
-                    <Input onChange={handleOnChange} name='email' placeholder='email' value={resume.email} />
+                    <Input
+                      onChange={handleOnChange}
+                      name='email'
+                      placeholder='email'
+                      value={resume.email}
+                    />
 
                     <FormLabel>Phone</FormLabel>
-                    <Input onChange={handleOnChange} name='phone' placeholder='phone' value={resume.phone} />
+                    <Input
+                      onChange={handleOnChange}
+                      name='phone'
+                      placeholder='phone'
+                      value={resume.phone}
+                    />
 
                     <FormLabel>Gender</FormLabel>
-                    <Select onChange={handleOnChange} name='gender' value={resume.gender} placeholder='Select gender'>
+                    <Select
+                      onChange={handleOnChange}
+                      name='gender'
+                      value={resume.gender}
+                      placeholder='Select gender'>
                       <option>Male</option>
                       <option>Female</option>
                       <option>Other</option>
                     </Select>
 
                     <FormLabel>Date of Birth</FormLabel>
-                    <Input onChange={handleOnChange} name='dateOB' type='date' placeholder='Full name' value={resume.dateOB} />
+                    <Input
+                      onChange={handleOnChange}
+                      name='dateOB'
+                      type='date'
+                      placeholder='Full name'
+                      value={resume.dateOB}
+                    />
 
                     <FormLabel>City</FormLabel>
-                    <Select onChange={handleOnChange} name='city' value={resume.city} placeholder='Select city'>
+                    <Select
+                      onChange={handleOnChange}
+                      name='city'
+                      value={resume.city}
+                      placeholder='Select city'>
                       <option>TP. Hồ Chí Minh</option>
                       <option>Đà Nẵng</option>
                       <option>Hà Nội</option>
@@ -149,13 +187,28 @@ export const ResumeProfile = () => {
                   </FormControl>
                   <FormControl>
                     <FormLabel>Address</FormLabel>
-                    <Input onChange={handleOnChange} name='address' placeholder='Enter your address' value={resume.address} />
+                    <Input
+                      onChange={handleOnChange}
+                      name='address'
+                      placeholder='Enter your address'
+                      value={resume.address}
+                    />
 
                     <FormLabel>Linkedin</FormLabel>
-                    <Input onChange={handleOnChange} name='linkedIn' placeholder='Enter your LinkedIn profile URL' value={resume.linkedIn} />
+                    <Input
+                      onChange={handleOnChange}
+                      name='linkedIn'
+                      placeholder='Enter your LinkedIn profile URL'
+                      value={resume.linkedIn}
+                    />
 
                     <FormLabel>Github</FormLabel>
-                    <Input onChange={handleOnChange} name='github' placeholder='Enter your GitHub username' value={resume.github} />
+                    <Input
+                      onChange={handleOnChange}
+                      name='github'
+                      placeholder='Enter your GitHub username'
+                      value={resume.github}
+                    />
                   </FormControl>
                 </VStack>
               </Box>
@@ -166,7 +219,12 @@ export const ResumeProfile = () => {
               <Box p={5} w={'100%'} backgroundColor={'white'} display='flex' alignItems='baseline'>
                 <FormControl isRequired>
                   <FormLabel>About yourself</FormLabel>
-                  <Textarea onChange={handleOnChange} name='aboutYourself'  placeholder='' value={resume.aboutYourself} />
+                  <Textarea
+                    onChange={handleOnChange}
+                    name='aboutYourself'
+                    placeholder=''
+                    value={resume.aboutYourself}
+                  />
                 </FormControl>
               </Box>
 
@@ -194,10 +252,10 @@ export const ResumeProfile = () => {
               <Box p={5} w={'100%'} backgroundColor={'white'} display='flex' alignItems='baseline'>
                 <FormControl isRequired>
                   <FormLabel>Main skill group</FormLabel>
-                  <Input placeholder='' value={resume.mainSkill} />
+                  <Input name='mainSkill' onChange={handleOnChange} placeholder='' value={resume.mainSkill} />
                   <FormLabel>List the skills in the group</FormLabel>
                   <VStack>
-                    {resume.skills.map((skill) => (
+                    {resume.skills?.map((skill) => (
                       <HStack>
                         <Input value={skill} placeholder='' />
                         <Button>+</Button>
@@ -218,23 +276,50 @@ export const ResumeProfile = () => {
                 <VStack w={'100%'}>
                   <FormControl isRequired>
                     <FormLabel>Name of school of formal training facility</FormLabel>
-                    <Input  onChange={handleOnChange} name='school'  placeholder='' value={resume.school} />
+                    <Input
+                      onChange={handleOnChange}
+                      name='school'
+                      placeholder=''
+                      value={resume.school}
+                    />
                     <FormLabel>Learning time </FormLabel>
                     <HStack>
                       <Text>From</Text>
-                      <Input onChange={handleOnChange} name='startEdudatiomTime' type='date' placeholder='' value={resume.startEdudatiomTime} />
+                      <Input
+                        onChange={handleOnChange}
+                        name='startEducationTime'
+                        type='date'
+                        placeholder=''
+                        value={resume.startEdudatiomTime}
+                      />
                       <Text>To</Text>
-                      <Input onChange={handleOnChange} name='endEducationTime' type='date' placeholder='' value={resume.endEducationTime} />
+                      <Input
+                        onChange={handleOnChange}
+                        name='endEducationTime'
+                        type='date'
+                        placeholder=''
+                        value={resume.endEducationTime}
+                      />
                       <Button>Now</Button>
                     </HStack>
 
                     <FormLabel>Majors</FormLabel>
-                    <Input onChange={handleOnChange} name='major' placeholder='' value={resume.major} />
+                    <Input
+                      onChange={handleOnChange}
+                      name='major'
+                      placeholder=''
+                      value={resume.major}
+                    />
                   </FormControl>
 
                   <FormControl>
                     <FormLabel>Other</FormLabel>
-                    <Textarea onChange={handleOnChange} name='others' placeholder='' value={resume.others} />
+                    <Textarea
+                      onChange={handleOnChange}
+                      name='others'
+                      placeholder=''
+                      value={resume.others}
+                    />
                   </FormControl>
                 </VStack>
               </Box>
@@ -254,8 +339,12 @@ export const ResumeProfile = () => {
 
               {/*  */}
 
-
-              <Button >Save</Button>
+              <HStack>
+                <Button onClick={handleSave}>Save</Button>
+                <Button onClick={() => navigate('/cv-build')} backgroundColor={'#92e0cf'}>
+                  Preview
+                </Button>
+              </HStack>
             </VStack>
           </Box>
         </HStack>

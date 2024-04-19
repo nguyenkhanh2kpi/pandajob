@@ -38,6 +38,27 @@ const postResume = async (token, form) => {
   }
 }
 
+const putResume = async (token, form) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    }
+
+    const res = await axios.put(`${API_URL}/resume`, form, config)
+    return res.data
+  } catch (error) {
+    const axiosError = error
+    if (axiosError && axiosError.response && axiosError.response.status === 403) {
+      throw new Error('no_permission')
+    } else {
+      throw error
+    }
+  }
+}
+
 const postResumeWorkEx = async (token, form) => {
   try {
     const config = {
@@ -129,4 +150,5 @@ export const resumeService = {
   postResumeProject,
   deleteResumeWorkEx,
   deleteResumeWorkProject,
+  putResume,
 }

@@ -104,13 +104,13 @@ export const ResumeWorkProjectItem = ({ item, deleteClick, addClick, saveClick }
           value={worksProject.technology}
         />
 
-        <Button onClick={() => deleteClick(item)} backgroundColor={'red'} mt={2}>
+        <Button onClick={() => deleteClick(item)} backgroundColor={'#94a6a6'} mt={2}>
           -
         </Button>
-        <Button onClick={addClick} backgroundColor={'green'} ml={2} mt={2}>
+        <Button onClick={addClick} backgroundColor={'#8ebfb4'} ml={2} mt={2}>
           +
         </Button>
-        <Button onClick={() => saveClick(worksProject)} backgroundColor={'green'} ml={2} mt={2}>
+        <Button onClick={() => saveClick(worksProject)} backgroundColor={'#92e0cf'} ml={2} mt={2}>
           save
         </Button>
       </FormControl>

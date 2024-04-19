@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Button,
   FormLabel,
@@ -16,6 +16,7 @@ import { SectionWithParagraph } from './SectionWithParagraph'
 import { SectionWithTable } from './SectionWithTable'
 import { useReactToPrint } from 'react-to-print'
 import './index.css'
+import { resumeService } from '../../Service/resume.service'
 
 export const CurriculumVitae = () => {
   const initState = {
@@ -70,6 +71,83 @@ export const CurriculumVitae = () => {
       },
     ],
   }
+  // resume get
+  const [resume, setResume] = useState({
+    id: null,
+    fullName: '',
+    applicationPosition: '',
+    email: '',
+    phone: '',
+    gender: '',
+    dateOB: '',
+    city: '',
+    address: '',
+    linkedIn: '',
+    github: '',
+    aboutYourself: '',
+    workingExperiences: [],
+    mainSkill: '',
+    skills: [],
+    school: '',
+    startEdudatiomTime: '',
+    endEducationTime: '',
+    major: '',
+    others: '',
+    workingProjects: [],
+  })
+  const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  useEffect(() => {
+    resumeService
+      .getMyResume(accessToken)
+      .then((response) => {
+        setResume(response)
+        initState.name = response.fullName
+        initState.position = response.applicationPosition
+        initState.info = [
+          ['Name', response.fullName],
+          ['Date Of Birth', response.dateOB],
+          ['Phone', response.phone],
+          ['Gmail', response.email],
+          ['Address', response.address],
+        ]
+        initState.expr = []
+        response.workingExperiences.map((item) => {
+          initState.expr.push([
+            `${item.startWorkingTime}  -  ${item.endWorkingTime}`,
+            item.companyName,
+            `- ${item.position}\n- ${item.jobDetail}\n - ${item.technology}`,
+          ])
+        })
+
+        initState.edu = []
+        initState.edu.push([
+          `${response.startEdudatiomTime}  -  ${response.endEducationTime}`,
+          response.school,
+          `- ${response.major}\n- ${response.others}\n`,
+        ])
+        initState.skill = []
+        initState.skill.push(
+          ['Main', `- ${response.mainSkill}`],
+          ['Others', `- ${response.skills.join('\n- ')}`]
+        )
+        initState.overview = response.aboutYourself
+        initState.proj = []
+        response.workingProjects.map((project) => {
+          initState.proj.push({
+            name: project.nameProject,
+            time: `${project.startTime}  -  ${project.endTime}`,
+            client: project.client,
+            desc: project.description,
+            noOfMem: project.members,
+            pos: project.position,
+            responsibility: project.responsibilities,
+            technology: project.technology,
+          })
+        })
+      })
+      .catch((er) => console.log(er.message))
+  }, [])
+  // resume get
 
   const cvRef = useRef()
   const [data, setData] = useState(initState)
@@ -192,20 +270,20 @@ export const CurriculumVitae = () => {
   }
 
   return (
-    <VStack fontFamily={'Montserrat'} fontWeight={400}>
+    <VStack fontFamily={'Montserrat'} fontWeight={400} mb={20}>
       <SlideFade in={true} offsetY={20}>
         <Heading size={'lg'} m={'6'} mt={24} ml={2} textAlign={'left'} marginRight='auto'></Heading>
         <Stack direction='row' spacing={4}>
-          <Switch
+          {/* <Switch
             colorScheme='teal'
             size='lg'
             style={{ margin: '8px' }}
             isChecked={isEdit}
             onChange={() => setIsEdit(!isEdit)}
-          />
-          <Button colorScheme='blue' variant='outline' onClick={generatePDF}>
+          /> */}
+          {/* <Button colorScheme='blue' variant='outline' onClick={generatePDF}>
             Print PDF
-          </Button>
+          </Button> */}
         </Stack>
       </SlideFade>
       <HStack align={'flex-start'} w={'60vw'} m={5} p={5}>
@@ -316,6 +394,10 @@ export const CurriculumVitae = () => {
           </div>
         </div>
       </HStack>
+
+      <Button colorScheme='blue' variant='outline' onClick={generatePDF}>
+        Print PDF
+      </Button>
     </VStack>
   )
 }

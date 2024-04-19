@@ -61,7 +61,7 @@ export const ResumeProject = ({ workProjects, setResume }) => {
 
   return (
     <Box w={'100%'} m={0}>
-      {workProject.map((w) => (
+      {workProject?.map((w) => (
         <ResumeWorkProjectItem
           item={w}
           addClick={addWorkProject}

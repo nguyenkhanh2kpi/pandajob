@@ -2,7 +2,7 @@ FROM node:18-alpine as build-stage
 WORKDIR /app
 COPY . .
 RUN npm install --force
-RUN npm run build
+RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 # production stage
 FROM nginx:1.17-alpine as production-stage
