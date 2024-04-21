@@ -52,13 +52,16 @@ import { Companies } from '../pages-admin/Companies/Companies'
 import { InterviewResult } from '../pages-admin/ResultInterview/InterviewResult'
 import Screening from '../pages-admin/Screening/Screening'
 import TestAddForm from '../pages-admin/Screening/TestAddForm'
+import Process from '../pages-admin/Process/Process'
+import { ProcessItem } from '../pages-admin/Process/ProcessItem'
+import { SceningProcess } from '../pages-admin/Process/SceningProcess'
 
 const AllRoutesAd = () => {
   return (
     <Routes>
       {/* dashboard  */}
       <Route path='/userInfo/' element={<UserInfo />} />
-      <Route path='/jobDetail_Recruiter/:id' element={<JobDetailRecruiter />} />
+      <Route path='/allJob_Recruiter/jobDetail_Recruiter/:id' element={<JobDetailRecruiter />} />
       <Route path='/allJob_Recruiter/' element={<AllJob />} />
       <Route path='/job-posting/' element={<JobPosting />} />
       <Route path='/list-job/' element={<ListJob />} />
@@ -118,8 +121,14 @@ const AllRoutesAd = () => {
       <Route path='/manage-interviewer' element={<ManageInterviewer />} />
 
       <Route path='/result' element={<InterviewResult />} />
-      <Route path='/screening' element={<Screening />} />
-      <Route path='/screening-test/:id' element={<TestAddForm />} />
+      {/* <Route path='/screening' element={<Screening />} />
+      <Route path='/screening-test/:id' element={<TestAddForm />} /> */}
+      {/* process */}
+      <Route path='/process' element={<Process />} />
+      <Route path='/process/item/:jobId' element={<ProcessItem />} />
+      <Route path='/process/step/screening-resume/:jobId' element={<SceningProcess />} />
+      <Route path='/process/screening/:jobId' element={<Screening />} />
+      <Route path='/process/screening-test/:id' element={<TestAddForm />} />
     </Routes>
   )
 }

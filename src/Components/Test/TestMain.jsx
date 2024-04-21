@@ -1,38 +1,9 @@
-import {
-  Box,
-  CardHeader,
-  Heading,
-  Container,
-  FormControl,
-  VStack,
-  FormErrorMessage,
-  FormLabel,
-  SlideFade,
-  Stack,
-  Input,
-  HStack,
-  CardBody,
-  Card,
-  Text,
-  Radio,
-  RadioGroup,
-  StackDivider,
-  Button,
-} from '@chakra-ui/react'
+import { Box, CardHeader, Heading, Container, FormControl, VStack, FormErrorMessage, FormLabel, SlideFade, Stack, Input, HStack, CardBody, Card, Text, Radio, RadioGroup, StackDivider, Button } from '@chakra-ui/react'
 import { useField } from 'formik'
 import React, { useEffect, useState } from 'react'
 import ReactPaginate from 'react-paginate'
 import './test.css'
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton, useDisclosure } from '@chakra-ui/react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { testService } from '../../Service/test.service'
 import { toast } from 'react-toastify'
@@ -66,13 +37,7 @@ export const TestMain = () => {
     <>
       <VStack h={1300} fontFamily={'Montserrat'} fontWeight={400} mb={20}>
         <SlideFade in={true} offsetY={20}>
-          <Heading
-            size={'lg'}
-            m={'6'}
-            mt={24}
-            ml={2}
-            textAlign={'left'}
-            marginRight='auto'></Heading>
+          <Heading size={'lg'} m={'6'} mt={24} ml={2} textAlign={'left'} marginRight='auto'></Heading>
           <Stack direction='row' spacing={4}></Stack>
         </SlideFade>
         <HStack align={'flex-start'} w={'60vw'} m={5} p={5}>
@@ -109,12 +74,7 @@ function AlertDialogExample({ onConfirm }) {
   return (
     <>
       <Button onClick={onOpen}>Sunmit</Button>
-      <AlertDialog
-        motionPreset='slideInBottom'
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        isOpen={isOpen}
-        isCentered>
+      <AlertDialog motionPreset='slideInBottom' leastDestructiveRef={cancelRef} onClose={onClose} isOpen={isOpen} isCentered>
         <AlertDialogOverlay />
 
         <AlertDialogContent h={'50px'}>
@@ -163,10 +123,7 @@ const DoTest = ({ test }) => {
     setCurrentPage(selected)
   }
 
-  const displayQuestion = test.questions.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  )
+  const displayQuestion = test.questions.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
 
   ///
   const calculateTimeLeft = () => {
@@ -223,19 +180,16 @@ const DoTest = ({ test }) => {
             {displayQuestion.map((question, index) => (
               <Card key={question.id} fontFamily='Montserrat' mt={2}>
                 <CardHeader>
-                  <Heading size='m'>Question: {question.questionText}</Heading>
+                  <Heading fontSize={16} size='m'>
+                    Question: {question.questionText}
+                  </Heading>
                 </CardHeader>
                 <CardBody>
                   <ul>
-                    <RadioGroup
-                      value={selectedOptions[question.id]}
-                      onChange={(value) => handleOptionChange(question.id, value)}>
+                    <RadioGroup value={selectedOptions[question.id]} onChange={(value) => handleOptionChange(question.id, value)}>
                       <Stack>
                         {question.options.map((option) => (
-                          <Radio
-                            key={option.id}
-                            value={option.optionText}
-                            isChecked={isOptionChecked(question.id, option.id)}>
+                          <Radio fontSize={15} key={option.id} value={option.optionText} isChecked={isOptionChecked(question.id, option.id)}>
                             {option.optionText}
                           </Radio>
                         ))}

@@ -30,7 +30,9 @@ import {
   AiFillDelete,
   AiFillPlusCircle,
   AiOutlineEdit,
+  AiOutlineFileExcel,
   AiOutlineProfile,
+  AiOutlineUpload,
   AiTwotonePlusSquare,
 } from 'react-icons/ai'
 import { AiOutlineQuestionCircle } from 'react-icons/ai'
@@ -38,6 +40,7 @@ import { Tooltip } from '@chakra-ui/react'
 import { testService } from '../../Service/test.service'
 import { ToastContainer, toast } from 'react-toastify'
 import { load } from '@syncfusion/ej2-react-charts'
+import { ImportExcel } from './ImportExcel'
 
 const TestAddForm = () => {
   const [load, setLoad] = useState(false)
@@ -64,56 +67,65 @@ const TestAddForm = () => {
             p={30}
             overflow='hidden'>
             <VStack>
-              <Box
-                h={1000}
-                p={'3%'}
-                borderRadius={20}
-                backgroundColor={'#FFFFFF'}
-                w={'100%'}
-                mb={10}>
-                <Box p={30} w={'100%'}>
-                  <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>
-                    Job: {test.job}
-                  </Text>
-                </Box>
+              <Box h={1000} p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
+                <Text fontSize={20} fontWeight={'bold'} justifyContent={'space-between'} align={'center'} w={'100%'}>
+                  {test.summary}
+                </Text>
+                <HStack alignItems={'flex-start'} w={'100%'}>
+                  <VStack w={'20%'}>
+                    <Box
+                      borderRadius={10}
+                      pl={4}
+                      alignContent={'center'}
+                      h={50}
+                      overflow={'hidden'}
+                      fontWeight={'bold'}
+                      fontSize={14}
+                      _hover={{
+                        backgroundColor: 'gray.200',
+                        cursor: 'pointer',
+                      }}
+                      boxShadow={'lg'}
+                      w={'100%'}>
+                      Number of question: {test.questions.length}
+                    </Box>
+                    <Box
+                      borderRadius={10}
+                      pl={4}
+                      alignContent={'center'}
+                      h={50}
+                      overflow={'hidden'}
+                      fontWeight={'bold'}
+                      fontSize={14}
+                      _hover={{
+                        backgroundColor: 'gray.200',
+                        cursor: 'pointer',
+                      }}
+                      boxShadow={'lg'}
+                      w={'100%'}>
+                      Start: {new Date(test.startTime).toLocaleString()}
+                    </Box>
+                    <ImportExcel testID={test.id} />
+                  </VStack>
 
-                <Divider />
-                <Box pl={30} m={30} w={'80%'}>
-                  <FormControl isReadOnly>
-                    <FormLabel>Test title</FormLabel>
-                    <Input type='title' value={test.summary} />
-                    <FormLabel>Start at:</FormLabel>
-                    <HStack>
-                      <FormLabel>date</FormLabel>
-                      <Input type='date' value={test.startTime.split('T')[0]} />
-                      <FormLabel>time</FormLabel>
-                      <Input type='time' value={test.startTime.split('T')[1].slice(0, 5)} />
-                    </HStack>
-                    <FormLabel>End at:</FormLabel>
-                    <HStack>
-                      <FormLabel>date</FormLabel>
-                      <Input type='date' value={test.endTime.split('T')[0]} />
-                      <FormLabel>time</FormLabel>
-                      <Input type='time' value={test.endTime.split('T')[1].slice(0, 5)} />
-                    </HStack>
-                  </FormControl>
-                </Box>
-                <Divider />
-                <Box h={430} overflowY='auto' mt={30} mb={30} w={'70%'}>
-                  {test.questions.length > 0 ? (
-                    test.questions.map((question) => (
-                      <QuestionItem
-                        setLoad={setLoad}
-                        load={load}
-                        key={question.id}
-                        question={question}
-                        testId={test.id}
-                      />
-                    ))
-                  ) : (
-                    <QuestionItem setLoad={setLoad} load={load} question={null} testId={test.id} />
-                  )}
-                </Box>
+                  <Box borderRadius={10} borderWidth={1} boxShadow={'lg'} w={'80%'}>
+                    <Box h={840} overflowY='auto' mt={30} mb={30} w={'100%'}>
+                      {test.questions.length > 0 ? (
+                        test.questions.map((question) => (
+                          <QuestionItem
+                            setLoad={setLoad}
+                            load={load}
+                            key={question.id}
+                            question={question}
+                            testId={test.id}
+                          />
+                        ))
+                      ) : (
+                        <QuestionItem setLoad={setLoad} load={load} question={null} testId={test.id} />
+                      )}
+                    </Box>
+                  </Box>
+                </HStack>
               </Box>
             </VStack>
           </Box>
@@ -158,10 +170,8 @@ const QuestionItem = ({ question, testId, load, setLoad }) => {
       {question ? (
         <>
           <HStack>
-            <Box w={'90%'} m={2} p={10} borderRadius={10} borderWidth={1} ml={50}>
-              <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>
-                Question: {question.questionText}
-              </Text>
+            <Box fontSize={14} w={'80%'} m={2} borderRadius={10} ml={50}>
+              <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Question: {question.questionText}</Text>
               {question.options.map((option, index) => (
                 <Text
                   key={option.optionText}
@@ -176,11 +186,7 @@ const QuestionItem = ({ question, testId, load, setLoad }) => {
             </Box>
             <VStack>
               <AddQuestionModel load={load} setLoad={setLoad} testId={testId} />
-              <IconButton
-                onClick={() => handleDelete(question.id)}
-                aria-label='Search database'
-                icon={<AiFillDelete />}
-              />
+              <IconButton ml={10} onClick={() => handleDelete(question.id)} icon={<AiFillDelete />} />
             </VStack>
           </HStack>
         </>
@@ -262,11 +268,11 @@ const AddQuestionModel = ({ testId, setLoad, load }) => {
 
   return (
     <>
-      <IconButton onClick={onOpen} aria-label='Search database' icon={<AiFillPlusCircle />} />
+      <IconButton ml={10} onClick={onOpen} aria-label='Search database' icon={<AiFillPlusCircle />} />
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal size={'2xl'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent fontFamily={'Montserrat'}>
           <ModalHeader>Add Question</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -277,9 +283,7 @@ const AddQuestionModel = ({ testId, setLoad, load }) => {
               {options.map((option, index) => (
                 <HStack key={index}>
                   <Input m={2} type='title' name={`option-${index}`} />
-                  <Checkbox
-                    isChecked={correctIndex === index}
-                    onChange={() => handleSelectCorrect(index)}></Checkbox>
+                  <Checkbox isChecked={correctIndex === index} onChange={() => handleSelectCorrect(index)}></Checkbox>
                   <Button onClick={() => handleRemove(index)}>x</Button>
                 </HStack>
               ))}

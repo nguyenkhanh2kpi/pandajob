@@ -9,8 +9,13 @@ import {
   SimpleGrid,
   Badge,
   Link,
+  Input,
+  Stack,
+  Radio,
+  RadioGroup,
+  VStack,
 } from '@chakra-ui/react'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { BsBag, BsFillStarFill } from 'react-icons/bs'
@@ -29,6 +34,19 @@ import { IoMedalOutline } from 'react-icons/io5'
 import { AiOutlineUser, AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { companyService } from '../../Service/company.service'
 import { loadUserInfo } from '../../redux/UserInfo/Action'
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+} from '@chakra-ui/react'
+import FileInput from '../FileInput'
+import { storage } from '../../firebase'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { cvService } from '../../Service/cv.service'
 
 function JobDetail() {
   const [companies, setCompanies] = useState([])
@@ -37,33 +55,31 @@ function JobDetail() {
   }, [])
 
   const accessToken =
-    JSON.parse(localStorage.getItem('data')) !== null
-      ? JSON.parse(localStorage.getItem('data')).access_token
-      : null
+    JSON.parse(localStorage.getItem('data')) !== null ? JSON.parse(localStorage.getItem('data')).access_token : null
+  //  hàm submit cv
   const submitHandler = async (e) => {
-    if (user.cv_pdf === null) {
-      toast.info('Hãy tạo CV trong profile trước', {
-        position: 'top-center',
-      })
-    } else {
-      const jobId = e.target.value
-      try {
-        const { Data } = await axios.post(`${hostName}/apply-job`, jobId, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-        })
-
-        toast.success('Apply Job Successfully', {
-          position: 'top-center',
-        })
-      } catch (error) {
-        toast.error("something went wrong", {
-          position: 'top-center',
-        })
-      }
-    }
+    // if (user.cv_pdf === null) {
+    //   toast.info('Hãy tạo CV trong profile trước', {
+    //     position: 'top-center',
+    //   })
+    // } else {
+    //   const jobId = e.target.value
+    //   try {
+    //     const { Data } = await axios.post(`${hostName}/apply-job`, jobId, {
+    //       headers: {
+    //         Authorization: `Bearer ${accessToken}`,
+    //         'Content-Type': 'application/json',
+    //       },
+    //     })
+    //     toast.success('Apply Job Successfully', {
+    //       position: 'top-center',
+    //     })
+    //   } catch (error) {
+    //     toast.error('something went wrong', {
+    //       position: 'top-center',
+    //     })
+    //   }
+    // }
   }
   const params = useParams()
   const dispatch = useDispatch()
@@ -144,9 +160,10 @@ function JobDetail() {
               </SimpleGrid>
 
               <Box w='100%' mt='30px' mb='20px'>
-                <Button w='100%' value={data.id} onClick={submitHandler}>
+                {/* <Button w='100%' value={data.id} onClick={submitHandler}>
                   Apply
-                </Button>
+                </Button>  */}
+                <AlertDialogExample data={data} user={user} jobId={params.id} />
               </Box>
             </Box>
 
@@ -325,6 +342,172 @@ function JobDetail() {
       </Box>
     )
   }
+}
+
+const AlertDialogExample = ({ data, user, jobId }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = React.useRef()
+  const fileInputRef = useRef()
+  const handleFileButtonClick = () => {
+    fileInputRef.current.click()
+  }
+  const [newCV, setNewCv] = useState(null)
+  const [value, setValue] = useState('1')
+
+  const accessToken =
+    JSON.parse(localStorage.getItem('data')) !== null ? JSON.parse(localStorage.getItem('data')).access_token : null
+  const [waitingUpload, setWaitingUpload] = useState(false)
+
+  const [quickForm, setQuickForm] = useState({
+    cv: '',
+    jobId: jobId,
+  })
+
+  const handleConfirm = async () => {
+    onClose()
+    if (value === '1') {
+      if (user.cv_pdf === null) {
+        toast.info('Hãy tạo CV trong profile trước', {
+          position: 'top-center',
+        })
+      } else {
+        try {
+          const { Data } = await axios.post(`${hostName}/apply-job`, jobId, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
+            },
+          })
+          toast.success('Apply Job Successfully', {
+            position: 'top-center',
+          })
+        } catch (error) {
+          toast.error('something went wrong', {
+            position: 'top-center',
+          })
+        }
+      }
+    } else {
+      cvService
+        .postCVQuick(accessToken, quickForm)
+        .then((response) =>
+          toast.info(response.message, {
+            position: 'top-center',
+          })
+        )
+        .catch((er) => {
+          toast.error('Something wrong', {
+            position: 'top-center',
+          })
+          console.log(er)
+        })
+    }
+  }
+
+  const handleUpload = async (event) => {
+    const file = event.target.files[0]
+    if (!file) {
+      toast.error('Please choose a file first')
+      return
+    }
+    const storageRef = ref(storage, `/files/${file.name}`)
+    const uploadTask = uploadBytesResumable(storageRef, file)
+    setWaitingUpload(true)
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+      },
+      (err) => console.log(err),
+      async () => {
+        try {
+          const url = await getDownloadURL(uploadTask.snapshot.ref)
+          setNewCv(url)
+          setQuickForm((prevForm) => ({ ...prevForm, cv: url }))
+          toast.success('Uploaded')
+          setWaitingUpload(false)
+        } catch (error) {
+          console.error('Error getting download URL:', error)
+          toast.error('Error uploading file')
+          setWaitingUpload(false)
+        }
+      }
+    )
+  }
+
+  useEffect(() => {}, [jobId])
+
+  return (
+    <>
+      <Button fontFamily={'Montserrat'} w='100%' onClick={onOpen} value={data.id}>
+        Apply
+      </Button>
+
+      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+        <AlertDialogOverlay>
+          <AlertDialogContent fontFamily={'Montserrat'}>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Chose your cv pdf or upload
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              <RadioGroup onChange={setValue} value={value}>
+                <Stack direction='column' spacing={4}>
+                  <Box>
+                    <Radio value='1' size='lg' name='1' disabled={user.cv_pdf === null ? true : false}>
+                      recent CV
+                    </Radio>
+                    <Box w='100%' mt={2}>
+                      {user.cv_pdf === null ? (
+                        <></>
+                      ) : (
+                        <Box h={200}>
+                          <iframe src={user.cv_pdf} width='100%' height='150px' title='PDF Viewer'></iframe>
+                        </Box>
+                      )}
+                    </Box>
+                  </Box>
+                  <Box>
+                    <Radio value='2' size='lg' name='1'>
+                      new cv pdf{' '}
+                      <Button onClick={handleFileButtonClick}>
+                        {waitingUpload === false ? <>Chose file</> : <>waiting...</>}
+                      </Button>
+                    </Radio>
+                    <Box h={200} mt={30}>
+                      {newCV ? (
+                        <Box h={200}>
+                          <iframe src={newCV} width='100%' height='150px' title='PDF Viewer'></iframe>
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
+                    </Box>
+                    <Input onChange={handleUpload} type='file' ref={fileInputRef} display='none' />
+                  </Box>
+                </Stack>
+              </RadioGroup>
+            </AlertDialogBody>
+
+            <AlertDialogFooter maxH={100}>
+              <Button ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              {waitingUpload == true ? (
+                <Button isLoading colorScheme='teal' onClick={handleConfirm} ml={3}>
+                  Confirm
+                </Button>
+              ) : (
+                <Button colorScheme='teal' onClick={handleConfirm} ml={3}>
+                  Confirm
+                </Button>
+              )}
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+    </>
+  )
 }
 
 export default JobDetail

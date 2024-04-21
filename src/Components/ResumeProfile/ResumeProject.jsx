@@ -11,6 +11,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import { ResumeWorkProjectItem } from './ResumeWorkProjectItem'
 import { resumeService } from '../../Service/resume.service'
+import { ToastContainer, toast } from 'react-toastify'
 
 export const ResumeProject = ({ workProjects, setResume }) => {
   const [workProject, setWorkProjects] = useState([])
@@ -46,6 +47,7 @@ export const ResumeProject = ({ workProjects, setResume }) => {
       .deleteResumeWorkProject(accessToken, project)
       .then((response) => {
         setResume(response.data)
+        toast.info(response.message)
       })
       .catch((er) => console.log(er))
   }
@@ -55,6 +57,7 @@ export const ResumeProject = ({ workProjects, setResume }) => {
       .postResumeProject(accessToken, project)
       .then((response) => {
         setResume(response.data)
+        toast.info(response.message)
       })
       .catch((er) => console.log(er))
   }

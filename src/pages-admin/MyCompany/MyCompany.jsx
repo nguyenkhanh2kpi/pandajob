@@ -34,7 +34,7 @@ export const MyCompany = () => {
         <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
           <VStack spacing={3}>
             <Box p={'8%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
-              <Image w='90%' h={300} borderRadius={20} src={company.avatar} alt="Company" />
+              <Image maxW={'90%'} h={300} borderRadius={20} src={company.avatar} alt='Company' />
               <Text pt={20} fontWeight={'black'} fontSize='xl'>
                 {company.name}
               </Text>

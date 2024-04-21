@@ -7,13 +7,26 @@ import './style3.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { loadJob } from '../../redux/Job-posting/Action'
-import { Box, Button, Input, Select } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  HStack,
+  Heading,
+  Image,
+  Input,
+  Select,
+  Text,
+  VStack,
+} from '@chakra-ui/react'
 import { hostName } from '../../global'
 
 const RoomAdd = () => {
   const userId = JSON.parse(localStorage.getItem('data')).data.userInfo.id
   const dispatch = useDispatch()
   useEffect(() => {
+    window.scrollTo(0, 0)
     dispatch(loadJob())
   }, [])
   const data = useSelector((store) => store.job.data)
@@ -100,29 +113,22 @@ const RoomAdd = () => {
   }
 
   return (
-    <>
-      <session>
-        <Box backgroundColor={'white'} fontFamily={'Montserrat'} fontWeight={400} className='main'>
-          <div className='form_data1'>
-            <div className='form_heading'>
-              <h2
-                style={{
-                  color: '#000000',
-                  fontSize: '30px',
-                }}>
-                Thêm phòng họp
-              </h2>
-            </div>
+    <Box minHeight={2000} overflow='auto' fontFamily='Montserrat' fontWeight={400} backgroundColor='#e9f3f5' p={30}>
+      <VStack spacing={3}>
+        <Box minHeight={1000} overflow='auto' p='3%' borderRadius={20} backgroundColor='#FFFFFF' w='100%' mb={10}>
+          <HStack>
+            <Box p={10} w={'50%'}>
+              <Heading color='#000000' fontSize='20'>
+                Meeting Room
+              </Heading>
 
-            <form>
-              <div className='form_input'>
-                <label htmlFor='name' style={{ display: 'block' }}>
-                  Tên công việc
-                </label>
+              <FormControl>
+                <FormLabel htmlFor='name'>Job Name</FormLabel>
                 <Select
-                  borderColor={'#8292b4'}
-                  placeholder='Tên công việc'
-                  backgroundColor={'#ffffff'}
+                  w={450}
+                  borderColor='#8292b4'
+                  placeholder='Job Name'
+                  backgroundColor='#ffffff'
                   mt='10px'
                   mb='10px'
                   onChange={(e) => {
@@ -131,91 +137,105 @@ const RoomAdd = () => {
                   {data
                     .filter((job) => job.status === true && job.user_id === userId)
                     .map((i) => {
-                      return <option value={i.id}>{i.name}</option>
+                      return (
+                        <option key={i.id} value={i.id}>
+                          {i.name}
+                        </option>
+                      )
                     })}
                 </Select>
-              </div>
+              </FormControl>
 
-              <div className='form_input'>
-                <label htmlFor='position'>Tên phòng họp</label>
-                <input
-                  style={{ width: '100%' }}
+              <FormControl>
+                <FormLabel htmlFor='position'>Meeting Room Name</FormLabel>
+                <Input
+                  w={450}
                   type='text'
                   onChange={(e) => setRoomName(e.target.value)}
                   name='position'
                   id='position'
                 />
-              </div>
-              <div className='form_input'>
-                <label htmlFor='position'>Kỹ năng (Skill)</label>
-                <input
-                  style={{ width: '100%' }}
+              </FormControl>
+
+              <FormControl>
+                <FormLabel htmlFor='position'>Skill</FormLabel>
+                <Input
+                  w={450}
                   type='text'
                   onChange={(e) => setRoomSkill(e.target.value)}
                   name='position'
                   id='position'
                 />
-              </div>
+              </FormControl>
 
-              <div className='form_input'>
-                <label htmlFor='position'>Mô tả phòng</label>
-                <input
+              <FormControl>
+                <FormLabel htmlFor='position'>Room Description</FormLabel>
+                <Input
+                  w={450}
                   type='text'
-                  style={{ width: '100%' }}
                   onChange={(e) => setRoomDescription(e.target.value)}
                   name='position'
                   id='position'
                 />
-              </div>
+              </FormControl>
 
-              <div className='form_input'>
-                <label htmlFor='position'>Ngày bắt đầu </label>
+              <FormControl>
+                <FormLabel htmlFor='position'>Date</FormLabel>
+                <HStack w={'100%'}>
+                  <Input
+                    onChange={(e) => setStartDate(e.target.value)}
+                    name='startDate'
+                    backgroundColor='#FFFFFF'
+                    placeholder='Room description'
+                    type='datetime-local'
+                    w={209}
+                  />
+                  <Text> {'  '}to </Text>
+                  <Input
+                    onChange={(e) => setEndDate(e.target.value)}
+                    name='endDate'
+                    backgroundColor='#FFFFFF'
+                    placeholder='Room description'
+                    type='datetime-local'
+                    w={209}
+                  />
+                </HStack>
+              </FormControl>
+
+              <FormControl>
+                <FormLabel htmlFor='position'>Meet Link</FormLabel>
                 <Input
-                  onChange={(e) => setStartDate(e.target.value)}
-                  name='startDate'
-                  backgroundColor={'#FFFFFF'}
-                  minW='100%'
-                  placeholder='Room description'
-                  type='datetime-local'
-                />
-              </div>
-
-              <div className='form_input'>
-                <label htmlFor='position'>Ngày kết thúc</label>
-                <Input
-                  onChange={(e) => setEndDate(e.target.value)}
-                  name='startDate'
-                  backgroundColor={'#FFFFFF'}
-                  minW='100%'
-                  placeholder='Room description'
-                  type='datetime-local'
-                />
-              </div>
-
-              <div className='form_input'>
-                <label htmlFor='position'>Link Meet phòng</label>
-                <input
-                  style={{ width: '100%' }}
+                  w={450}
                   type='text'
                   onChange={(e) => setLinkmeet(e.target.value)}
                   name='position'
                   id='position'
                 />
-              </div>
+              </FormControl>
 
               <Button
+                mt={30}
                 color='white'
                 mb={10}
                 backgroundColor='rgb(3, 201, 215)'
+                type='submit'
                 onClick={handleSubmit}>
-                Thêm phòng
+                Add Room
               </Button>
-            </form>
-            <ToastContainer />
-          </div>
+
+              <ToastContainer />
+            </Box>
+            <Box w={'50%'}>
+              <Image
+                borderRadius={20}
+                h={'100%'}
+                src='https://assets-global.website-files.com/6242f480c281185091f94d52/6262c3161abdd90a938e8a77_625837e19d80bd0780a0a18c_interveiw.jpeg'
+              />
+            </Box>
+          </HStack>
         </Box>
-      </session>
-    </>
+      </VStack>
+    </Box>
   )
 }
 

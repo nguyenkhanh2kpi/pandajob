@@ -39,10 +39,7 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate }) => {
       .getMinutes()
       .toString()
       .padStart(2, '0')}`
-    const endTime = `${end.getHours().toString().padStart(2, '0')}h${end
-      .getMinutes()
-      .toString()
-      .padStart(2, '0')}`
+    const endTime = `${end.getHours().toString().padStart(2, '0')}h${end.getMinutes().toString().padStart(2, '0')}`
     const result = {
       date: formattedDate,
       time: `${startTime} to ${endTime}`,
@@ -78,15 +75,16 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate }) => {
   }, [])
 
   const handleAssign = () => {
-    interviewService.candidateAssign(accessToken, form).then((response) => {
-      if (response.status === '200 OK') {
-        toast.success(response.message)
-      } else {
-        toast.error(response.message)
-      }
-    }).catch(
-      toast.error("something went wrong")
-    )
+    interviewService
+      .candidateAssign(accessToken, form)
+      .then((response) => {
+        if (response.status === '200 OK') {
+          toast.success(response.message)
+        } else {
+          toast.error(response.message)
+        }
+      })
+      .catch(toast.error('something went wrong'))
   }
 
   return (
@@ -94,23 +92,25 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate }) => {
       <Button fontFamily={'Montserrat'} fontWeight={400} colorScheme='blue' onClick={onOpen}>
         Assign Candidate
       </Button>
-      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+      <AlertDialog size={'2xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent fontFamily={'Montserrat'} fontWeight={400}>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
               Assign Candidate
             </AlertDialogHeader>
-            <AlertDialogBody style={{ maxHeight: '500px', overflowY: 'auto' }}>
+            <AlertDialogBody maxH={600} overflowY={'auto'}>
               {candidates.map((cadidate) => (
                 <Box
                   onClick={() => handleSelect(cadidate.userId)}
-                  maxW='sm'
-                  borderWidth='3px'
+                  w={550}
+                  height={100}
+                  boxShadow={'lg'}
                   borderRadius='lg'
                   overflow='hidden'
                   m={2}
                   borderColor={idSelected === cadidate.userId ? 'green' : ''}
-                  backgroundColor={'#EEF5FF'}>
+                  borderWidth={idSelected === cadidate.userId ? '3px' : ''}
+                  backgroundColor={'#ffffff'}>
                   <WrapItem m={2} alignItems='center'>
                     <Avatar name={cadidate.fullName} src={cadidate.avatar} />
                     <Text m={2}>{truncatedEmail(cadidate.email)}</Text>

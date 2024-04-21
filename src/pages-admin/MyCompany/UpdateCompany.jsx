@@ -54,8 +54,8 @@ export const UpdateCompany = ({ data }) => {
 
   const handeUpdateCompany = async () => {
     if (!company.name || !company.website || !company.address || !company.phone || !company.info) {
-      toast.error('Please fill in all required fields');
-      return;
+      toast.error('Please fill in all required fields')
+      return
     }
     setUploading(true)
     await companyService
@@ -74,7 +74,7 @@ export const UpdateCompany = ({ data }) => {
       </Button>
       <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
 
-      <Modal initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+      <Modal size={'2xl'} initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent fontFamily={'Montserrat'} fontWeight={400}>
           <ModalHeader>Update your company</ModalHeader>

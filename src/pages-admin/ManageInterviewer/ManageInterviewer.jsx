@@ -78,18 +78,18 @@ export const ManageInterviewer = () => {
     )
   } else
     return (
-      <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
+      <Box h={1000} fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
         <VStack>
-          <Box w={'100%'}>
-            <AddInterviewer />
-          </Box>
-          <Text pt='20px' fontWeight='black' w='100%'>
-            Danh sách đội tuyển dụng
-          </Text>
-          <Box w='100%' backgroundColor='#ffffff' p='2%' borderRadius={20}>
+          <Box h={900} w='100%' backgroundColor='#ffffff' p='2%' borderRadius={20}>
+            <Box w={'100%'}>
+              <AddInterviewer />
+            </Box>
+            <Text pt='20px' fontWeight='black' w='100%'>
+              Danh sách đội tuyển dụng
+            </Text>
             <VStack w='100%'>
               {hrs.map((hr) => (
-                <Box p={2} borderRadius={20} w='100%' transition='transform 0.3s ease-in-out' _hover={{ borderWidth: '2px', transform: 'scale(1.006)' }}>
+                <Box p={10} boxShadow={'lg'} borderRadius={20} w='100%' transition='transform 0.3s ease-in-out' _hover={{ borderWidth: '2px', transform: 'scale(1.006)' }}>
                   <HStack justifyContent={'space-between'}>
                     <HStack spacing={5}>
                       <Avatar size='xl' name={hr.fullName ? hr.fullName : hr.email} src={hr.avatar} />

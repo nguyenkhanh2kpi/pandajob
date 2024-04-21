@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Image, Button, HStack } from '@chakra-ui/react'
+import { Box, Flex, Text, Image, Button, HStack, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { BsBag } from 'react-icons/bs'
@@ -74,38 +74,12 @@ const RoomList = () => {
   const roomdatas = roomList.map((job) => {
     return (
       <Link to={`/addCandidate/${job.jobPostId}/${job.id}`}>
-        <HStack
-          fontFamily={'Montserrat'}
-          fontWeight={400}
-          mb='30px'
-          mt='20px'
-          w={'100%'}
-          backgroundColor={'#FFFFFF'}
-          borderRadius='lg'>
-          <Box
-            borderRadius={20}
-            h='100%'
-            key={job.id}
-            w='100%'
-            boxShadow='rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px'
-            p='20px 20px 0 20px'>
-            <Box
-              pt='10px'
-              fontWeight='semibold'
-              as='h4'
-              lineHeight='tight'
-              noOfLines={1}
-              pb='10px'
-              fontSize='20px'
-              borderRadius='lg'
-              pl='10px'
-              mb='10px'>
+        <HStack fontFamily={'Montserrat'} fontWeight={400} mb='30px' mt='20px' w={'100%'} backgroundColor={'#FFFFFF'} borderRadius={20}>
+          <Box borderRadius={20} h='100%' key={job.id} w='100%' boxShadow={'lg'} p='20px 20px 0 20px'>
+            <Box pt='10px' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1} pb='10px' fontSize='20px' borderRadius='lg' pl='10px' mb='10px'>
               Tên phòng : {job.roomName} - {job.jobName}
             </Box>
-            <Image
-              style={{ width: '80px' }}
-              src='https://cdn-icons-png.flaticon.com/512/5961/5961660.png'
-            />
+            <Image style={{ width: '80px' }} src='https://cdn-icons-png.flaticon.com/512/5961/5961660.png' />
             <br></br>
             <Flex>
               <Box display='flex' mr='50px' mb='15px'>
@@ -137,17 +111,18 @@ const RoomList = () => {
 
   return (
     <>
-      <Box fontFamily={'Montserrat'} fontWeight={400} p='20px' backgroundColor='#e9f3f5'>
-        <HStack>
-          <Button mt={10} ml={'9%'} color='white' backgroundColor='rgb(3, 201, 215)'>
-            <Link to={`/roomAdd`}> + Thêm phòng họp</Link>
-          </Button>
-        </HStack>
-      </Box>
-      <Box display='flex' justifyContent='space-between' backgroundColor='#e9f3f5'>
-        <Box justifyContent='space-between' ml='10%' width='90%' mr={'10%'}>
-          {roomdatas}
-        </Box>
+      <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
+        <VStack spacing={3}>
+          <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
+            <Button mt={10} ml={'5%'} color='white' backgroundColor='rgb(3, 201, 215)'>
+              <Link to={`/roomAdd`}> + Thêm phòng họp</Link>
+            </Button>
+
+            <Box borderRadius={20} boxShadow={'lg'} justifyContent='space-between' ml='5%' width='90%' mr={'10%'}>
+              {roomdatas}
+            </Box>
+          </Box>
+        </VStack>
       </Box>
     </>
   )

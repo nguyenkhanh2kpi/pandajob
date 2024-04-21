@@ -39,7 +39,7 @@ export const AssignInterviewer = ({ roomId }) => {
         }
       })
       .catch((er) => {
-        toast.error("something went wrong")
+        toast.error('something went wrong')
       })
   }
 
@@ -62,15 +62,15 @@ export const AssignInterviewer = ({ roomId }) => {
       <Button fontFamily={'Montserrat'} fontWeight={400} colorScheme='blue' onClick={onOpen}>
         Assign Interviewer
       </Button>
-      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+      <AlertDialog size={'2xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent fontFamily={'Montserrat'} fontWeight={400}>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
               Assign Interviewer
             </AlertDialogHeader>
-            <AlertDialogBody style={{ maxHeight: '500px', overflowY: 'auto' }}>
+            <AlertDialogBody maxW={600} overflow={'auto'}>
               {interviewer.map((interviewer) => (
-                <Box maxW='sm' borderWidth='3px' borderRadius='lg' overflow='hidden' m={2}>
+                <Box w={550} boxShadow={'lg'} borderRadius='lg' overflow='hidden' m={2}>
                   <WrapItem m={2} alignItems='center'>
                     <Avatar name={interviewer.fullName} src={interviewer.avatar} />
                     <VStack>

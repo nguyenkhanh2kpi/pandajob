@@ -12,6 +12,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import { resumeService } from '../../Service/resume.service'
 import { ResumeWorkExItem } from './ResumeWorkExItem'
+import { ToastContainer, toast } from 'react-toastify'
 
 export const ResumeWorkEx = ({ isEx, workExps, setResume }) => {
   const [worksExp, setWorkExps] = useState([])
@@ -53,6 +54,7 @@ export const ResumeWorkEx = ({ isEx, workExps, setResume }) => {
       .postResumeWorkEx(accessToken, workExp)
       .then((response) => {
         setResume(response.data)
+        toast.info(response.message)
       })
       .catch((er) => console.log(er))
   }

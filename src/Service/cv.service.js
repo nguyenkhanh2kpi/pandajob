@@ -2,7 +2,6 @@ import axios, { AxiosError } from 'axios'
 import { hostName } from '../global'
 const API_URL = hostName
 
-
 const getAllCVs = async (token) => {
   try {
     const config = {
@@ -11,7 +10,7 @@ const getAllCVs = async (token) => {
         'Content-Type': 'application/json',
       },
     }
-    const res = await axios.get(`${API_URL}/apply-job`,config)
+    const res = await axios.get(`${API_URL}/apply-job`, config)
     return res.data
   } catch (error) {
     const axiosError = error
@@ -23,6 +22,27 @@ const getAllCVs = async (token) => {
   }
 }
 
+const postCVQuick = async (token, form) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    }
+
+    const res = await axios.post(`${API_URL}/apply-job/quick`, form, config)
+    return res.data
+  } catch (error) {
+    if (error.response && error.response.status === 403) {
+      throw new Error('no_permission')
+    } else {
+      throw error
+    }
+  }
+}
+
 export const cvService = {
   getAllCVs,
+  postCVQuick,
 }

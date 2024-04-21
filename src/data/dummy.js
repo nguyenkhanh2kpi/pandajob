@@ -33,6 +33,7 @@ import {
   BiBuilding,
   BiCalendarCheck,
   BiColorFill,
+  BiGitCommit,
   BiNews,
   BiVideo,
 } from 'react-icons/bi'
@@ -690,10 +691,15 @@ export const reccerLink = [
         icon: <AiOutlineTeam />,
       },
       {
-        title: 'Screening',
-        name: 'screening',
-        icon: <AiOutlineSnippets  />,
+        title: 'Recruitment Process',
+        name: 'process',
+        icon: <BiGitCommit />,
       },
+      // {
+      //   title: 'Screening',
+      //   name: 'screening',
+      //   icon: <AiOutlineSnippets />,
+      // },
       {
         name: 'roomList',
         title: 'Interview Rooms',
