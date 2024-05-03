@@ -1,5 +1,5 @@
 import { Box, Button, Container, Flex, Heading, Image, Input, Select, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import JobButton from './JobButton'
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -10,6 +10,7 @@ import FeatureCompony from './FeatureCompony'
 import DiscoverJob from './DiscoverJob'
 import JobOption from './JobOption'
 import { useNavigate } from 'react-router-dom'
+import { locationService } from '../../Service/location.service'
 
 const HomePage = () => {
   const navigate = useNavigate()
@@ -20,6 +21,9 @@ const HomePage = () => {
     experience: 'all',
     salary: 'all',
   })
+  
+  const [province, setProvince] = useState([]);
+
   const handleChangeSearch = (e) => {
     const { name, value } = e.target
     setSearch((search) => ({ ...search, [name]: value }))
@@ -32,6 +36,14 @@ const HomePage = () => {
       navigate(`/jobpage-search/${search.location}/${search.experience}/${search.salary}`)
     }
   }
+
+  useEffect(()=> {
+    locationService.getAllProvince()
+    .then(response => {
+      setProvince(response)
+    })
+    .catch(er => console.log(er))
+  },[])
 
   return (
     <Box>
@@ -50,10 +62,12 @@ const HomePage = () => {
           </Box>
           <Box w={'223px'} h={'100%'} pr={'0px'} pt={'4px'} pl={'10px'} pb={'6px'}>
             <Select fontFamily={'Montserrat'} onChange={handleChangeSearch} name='location' color={'#8292b4'} border={'none'} defaultValue='all'>
-              <option value='all'>Địa điểm</option>
+              {/* 
               <option value='Hồ Chí Minh'>Hồ Chí Minh</option>
               <option value='Đà Nẵng'>Đà Nẵng</option>
-              <option value='Hà Nội'>Hà Nội</option>
+              <option value='Hà Nội'>Hà Nội</option> */}
+              <option value='all'>Địa điểm</option>
+              {province.map(p => (<option key={p.name} value={p.name}>{p.name}</option>))}
             </Select>
           </Box>
           <Box w={'223px'} h={'100%'} pr={'0px'} pt={'4px'} pl={'10px'} pb={'6px'}>

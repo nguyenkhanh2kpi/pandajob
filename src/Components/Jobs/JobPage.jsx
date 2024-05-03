@@ -8,6 +8,7 @@ import { BsCalendar2DayFill } from 'react-icons/bs'
 import { BiDollar, BiDollarCircle, BiLocationPlus } from 'react-icons/bi'
 import { SearchIcon } from '@chakra-ui/icons'
 import ReactPaginate from 'react-paginate'
+import { locationService } from '../../Service/location.service'
 
 const JobPage = () => {
   const dispatch = useDispatch()
@@ -47,6 +48,15 @@ const JobPage = () => {
   useEffect(() => {
     handleSearch()
   }, [])
+
+  const [province, setProvince] = useState([]);
+  useEffect(()=> {
+    locationService.getAllProvince()
+    .then(response => {
+      setProvince(response)
+    })
+    .catch(er => console.log(er))
+  },[])
 
   // panigate
   const [currentPage, setCurrentPage] = useState(0)
@@ -151,9 +161,10 @@ const JobPage = () => {
                 <Box w={'223px'} h={'100%'} pr={'0px'} pt={'4px'} pl={'10px'} pb={'6px'}>
                   <Select onChange={handleChangeSearch} name='location' color={'#8292b4'} border={'none'} defaultValue={search.location}>
                     <option value='all'>Địa điểm</option>
-                    <option value='Hồ Chí Minh'>Hồ Chí Minh</option>
+                    {/* <option value='Hồ Chí Minh'>Hồ Chí Minh</option>
                     <option value='Đà Nẵng'>Đà Nẵng</option>
-                    <option value='Hà Nội'>Hà Nội</option>
+                    <option value='Hà Nội'>Hà Nội</option> */}
+                    {province.map(p=> <option key={p.id} value={p.name}>{p.name}</option>)}
                   </Select>
                 </Box>
                 <Box w={'223px'} h={'100%'} pr={'0px'} pt={'4px'} pl={'10px'} pb={'6px'}>

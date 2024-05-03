@@ -105,7 +105,7 @@ const TestAddForm = () => {
                       w={'100%'}>
                       Start: {new Date(test.startTime).toLocaleString()}
                     </Box>
-                    <ImportExcel testID={test.id} />
+                    <ImportExcel testID={test.id} load={load} setLoad={setLoad} />
                   </VStack>
 
                   <Box borderRadius={10} borderWidth={1} boxShadow={'lg'} w={'80%'}>
@@ -157,7 +157,7 @@ const QuestionItem = ({ question, testId, load, setLoad }) => {
     testService
       .deleteQuestion(accessToken, questionId)
       .then((response) => {
-        toast.info(response.message)
+        // toast.info(response.message)
         setLoad(!load)
       })
       .catch((er) => {

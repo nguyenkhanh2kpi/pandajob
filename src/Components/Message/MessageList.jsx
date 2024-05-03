@@ -16,18 +16,10 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { ChatIcon } from '@chakra-ui/icons'
-import {
-  ChatCard,
-  ChatEngine,
-  ChatEngineWrapper,
-  ChatFeed,
-  ChatList,
-  ChatSocket,
-} from 'react-chat-engine'
 import { ChatEngineId } from '../../global'
 import './style.css'
 import { useNavigate } from 'react-router-dom'
-import { PrettyChatWindow } from 'react-chat-engine-pretty'
+
 
 export const MessageList = () => {
   const initialFocusRef = React.useRef()
@@ -39,12 +31,14 @@ export const MessageList = () => {
   }
   function renderChatCard(chat, index) {
     return (
-      <ChatCard
-        {...chat}
-        onChatClick={() => {
-          navigate('/message')
-        }}
-      />
+      <>
+      </>
+      // <ChatCard
+      //   {...chat}
+      //   onChatClick={() => {
+      //     navigate('/message')
+      //   }}
+      // />
     )
   }
 
@@ -87,12 +81,12 @@ export const MessageList = () => {
               renderChatFeed={(props) => {return (<></>)}}
               renderChatSettings={(props) => {return (<></>)}}
             /> */}
-            <PrettyChatWindow
+            {/* <PrettyChatWindow
               projectId={ChatEngineId}
               username={data.data.email}
               secret='123'
               style={{ height: '100%', width: '100%' }}
-            />
+            /> */}
           </Stack>
         </PopoverBody>
       </PopoverContent>

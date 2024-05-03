@@ -59,15 +59,7 @@ const Screening = () => {
   return (
     <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
       <VStack spacing={3}>
-        <Box
-          boxShadow={'lg'}
-          minHeight={1000}
-          overflow='auto'
-          p={'3%'}
-          borderRadius={20}
-          backgroundColor={'#FFFFFF'}
-          w={'100%'}
-          mb={10}>
+        <Box boxShadow={'lg'} minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
           {job ? (
             <>
               <JobItem job={job} />
@@ -79,18 +71,7 @@ const Screening = () => {
           )}
         </Box>
       </VStack>
-      <ToastContainer
-        position='bottom-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='light'
-      />
+      <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
     </Box>
   )
 }
@@ -114,15 +95,7 @@ const TestItemByJob = ({ jobId, load, setLoad }) => {
       .then((response) => SetTests(response))
       .catch((er) => console.log(er))
   }, [load])
-  return (
-    <>
-      {tests.length > 0 ? (
-        tests.map((test) => <TestItem test={test} jobId={jobId} load={load} setLoad={setLoad} />)
-      ) : (
-        <></>
-      )}
-    </>
-  )
+  return <>{tests.length > 0 ? tests.map((test) => <TestItem test={test} jobId={jobId} load={load} setLoad={setLoad} />) : <></>}</>
 }
 
 const TestItem = ({ test, jobId, load, setLoad }) => {
@@ -130,14 +103,11 @@ const TestItem = ({ test, jobId, load, setLoad }) => {
   return (
     <Box m={5} boxShadow={'md'} borderRadius={10} p={5} w={'100%'}>
       <HStack>
-        <HStack>
-          <IconButton
-            onClick={() => navigate(`/process/screening-test/${test.id}`)}
-            backgroundColor={'#97E7E1'}
-            icon={<AiOutlineEdit />}
-          />
+        <Image w={100} height={100} src='https://freedomtoteach.collins.co.uk/wp-content/uploads/sites/87/2023/03/shutterstock_397626016-1-scaled.jpg' />
+        <VStack>
+          <IconButton onClick={() => navigate(`/process/screening-test/${test.id}`)} backgroundColor={'#97E7E1'} icon={<AiOutlineEdit />} />
           <IconButton backgroundColor={'#FEC7B4'} icon={<AiOutlineDelete />} />
-        </HStack>
+        </VStack>
         <Box pl={30} w={'100%'}>
           <Text>Test name: {test.summary}</Text>
           <Text>
@@ -205,7 +175,10 @@ const AddTestForm = ({ jobId, load, setLoad }) => {
 
   return (
     <>
-      <IconButton ml={5} onClick={onOpen} icon={<AiOutlinePlus />} />
+      {/* <IconButton ml={5} onClick={onOpen} icon={<AiOutlinePlus />} /> */}
+      <Button ml={8} color='white' borderRadius={10} backgroundColor={'rgb(3, 201, 215)'} onClick={onOpen} mr={3}>
+        + new test
+      </Button>
       <Modal fontFamily={'Montserrat'} size={'2xl'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent fontFamily={'Montserrat'}>

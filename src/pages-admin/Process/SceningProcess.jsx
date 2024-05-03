@@ -1,16 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  IconButton,
-  Input,
-  Link,
-  Select,
-  Text,
-  VStack,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Box, Button, Flex, HStack, IconButton, Input, Link, Select, Text, VStack, useDisclosure } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -19,22 +7,8 @@ import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } 
 import { testService } from '../../Service/test.service'
 import { interviewService } from '../../Service/interview.service'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from '@chakra-ui/react'
-import {
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-} from '@chakra-ui/react'
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
+import { NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react'
 import { AiFillPlusCircle, AiOutlinePlayCircle } from 'react-icons/ai'
 
 export const SceningProcess = () => {
@@ -65,9 +39,34 @@ export const SceningProcess = () => {
   const handleChange = (event) => {
     setSelectedStatus(event.target.value)
   }
-  const filteredCandidates = selectedStatus
-    ? candidates.filter((candidate) => candidate.interviewStatus === selectedStatus)
-    : candidates
+  const filteredCandidates = selectedStatus ? candidates.filter((candidate) => candidate.interviewStatus === selectedStatus) : candidates
+
+  //record
+  const [record, setRecord] = useState({})
+  useEffect(() => {
+    testService
+      .getRecordByJobId(accessToken, job.id)
+      .then((response) => {
+        setRecord(response.data)
+      })
+      .catch((er) => console.log(er))
+  }, [])
+
+  /// get score
+  const getScore = (userId, testId) => {
+    console.log(userId)
+    let score = null
+    record.map((r) => {
+      if (r.userAccountEntity.id === userId && r.testEntity.id === testId) {
+        score = r.score
+      }
+    })
+    return score
+  }
+  /// get score/question
+  const scorePerQuestion = (score, test) => {
+    return score.toString() + '/' + test.questions.length
+  }
 
   return (
     <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
@@ -76,20 +75,18 @@ export const SceningProcess = () => {
           <Text fontSize={25}>Result for {job.name}</Text>
           <Box w={'50%'}>
             <HStack>
-              <Select
-                borderWidth={0.5}
-                boxShadow={'s'}
-                borderRadius={10}
-                placeholder='Interview Status'
-                onChange={handleChange}>
+              <Select borderWidth={0.5} boxShadow={'s'} borderRadius={10} placeholder='Interview Status' onChange={handleChange}>
                 <option value='Chưa đăng kí'>Chưa đăng kí</option>
                 <option value='Chưa phỏng vấn'>Chưa phỏng vấn</option>
                 <option value='Đã chấm'>Đã Phỏng vấn</option>
               </Select>
               <Flex>
                 <Select borderWidth={0.5} flex='1' borderRadius={10} placeholder='Test' mr={2}>
-                  <option value='option1'>Test 1</option>
-                  <option value='option2'>Test 2</option>
+                  {tests.map((test) => (
+                    <option key={test.id}>test: {test.id}</option>
+                  ))}
+                  {/* // <option value='option1'>Test 1</option>
+                  // <option value='option2'>Test 2</option> */}
                 </Select>
                 <NumberInput flex='1' borderRadius={10} defaultValue={0} min={0} max={10}>
                   <NumberInputField />
@@ -121,7 +118,7 @@ export const SceningProcess = () => {
                       <Td>{candidate.fullName ? candidate.fullName : candidate.email}</Td>
                       <Td>{candidate.interviewStatus}</Td>
                       {tests.map((test) => (
-                        <Td>9</Td>
+                        <Td>{getScore(candidate.userId, test.id) ? scorePerQuestion(getScore(candidate.userId, test.id), test) : '--'}</Td>
                       ))}
                       <Td>
                         <CVview candidate={candidate} />
@@ -193,8 +190,7 @@ const AssignCandidate = ({ job }) => {
               {rooms.map((room) => (
                 <Box borderRadius={20} p={3} boxShadow={'md'} key={room.id}>
                   <Text>
-                    Name: {room.roomName} - From: {new Date(room.startDate).toLocaleString()} to{' '}
-                    {new Date(room.endDate).toLocaleString()}
+                    Name: {room.roomName} - From: {new Date(room.startDate).toLocaleString()} to {new Date(room.endDate).toLocaleString()}
                   </Text>
                   <Text>Description: {room.roomDescription}</Text>
                   <HStack justifyContent='space-between'>

@@ -1,35 +1,12 @@
 import React from 'react'
-import {
-  Badge,
-  Box,
-  Button,
-  Card,
-  CardBody,
-  Flex,
-  Heading,
-  HStack,
-  IconButton,
-  Image,
-  SlideFade,
-  Stack,
-  Text,
-  Wrap,
-  WrapItem,
-  useDisclosure,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Container,
-  Divider,
-} from '@chakra-ui/react';
-
+import { Badge, Box, Button, Card, CardBody, Flex, Heading, HStack, IconButton, Image, SlideFade, Stack, Text, Wrap, WrapItem, useDisclosure, Menu, MenuButton, MenuItem, MenuList, Container, Divider } from '@chakra-ui/react'
 
 import mainlogo from '../../Components/req/jobpandacom-logo.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { ChatIcon } from '@chakra-ui/icons'
 import { GoogleLogout } from 'react-google-login'
 import { webHost } from '../../global'
+import { CometChatUIKit } from '@cometchat/chat-uikit-react'
 
 const client_id = '854899780211-p148qqqvv8svo8mmviv8tuf6sbmip7iq.apps.googleusercontent.com'
 const Navbar1 = () => {
@@ -60,27 +37,13 @@ const Navbar1 = () => {
     }
     localStorage.removeItem('data')
     window.location.replace(`${webHost}`)
+    CometChatUIKit.logout()
   }
 
   return (
-    <Box
-      fontFamily={'Montserrat'}
-      as={Container}
-      zIndex='3'
-      top='0'
-      maxW='100%'
-      h={'72px'}
-      position='fixed'
-      bgColor='white'
-      mb='150px'>
+    <Box fontFamily={'Montserrat'} as={Container} zIndex='3' top='0' maxW='100%' h={'72px'} position='fixed' bgColor='white' mb='150px'>
       <Flex direction='row' w='80%' h='100%' m='auto' display='flex'>
-        <Box
-          w={'150px'}
-          h={'100%'}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'center'}
-          cursor={'pointer'}>
+        <Box w={'150px'} h={'100%'} display={'flex'} alignItems={'center'} justifyContent={'center'} cursor={'pointer'}>
           <Link to='/'>
             <Image w={'90%'} src={mainlogo} alt='Logo' alignItems={'center'} cursor={'pointer'} />
           </Link>
@@ -104,16 +67,7 @@ const Navbar1 = () => {
             </Menu>
           </Box> */}
 
-          <Box
-            h={'100%'}
-            display={'flex'}
-            w={'33.3%'}
-            alignItems={'center'}
-            justifyContent={'center'}
-            fontWeight={'500'}
-            lineHeight={'20px'}
-            color={'#445578'}
-            cursor={'pointer'}>
+          <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu isOpen={services.isOpen}>
               <MenuButton
                 onClick={() => navigate('/jobpage')}
@@ -130,16 +84,7 @@ const Navbar1 = () => {
             </Menu>
           </Box>
 
-          <Box
-            h={'100%'}
-            display={'flex'}
-            w={'auto'}
-            alignItems={'center'}
-            justifyContent={'center'}
-            fontWeight={'500'}
-            lineHeight={'20px'}
-            color={'#445578'}
-            cursor={'pointer'}>
+          <Box h={'100%'} display={'flex'} w={'auto'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu isOpen={false}>
               <MenuButton
                 onClick={() => navigate('/companies')}
@@ -168,16 +113,7 @@ const Navbar1 = () => {
             </Menu>
           </Box>
 
-          <Box
-            h={'100%'}
-            display={'flex'}
-            w={'33.3%'}
-            alignItems={'center'}
-            justifyContent={'center'}
-            fontWeight={'500'}
-            lineHeight={'20px'}
-            color={'#445578'}
-            cursor={'pointer'}>
+          <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu isOpen={services.isOpen}>
               <MenuButton
                 onClick={() => navigate('/events')}
@@ -194,16 +130,7 @@ const Navbar1 = () => {
             </Menu>
           </Box>
 
-          <Box
-            h={'100%'}
-            display={'flex'}
-            w={'auto'}
-            alignItems={'center'}
-            justifyContent={'center'}
-            fontWeight={'500'}
-            lineHeight={'20px'}
-            color={'#445578'}
-            cursor={'pointer'}>
+          <Box h={'100%'} display={'flex'} w={'auto'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu isOpen={companies.isOpen}>
               <MenuButton
                 as={Button}
@@ -317,50 +244,16 @@ const Navbar1 = () => {
           </Box> */}
         </Stack>
 
-        <Stack
-          display={'flex'}
-          ml={'340px'}
-          direction={'row'}
-          h={'100%'}
-          w={'350px'}
-          alignItems={'center'}
-          justifyContent={'space-between'}>
+        <Stack display={'flex'} ml={'340px'} direction={'row'} h={'100%'} w={'350px'} alignItems={'center'} justifyContent={'space-between'}>
           {data !== null ? (
             <div style={{ width: '100%', display: 'flex' }}>
-              <Button
-                border={'1px'}
-                borderColor={'#457eff'}
-                borderRadius={'50px'}
-                color={'#457eff'}
-                bg={'white'}
-                h={'40px'}
-                w={'auto'}
-                fontWeight={'600'}>
+              <Button border={'1px'} borderColor={'#457eff'} borderRadius={'50px'} color={'#457eff'} bg={'white'} h={'40px'} w={'auto'} fontWeight={'600'}>
                 <Link to='/userInfo'>{data.data.username}</Link>
               </Button>
-              <IconButton
-                onClick={() => navigate('/messages')}
-                border={'1px'}
-                borderColor={'#457eff'}
-                borderRadius={'50px'}
-                aria-label='Call Segun'
-                h={'40px'}
-                w={'auto'}
-                size='lg'
-                ml={2}
-                icon={<ChatIcon color={'#457eff'} />}
-              />
+              <IconButton onClick={() => navigate('/messages')} border={'1px'} borderColor={'#457eff'} borderRadius={'50px'} aria-label='Call Segun' h={'40px'} w={'auto'} size='lg' ml={2} icon={<ChatIcon color={'#457eff'} />} />
               {/* 
               <MessageList/> */}
-              <Button
-                ml={2}
-                border={'none'}
-                borderRadius={'50px'}
-                color={'white'}
-                borderColor={'#ff7555'}
-                bgColor={'#ff7555'}
-                onClick={handleLogout}
-                w={'100px'}>
+              <Button ml={2} border={'none'} borderRadius={'50px'} color={'white'} borderColor={'#ff7555'} bgColor={'#ff7555'} onClick={handleLogout} w={'100px'}>
                 {/* <Link to='/logout'>Log Out</Link> */}
                 Log Out
               </Button>
@@ -372,25 +265,10 @@ const Navbar1 = () => {
             </div>
           ) : (
             <div style={{ width: '100%' }}>
-              <Button
-                border={'1px'}
-                borderColor={'#457eff'}
-                borderRadius={'50px'}
-                color={'#457eff'}
-                bg={'white'}
-                h={'40px'}
-                w={'80px'}
-                fontWeight={'600'}>
+              <Button border={'1px'} borderColor={'#457eff'} borderRadius={'50px'} color={'#457eff'} bg={'white'} h={'40px'} w={'80px'} fontWeight={'600'}>
                 <Link to='/login'>Login</Link>
               </Button>
-              <Button
-                ml={2}
-                border={'none'}
-                borderRadius={'50px'}
-                color={'white'}
-                borderColor={'#ff7555'}
-                bgColor={'#ff7555'}
-                w={'100px'}>
+              <Button ml={2} border={'none'} borderRadius={'50px'} color={'white'} borderColor={'#ff7555'} bgColor={'#ff7555'} w={'100px'}>
                 <Link to='/signup'>Register</Link>
               </Button>
             </div>
@@ -399,13 +277,7 @@ const Navbar1 = () => {
           <Divider borderColor={'#445578'} orientation='vertical' h={'30%'} />
 
           {data !== null && data.data.role === 'RECRUITER' ? (
-            <Button
-              border={'none'}
-              borderRadius={'50px'}
-              color={'white'}
-              borderColor={'#ff7555'}
-              bgColor={'#33CC33'}
-              w={'100px'}>
+            <Button border={'none'} borderRadius={'50px'} color={'white'} borderColor={'#ff7555'} bgColor={'#33CC33'} w={'100px'}>
               <Link to='/job-posting'>Đăng bài</Link>
             </Button>
           ) : (

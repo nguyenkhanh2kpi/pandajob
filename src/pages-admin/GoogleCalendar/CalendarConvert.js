@@ -1,4 +1,4 @@
-const convertCalendar = (listCAL) => {
+const convertCalendar = (listCAL ) => {
   const response = []
 
   const item = {
@@ -29,24 +29,46 @@ const convertCalendar = (listCAL) => {
     response.push(newI)
   })
 
+
   return response
 }
 
 const generateResourceData = () => {
-  let data = [{
-    Id: 1,
-    Text: 'event',
-    Color: '#e6ba43',
-  },
-  {
-    Id: 2,
-    Text: 'interview',
-    Color: '#2cc973',
-  }]
+  let data = [
+    {
+      Id: 1,
+      Text: 'event',
+      Color: '#e6ba43',
+    },
+    {
+      Id: 2,
+      Text: 'interview',
+      Color: '#2cc973',
+    },
+  ]
   return data
 }
 
+const convertCalendarLocal = (list) => {
+  const response = [];
+  list.forEach((cal) => {
+    const newItem = {
+      Subject: cal.subject,
+      Location: cal.location,
+      StartTime: cal.startTime,
+      EndTime: cal.endTime,
+      IsAllDay: cal.allDay || false, 
+      ResourceId: cal.resourceId || 2,
+      Description: cal.description || '', 
+      Id: cal.id, 
+    };
+    response.push(newItem);
+  });
+
+  return response;
+};
 export const calendarConver = {
   convertCalendar,
   generateResourceData,
+  convertCalendarLocal,
 }

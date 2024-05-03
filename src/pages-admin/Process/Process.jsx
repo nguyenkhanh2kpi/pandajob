@@ -1,5 +1,5 @@
 import { Box, Image, Text, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -14,12 +14,22 @@ import {
   Stepper,
   useSteps,
 } from '@chakra-ui/react'
+import { jobService } from '../../Service/job.service'
 
 const Process = () => {
   const navigate = useNavigate()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
-  const jobData = useSelector((store) => store.job.data)
+  // const jobData = useSelector((store) => store.job.data)
   const userId = JSON.parse(localStorage.getItem('data')).data.userInfo.id
+  const [jobData, setJobs] = useState([])
+
+  useEffect(()=> {
+    jobService.getAllJob()
+    .then(reponse => {
+      setJobs(reponse)
+    })
+    .catch(er => console.log(er))
+  },[])
 
   return (
     <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>

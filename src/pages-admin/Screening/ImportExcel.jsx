@@ -6,7 +6,7 @@ import { read, utils as XLSXUtils } from 'xlsx'
 import { testService } from '../../Service/test.service'
 import { ToastContainer, toast } from 'react-toastify'
 
-export const ImportExcel = ({ testID }) => {
+export const ImportExcel = ({ testID, setLoad, load }) => {
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -67,7 +67,8 @@ export const ImportExcel = ({ testID }) => {
     testService
       .addQuestion(accessToken, form)
       .then((response) => {
-        toast.success(response.message)
+        // toast.success(response.message)
+        setLoad(!load)
       })
       .catch((er) => {
         console.log(er)
@@ -76,15 +77,15 @@ export const ImportExcel = ({ testID }) => {
   }
 
   const handleClick = () => {
-    const fileUrl = 'https://docs.google.com/spreadsheets/d/1K4qGkhniOseT8z_k_74m0FujGSsEDLnO/edit#gid=1635696316';
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-  
+    const fileUrl = 'https://docs.google.com/spreadsheets/d/1K4qGkhniOseT8z_k_74m0FujGSsEDLnO/edit#gid=1635696316'
+    const link = document.createElement('a')
+    link.href = fileUrl
+    link.target = '_blank'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   return (
     <>
       <Box
@@ -114,7 +115,7 @@ export const ImportExcel = ({ testID }) => {
           <ModalHeader>Import questions from the spreadsheet</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Box style={{ borderCollapse: 'collapse' }} overflow={'auto'} {...getRootProps()} borderRadius={20} h={500} borderWidth={1} w={'100%'}>
+            <Box style={{ borderCollapse: 'collapse' }} overflow={'auto'} {...getRootProps()} borderRadius={0} h={500} borderWidth={1} w={'100%'}>
               {dropped ? (
                 <Table fontSize={13} w={'100%'}>
                   <Thead>

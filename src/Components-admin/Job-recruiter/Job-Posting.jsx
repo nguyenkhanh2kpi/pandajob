@@ -27,6 +27,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { storage } from '../../firebase.js'
 import { v4 } from 'uuid'
 import { hostName } from '../../global.js'
+import { locationService } from '../../Service/location.service.js'
 const JobPosting = () => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -192,6 +193,15 @@ const JobPosting = () => {
 
   const userId = JSON.parse(localStorage.getItem('data')).data.userInfo.id
 
+  const [province, setProvince] = useState([]);
+  useEffect(()=> {
+    locationService.getAllProvince()
+    .then(response => {
+      setProvince(response)
+    })
+    .catch(er => console.log(er))
+  },[])
+
   return (
     <>
       <VStack>
@@ -310,9 +320,10 @@ const JobPosting = () => {
                     defaultValue='all'
                     onChange={(e) => setLocation(e.target.value)}>
                     <option value='all'>Địa điểm</option>
-                    <option value='Hồ Chí Minh'>Hồ Chí Minh</option>
+                    {/* <option value='Hồ Chí Minh'>Hồ Chí Minh</option>
                     <option value='Đà Nẵng'>Đà Nẵng</option>
-                    <option value='Hà Nội'>Hà Nội</option>
+                    <option value='Hà Nội'>Hà Nội</option> */}
+                    {province.map(p=> <option key={p.id} value={p.name}>{p.name}</option>)}
                   </Select>
                 </div>
                 <Box mt={6} className='flex' style={{ marginLeft: '10px' }}>

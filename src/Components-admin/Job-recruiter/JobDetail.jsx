@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { hostName } from '../../global'
+import { locationService } from '../../Service/location.service'
 
 function JobDetailRecruiter() {
   const params = useParams()
@@ -37,6 +38,15 @@ function JobDetailRecruiter() {
   const [testImage, setTestImage] = useState()
   const [status, setStatus] = useState(data.status)
   const [language, setLanguage] = useState(data.language)
+
+  const [province, setProvince] = useState([]);
+  useEffect(()=> {
+    locationService.getAllProvince()
+    .then(response => {
+      setProvince(response)
+    })
+    .catch(er => console.log(er))
+  },[])
 
   let img = []
   console.log(testImage)
@@ -161,9 +171,14 @@ function JobDetailRecruiter() {
                 </Badge>
                 <Select onChange={(e) => setLocation(e.target.value)} value={location != null ? location : data.location} color='black' fontSize={20} backgroundColor={'#ffffff'} w={'80%'} fontFamily={'Montserrat'} name='location'>
                   <option value='all'>Địa điểm</option>
-                  <option value='Hồ Chí Minh'>Hồ Chí Minh</option>
+                  {/* <option value='Hồ Chí Minh'>Hồ Chí Minh</option>
                   <option value='Đà Nẵng'>Đà Nẵng</option>
-                  <option value='Hà Nội'>Hà Nội</option>
+                  <option value='Hà Nội'>Hà Nội</option> */}
+                  {province.map((p) => (
+                    <option key={p.id} value={p.name}>
+                      {p.name}
+                    </option>
+                  ))}
                 </Select>
 
                 <Badge borderRadius='full' fontSize='14px' px='2' ml='2px' mt='20px' mb='10px'>

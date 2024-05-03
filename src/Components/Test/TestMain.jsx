@@ -33,6 +33,14 @@ export const TestMain = () => {
     return false
   }
 
+  const isNotEnded = () => {
+    if (test && test.endTime) {
+      const endTime = new Date(test.endTime).getTime()
+      const currentTime = new Date().getTime()
+      return currentTime <= endTime
+    }
+  }
+
   return (
     <>
       <VStack h={1300} fontFamily={'Montserrat'} fontWeight={400} mb={20}>
@@ -43,7 +51,7 @@ export const TestMain = () => {
         <HStack align={'flex-start'} w={'60vw'} m={5} p={5}>
           {test != null ? (
             test.record === false ? (
-              isTestStarted() ? (
+              isTestStarted() && isNotEnded() ? (
                 start === true ? (
                   <></>
                 ) : (
@@ -52,7 +60,7 @@ export const TestMain = () => {
                   </Button>
                 )
               ) : (
-                <Button w={'100%'}>You haven't started the test yet</Button>
+                <Button w={'100%'}>You are not in available time</Button>
               )
             ) : (
               <Button w={'100%'}>The test cannot be retaken</Button>
@@ -149,18 +157,40 @@ const DoTest = ({ test }) => {
 
   ///submit
   const handleConfirm = () => {
-    console.log(selectedOptions)
     const form = {
       id: 1,
       testId: test.id,
-      score: 0,
-      record: 'string',
+      score: calculateScore(),
+      record: JSON.stringify(selectedOptions),
     }
     testService
       .record(accessToken, form)
       .then((reponse) => navigate('/test'))
       .catch((error) => console.log(error))
   }
+
+  const calculateScore = () => {
+    let score = 0
+    const selectedOptionsArray = convertObjectToArray(selectedOptions)
+    selectedOptionsArray.forEach((selected) => {
+      const question = test.questions.find((question) => question.id.toString() === selected.questionId)
+      question.options.map((o) => {
+        if (o.answer && o.optionText === selected.selectedOptionText) {
+          score++
+        }
+      })
+    })
+    return score
+  }
+
+  function convertObjectToArray(selectedOptions) {
+    return Object.entries(selectedOptions).map(([questionId, selectedOptionText]) => ({
+      questionId,
+      selectedOptionText,
+    }))
+  }
+
+  //
 
   ///
 

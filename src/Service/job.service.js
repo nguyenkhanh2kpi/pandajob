@@ -11,6 +11,16 @@ const getById = async (id) => {
   }
 }
 
+const getAllJob = async() => {
+  try {
+    const res = await axios.get(`${API_URL}/job-posting`)
+    return res.data.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export const jobService = {
   getById,
+  getAllJob,
 }
