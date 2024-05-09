@@ -21,8 +21,8 @@ const HomePage = () => {
     experience: 'all',
     salary: 'all',
   })
-  
-  const [province, setProvince] = useState([]);
+
+  const [province, setProvince] = useState([])
 
   const handleChangeSearch = (e) => {
     const { name, value } = e.target
@@ -37,13 +37,14 @@ const HomePage = () => {
     }
   }
 
-  useEffect(()=> {
-    locationService.getAllProvince()
-    .then(response => {
-      setProvince(response)
-    })
-    .catch(er => console.log(er))
-  },[])
+  useEffect(() => {
+    locationService
+      .getAllProvince()
+      .then((response) => {
+        setProvince(response)
+      })
+      .catch((er) => console.log(er))
+  }, [])
 
   return (
     <Box>
@@ -67,7 +68,11 @@ const HomePage = () => {
               <option value='Đà Nẵng'>Đà Nẵng</option>
               <option value='Hà Nội'>Hà Nội</option> */}
               <option value='all'>Địa điểm</option>
-              {province.map(p => (<option key={p.name} value={p.name}>{p.name}</option>))}
+              {province.map((p) => (
+                <option key={p.name} value={p.name}>
+                  {p.name}
+                </option>
+              ))}
             </Select>
           </Box>
           <Box w={'223px'} h={'100%'} pr={'0px'} pt={'4px'} pl={'10px'} pb={'6px'}>

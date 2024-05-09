@@ -7,6 +7,7 @@ import { ChatIcon } from '@chakra-ui/icons'
 import { GoogleLogout } from 'react-google-login'
 import { webHost } from '../../global'
 import { CometChatUIKit } from '@cometchat/chat-uikit-react'
+import ChatContainer from '../Chatbot/Chatbot'
 
 const client_id = '854899780211-p148qqqvv8svo8mmviv8tuf6sbmip7iq.apps.googleusercontent.com'
 const Navbar1 = () => {
@@ -66,6 +67,8 @@ const Navbar1 = () => {
               </Button>
             </Menu>
           </Box> */}
+
+          <ChatContainer />
 
           <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu isOpen={services.isOpen}>
