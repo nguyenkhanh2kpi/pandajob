@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  HStack,
-  Input,
-  Text,
-  Textarea,
-} from '@chakra-ui/react'
+import { Box, Button, FormControl, FormLabel, HStack, Input, Text, Textarea } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { ResumeWorkProjectItem } from './ResumeWorkProjectItem'
 import { resumeService } from '../../Service/resume.service'
@@ -15,7 +6,13 @@ import { ToastContainer, toast } from 'react-toastify'
 
 export const ResumeProject = ({ workProjects, setResume }) => {
   const [workProject, setWorkProjects] = useState([])
-  const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  let accessToken = ''
+  try {
+    accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  } catch(error) {
+    
+  }
+  
 
   useEffect(() => {
     setWorkProjects(workProjects)
@@ -65,12 +62,7 @@ export const ResumeProject = ({ workProjects, setResume }) => {
   return (
     <Box w={'100%'} m={0}>
       {workProject?.map((w) => (
-        <ResumeWorkProjectItem
-          item={w}
-          addClick={addWorkProject}
-          deleteClick={deleteProject}
-          saveClick={saveProject}
-        />
+        <ResumeWorkProjectItem item={w} addClick={addWorkProject} deleteClick={deleteProject} saveClick={saveProject} />
       ))}
     </Box>
   )

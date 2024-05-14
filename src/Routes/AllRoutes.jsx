@@ -23,6 +23,7 @@ import Message from '../Components/Message/Message'
 import { ResumeProfile } from '../Components/ResumeProfile/ResumeProfile'
 import { TestMain } from '../Components/Test/TestMain'
 import { TestList } from '../Components/Test/TestList'
+import { UserInfo1 } from '../Components/UserInfo/UserInfo1'
 // import JobPosting from "../Components/Job-recruiter/Job-Posting";
 // import JobDetailRecruiter from "../Components/Job-recruiter/JobDetail";
 // import AllJob from  "../Components/Job-recruiter/AllJob";
@@ -34,6 +35,7 @@ const AllRoutes = () => {
       {/* <Route path='/job-posting/' element={<JobPosting />} /> */}
 
       <Route path='/userInfo/' element={<UserInfo />} />
+      <Route path='/userInfo1/' element={<UserInfo1 />} />
       <Route path='/verify/:email/' element={<Verify />} />
       <Route path='/verifyResetPW/:email/' element={<VerifyPassword />} />
       <Route path='/changePassword/:id/:otp/' element={<ChangePassword />} />

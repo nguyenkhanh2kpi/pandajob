@@ -50,7 +50,7 @@ const HomePage = () => {
     <Box>
       <Container mb={'28px'} h={'80px'} maxW={'100%'}>
         <Heading fontFamily={'Montserrat'} textAlign={'center'} fontWeight={'700'} fontSize={'35px'} lineHeight={'50px'} mb={'6px'} mt={'104px'}>
-          Tìm việc làm nhanh 24h, việc làm mới nhất
+          Find jobs quickly 24 hours, latest jobs
         </Heading>
       </Container>
       <Container h={'70px'} maxW={'100%'}>

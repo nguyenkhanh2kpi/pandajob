@@ -16,8 +16,13 @@ import { ToastContainer, toast } from 'react-toastify'
 
 export const ResumeWorkEx = ({ isEx, workExps, setResume }) => {
   const [worksExp, setWorkExps] = useState([])
-  const accessToken = JSON.parse(localStorage.getItem('data')).access_token
-
+  // const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  let accessToken = ''
+  try {
+    accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  } catch(error) {
+    
+  }
   useEffect(() => {
     setWorkExps(workExps)
   }, [workExps])

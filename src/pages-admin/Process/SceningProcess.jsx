@@ -1,4 +1,4 @@
-import { Box, Button, Flex, HStack, IconButton, Input, Link, Select, Text, VStack, useDisclosure } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Flex, HStack, IconButton, Input, Link, Select, Text, VStack, useDisclosure } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -70,25 +70,33 @@ export const SceningProcess = () => {
 
   return (
     <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
-      <VStack spacing={3}>
-        <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w='100%' mb={10}>
-          <Text fontSize={25}>Result for {job.name}</Text>
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <BreadcrumbLink href='/process'>Recruitment process</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbLink href={`/process/item/${job.id}`}>{job.name}</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbLink href='#'>Result</BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
+      <VStack spacing={3} w={'100%'}>
+        <Box p={'1%'} minHeight={1000} overflow='auto' borderRadius={20} backgroundColor={'#e9f3f5'} w='100%' mb={10}>
           <Box w={'50%'}>
             <HStack>
-              <Select borderWidth={0.5} boxShadow={'s'} borderRadius={10} placeholder='Interview Status' onChange={handleChange}>
+              <Select backgroundColor={'#ffffff'} borderWidth={0.5} boxShadow={'s'} borderRadius={10} placeholder='Interview Status' onChange={handleChange}>
                 <option value='Chưa đăng kí'>Chưa đăng kí</option>
                 <option value='Chưa phỏng vấn'>Chưa phỏng vấn</option>
                 <option value='Đã chấm'>Đã Phỏng vấn</option>
               </Select>
               <Flex>
-                <Select borderWidth={0.5} flex='1' borderRadius={10} placeholder='Test' mr={2}>
+                <Select backgroundColor={'#ffffff'} borderWidth={0.5} flex='1' borderRadius={10} placeholder='Test' mr={2}>
                   {tests.map((test) => (
                     <option key={test.id}>test: {test.id}</option>
                   ))}
-                  {/* // <option value='option1'>Test 1</option>
-                  // <option value='option2'>Test 2</option> */}
                 </Select>
-                <NumberInput flex='1' borderRadius={10} defaultValue={0} min={0} max={10}>
+                <NumberInput backgroundColor={'#ffffff'} flex='1' borderRadius={10} defaultValue={0} min={0} max={10}>
                   <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
@@ -98,10 +106,10 @@ export const SceningProcess = () => {
               </Flex>
             </HStack>
           </Box>
-          <Box mt={30} boxShadow={'lg'} borderRadius={10}>
+          <Box backgroundColor={'#ffffff'} mt={30} boxShadow={'lg'} borderRadius={10}>
             <TableContainer w={1000}>
               <Table variant='simple'>
-                {/* <TableCaption>Result</TableCaption> */}
+
                 <Thead>
                   <Tr>
                     <Th>Name</Th>

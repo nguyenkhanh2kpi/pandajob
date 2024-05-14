@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 
 export const ResumeProfile = () => {
+  const navigate = useNavigate()
   const [resume, setResume] = useState({
     id: null,
     fullName: '',
@@ -58,14 +59,29 @@ export const ResumeProfile = () => {
     technology: '',
   })
 
-  const accessToken = JSON.parse(localStorage.getItem('data')).access_token
-  const navigate = useNavigate()
+  // const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  let access_token = ''
+
+  try {
+    const data = JSON.parse(localStorage.getItem('data'))
+    if (data && data.access_token) {
+      access_token = data.access_token
+    } else {
+      navigate('/login')
+    }
+  } catch (error) {
+    navigate('/login')
+  }
 
   useEffect(() => {
-    resumeService
-      .getMyResume(accessToken)
-      .then((response) => setResume(response))
-      .catch((er) => console.log(er.message))
+    if (access_token === '') {
+      navigate('/login')
+    } else {
+      resumeService
+        .getMyResume(access_token)
+        .then((response) => setResume(response))
+        .catch((er) => console.log(er.message))
+    }
   }, [])
 
   const handleAddSkill = () => {}
@@ -80,7 +96,7 @@ export const ResumeProfile = () => {
 
   const handleSave = () => {
     resumeService
-      .putResume(accessToken, resume)
+      .putResume(access_token, resume)
       .then((response) => {
         setResume(response)
         toast.success(response.message)

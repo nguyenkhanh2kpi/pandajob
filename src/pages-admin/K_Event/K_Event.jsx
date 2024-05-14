@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { IoIosMore } from 'react-icons/io'
 import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns'
-import { Box, Button, Grid, GridItem, IconButton, Image, Skeleton, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Grid, GridItem, HStack, IconButton, Image, Skeleton, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
 import { dropdownData } from '../../data/dummy'
 import { useStateContext } from '../../contexts/ContextProvider'
 import product9 from '../../data/product9.jpg'
@@ -77,17 +77,24 @@ export const K_Event = () => {
       <>
         <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
         <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
+          <HStack justifyContent={'space-between'} w={'100%'}>
+            <Breadcrumb>
+              <BreadcrumbItem>
+                <BreadcrumbLink href='#'>Events</BreadcrumbLink>
+              </BreadcrumbItem>
+            </Breadcrumb>
+            <Button color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px'>
+              <Link to='/event/add'>+ Add event</Link>
+            </Button>
+          </HStack>
           <VStack spacing={3}>
-            <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
-              <Button color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px'>
-                <Link to='/event/add'>+ Add event</Link>
-              </Button>
+            <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#e9f3f5'} w={'100%'} mb={10}>
               <Grid p={5} w={'100%'} templateColumns='repeat(3, 1fr)' gap={3}>
                 {events
                   .filter((event) => event.status)
                   .map((event) => (
                     <GridItem w={'100%'}>
-                      <Box borderRadius={20} p={5} boxShadow={'lg'} key={event.id}>
+                      <Box backgroundColor={'#ffffff'} borderRadius={20} p={5} boxShadow={'lg'} key={event.id}>
                         <div className='flex justify-between'>
                           <p className='text-xl font-semibold'>{event.title}</p>
                           <button type='button' className='text-xl font-semibold text-gray-500'>

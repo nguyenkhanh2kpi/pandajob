@@ -2,19 +2,7 @@ import React, { useId, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
-import {
-  Box,
-  Flex,
-  Text,
-  Image,
-  Badge,
-  Select,
-  HStack,
-  VStack,
-  Button,
-  Textarea,
-  Input,
-} from '@chakra-ui/react'
+import { Box, Flex, Text, Image, Badge, Select, HStack, VStack, Button, Textarea, Input, FormControl, FormLabel, BreadcrumbItem, BreadcrumbLink, Breadcrumb } from '@chakra-ui/react'
 import Form from 'react-bootstrap/Form'
 import { useNavigate } from 'react-router-dom'
 import './style4.css'
@@ -31,7 +19,6 @@ import { locationService } from '../../Service/location.service.js'
 const JobPosting = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    // getData(typeOfProduct).then((res) => setProductArr(res));
     dispatch(loadJob())
   }, [])
 
@@ -52,7 +39,7 @@ const JobPosting = () => {
   const [salary, setSalary] = useState('')
   const [number, setNumber] = useState('')
   const [workingForm, setWorkingForm] = useState('')
-  const [sex, setSex] = useState('')
+  const [sex, setSex] = useState('NONE')
   const [experience, setExperience] = useState('')
   const [detailLocation, setDetailLocation] = useState('')
   const [detailJob, setDetailJob] = useState('')
@@ -193,358 +180,115 @@ const JobPosting = () => {
 
   const userId = JSON.parse(localStorage.getItem('data')).data.userInfo.id
 
-  const [province, setProvince] = useState([]);
-  useEffect(()=> {
-    locationService.getAllProvince()
-    .then(response => {
-      setProvince(response)
-    })
-    .catch(er => console.log(er))
-  },[])
+  const [province, setProvince] = useState([])
+  useEffect(() => {
+    locationService
+      .getAllProvince()
+      .then((response) => {
+        setProvince(response)
+      })
+      .catch((er) => console.log(er))
+  }, [])
 
   return (
     <>
-      <VStack>
-        <Box fontFamily={'Montserrat'} fontWeight={400} w='70%'>
-          <div className='form_data6'>
-            <div className='form_heading'>
-              <h2
-                style={{
-                  color: '#000000',
-                  fontSize: '30px',
-                  padding: '10px',
-                  borderRadius: '10px',
-                }}>
-                Đăng tin tuyển dụng
-              </h2>
-            </div>
+      <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/allJob_Recruiter'>My Job</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='#'>New Job</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
 
-            <form>
-              <div>
-                <label htmlFor='name'>
-                  <Badge borderRadius='full' fontSize='14px' p='2'>
-                    Tên công việc
-                  </Badge>
-                </label>
-                <Input
-                  mt={3}
-                  mb={5}
-                  w={'100%'}
-                  backgroundColor={'#ffffff'}
-                  fontSize={20}
-                  type='text'
-                  onChange={(e) => setName(e.target.value)}
-                  name='name'
-                  id='Name'
-                />
-              </div>
+        <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
+          <Text fontWeight={'bold'}>Post a new job</Text>
+          <FormControl>
+            <HStack mt={3}>
+              <FormLabel w={'15%'}>Name</FormLabel>
+              <Input w={'35%'} type='text' onChange={(e) => setName(e.target.value)} name='name' id='Name' />
+              <FormLabel w={'15%'}>Working location</FormLabel>
+              <Input w={'35%'} type='text' onChange={(e) => setDetailLocation(e.target.value)} name='position' id='position' />
+            </HStack>
 
-              <div>
-                <label htmlFor='name'>
-                  <Badge borderRadius='full' fontSize='14px' p='2' >
-                    Địa chỉ làm việc
-                  </Badge>
-                </label>
+            <HStack mt={3}>
+              <FormLabel w={'15%'}>Salary</FormLabel>
+              <Select w={'35%'} onChange={(e) => setSalary(e.target.value)} defaultValue='all'>
+                <option value='all'>Mức lương</option>
+                <option value='Dưới 10 triệu'>Dưới 10 triệu</option>
+                <option value='10 -15 triệu'>10 -15 triệu</option>
+                <option value='15 -20 triệu'>15 -20 triệu</option>
+                <option value='20 -25 triệu'>20 -25 triệu</option>
+                <option value='25 -30 triệu'>25 -30 triệu</option>
+                <option value='30 -50 triệu'>30 -50 triệu</option>
+                <option value='trên 50 triệu'>trên 50 triệu</option>
+                <option value='thỏa thuận'>thỏa thuận</option>
+              </Select>
+              <FormLabel w={'15%'}>Working form</FormLabel>
+              <Input w={'35%'} type='text' onChange={(e) => setWorkingForm(e.target.value)} name='workingForm' id='workingForm' />
+            </HStack>
 
-                <Input
-                  mt={3}
-                  mb={5}
-                  w={'100%'}
-                  backgroundColor={'#ffffff'}
-                  fontSize={20}
-                  type='position'
-                  onChange={(e) => setDetailLocation(e.target.value)}
-                  name='position'
-                  id='position'
-                />
-              </div>
-              <div class='flex-container'>
-                <div className='form_input flex' style={{ heigth: '20% !important' }}>
-                  <div
-                    htmlFor='name'
-                    style={{ display: 'block', paddingTop: '7%', paddingRight: '2%' }}>
-                    <Badge borderRadius='full' fontSize='14px' x p='2' >
-                      Mức lương
-                    </Badge>
-                  </div>
-                  <Select
-                    backgroundColor={'#ffffff'}
-                    fontSize={20}
-                    mt={6}
-                    onChange={(e) => setSalary(e.target.value)}
-                    defaultValue='all'>
-                    <option value='all'>Mức lương</option>
-                    <option value='Dưới 10 triệu'>Dưới 10 triệu</option>
-                    <option value='10 -15 triệu'>10 -15 triệu</option>
-                    <option value='15 -20 triệu'>15 -20 triệu</option>
-                    <option value='20 -25 triệu'>20 -25 triệu</option>
-                    <option value='25 -30 triệu'>25 -30 triệu</option>
-                    <option value='30 -50 triệu'>30 -50 triệu</option>
-                    <option value='trên 50 triệu'>trên 50 triệu</option>
-                    <option value='thỏa thuận'>thỏa thuận</option>
-                  </Select>
-                </div>
-                <Box mt={4} className='flex' style={{ marginLeft: '10px' }}>
-                  <HStack>
-                    <Box htmlFor='name' style={{ display: 'block', paddingRight: '2%' }}>
-                      <Badge borderRadius='full' fontSize='14px' p='2'>
-                        Hình thức làm việc
-                      </Badge>
-                    </Box>
-                    <Input
-                      w={'100%'}
-                      backgroundColor={'#ffffff'}
-                      fontSize={20}
-                      onChange={(e) => setWorkingForm(e.target.value)}
-                      type='text'
-                      name='workingForm'
-                      id='workingForm'
-                    />
-                  </HStack>
-                </Box>
-              </div>
+            <HStack mt={3}>
+              <FormLabel w={'15%'}>Location</FormLabel>
+              <Select w={'35%'} defaultValue='all' onChange={(e) => setLocation(e.target.value)}>
+                <option value='all'>Địa điểm</option>
+                {province.map((p) => (
+                  <option key={p.id} value={p.name}>
+                    {p.name}
+                  </option>
+                ))}
+              </Select>
+              <FormLabel w={'15%'}>Language</FormLabel>
+              <Input w={'35%'} type='text' onChange={(e) => setLanguage(e.target.value)} name='language' id='language' />
+            </HStack>
 
-              <div class='flex-container'>
-                <div className='form_input flex'>
-                  <div
-                    htmlFor='name'
-                    style={{ display: 'block', paddingTop: '7%', paddingRight: '2%' }}>
-                    <Badge borderRadius='full' fontSize='14px' p='2' >
-                      Địa điểm
-                    </Badge>
-                  </div>
-                  <Select
-                    backgroundColor={'#ffffff'}
-                    fontSize={20}
-                    mt={6}
-                    defaultValue='all'
-                    onChange={(e) => setLocation(e.target.value)}>
-                    <option value='all'>Địa điểm</option>
-                    {/* <option value='Hồ Chí Minh'>Hồ Chí Minh</option>
-                    <option value='Đà Nẵng'>Đà Nẵng</option>
-                    <option value='Hà Nội'>Hà Nội</option> */}
-                    {province.map(p=> <option key={p.id} value={p.name}>{p.name}</option>)}
-                  </Select>
-                </div>
-                <Box mt={6} className='flex' style={{ marginLeft: '10px' }}>
-                  <div htmlFor='name' style={{ display: 'block', paddingRight: '2%' }}>
-                    <Badge borderRadius='full' fontSize='14px' p='2' >
-                      Ngôn ngữ
-                    </Badge>
-                  </div>
-                  <Input
-                    w={'100%'}
-                    backgroundColor={'#ffffff'}
-                    fontSize={20}
-                    onChange={(e) => setLanguage(e.target.value)}
-                    type='text'
-                    name='language'
-                    id='language'
-                  />
-                </Box>
-              </div>
+            <HStack mt={3}>
+              <FormLabel w={'15%'}>Gender</FormLabel>
+              <Select w={'35%'} onChange={(e) => setSex(e.target.value)} defaultValue='NONE'>
+                <option value='Nam'>Nam</option>
+                <option value='Nữ'>Nữ</option>
+                <option value='Không yêu cầu'>Không yêu cầu</option>
+              </Select>
+              <FormLabel w={'15%'}>Number of candiate</FormLabel>
+              <Input w={'35%'} onChange={(e) => setNumber(e.target.value)} type='text' name='number' id='number' />
+            </HStack>
 
-              <div class='flex-container'>
-                <div className='form_input flex'>
-                  <div
-                    htmlFor='name'
-                    style={{ display: 'block', paddingTop: '7%', paddingRight: '2%' }}>
-                    <Badge borderRadius='full' fontSize='14px' x p='2'>
-                      Giới tính
-                    </Badge>
-                  </div>
-                  <Select
-                    backgroundColor={'#ffffff'}
-                    fontSize={20}
-                    mt={6}
-                    onChange={(e) => setSex(e.target.value)}
-                    defaultValue='NONE'>
-                    <option value='MALE'>Nam</option>
-                    <option value='FEMALE'>Nữ</option>
-                    <option value='NONE'>Không yêu cầu</option>
-                  </Select>
-                </div>
-                <Box className='flex' style={{ marginLeft: '10px' }}>
-                  <div
-                    htmlFor='name'
-                    style={{ display: 'block', paddingTop: '7%', paddingRight: '2%' }}>
-                    <Badge borderRadius='full' fontSize='14px' x p='2'>
-                      Số lượng
-                    </Badge>
-                  </div>
-                  <Input
-                    mt={6}
-                    w={'100%'}
-                    backgroundColor={'#ffffff'}
-                    fontSize={20}
-                    onChange={(e) => setNumber(e.target.value)}
-                    type='text'
-                    name='number'
-                    id='number'
-                  />
-                </Box>
-              </div>
+            <HStack mt={3}>
+              <FormLabel w={'15%'}>Position</FormLabel>
+              <Input w={'35%'} onChange={(e) => setPosition(e.target.value)} type='text' name='detailLocation' id='detailLocation' />
+              <FormLabel w={'15%'}>Experience</FormLabel>
+              <Select w={'35%'} onChange={(e) => setExperience(e.target.value)} defaultValue={'Chưa có'}>
+                <option value='all'>Kinh nghiệm</option>
+                <option value='chưa có'>chưa có</option>
+                <option value='dưới 1 năm'>dưới 1 năm</option>
+                <option value='1 năm'>1 năm</option>
+                <option value='2 năm'>2 năm</option>
+                <option value='3 năm'>3 năm</option>
+                <option value='4 năm'>4 năm</option>
+                <option value='5 năm'>5 năm</option>
+                <option value='trên 5 năm'>trên 5 năm</option>
+              </Select>
+            </HStack>
 
-              <div class='flex-container'>
-                <Box className='flex'>
-                  <div
-                    htmlFor='name'
-                    style={{ display: 'block', paddingTop: '7%', paddingRight: '2%' }}>
-                    <Badge borderRadius='full' fontSize='14px' x p='2' >
-                      Vị trí tuyển dụng
-                    </Badge>
-                  </div>
-                  <Input
-                    mt={6}
-                    backgroundColor={'#ffffff'}
-                    fontSize={20}
-                    onChange={(e) => setPosition(e.target.value)}
-                    type='text'
-                    name='detailLocation'
-                    id='detailLocation'
-                  />
-                </Box>
-                <div className='form_input flex' style={{ marginLeft: '10px' }}>
-                  <div
-                    htmlFor='name'
-                    style={{ display: 'block', paddingTop: '7%', paddingRight: '2%' }}>
-                    <Badge borderRadius='full' fontSize='14px' x p='2'>
-                      Kinh nghiệm
-                    </Badge>
-                  </div>
-                  <Select
-                    backgroundColor={'#ffffff'}
-                    fontSize={20}
-                    onChange={(e) => setExperience(e.target.value)}
-                    mt={6}
-                    defaultValue={'Chưa có'}>
-                    <option value='all'>Kinh nghiệm</option>
-                    <option value='chưa có'>chưa có</option>
-                    <option value='dưới 1 năm'>dưới 1 năm</option>
-                    <option value='1 năm'>1 năm</option>
-                    <option value='2 năm'>2 năm</option>
-                    <option value='3 năm'>3 năm</option>
-                    <option value='4 năm'>4 năm</option>
-                    <option value='5 năm'>5 năm</option>
-                    <option value='trên 5 năm'>trên 5 năm</option>
-                  </Select>
-                </div>
-              </div>
+            <FormLabel>Description</FormLabel>
+            <Textarea onChange={(e) => setDetailJob(e.target.value)} type='text' name='detailJob' id='detailJob' />
 
-              <div className='form_input'>
-                <div
-                  htmlFor='name'
-                  style={{
-                    display: 'block',
-                    paddingTop: '5%',
-                    paddingRight: '2%',
-                    paddingBottom: '2%',
-                  }}>
-                  <Badge borderRadius='full' fontSize='14px' x p='2' >
-                    Mô tả công việc
-                  </Badge>
-                </div>
+            <FormLabel>Job requirements</FormLabel>
+            <Textarea onChange={(e) => setRequirements(e.target.value)} type='text' name='requirements' id='requirements' />
 
-                <div className='two'>
-                  <Textarea
-                    backgroundColor={'#ffffff'}
-                    fontSize={20}
-                    w={'100%'}
-                    h={200}
-                    onChange={(e) => setDetailJob(e.target.value)}
-                    type='text'
-                    name='detailJob'
-                    id='detailJob'
-                  />
-                </div>
-              </div>
+            <FormLabel>Benefits</FormLabel>
+            <Textarea onChange={(e) => setInterest(e.target.value)} type='text' name='interest' id='interest' />
 
-              <div className='form_input'>
-                <div
-                  htmlFor='name'
-                  style={{
-                    display: 'block',
-                    paddingTop: '2%',
-                    paddingRight: '2%',
-                    paddingBottom: '2%',
-                  }}>
-                  <Badge borderRadius='full' fontSize='14px' x p='2' >
-                    Yêu cầu ứng{' '}
-                  </Badge>
-                </div>
-                <div className='two'>
-                  <Textarea
-                    backgroundColor={'#ffffff'}
-                    fontSize={20}
-                    w={'100%'}
-                    h={200}
-                    onChange={(e) => setRequirements(e.target.value)}
-                    type='text'
-                    name='requirements'
-                    id='requirements'
-                  />
-                </div>
-              </div>
+            <FormLabel>Image</FormLabel>
+            <Input type='file' onChange={(e) => setImage(e.target.files[0])} name='image' id='image' />
 
-              <div className='form_input'>
-                <div
-                  htmlFor='name'
-                  style={{
-                    display: 'block',
-                    paddingTop: '2%',
-                    paddingRight: '2%',
-                    paddingBottom: '2%',
-                  }}>
-                  <Badge borderRadius='full' fontSize='14px' x p='2'>
-                    Quyền lợi
-                  </Badge>
-                </div>
-                <div className='two'>
-                  <Textarea
-                    backgroundColor={'#ffffff'}
-                    fontSize={20}
-                    w={'100%'}
-                    h={200}
-                    onChange={(e) => setInterest(e.target.value)}
-                    type='text'
-                    name='interest'
-                    id='interest'
-                  />
-                </div>
-              </div>
-
-              <div className='form_input'>
-                <div
-                  htmlFor='name'
-                  style={{ display: 'block', paddingTop: '2%', paddingRight: '2%' }}>
-                  <Badge borderRadius='full' fontSize='14px' p='2' >
-                    Hình ảnh
-                  </Badge>
-                </div>
-                <Input
-                  w={'100%'}
-                  backgroundColor={'#ffffff'}
-                  type='file'
-                  fontSize={20}
-                  onChange={(e) => setImage(e.target.files[0])}
-                  name='image'
-                  id='image'
-                />
-              </div>
-
-              <Button
-                color={'white'}
-                backgroundColor='#03c9d7'
-                onClick={HandleSubmit}
-                borderRadius={20}
-                mb={10}>
-                Đăng tin
-              </Button>
-            </form>
-            <ToastContainer />
-          </div>
+            <Button onClick={HandleSubmit} mt={10} colorScheme='teal'>
+              Save
+            </Button>
+          </FormControl>
         </Box>
-      </VStack>
+      </Box>
     </>
   )
 }

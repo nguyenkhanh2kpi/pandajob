@@ -1,25 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import {
-  AdLogout,
-  Ecommerce,
-  Orders,
-  Calendar,
-  Interviewer,
-  Stacked,
-  Pyramid,
-  Customers,
-  Kanban,
-  Line,
-  Area,
-  Bar,
-  Pie,
-  Financial,
-  ColorPicker,
-  ColorMapping,
-  Editor,
-  RoomList,
-} from '../pages-admin'
+import { AdLogout, Ecommerce, Orders, Calendar, Interviewer, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor, RoomList } from '../pages-admin'
 import RoomAdd from '../pages-admin/RoomEdit/RoomAdd'
 import RoomAddCandidate from '../pages-admin/RoomEdit/RoomAddCandidate'
 import { K_Event } from '../pages-admin/K_Event/K_Event'
@@ -55,6 +36,9 @@ import TestAddForm from '../pages-admin/Screening/TestAddForm'
 import Process from '../pages-admin/Process/Process'
 import { ProcessItem } from '../pages-admin/Process/ProcessItem'
 import { SceningProcess } from '../pages-admin/Process/SceningProcess'
+import { Vip } from '../pages-admin/Vip/Vip'
+import { VipCart } from '../pages-admin/Vip/VipCart'
+import { MyBills } from '../pages-admin/Vip/MyBills'
 
 const AllRoutesAd = () => {
   return (
@@ -63,7 +47,7 @@ const AllRoutesAd = () => {
       <Route path='/userInfo/' element={<UserInfo />} />
       <Route path='/allJob_Recruiter/jobDetail_Recruiter/:id' element={<JobDetailRecruiter />} />
       <Route path='/allJob_Recruiter/' element={<AllJob />} />
-      <Route path='/job-posting/' element={<JobPosting />} />
+      <Route path='/allJob_Recruiter/job-posting/' element={<JobPosting />} />
       <Route path='/list-job/' element={<ListJob />} />
 
       <Route path='/user-account/' element={<Customers />} />
@@ -129,6 +113,9 @@ const AllRoutesAd = () => {
       <Route path='/process/step/screening-resume/:jobId' element={<SceningProcess />} />
       <Route path='/process/screening/:jobId' element={<Screening />} />
       <Route path='/process/screening-test/:id' element={<TestAddForm />} />
+      <Route path='/vip' element={<Vip />} />
+      <Route path='/vip/my-bills' element={<MyBills />} />
+      <Route path='/vip/cart/:packId' element={<VipCart />} />
     </Routes>
   )
 }

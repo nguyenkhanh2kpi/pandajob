@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Image, Button, HStack, VStack } from '@chakra-ui/react'
+import { Box, Flex, Text, Image, Button, HStack, VStack, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { BsBag } from 'react-icons/bs'
@@ -112,15 +112,19 @@ const RoomList = () => {
   return (
     <>
       <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
+        <HStack justifyContent={'space-between'} w={'100%'}>
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <BreadcrumbLink href='#'>Rooms</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+          <Button color='white' backgroundColor='rgb(3, 201, 215)'>
+            <Link to={`/roomAdd`}> + Thêm phòng họp</Link>
+          </Button>
+        </HStack>
         <VStack spacing={3}>
-          <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
-            <Button mt={10} ml={'5%'} color='white' backgroundColor='rgb(3, 201, 215)'>
-              <Link to={`/roomAdd`}> + Thêm phòng họp</Link>
-            </Button>
-
-            <Box borderRadius={20} boxShadow={'lg'} justifyContent='space-between' ml='5%' width='90%' mr={'10%'}>
-              {roomdatas}
-            </Box>
+          <Box minHeight={1000} overflow='auto' borderRadius={20} backgroundColor={'#e9f3f5'} w={'100%'}>
+            {roomdatas}
           </Box>
         </VStack>
       </Box>

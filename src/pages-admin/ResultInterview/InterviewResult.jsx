@@ -1,5 +1,5 @@
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { Avatar, Box, Button, HStack, Img, Link, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
+import { Avatar, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, HStack, Img, Link, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { companyService } from '../../Service/company.service'
 import { ToastContainer, toast } from 'react-toastify'
@@ -31,18 +31,14 @@ export const InterviewResult = () => {
 
   return (
     <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
-      <ToastContainer
-        position='bottom-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='light'
-      />
+      <HStack justifyContent={'space-between'} w={'100%'}>
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='#'>Kết quả</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+      </HStack>
+      <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
       <VStack spacing={3}>
         <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
           <Text fontWeight={'bold'} fontSize={25}>
@@ -54,11 +50,7 @@ export const InterviewResult = () => {
                 <Box p={2} borderRadius={20} w='100%' _hover={{ borderWidth: '1px', transform: 'scale(1.001)' }}>
                   <HStack justifyContent={'space-between'}>
                     <HStack spacing={5} w={'50%'}>
-                      <Avatar
-                        size='xl'
-                        name={candidate.name ? candidate.name : candidate.email}
-                        src={candidate.avatar}
-                      />
+                      <Avatar size='xl' name={candidate.name ? candidate.name : candidate.email} src={candidate.avatar} />
                       <VStack>
                         <Text w='100%' fontWeight={'black'}>
                           Full Name: {candidate.name}
@@ -82,17 +74,11 @@ export const InterviewResult = () => {
                       </Link>
                     </VStack>
 
-                    <Button
-                      onClick={() => handleClick(true, candidate.detailId)}
-                      color={'white'}
-                      backgroundColor={'#ffffff'}>
+                    <Button onClick={() => handleClick(true, candidate.detailId)} color={'white'} backgroundColor={'#ffffff'}>
                       Hiring
                     </Button>
 
-                    <Button
-                      onClick={() => handleClick(false, candidate.detailId)}
-                      color={'white'}
-                      backgroundColor={'#ffffff'}>
+                    <Button onClick={() => handleClick(false, candidate.detailId)} color={'white'} backgroundColor={'#ffffff'}>
                       Not Hiring
                     </Button>
                   </HStack>

@@ -676,22 +676,22 @@ export const reccerLink = [
     title: 'RECRUITER',
     links: [
       {
-        title: 'My Company',
+        title: 'Công ty của tôi',
         name: 'my-company',
         icon: <BiBuilding />,
       },
       {
-        title: 'Post Job',
+        title: 'Đăng tuyển dụng',
         name: 'allJob_Recruiter',
         icon: <BiBriefcase />,
       },
       {
-        title: 'Recruitment Team',
+        title: 'Đội tuyển dụng',
         name: 'manage-interviewer',
         icon: <AiOutlineTeam />,
       },
       {
-        title: 'Recruitment Process',
+        title: 'Tiến trình tuyển dụng',
         name: 'process',
         icon: <BiGitCommit />,
       },
@@ -702,22 +702,27 @@ export const reccerLink = [
       // },
       {
         name: 'roomList',
-        title: 'Interview Rooms',
+        title: 'Phòng phỏng vấn',
         icon: <BiVideo />,
       },
       {
-        title: 'Event',
+        title: 'SỰ kiện',
         name: 'event',
         icon: <BiNews />,
       },
       {
-        title: 'My Schedule',
+        title: 'Lịch',
         name: 'calendar-admin',
         icon: <BiCalendarCheck />,
       },
       {
-        title: 'Interview Results',
+        title: 'Kết quả phỏng vấn',
         name: 'result',
+        icon: <BsPeople />,
+      },
+      {
+        title: 'Dịch vụ VIP',
+        name: 'vip',
         icon: <BsPeople />,
       },
     ],

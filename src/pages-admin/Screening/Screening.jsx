@@ -26,6 +26,9 @@ import {
   useDisclosure,
   Checkbox,
   ModalFooter,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
 } from '@chakra-ui/react'
 import { loadJob } from '../../redux/Job-posting/Action'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -58,30 +61,29 @@ const Screening = () => {
 
   return (
     <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
-      <VStack spacing={3}>
-        <Box boxShadow={'lg'} minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
-          {job ? (
-            <>
-              <JobItem job={job} />
-              <AddTestForm jobId={job.id} load={load} setLoad={setLoad} />
-              <TestItemByJob jobId={job.id} load={load} setLoad={setLoad} />
-            </>
-          ) : (
-            <></>
-          )}
-        </Box>
-      </VStack>
-      <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
-    </Box>
-  )
-}
+      <HStack justifyContent={'space-between'} w={'100%'}>
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/process'>Recruitment process</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/process/item/${params.jobId}`}> {job ? job.name : ''}</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='#'>Test</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+        {job ? <AddTestForm jobId={job.id} load={load} setLoad={setLoad} /> : <></>}
+      </HStack>
 
-const JobItem = ({ job }) => {
-  return (
-    <Box w={'100%'} m={5}>
-      <Text fontWeight={'bold'} fontSize={20}>
-        All test for job: {job.name}
-      </Text>
+      {job ? (
+        <>
+          <TestItemByJob jobId={job.id} load={load} setLoad={setLoad} />
+        </>
+      ) : (
+        <></>
+      )}
+      <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
     </Box>
   )
 }
@@ -101,7 +103,7 @@ const TestItemByJob = ({ jobId, load, setLoad }) => {
 const TestItem = ({ test, jobId, load, setLoad }) => {
   const navigate = useNavigate()
   return (
-    <Box m={5} boxShadow={'md'} borderRadius={10} p={5} w={'100%'}>
+    <Box backgroundColor={'#ffffff'} m={5} boxShadow={'md'} borderRadius={10} p={5} w={'100%'}>
       <HStack>
         <Image w={100} height={100} src='https://freedomtoteach.collins.co.uk/wp-content/uploads/sites/87/2023/03/shutterstock_397626016-1-scaled.jpg' />
         <VStack>

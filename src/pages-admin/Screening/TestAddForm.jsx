@@ -24,17 +24,12 @@ import {
   ModalFooter,
   Checkbox,
   Textarea,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
 } from '@chakra-ui/react'
 import { useNavigate, useParams } from 'react-router-dom'
-import {
-  AiFillDelete,
-  AiFillPlusCircle,
-  AiOutlineEdit,
-  AiOutlineFileExcel,
-  AiOutlineProfile,
-  AiOutlineUpload,
-  AiTwotonePlusSquare,
-} from 'react-icons/ai'
+import { AiFillDelete, AiFillPlusCircle, AiOutlineEdit, AiOutlineFileExcel, AiOutlineProfile, AiOutlineUpload, AiTwotonePlusSquare } from 'react-icons/ai'
 import { AiOutlineQuestionCircle } from 'react-icons/ai'
 import { Tooltip } from '@chakra-ui/react'
 import { testService } from '../../Service/test.service'
@@ -58,22 +53,29 @@ const TestAddForm = () => {
     <>
       {test ? (
         <>
-          <Box
-            spacing={3}
-            h={1100}
-            fontFamily={'Montserrat'}
-            fontWeight={400}
-            backgroundColor={'#e9f3f5'}
-            p={30}
-            overflow='hidden'>
+          <Box spacing={3} h={1100} fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
+            <HStack justifyContent={'space-between'} w={'100%'}>
+              <Breadcrumb>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href='/process'>Recruitment process</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href={`#`}>Job</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href='#'>Edit test</BreadcrumbLink>
+                </BreadcrumbItem>
+              </Breadcrumb>
+            </HStack>
             <VStack>
-              <Box h={1000} p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
+              <Box h={1000} borderRadius={20} backgroundColor={'#e9f3f5'} w={'100%'} mb={10}>
                 <Text fontSize={20} fontWeight={'bold'} justifyContent={'space-between'} align={'center'} w={'100%'}>
                   {test.summary}
                 </Text>
                 <HStack alignItems={'flex-start'} w={'100%'}>
                   <VStack w={'20%'}>
                     <Box
+                      backgroundColor={'#ffffff'}
                       borderRadius={10}
                       pl={4}
                       alignContent={'center'}
@@ -90,6 +92,7 @@ const TestAddForm = () => {
                       Number of question: {test.questions.length}
                     </Box>
                     <Box
+                      backgroundColor={'#ffffff'}
                       borderRadius={10}
                       pl={4}
                       alignContent={'center'}
@@ -108,39 +111,16 @@ const TestAddForm = () => {
                     <ImportExcel testID={test.id} load={load} setLoad={setLoad} />
                   </VStack>
 
-                  <Box borderRadius={10} borderWidth={1} boxShadow={'lg'} w={'80%'}>
+                  <Box backgroundColor={'#ffffff'} borderRadius={10} borderWidth={1} boxShadow={'lg'} w={'80%'}>
                     <Box h={840} overflowY='auto' mt={30} mb={30} w={'100%'}>
-                      {test.questions.length > 0 ? (
-                        test.questions.map((question) => (
-                          <QuestionItem
-                            setLoad={setLoad}
-                            load={load}
-                            key={question.id}
-                            question={question}
-                            testId={test.id}
-                          />
-                        ))
-                      ) : (
-                        <QuestionItem setLoad={setLoad} load={load} question={null} testId={test.id} />
-                      )}
+                      {test.questions.length > 0 ? test.questions.map((question) => <QuestionItem setLoad={setLoad} load={load} key={question.id} question={question} testId={test.id} />) : <QuestionItem setLoad={setLoad} load={load} question={null} testId={test.id} />}
                     </Box>
                   </Box>
                 </HStack>
               </Box>
             </VStack>
           </Box>
-          <ToastContainer
-            position='bottom-right'
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme='light'
-          />
+          <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
         </>
       ) : (
         <></>

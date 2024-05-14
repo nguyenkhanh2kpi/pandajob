@@ -49,18 +49,19 @@ const JobPage = () => {
     handleSearch()
   }, [])
 
-  const [province, setProvince] = useState([]);
-  useEffect(()=> {
-    locationService.getAllProvince()
-    .then(response => {
-      setProvince(response)
-    })
-    .catch(er => console.log(er))
-  },[])
+  const [province, setProvince] = useState([])
+  useEffect(() => {
+    locationService
+      .getAllProvince()
+      .then((response) => {
+        setProvince(response)
+      })
+      .catch((er) => console.log(er))
+  }, [])
 
   // panigate
   const [currentPage, setCurrentPage] = useState(0)
-  const itemsPerPage = 3
+  const itemsPerPage = 6
   const pageCount = Math.ceil(jobFiltered.length / itemsPerPage)
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected)
@@ -164,7 +165,11 @@ const JobPage = () => {
                     {/* <option value='Hồ Chí Minh'>Hồ Chí Minh</option>
                     <option value='Đà Nẵng'>Đà Nẵng</option>
                     <option value='Hà Nội'>Hà Nội</option> */}
-                    {province.map(p=> <option key={p.id} value={p.name}>{p.name}</option>)}
+                    {province.map((p) => (
+                      <option key={p.id} value={p.name}>
+                        {p.name}
+                      </option>
+                    ))}
                   </Select>
                 </Box>
                 <Box w={'223px'} h={'100%'} pr={'0px'} pt={'4px'} pl={'10px'} pb={'6px'}>

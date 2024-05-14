@@ -1,9 +1,9 @@
 import React from 'react'
-import { Badge, Box, Button, Card, CardBody, Flex, Heading, HStack, IconButton, Image, SlideFade, Stack, Text, Wrap, WrapItem, useDisclosure, Menu, MenuButton, MenuItem, MenuList, Container, Divider } from '@chakra-ui/react'
+import { Badge, Box, Button, Card, CardBody, Flex, Heading, HStack, IconButton, Image, SlideFade, Stack, Text, Wrap, WrapItem, useDisclosure, Menu, MenuButton, MenuItem, MenuList, Container, Divider, Avatar, VStack } from '@chakra-ui/react'
 
 import mainlogo from '../../Components/req/jobpandacom-logo.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { ChatIcon } from '@chakra-ui/icons'
+import { ChatIcon, ChevronDownIcon } from '@chakra-ui/icons'
 import { GoogleLogout } from 'react-google-login'
 import { webHost } from '../../global'
 import { CometChatUIKit } from '@cometchat/chat-uikit-react'
@@ -50,24 +50,6 @@ const Navbar1 = () => {
           </Link>
         </Box>
         <Stack direction={'row'} w={'280px'} h={'100%'} ml={'80px'}>
-          {/*           
-          <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
-            <Menu isOpen={jobs.isOpen}>
-              <Button
-                _hover={{
-                  background: 'none',
-                  border: 'none',
-                  textDecoration: 'none',
-                }}
-                border={'none'}
-                bgColor={'white'}
-                as={Button}
-                color={'#445578'}>
-                <Link to='/jobpage'>Jobs</Link>
-              </Button>
-            </Menu>
-          </Box> */}
-
           <ChatContainer />
 
           <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
@@ -92,8 +74,6 @@ const Navbar1 = () => {
               <MenuButton
                 onClick={() => navigate('/companies')}
                 as={Button}
-                // onMouseEnter={companies.onOpen}
-                // onMouseLeave={companies.onClose}
                 _hover={{
                   background: 'white',
                   border: 'none',
@@ -103,16 +83,6 @@ const Navbar1 = () => {
                 color={'#445578'}>
                 Companies
               </MenuButton>
-              {/* <MenuList onMouseEnter={companies.onOpen} onMouseLeave={companies.onClose}>
-                <MenuItem
-                  _hover={{
-                    color: '#457eff',
-                  }}
-                  fontWeight={'500'}
-                  color={'#445578'}>
-                  Unicorn
-                </MenuItem>
-              </MenuList> */}
             </Menu>
           </Box>
 
@@ -170,101 +140,30 @@ const Navbar1 = () => {
               </MenuList>
             </Menu>
           </Box>
-
-          {/*  */}
-
-          {/* <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
-            <Menu isOpen={services.isOpen}>
-              <Button
-                _hover={{
-                  background: 'white',
-                  border: 'none',
-                }}
-                border={'none'}
-                bgColor={'white'}
-                as={Button}
-                color={'#445578'}>
-                <Link to='/services'> Services </Link>
-              </Button>
-              <MenuList onMouseEnter={services.onOpen} onMouseLeave={services.onClose}>
-                <MenuItem fontWeight={'600'} fontSize={'17px'} color={'#1b2437'} cursor={'default'}>
-                  Resume Writing
-                </MenuItem>
-                <MenuItem
-                  _hover={{
-                    color: '#457eff',
-                  }}
-                  fontWeight={'500'}
-                  color={'#445578'}>
-                  Visual Resume
-                </MenuItem>
-                <MenuItem
-                  _hover={{
-                    color: '#457eff',
-                  }}
-                  fontWeight={'500'}
-                  color={'#445578'}>
-                  Resume critique
-                </MenuItem>
-                <MenuItem
-                  _hover={{
-                    color: '#457eff',
-                  }}
-                  fontWeight={'500'}
-                  color={'#445578'}>
-                  Text Resume
-                </MenuItem>
-                <br />
-                <MenuItem fontWeight={'600'} fontSize={'17px'} color={'#1b2437'} cursor={'default'}>
-                  Find Jobs
-                </MenuItem>
-                <MenuItem
-                  _hover={{
-                    color: '#457eff',
-                  }}
-                  fontWeight={'500'}
-                  color={'#445578'}>
-                  Jobs4u
-                </MenuItem>
-                <MenuItem
-                  _hover={{
-                    color: '#457eff',
-                  }}
-                  fontWeight={'500'}
-                  color={'#445578'}>
-                  Priority applicant
-                </MenuItem>
-                <MenuItem
-                  _hover={{
-                    color: '#457eff',
-                  }}
-                  fontWeight={'500'}
-                  color={'#445578'}>
-                  Contact us
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          </Box> */}
         </Stack>
 
         <Stack display={'flex'} ml={'340px'} direction={'row'} h={'100%'} w={'350px'} alignItems={'center'} justifyContent={'space-between'}>
           {data !== null ? (
             <div style={{ width: '100%', display: 'flex' }}>
-              <Button border={'1px'} borderColor={'#457eff'} borderRadius={'50px'} color={'#457eff'} bg={'white'} h={'40px'} w={'auto'} fontWeight={'600'}>
-                <Link to='/userInfo'>{data.data.username}</Link>
-              </Button>
-              <IconButton onClick={() => navigate('/messages')} border={'1px'} borderColor={'#457eff'} borderRadius={'50px'} aria-label='Call Segun' h={'40px'} w={'auto'} size='lg' ml={2} icon={<ChatIcon color={'#457eff'} />} />
-              {/* 
-              <MessageList/> */}
-              <Button ml={2} border={'none'} borderRadius={'50px'} color={'white'} borderColor={'#ff7555'} bgColor={'#ff7555'} onClick={handleLogout} w={'100px'}>
-                {/* <Link to='/logout'>Log Out</Link> */}
-                Log Out
-              </Button>
-              {/* <GoogleLogout
-                clientId={client_id}
-                buttonText='Dang xuat'
-                onLogoutSuccess={() => console.log('logout')}
-              /> */}
+              <Menu>
+                <MenuButton bgColor={'white'} ml={5} as={Button} rightIcon={<ChevronDownIcon />}>
+                  <WrapItem>
+                    <HStack spacing='2'>
+                      <Avatar name={data.data.username} src={data.data.userInfo.avatar} size='sm' />
+                      <Text mt={3}>{data.data.username}</Text>
+                    </HStack>
+                  </WrapItem>
+                </MenuButton>
+                <MenuList>
+                  <MenuItem onClick={() => navigate('/userInfo')}>User info</MenuItem>
+                  <MenuItem onClick={() => navigate('/userInfo1')}>User info1</MenuItem>
+                  <MenuItem onClick={() => navigate('/messages')}>Messages</MenuItem>
+                  <MenuItem onClick={() => navigate('/resume')}>Resume</MenuItem>
+                  <MenuItem>
+                    <Link to='/logout'>Log Out</Link>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </div>
           ) : (
             <div style={{ width: '100%' }}>

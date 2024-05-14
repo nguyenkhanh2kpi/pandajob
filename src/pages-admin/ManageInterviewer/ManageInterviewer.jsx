@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, HStack, Img, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
+import { Avatar, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, HStack, Img, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { AddInterviewer } from './AddInterviewer'
 import { interviewerService } from '../../Service/interviewer.service'
@@ -79,17 +79,20 @@ export const ManageInterviewer = () => {
   } else
     return (
       <Box h={1000} fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
+        <HStack justifyContent={'space-between'} w={'100%'}>
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <BreadcrumbLink href='#'>My HR team</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+          <AddInterviewer />
+        </HStack>
+
         <VStack>
-          <Box h={900} w='100%' backgroundColor='#ffffff' p='2%' borderRadius={20}>
-            <Box w={'100%'}>
-              <AddInterviewer />
-            </Box>
-            <Text pt='20px' fontWeight='black' w='100%'>
-              Danh sách đội tuyển dụng
-            </Text>
-            <VStack w='100%'>
+          <Box h={900} w='100%' backgroundColor={'#e9f3f5'} p='2%' borderRadius={20}>
+            <VStack mt={3} w='100%'>
               {hrs.map((hr) => (
-                <Box p={10} boxShadow={'lg'} borderRadius={20} w='100%' transition='transform 0.3s ease-in-out' _hover={{ borderWidth: '2px', transform: 'scale(1.006)' }}>
+                <Box p={10} backgroundColor={'#ffffff'} boxShadow={'lg'} borderRadius={20} w='100%' transition='transform 0.3s ease-in-out' _hover={{ borderWidth: '2px', transform: 'scale(1.006)' }}>
                   <HStack justifyContent={'space-between'}>
                     <HStack spacing={5}>
                       <Avatar size='xl' name={hr.fullName ? hr.fullName : hr.email} src={hr.avatar} />

@@ -12,16 +12,12 @@ import { IoEyeOutline } from 'react-icons/io5'
 import { IoEyeOffOutline } from 'react-icons/io5'
 const UserInfo = () => {
   const navigate = useNavigate()
-
-  
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(loadUserInfo())
   }, [])
   const user = useSelector((store) => store.userInfo.data)
-
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
-
   const [passShow, setPassShow] = useState(false)
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword1, setNewPassword1] = useState('')
@@ -107,6 +103,11 @@ const UserInfo = () => {
       navigate('/logOut')
     }, 2000)
   }
+
+
+
+
+
   const SubmitHandler = async (e) => {
     try {
       if (testCV != null && !window.testCV) {
@@ -299,13 +300,6 @@ const UserInfo = () => {
                   <option value='other'>NON_BINARY</option>
                 </select>
 
-                {/* <input
-                  type='text'
-                  value={gender != null ? gender : user.gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  name='sex'
-                  id='sex'
-                /> */}
               </div>
 
               <div className='form_input'>

@@ -1,4 +1,4 @@
-import { Box, Button, Image, Skeleton, Spinner, Text, VStack } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Image, Link, Skeleton, Spinner, Text, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { companyService } from '../../Service/company.service'
 import { UpdateCompany } from './UpdateCompany'
@@ -32,6 +32,11 @@ export const MyCompany = () => {
     return (
       <>
         <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <BreadcrumbLink href='#'>My company</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
           <VStack spacing={3}>
             <Box p={'8%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
               <Image maxW={'90%'} h={300} borderRadius={20} src={company.avatar} alt='Company' />

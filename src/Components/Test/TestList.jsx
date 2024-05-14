@@ -29,8 +29,15 @@ import { testService } from '../../Service/test.service'
 
 export const TestList = () => {
   const [tests, setTest] = useState([])
-  const accessToken = JSON.parse(localStorage.getItem('data')).access_token
   const navigate = useNavigate();
+  // const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  let accessToken = ''
+  try {
+    accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  } catch(error) {
+    navigate("/login")
+  }
+
   useEffect(() => {
     testService
       .getMyTest(accessToken)

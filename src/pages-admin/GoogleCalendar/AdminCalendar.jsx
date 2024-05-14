@@ -6,8 +6,7 @@ import { useEffect } from 'react'
 import { calendarService } from '../../Service/calendar.service'
 import { calendarConver } from './CalendarConvert'
 import './calendar.css'
-import { Box, CircularProgress, Skeleton, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
-
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, CircularProgress, Skeleton, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
 
 const PropertyPane = (props) => <div className='mt-5'>{props.children}</div>
 
@@ -133,22 +132,25 @@ export const AdminCalendar = () => {
     return (
       <>
         <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <BreadcrumbLink href='#'>Calendar</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
           <VStack spacing={3}>
-            <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
-              <Header title='Calendar' />
-              <ScheduleComponent actionBegin={onActionBegin} height='650px' ref={(schedule) => setScheduleObj(schedule)} eventSettings={{ dataSource: displayCalendar }} selectedDate={new Date()} dragStart={onDragStart}>
-                <ResourcesDirective>
-                  <ResourceDirective field='ResourceId' title='Resource' name='Resources' allowMultiple={true} dataSource={calendarConver.generateResourceData()} textField='Text' idField='Id' colorField='Color'></ResourceDirective>
-                </ResourcesDirective>
-                <ViewsDirective>
-                  {['Month', 'Agenda'].map((item) => (
-                    <ViewDirective key={item} option={item} />
-                  ))}
-                </ViewsDirective>
-                <Inject services={[Month, Agenda, Resize, DragAndDrop]} />
-              </ScheduleComponent>
-            </Box>
-
+            {/* <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}> */}
+            <ScheduleComponent actionBegin={onActionBegin} height='650px' ref={(schedule) => setScheduleObj(schedule)} eventSettings={{ dataSource: displayCalendar }} selectedDate={new Date()} dragStart={onDragStart}>
+              <ResourcesDirective>
+                <ResourceDirective field='ResourceId' title='Resource' name='Resources' allowMultiple={true} dataSource={calendarConver.generateResourceData()} textField='Text' idField='Id' colorField='Color'></ResourceDirective>
+              </ResourcesDirective>
+              <ViewsDirective>
+                {['Month', 'Agenda'].map((item) => (
+                  <ViewDirective key={item} option={item} />
+                ))}
+              </ViewsDirective>
+              <Inject services={[Month, Agenda, Resize, DragAndDrop]} />
+            </ScheduleComponent>
+            {/* </Box> */}
           </VStack>
         </Box>
       </>

@@ -89,6 +89,7 @@ export const ImportExcel = ({ testID, setLoad, load }) => {
   return (
     <>
       <Box
+        backgroundColor={'#ffffff'}
         onClick={onOpen}
         borderRadius={10}
         pl={4}

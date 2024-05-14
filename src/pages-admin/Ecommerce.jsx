@@ -81,18 +81,18 @@ const Ecommerce = () => {
 
   return (
     <>
-      <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
+      <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
         <VStack spacing={3}>
-          <Box boxShadow={'lg'} minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
+          <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#e9f3f5'} w={'100%'} mb={10}>
             <HStack justifyContent={'space-between'} spacing={30} w={'100%'}>
-              <Box w={350} height={250} borderRadius={20} p={10} boxShadow={'lg'}>
+              <Box backgroundColor={'white'} w={350} height={250} borderRadius={20} p={10} boxShadow={'lg'}>
                 <Text>{roomList.length} Phòng</Text>
                 <Text>Số lượng phòng</Text>
                 <Button height='50px' color='white' bgColor={currentColor} text='Xem chi tiết' borderRadius='10px'>
                   <Link to='/roomList'>Xem chi tiết</Link>
                 </Button>
               </Box>
-              <Box w={350} height={250} borderRadius={20} p={10} boxShadow={'lg'}>
+              <Box backgroundColor={'white'} w={350} height={250} borderRadius={20} p={10} boxShadow={'lg'}>
                 <button type='button' style={{ color: '#03C9D7', backgroundColor: '#E5FAFB' }} className='text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl'>
                   <MdOutlineSupervisorAccount />
                 </button>
@@ -101,7 +101,7 @@ const Ecommerce = () => {
                 </p>
                 <p className='text-sm text-gray-400  mt-1'>Người phỏng vấn</p>
               </Box>
-              <Box w={350} height={250} borderRadius={20} p={10} boxShadow={'lg'}>
+              <Box backgroundColor={'white'} w={350} height={250} borderRadius={20} p={10} boxShadow={'lg'}>
                 <button type='button' style={{ color: 'rgb(255, 244, 229)', backgroundColor: 'rgb(254, 201, 15)' }} className='text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl'>
                   <MdOutlineSupervisorAccount />
                 </button>
@@ -111,7 +111,7 @@ const Ecommerce = () => {
                 <p className='text-sm text-gray-400  mt-1'>Ứng viên</p>
               </Box>
             </HStack>
-            <Box borderRadius={20} p={30} mt={50} w={'100%'} boxShadow={'lg'}>
+            <Box backgroundColor={'white'} borderRadius={20} p={30} mt={50} w={'100%'} boxShadow={'lg'}>
               <HStack justifyContent={'space-between'} spacing={10}>
                 <Box w={'50%'}>
                   <Text>Ứng tuyển việc làm</Text>
@@ -124,7 +124,6 @@ const Ecommerce = () => {
                     <Text>Bài đăng</Text>
                   </Box>
                   <SparkLine currentColor={currentColor} id='line-sparkLine' type='Line' height='80px' width='250px' data={datda} color={currentColor} />
-
                 </Box>
                 <Box w={'50%'}>
                   <Text>Ứng viên</Text>

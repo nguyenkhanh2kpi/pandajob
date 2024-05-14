@@ -7,19 +7,7 @@ import './style3.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { loadJob } from '../../redux/Job-posting/Action'
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  HStack,
-  Heading,
-  Image,
-  Input,
-  Select,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, FormControl, FormLabel, HStack, Heading, Image, Input, Select, Text, VStack } from '@chakra-ui/react'
 import { hostName } from '../../global'
 
 const RoomAdd = () => {
@@ -114,6 +102,14 @@ const RoomAdd = () => {
 
   return (
     <Box minHeight={2000} overflow='auto' fontFamily='Montserrat' fontWeight={400} backgroundColor='#e9f3f5' p={30}>
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <BreadcrumbLink href='/roomList'>Rooms</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbLink href='#'>Add Room</BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
       <VStack spacing={3}>
         <Box minHeight={1000} overflow='auto' p='3%' borderRadius={20} backgroundColor='#FFFFFF' w='100%' mb={10}>
           <HStack>
@@ -148,89 +144,41 @@ const RoomAdd = () => {
 
               <FormControl>
                 <FormLabel htmlFor='position'>Meeting Room Name</FormLabel>
-                <Input
-                  w={450}
-                  type='text'
-                  onChange={(e) => setRoomName(e.target.value)}
-                  name='position'
-                  id='position'
-                />
+                <Input w={450} type='text' onChange={(e) => setRoomName(e.target.value)} name='position' id='position' />
               </FormControl>
 
               <FormControl>
                 <FormLabel htmlFor='position'>Skill</FormLabel>
-                <Input
-                  w={450}
-                  type='text'
-                  onChange={(e) => setRoomSkill(e.target.value)}
-                  name='position'
-                  id='position'
-                />
+                <Input w={450} type='text' onChange={(e) => setRoomSkill(e.target.value)} name='position' id='position' />
               </FormControl>
 
               <FormControl>
                 <FormLabel htmlFor='position'>Room Description</FormLabel>
-                <Input
-                  w={450}
-                  type='text'
-                  onChange={(e) => setRoomDescription(e.target.value)}
-                  name='position'
-                  id='position'
-                />
+                <Input w={450} type='text' onChange={(e) => setRoomDescription(e.target.value)} name='position' id='position' />
               </FormControl>
 
               <FormControl>
                 <FormLabel htmlFor='position'>Date</FormLabel>
                 <HStack w={'100%'}>
-                  <Input
-                    onChange={(e) => setStartDate(e.target.value)}
-                    name='startDate'
-                    backgroundColor='#FFFFFF'
-                    placeholder='Room description'
-                    type='datetime-local'
-                    w={209}
-                  />
+                  <Input onChange={(e) => setStartDate(e.target.value)} name='startDate' backgroundColor='#FFFFFF' placeholder='Room description' type='datetime-local' w={209} />
                   <Text> {'  '}to </Text>
-                  <Input
-                    onChange={(e) => setEndDate(e.target.value)}
-                    name='endDate'
-                    backgroundColor='#FFFFFF'
-                    placeholder='Room description'
-                    type='datetime-local'
-                    w={209}
-                  />
+                  <Input onChange={(e) => setEndDate(e.target.value)} name='endDate' backgroundColor='#FFFFFF' placeholder='Room description' type='datetime-local' w={209} />
                 </HStack>
               </FormControl>
 
               <FormControl>
                 <FormLabel htmlFor='position'>Meet Link</FormLabel>
-                <Input
-                  w={450}
-                  type='text'
-                  onChange={(e) => setLinkmeet(e.target.value)}
-                  name='position'
-                  id='position'
-                />
+                <Input w={450} type='text' onChange={(e) => setLinkmeet(e.target.value)} name='position' id='position' />
               </FormControl>
 
-              <Button
-                mt={30}
-                color='white'
-                mb={10}
-                backgroundColor='rgb(3, 201, 215)'
-                type='submit'
-                onClick={handleSubmit}>
+              <Button mt={30} color='white' mb={10} backgroundColor='rgb(3, 201, 215)' type='submit' onClick={handleSubmit}>
                 Add Room
               </Button>
 
               <ToastContainer />
             </Box>
             <Box w={'50%'}>
-              <Image
-                borderRadius={20}
-                h={'100%'}
-                src='https://assets-global.website-files.com/6242f480c281185091f94d52/6262c3161abdd90a938e8a77_625837e19d80bd0780a0a18c_interveiw.jpeg'
-              />
+              <Image borderRadius={20} h={'100%'} src='https://assets-global.website-files.com/6242f480c281185091f94d52/6262c3161abdd90a938e8a77_625837e19d80bd0780a0a18c_interveiw.jpeg' />
             </Box>
           </HStack>
         </Box>

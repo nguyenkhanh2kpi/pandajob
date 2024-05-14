@@ -1,4 +1,4 @@
-import { Box, Button, ChakraProvider, HStack, IconButton, Text, VStack, useDisclosure } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, ChakraProvider, HStack, IconButton, Text, VStack, useDisclosure } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -29,9 +29,16 @@ export const ProcessItem = () => {
 
   return (
     <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <BreadcrumbLink href='/process'>Recruitment process</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbLink href='#'>{job.name}</BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
       <VStack spacing={3}>
         <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
-          <Text fontSize={30}>{job.name}</Text>
           <StepProcess job={job} />
         </Box>
       </VStack>

@@ -12,6 +12,20 @@ import { Link, useNavigate } from 'react-router-dom'
 import { StarIcon } from '@chakra-ui/icons'
 import { BsCalendar2DayFill, BsCurrencyDollar } from 'react-icons/bs'
 import { BiDollar, BiLocationPlus } from 'react-icons/bi'
+const randomJobs = (jobList) => {
+  if (!jobList || jobList.length < 5) {
+    return [];
+  }
+  const randomIndices = new Uint32Array(5);
+  window.crypto.getRandomValues(randomIndices);
+  const sortedJobs = jobList.slice().sort((a, b) => {
+    const indexA = randomIndices[a.id % 5];
+    const indexB = randomIndices[b.id % 5];
+    return indexA - indexB;
+  });
+  return sortedJobs.slice(0, 5);
+};
+
 
 const JobInterest = () => {
   const dispatch = useDispatch()
@@ -20,17 +34,18 @@ const JobInterest = () => {
   }, [])
   const navigate = useNavigate()
 
-  const jobList = useSelector((store) => store.job.data)
-  if (jobList !== null)
+  const jobList = useSelector((store) => store.job.data);
+  const randomJobList = randomJobs(jobList) ?? [];
+  if (randomJobList !== null)
     return (
       <>
         <Heading fontFamily={'Montserrat'} mt={5} textAlign={'center'} fontWeight={'700'} fontSize={'27px'} lineHeight={'40px'} mb={'6px'}>
-          Việc làm mới nhất
+          new job post
         </Heading>
         <Box className='container py-4 px-4 justify-conten-center '>
           <Swiper display='flex' slidesPerView={4} navigation={true} modules={[Navigation]} className='mySwiper'>
-            {jobList !== null ? (
-              jobList
+            {randomJobList !== null ? (
+              randomJobList
                 .map((i) => {
                   return i.status === true ? (
                     <SwiperSlide>

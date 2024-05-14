@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Image, Button, VStack } from '@chakra-ui/react'
+import { Box, Flex, Text, Image, Button, VStack, Grid, GridItem, List, Breadcrumb, BreadcrumbItem, BreadcrumbLink, HStack } from '@chakra-ui/react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { BsBag } from 'react-icons/bs'
@@ -17,9 +17,6 @@ const AllJob = () => {
   const submitHandler = async (e) => {
     e.preventDefault()
     const id = e.currentTarget.getAttribute('data-value')
-
-    console.log('bam dung r', accessToken)
-
     try {
       let data = ''
       let config = {
@@ -58,27 +55,24 @@ const AllJob = () => {
   const jobData = useSelector((store) => store.job.data)
   const jobdatas = jobData.map((job) => {
     return job.status === true && job.user_id === userId ? (
-      <Box borderRadius={20} key={job.id} mt='50px' h={300} boxShadow={'lg'} mb='30px' p='20px'>
+      <Box backgroundColor={'#ffffff'} w='90%' borderRadius={20} key={job.id} mt={5} boxShadow={'lg'} p='20px'>
         <Link to={`/allJob_Recruiter/jobDetail_Recruiter/${job.id}`}>
           <Text fontSize='20px'>{job.name}</Text>
-          <Image maxH={120} src={`${job.image}`} />
           <Flex mt={10}>
-            <Box display='flex' mr='20px'>
+            <Box m={2} display='flex'>
               <Button>Kinh nghiệm: {job.experience}</Button>
             </Box>
-            <Box mr='20px' color='blue.400'>
+            <Box m={2} olor='blue.400'>
               {job.status ? <Button>Active</Button> : <Button>Delete</Button>}
             </Box>
-            <Box mr='20px' color='blue.400'>
+            <Box m={2} color='blue.400'>
               <Button>Số lượng tuyển: {job.number}</Button>
             </Box>
-
-            <Button data-value={job.id} onClick={submitHandler}>
+            <Button m={2} data-value={job.id} onClick={submitHandler}>
               delete
             </Button>
           </Flex>
         </Link>
-
         <ToastContainer />
       </Box>
     ) : (
@@ -89,20 +83,20 @@ const AllJob = () => {
   return (
     <>
       <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
-        <VStack spacing={3}>
-          <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
-            <Box fontFamily={'Montserrat'} fontWeight={400} ml='10' mt='20px' width='60%' fontSize='20px' mb='-35px'>
-              <Button borderRadius={10} mt={10} color='white' backgroundColor='rgb(3, 201, 215)'>
-                <Link to={`/job-posting`}> + Đăng tuyển dụng</Link>
-              </Button>
-            </Box>
-            <Box fontFamily={'Montserrat'} fontWeight={400} display='flex' justifyContent='space-between'>
-              <Box ml='10' width='60%'>
-                {jobdatas}
-              </Box>
-            </Box>
-          </Box>
-        </VStack>
+        <HStack justifyContent={'space-between'} w={'100%'}>
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <BreadcrumbLink href='/allJob_Recruiter'>My Job</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+          <Button ml={30} borderRadius={10} color='white' backgroundColor='rgb(3, 201, 215)'>
+            <Link to={`/allJob_Recruiter/job-posting`}> + Đăng tuyển dụng</Link>
+          </Button>
+        </HStack>
+
+        <Box fontFamily={'Montserrat'} display='flex' justifyContent='space-between'>
+          <List w={'100%'}>{jobdatas}</List>
+        </Box>
       </Box>
     </>
   )
