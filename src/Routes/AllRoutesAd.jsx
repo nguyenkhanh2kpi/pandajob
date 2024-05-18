@@ -39,12 +39,14 @@ import { SceningProcess } from '../pages-admin/Process/SceningProcess'
 import { Vip } from '../pages-admin/Vip/Vip'
 import { VipCart } from '../pages-admin/Vip/VipCart'
 import { MyBills } from '../pages-admin/Vip/MyBills'
+import { UserInfo1 } from '../Components/UserInfo/UserInfo1'
 
 const AllRoutesAd = () => {
   return (
     <Routes>
       {/* dashboard  */}
       <Route path='/userInfo/' element={<UserInfo />} />
+      <Route path='/userInfo1/' element={<UserInfo1 />} />
       <Route path='/allJob_Recruiter/jobDetail_Recruiter/:id' element={<JobDetailRecruiter />} />
       <Route path='/allJob_Recruiter/' element={<AllJob />} />
       <Route path='/allJob_Recruiter/job-posting/' element={<JobPosting />} />

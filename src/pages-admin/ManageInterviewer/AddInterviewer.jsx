@@ -1,20 +1,4 @@
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
-  useDisclosure,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  FormErrorMessage,
-  FormHelperText,
-  Spinner,
-} from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton, useDisclosure, Button, FormControl, FormLabel, Input, FormErrorMessage, FormHelperText, Spinner } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { interviewerService } from '../../Service/interviewer.service'
 import { ToastContainer, toast } from 'react-toastify'
@@ -68,23 +52,12 @@ export const AddInterviewer = () => {
 
   return (
     <>
-      <ToastContainer
-        position='bottom-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='light'
-      />
+      <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
       <Button color='white' backgroundColor='rgb(3, 201, 215)' onClick={onOpen}>
         + Thêm thành viên
       </Button>
 
-      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+      <AlertDialog size={'2xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent fontFamily={'Montserrat'} fontWeight={400}>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
@@ -94,19 +67,9 @@ export const AddInterviewer = () => {
             <AlertDialogBody>
               <FormControl isRequired>
                 <FormLabel>Email</FormLabel>
-                <Input
-                  name='email'
-                  placeholder='email'
-                  value={input.email}
-                  onChange={handleInputChange}
-                />
+                <Input name='email' placeholder='email' value={input.email} onChange={handleInputChange} />
                 <FormLabel>Password</FormLabel>
-                <Input
-                  name='password'
-                  placeholder='password'
-                  value={input.password}
-                  onChange={handleInputChange}
-                />
+                <Input name='password' placeholder='password' value={input.password} onChange={handleInputChange} />
               </FormControl>
             </AlertDialogBody>
 
@@ -119,11 +82,7 @@ export const AddInterviewer = () => {
                 <Spinner m={4} />
               ) : (
                 <>
-                  <Button
-                    color='white'
-                    backgroundColor='rgb(3, 201, 215)'
-                    ml={3}
-                    onClick={handleAddClick}>
+                  <Button color='white' backgroundColor='rgb(3, 201, 215)' ml={3} onClick={handleAddClick}>
                     Add
                   </Button>
                 </>

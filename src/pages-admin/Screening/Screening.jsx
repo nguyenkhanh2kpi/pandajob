@@ -64,13 +64,13 @@ const Screening = () => {
       <HStack justifyContent={'space-between'} w={'100%'}>
         <Breadcrumb>
           <BreadcrumbItem>
-            <BreadcrumbLink href='/process'>Recruitment process</BreadcrumbLink>
+            <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
             <BreadcrumbLink href={`/process/item/${params.jobId}`}> {job ? job.name : ''}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <BreadcrumbLink href='#'>Test</BreadcrumbLink>
+            <BreadcrumbLink href='#'>Kiểm tra</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
         {job ? <AddTestForm jobId={job.id} load={load} setLoad={setLoad} /> : <></>}

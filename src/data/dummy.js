@@ -691,7 +691,7 @@ export const reccerLink = [
         icon: <AiOutlineTeam />,
       },
       {
-        title: 'Tiến trình tuyển dụng',
+        title: 'Tiến trình',
         name: 'process',
         icon: <BiGitCommit />,
       },
@@ -706,7 +706,7 @@ export const reccerLink = [
         icon: <BiVideo />,
       },
       {
-        title: 'SỰ kiện',
+        title: 'Sự kiện',
         name: 'event',
         icon: <BiNews />,
       },

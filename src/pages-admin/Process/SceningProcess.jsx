@@ -54,15 +54,14 @@ export const SceningProcess = () => {
 
   /// get score
   const getScore = (userId, testId) => {
-    console.log(userId)
     let score = null
-    record.map((r) => {
+    record ? record.map((r) => {
       if (r.userAccountEntity.id === userId && r.testEntity.id === testId) {
         score = r.score
       }
-    })
+    }) : (<></>)
     return score
-  }
+  } 
   /// get score/question
   const scorePerQuestion = (score, test) => {
     return score.toString() + '/' + test.questions.length
@@ -72,13 +71,13 @@ export const SceningProcess = () => {
     <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
       <Breadcrumb>
         <BreadcrumbItem>
-          <BreadcrumbLink href='/process'>Recruitment process</BreadcrumbLink>
+          <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
           <BreadcrumbLink href={`/process/item/${job.id}`}>{job.name}</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <BreadcrumbLink href='#'>Result</BreadcrumbLink>
+          <BreadcrumbLink href='#'>Kết quả</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <VStack spacing={3} w={'100%'}>

@@ -60,13 +60,13 @@ export const AssignInterviewer = ({ roomId }) => {
   return (
     <>
       <Button fontFamily={'Montserrat'} fontWeight={400} colorScheme='blue' onClick={onOpen}>
-        Assign Interviewer
+      Đăng kí người phỏng vấn
       </Button>
       <AlertDialog size={'2xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent fontFamily={'Montserrat'} fontWeight={400}>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Assign Interviewer
+              Đăng kí người phỏng vấn
             </AlertDialogHeader>
             <AlertDialogBody maxW={600} overflow={'auto'}>
               {interviewer.map((interviewer) => (

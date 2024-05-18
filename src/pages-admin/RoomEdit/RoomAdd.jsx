@@ -104,22 +104,18 @@ const RoomAdd = () => {
     <Box minHeight={2000} overflow='auto' fontFamily='Montserrat' fontWeight={400} backgroundColor='#e9f3f5' p={30}>
       <Breadcrumb>
         <BreadcrumbItem>
-          <BreadcrumbLink href='/roomList'>Rooms</BreadcrumbLink>
+          <BreadcrumbLink href='/roomList'>Phòng họp</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <BreadcrumbLink href='#'>Add Room</BreadcrumbLink>
+          <BreadcrumbLink href='#'>Thêm phòng họp</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <VStack spacing={3}>
         <Box minHeight={1000} overflow='auto' p='3%' borderRadius={20} backgroundColor='#FFFFFF' w='100%' mb={10}>
           <HStack>
             <Box p={10} w={'50%'}>
-              <Heading color='#000000' fontSize='20'>
-                Meeting Room
-              </Heading>
-
               <FormControl>
-                <FormLabel htmlFor='name'>Job Name</FormLabel>
+                <FormLabel htmlFor='name'>Công việc</FormLabel>
                 <Select
                   w={450}
                   borderColor='#8292b4'
@@ -143,22 +139,22 @@ const RoomAdd = () => {
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor='position'>Meeting Room Name</FormLabel>
+                <FormLabel htmlFor='position'>Meeting name</FormLabel>
                 <Input w={450} type='text' onChange={(e) => setRoomName(e.target.value)} name='position' id='position' />
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor='position'>Skill</FormLabel>
+                <FormLabel htmlFor='position'>Kĩ năng</FormLabel>
                 <Input w={450} type='text' onChange={(e) => setRoomSkill(e.target.value)} name='position' id='position' />
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor='position'>Room Description</FormLabel>
+                <FormLabel htmlFor='position'>Mô tả</FormLabel>
                 <Input w={450} type='text' onChange={(e) => setRoomDescription(e.target.value)} name='position' id='position' />
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor='position'>Date</FormLabel>
+                <FormLabel htmlFor='position'>Thời gian</FormLabel>
                 <HStack w={'100%'}>
                   <Input onChange={(e) => setStartDate(e.target.value)} name='startDate' backgroundColor='#FFFFFF' placeholder='Room description' type='datetime-local' w={209} />
                   <Text> {'  '}to </Text>
@@ -172,7 +168,7 @@ const RoomAdd = () => {
               </FormControl>
 
               <Button mt={30} color='white' mb={10} backgroundColor='rgb(3, 201, 215)' type='submit' onClick={handleSubmit}>
-                Add Room
+                Thêm
               </Button>
 
               <ToastContainer />

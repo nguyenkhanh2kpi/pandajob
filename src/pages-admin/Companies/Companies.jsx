@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Badge,
-  Box,
-  Button,
-  Grid,
-  GridItem,
-  Image,
-  SkeletonCircle,
-  SkeletonText,
-} from '@chakra-ui/react'
+import { Badge, Box, Button, Grid, GridItem, Image, SkeletonCircle, SkeletonText } from '@chakra-ui/react'
 import { companyService } from '../../Service/company.service'
 import { AddCompany } from './AddCompany'
 
@@ -36,24 +27,14 @@ export const Companies = () => {
       <>
         <AddCompany />
 
-        <Grid
-          fontFamily={'Montserrat'}
-          fontWeight={400}
-          m={20}
-          templateColumns='repeat(3, 1fr)'
-          gap={6}>
+        <Grid fontFamily={'Montserrat'} fontWeight={400} m={20} templateColumns='repeat(3, 1fr)' gap={6}>
           {companies.map((property) => (
             <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
               <Image w={500} h={200} src={property.avatar} alt={property.avatar} />
 
               <Box p='6'>
                 <Box display='flex' alignItems='baseline'>
-                  <Box
-                    color='gray.500'
-                    fontWeight='semibold'
-                    letterSpacing='wide'
-                    fontSize='xs'
-                    textTransform='uppercase'>
+                  <Box color='gray.500' fontWeight='semibold' letterSpacing='wide' fontSize='xs' textTransform='uppercase'>
                     {property.website}
                   </Box>
                 </Box>

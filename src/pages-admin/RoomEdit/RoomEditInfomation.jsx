@@ -103,10 +103,10 @@ export const RoomEditInfomation = () => {
         <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
           <Breadcrumb>
             <BreadcrumbItem>
-              <BreadcrumbLink href='/roomList'>Rooms</BreadcrumbLink>
+              <BreadcrumbLink href='/roomList'>Phòng họp</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-              <BreadcrumbLink href='#'>Edit Room</BreadcrumbLink>
+              <BreadcrumbLink href='#'>Edit</BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
           <VStack spacing={10}>
@@ -163,15 +163,15 @@ export const RoomEditInfomation = () => {
               <hr />
               <VStack m={10} justifyContent={'flex-start'} spacing={10}>
                 <HStack w={'100%'}>
-                  <FormLabel w={'30%'}>Room name</FormLabel>
+                  <FormLabel w={'30%'}>Tên</FormLabel>
                   <Input onChange={handleOnChangeForm} name='roomName' backgroundColor={'#FFFFFF'} w={'60%'} placeholder='Room name' value={room.roomName} />
                 </HStack>
                 <HStack w={'100%'}>
-                  <FormLabel w={'30%'}>Skill</FormLabel>
+                  <FormLabel w={'30%'}>Kĩ năng</FormLabel>
                   <Input name='roomSkill' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'60%'} placeholder='Room skill' value={room.roomSkill} />
                 </HStack>
                 <HStack w={'100%'}>
-                  <FormLabel w={'30%'}>status</FormLabel>
+                  <FormLabel w={'30%'}>Trạng thái</FormLabel>
                   <Select name='status' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'60%'} size='md' value={room.status}>
                     <option value='Created'>Created</option>
                     <option value='Processing'>Processing</option>
@@ -179,11 +179,11 @@ export const RoomEditInfomation = () => {
                   </Select>
                 </HStack>
                 <HStack w={'100%'}>
-                  <FormLabel w={'30%'}>Description</FormLabel>
+                  <FormLabel w={'30%'}>Mô tả</FormLabel>
                   <Input name='roomDescription' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'60%'} placeholder='Room description' value={room.roomDescription} />
                 </HStack>
                 <HStack w={'100%'}>
-                  <FormLabel w={'30%'}>Date time</FormLabel>
+                  <FormLabel w={'30%'}>Thời gian</FormLabel>
                   <HStack w='60%'>
                     <Input onChange={handleOnChangeForm} name='startDate' backgroundColor={'#FFFFFF'} w={'50%'} placeholder='Room description' type='datetime-local' defaultValue={room.startDate} />
                     <Text>To</Text>
@@ -197,10 +197,10 @@ export const RoomEditInfomation = () => {
               </VStack>
               <HStack w={'100%'} justifyContent={'space-evenly'}>
                 <Button onClick={() => navigate('/roomList')} w={40} colorScheme='gray' size='lg'>
-                  Back
+                  Thoát
                 </Button>
                 <Button w={40} colorScheme='teal' size='lg' onClick={handleUpdateRoom}>
-                  Save
+                  Lưu
                 </Button>
               </HStack>
             </Box>

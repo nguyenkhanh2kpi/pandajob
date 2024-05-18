@@ -29,8 +29,17 @@ const HomePage = () => {
     setSearch((search) => ({ ...search, [name]: value }))
   }
 
+  // Đảm bảo dữ liệu trong localStorage tồn tại
+  let storedData = localStorage.getItem('keyw')
+  if (storedData === null) {
+    storedData = JSON.stringify({ keyw: '' })
+    localStorage.setItem('keyw', storedData)
+  }
+  const keyWords = JSON.parse(storedData).keyw
+
   const handleSearch = () => {
     if (search.keyword !== '') {
+      localStorage.setItem('keyw', JSON.stringify({ keyw: search.keyword }));
       navigate(`/jobpage-search/${search.keyword}/${search.location}/${search.experience}/${search.salary}`)
     } else {
       navigate(`/jobpage-search/${search.location}/${search.experience}/${search.salary}`)

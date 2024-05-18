@@ -12,20 +12,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { StarIcon } from '@chakra-ui/icons'
 import { BsCalendar2DayFill, BsCurrencyDollar } from 'react-icons/bs'
 import { BiDollar, BiLocationPlus } from 'react-icons/bi'
-const randomJobs = (jobList) => {
-  if (!jobList || jobList.length < 5) {
-    return [];
-  }
-  const randomIndices = new Uint32Array(5);
-  window.crypto.getRandomValues(randomIndices);
-  const sortedJobs = jobList.slice().sort((a, b) => {
-    const indexA = randomIndices[a.id % 5];
-    const indexB = randomIndices[b.id % 5];
-    return indexA - indexB;
-  });
-  return sortedJobs.slice(0, 5);
-};
-
+import { dataService } from '../../Service/data.service'
 
 const JobInterest = () => {
   const dispatch = useDispatch()
@@ -33,10 +20,24 @@ const JobInterest = () => {
     dispatch(loadJob())
   }, [])
   const navigate = useNavigate()
+  const jobList = useSelector((store) => store.job.data)
 
-  const jobList = useSelector((store) => store.job.data);
-  const randomJobList = randomJobs(jobList) ?? [];
-  if (randomJobList !== null)
+  let storedData = localStorage.getItem('keyw')
+  if (storedData === null) {
+    storedData = JSON.stringify({ keyw: '' })
+    localStorage.setItem('keyw', storedData)
+  }
+  const keyWords = JSON.parse(storedData).keyw
+
+  const [filterJob, setFilterJob] = useState([])
+  useEffect(() => {
+    dataService
+      .postRelationJob(keyWords, jobList)
+      .then((response) => setFilterJob(response))
+      .catch((er) => console.log(er))
+  }, [])
+
+  if (filterJob !== null)
     return (
       <>
         <Heading fontFamily={'Montserrat'} mt={5} textAlign={'center'} fontWeight={'700'} fontSize={'27px'} lineHeight={'40px'} mb={'6px'}>
@@ -44,8 +45,8 @@ const JobInterest = () => {
         </Heading>
         <Box className='container py-4 px-4 justify-conten-center '>
           <Swiper display='flex' slidesPerView={4} navigation={true} modules={[Navigation]} className='mySwiper'>
-            {randomJobList !== null ? (
-              randomJobList
+            {filterJob !== null ? (
+              filterJob
                 .map((i) => {
                   return i.status === true ? (
                     <SwiperSlide>

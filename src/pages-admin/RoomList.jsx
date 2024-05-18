@@ -115,7 +115,7 @@ const RoomList = () => {
         <HStack justifyContent={'space-between'} w={'100%'}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <BreadcrumbLink href='#'>Rooms</BreadcrumbLink>
+              <BreadcrumbLink href='#'>Phòng họp</BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
           <Button color='white' backgroundColor='rgb(3, 201, 215)'>

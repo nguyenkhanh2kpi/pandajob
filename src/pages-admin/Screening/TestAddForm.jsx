@@ -57,13 +57,13 @@ const TestAddForm = () => {
             <HStack justifyContent={'space-between'} w={'100%'}>
               <Breadcrumb>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href='/process'>Recruitment process</BreadcrumbLink>
+                  <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbItem>
                   <BreadcrumbLink href={`#`}>Job</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href='#'>Edit test</BreadcrumbLink>
+                  <BreadcrumbLink href='#'>Kiểm tra</BreadcrumbLink>
                 </BreadcrumbItem>
               </Breadcrumb>
             </HStack>

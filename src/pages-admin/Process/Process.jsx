@@ -1,4 +1,4 @@
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, HStack, Image, Text, VStack } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, HStack, Image, Text, VStack } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -22,29 +22,31 @@ const Process = () => {
   }, [])
 
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
-      <HStack justifyContent={'space-between'} w={'100%'}>
+    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+      <HStack pt={30} justifyContent={'space-between'} w={'100%'}>
         <Breadcrumb>
           <BreadcrumbItem>
-            <BreadcrumbLink href='#'>Recruitment process</BreadcrumbLink>
+            <BreadcrumbLink href='#'>Chiến dịch tuyển dụng</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
       </HStack>
 
       {jobData.map((job) => {
         return job.status === true && job.user_id === userId ? (
-          <Box backgroundColor={'#ffffff'} boxShadow='md' onClick={() => navigate(`/process/item/${job.id}`)} mt={10} borderRadius={20} _hover={{ borderWidth: '2px' }} h={200} w={'100%'} p={4} key={job.id}>
-            <Box mt='4'>
-              <Text fontSize='xl' fontWeight='semibold'>
-                {job.name}
-              </Text>
-              <Text fontSize='md' mt='2'>
-                Location: {job.location}
-              </Text>
-              <Text fontSize='md' mt='2'>
-                Number: {job.number}
-              </Text>
-            </Box>
+          <Box ml={30} mr={30} onClick={() => navigate(`/process/item/${job.id}`)} h={200} w={'95%'} key={job.id}>
+            <Card>
+              <CardBody>
+                <Text fontSize='xl' fontWeight='semibold'>
+                  {job.name}
+                </Text>
+                <Text fontSize='md' mt='2'>
+                  Địa điểm: {job.location}
+                </Text>
+                <Text fontSize='md' mt='2'>
+                  Số lượng: {job.number}
+                </Text>
+              </CardBody>
+            </Card>
           </Box>
         ) : null
       })}

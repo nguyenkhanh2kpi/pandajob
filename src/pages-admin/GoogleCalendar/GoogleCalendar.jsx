@@ -1,22 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
-import {
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  useDisclosure,
-  Input,
-  Box,
-  Image,
-  FormControl,
-  FormLabel,
-  Checkbox,
-} from '@chakra-ui/react'
+import { Button, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, useDisclosure, Input, Box, Image, FormControl, FormLabel, Checkbox } from '@chakra-ui/react'
 import { MdVideocam } from 'react-icons/md'
 import { GoogleLogin, GoogleLogout } from 'react-google-login'
 import { gapi } from 'gapi-script'
@@ -96,7 +80,7 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
       interviewService
         .sendCalendar(formGoogle, accessToken)
         .then((response) => toast.info(response.message))
-        .catch((error) => toast.error("something went wrong"))
+        .catch((error) => toast.error('something went wrong'))
     } else {
       toast.error('invalid form')
     }
@@ -104,44 +88,19 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
 
   function validate() {
     const { location, summary, description, startTime, endTime, attendees } = formGoogle
-    if (
-      location.trim() === '' ||
-      summary.trim() === '' ||
-      description.trim() === '' ||
-      startTime.trim() === '' ||
-      endTime.trim() === '' ||
-      attendees.length === 0
-    ) {
+    if (location.trim() === '' || summary.trim() === '' || description.trim() === '' || startTime.trim() === '' || endTime.trim() === '' || attendees.length === 0) {
       return false
     }
     return true
   }
   useEffect(() => {
     formatForm()
-  }, [])
+  }, [isOpen])
 
   return (
     <>
-      <ToastContainer
-        position='bottom-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='light'
-      />
-      <Button
-        fontFamily={'Montserrat'}
-        fontWeight={400}
-        w={'30%'}
-        leftIcon={<MdVideocam />}
-        colorScheme='teal'
-        variant='solid'
-        onClick={onOpen}>
+      <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
+      <Button fontFamily={'Montserrat'} fontWeight={400} w={'30%'} leftIcon={<MdVideocam />} colorScheme='teal' variant='solid' onClick={onOpen}>
         Lên lịch phỏng vấn
       </Button>
       <Drawer isOpen={isOpen} placement='right' onClose={onClose} finalFocusRef={btnRef}>
@@ -151,11 +110,7 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
           <DrawerHeader>Gooogle Calendar</DrawerHeader>
 
           <DrawerBody>
-            <Image
-              h={100}
-              w={100}
-              src='https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_18_2x.png'
-            />
+            <Image h={100} w={100} src='https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_18_2x.png' />
             <GoogleLogin
               borderWidth='1px'
               borderRadius='lg'
@@ -171,26 +126,11 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
             />
             <FormControl pt={4}>
               <FormLabel>Summary</FormLabel>
-              <Input
-                onChange={handleOnChangeForm}
-                type='summary'
-                name='summary'
-                value={formGoogle.summary}
-              />
+              <Input onChange={handleOnChangeForm} type='summary' name='summary' value={formGoogle.summary} />
               <FormLabel>Description</FormLabel>
-              <Input
-                onChange={handleOnChangeForm}
-                type='sescription'
-                name='description'
-                value={formGoogle.description}
-              />
+              <Input onChange={handleOnChangeForm} type='sescription' name='description' value={formGoogle.description} />
               <FormLabel>Location</FormLabel>
-              <Input
-                onChange={handleOnChangeForm}
-                type='sescription'
-                name='location'
-                value={formGoogle.location}
-              />
+              <Input onChange={handleOnChangeForm} type='sescription' name='location' value={formGoogle.location} />
               <FormLabel>Types interview</FormLabel>
               <Checkbox
                 onChange={() =>
@@ -204,19 +144,9 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
               </Checkbox>
 
               <FormLabel>Start date</FormLabel>
-              <Input
-                disabled={true}
-                type='datetime-local'
-                name='startTime'
-                value={formGoogle.startTime}
-              />
+              <Input disabled={true} type='datetime-local' name='startTime' value={formGoogle.startTime} />
               <FormLabel>End Date</FormLabel>
-              <Input
-                disabled={true}
-                type='datetime-local'
-                name='endTime'
-                value={formGoogle.endTime}
-              />
+              <Input disabled={true} type='datetime-local' name='endTime' value={formGoogle.endTime} />
             </FormControl>
           </DrawerBody>
 

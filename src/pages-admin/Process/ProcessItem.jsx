@@ -1,4 +1,37 @@
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, ChakraProvider, HStack, IconButton, Text, VStack, useDisclosure } from '@chakra-ui/react'
+import {
+  Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Button,
+  Card,
+  CardBody,
+  ChakraProvider,
+  Flex,
+  FormControl,
+  FormLabel,
+  Grid,
+  GridItem,
+  HStack,
+  Heading,
+  IconButton,
+  Image,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Link,
+  Radio,
+  Select,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  Textarea,
+  VStack,
+  useDisclosure,
+} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -8,38 +41,143 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
 import { interviewService } from '../../Service/interview.service'
 import { testService } from '../../Service/test.service'
 import { AiOutlinePlayCircle } from 'react-icons/ai'
+import { jobService } from '../../Service/job.service'
+import { locationService } from '../../Service/location.service'
+import { Stack } from 'react-bootstrap'
+import { SearchIcon } from '@chakra-ui/icons'
+import { CandidateDetailInProces } from './CandidateDetailInProcess'
+import { ManageLabel } from './ManageLabel'
 
 const steps = [
-  { title: 'Received resume', description: 'Post job vacancies and wait for applications' },
-  { title: 'Screening test', description: 'for candidates to take the screening test' },
-  { title: 'Screening resume', description: 'Select profiles for interview' },
-  { title: 'Interview', description: 'Interview each candidate' },
-  { title: 'Evaluate', description: `Evaluate the candidate's ability to perform the job well` },
+  { title: 'Tiếp nhận CV', description: 'Đăng tuyển dụng và chờ đợi các ứng viên ứng tuyển' },
+  { title: 'Kiểm tra sàng lọc', description: 'Kiểm tra năng lực ứng viên bằng bài test online' },
+  { title: 'Kết quả sàng lọc', description: 'Chọn những ứng viên phỏng vấn' },
+  { title: 'Phỏng vấn', description: 'Tiến hành phỏng vấn' },
+  { title: 'Đánh giá', description: `Đánh giá khả năng làm việc của ứng viên` },
 ]
 
 export const ProcessItem = () => {
   const params = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const job = useSelector((store) => store.jobDetail.data)
+  // const job = useSelector((store) => store.jobDetail.data)
+  const [job, setJob] = useState({})
+  const [tabIndex, setTabIndex] = useState(0)
 
   useEffect(() => {
-    dispatch(loadJobDetail(params.jobId))
+    // dispatch(loadJobDetail(params.jobId))
+    jobService.getById(params.jobId).then((response) => setJob(response))
   }, [params.jobId])
 
+  const data = {
+    id: 0,
+    name: 'TOP VIP',
+    price: 500000,
+    des: 'Trải nghiệm đăng tin tuyển dụng hiệu quả với vị trí nổi bật trong Việc làm tốt nhất kết hợp cùng các dịch vụ cao cấp, giá dùng thử hấp dẫn',
+    benefit: 'Hiển thị trong TOP đề xuất việc làm phù hợp, Tin tuyển dụng được nằm trong danh sách đề xuất gửi thông báo tới ứng viên tiềm năng qua email / ứng dụng di động TopCV (hệ thống AI tự động gửi theo danh sách đề xuất nếu tin tuyển dụng phù hợp với ứng viên).',
+  }
+
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
-      <Breadcrumb>
+    // đây là trang chính
+    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+      <Breadcrumb pt={30}>
         <BreadcrumbItem>
-          <BreadcrumbLink href='/process'>Recruitment process</BreadcrumbLink>
+          <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
           <BreadcrumbLink href='#'>{job.name}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <VStack spacing={3}>
-        <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
-          <StepProcess job={job} />
+      <VStack pl={30} pr={30} spacing={3}>
+        <Box height={100} borderRadius={20} w={'100%'} mb={3}>
+          <Grid h={100} templateColumns='repeat(3, 1fr)' gap={6}>
+            <GridItem w='100%' h='100%'>
+              <Card>
+                <CardBody>
+                  <Text>Tổng lượng ứng viên</Text>
+                  <Text fontWeight={'bold'}>20</Text>
+                </CardBody>
+              </Card>
+            </GridItem>
+
+            <GridItem w='100%' h='100%'>
+              <Card>
+                <CardBody>
+                  <Text>Tổng lượng ứng viên</Text>
+                  <Text fontWeight={'bold'}>20</Text>
+                </CardBody>
+              </Card>
+            </GridItem>
+
+            <GridItem w='100%' h='100%'>
+              <Card>
+                <CardBody>
+                  <Text>Tổng lượng ứng viên</Text>
+                  <Text fontWeight={'bold'}>20</Text>
+                </CardBody>
+              </Card>
+            </GridItem>
+          </Grid>
+        </Box>
+
+        <Box mt={5} minHeight={1000} overflow='auto' backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
+          <Tabs defaultIndex={tabIndex}>
+            <TabList>
+              <Tab>Bài đăng</Tab>
+              <Tab>Tiến trình</Tab>
+              <Tab>CV ứng tuyển</Tab>
+              <Tab>CV đề xuất</Tab>
+              <Tab>Gán nhãn CV</Tab>
+              <Tab>Dịch vụ</Tab>
+            </TabList>
+
+            <TabPanels>
+              <TabPanel>
+                <Card>
+                  <CardBody>
+                    <Link color={'blue'} href={`/allJob_Recruiter/jobDetail_Recruiter/${job.id}`}>
+                      Chỉnh sửa bài đăng
+                    </Link>
+                    <Post jobId={params.jobId} />
+                  </CardBody>
+                </Card>
+              </TabPanel>
+              <TabPanel>
+                <StepProcess job={job} />
+              </TabPanel>
+              <TabPanel>
+                <ListCVTab job={job} setTabIndex={setTabIndex} />
+              </TabPanel>
+              <TabPanel>4</TabPanel>
+              <TabPanel>
+                <ManageLabel />
+              </TabPanel>
+              <TabPanel>
+                <Box bgColor={'#FEEBC8'} w={'100%'} as='blockquote' borderRadius={3} borderLeft='4px solid' borderColor='blue.400' pl={4} py={2} mb={4}>
+                  Khi bạn sử dụng dịch vụ vip bạn chỉ có thể áp dụng cho 1 chiến dịch tuyển dụng
+                </Box>
+                <Card>
+                  <Box padding='4'>
+                    <Heading as='h2' size='lg' mb={2}>
+                      {data.name}
+                    </Heading>
+                    <Text mb={2}>
+                      <strong>Giá:</strong> {data.price}
+                    </Text>
+                    <Text mb={2}>
+                      <strong>Mô tả:</strong> {data.des}
+                    </Text>
+                    <Text mb={4}>
+                      <strong>Quyền lợi:</strong> {data.benefit}
+                    </Text>
+                    <Button color={'white'} bgColor={'#2CCCC7'}>
+                      Áp dụng
+                    </Button>
+                  </Box>
+                </Card>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </Box>
       </VStack>
     </Box>
@@ -94,9 +232,8 @@ const Step0Item = ({ job, index, setIndex, description }) => {
   return (
     <Box p={5} w={'100%'} boxShadow={'lg'} borderRadius={20}>
       <Text>{description}</Text>
-      <Text>Create date: {job.createDate}</Text>
-      <Text>Number of recruits: {job.number}</Text>
-      <Text>Create date: {job.createDate}</Text>
+      <Text>Ngày tạo: {job.createDate}</Text>
+      <Text>Số lượng tuyển: {job.number}</Text>
       <ListCandidate job={job} />
     </Box>
   )
@@ -115,11 +252,11 @@ const Step1Item = ({ job, index, setIndex, description }) => {
   return (
     <Box p={5} w={'100%'} boxShadow={'lg'} borderRadius={20}>
       <Text>{description}</Text>
-      <Text>Number of test: {tests.length}</Text>
+      <Text>Số bài test: {tests.length}</Text>
       <HStack>
         <IconButton borderRadius={20} fontSize={14} onClick={() => setIndex(index)} icon={<AiOutlinePlayCircle />} />
         <Button borderRadius={20} fontSize={14} onClick={() => navigate(`/process/screening/${job.id}`)}>
-          Screening test
+          Kiểm tra sàng lọc
         </Button>
       </HStack>
     </Box>
@@ -139,11 +276,11 @@ const Step2Item = ({ job, index, setIndex, description }) => {
   return (
     <Box fontSize={14} p={5} w={'100%'} boxShadow={'lg'} borderRadius={20}>
       <Text>{description}</Text>
-      <Text>Number of candidate: 2</Text>
+      <Text>Số ứng viên: 2</Text>
       <HStack>
         <IconButton borderRadius={20} fontSize={14} onClick={() => setIndex(index)} icon={<AiOutlinePlayCircle />} />
         <Button borderRadius={20} fontSize={14} onClick={() => navigate(`/process/step/screening-resume/${job.id}`)}>
-          View screening result
+          Xem kết quả sàng lọc
         </Button>
       </HStack>
     </Box>
@@ -155,12 +292,12 @@ const Step3Item = ({ job, index, setIndex, description }) => {
   return (
     <Box fontSize={14} p={5} w={'100%'} boxShadow={'lg'} borderRadius={20}>
       <Text>{description}</Text>
-      <Text>Number of room: {number}</Text>
+      <Text>Số phòng phỏng vấn: {number}</Text>
       <HStack>
         <IconButton borderRadius={20} fontSize={14} onClick={() => setIndex(index)} icon={<AiOutlinePlayCircle />} />
         <ListRoom setNumber={setNumber} job={job} />
         <Button borderRadius={20} fontSize={14} onClick={() => navigate('/roomAdd')}>
-          Create interview
+          Tạo phòng phỏng vấn
         </Button>
       </HStack>
     </Box>
@@ -171,11 +308,11 @@ const Step4Item = ({ job, index, setIndex, description }) => {
   return (
     <Box fontSize={14} p={5} w={'100%'} boxShadow={'lg'} borderRadius={20}>
       <Text>{description}</Text>
-      <Text>Result</Text>
+      <Text>Kết quả</Text>
       <HStack>
         <IconButton borderRadius={20} fontSize={14} onClick={() => setIndex(index)} icon={<AiOutlinePlayCircle />} />
         <Button borderRadius={20} fontSize={14} onClick={() => navigate('/result')}>
-          Results
+          Xem kết quả
         </Button>
       </HStack>
     </Box>
@@ -195,7 +332,7 @@ function ListCandidate({ job }) {
   return (
     <>
       <Button borderRadius={20} fontSize={14} onClick={onOpen}>
-        Detail
+        Chi tiết
       </Button>
 
       <Modal fontFamily={'Montserrat'} size={'2xl'} isOpen={isOpen} onClose={onClose}>
@@ -255,26 +392,26 @@ function ListRoom({ job, setNumber }) {
   return (
     <>
       <Button borderRadius={20} fontSize={14} onClick={onOpen}>
-        Rooms
+        Phòng họp
       </Button>
 
       <Modal fontFamily={'Montserrat'} size={'2xl'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent w={1000} maxH={500} overflow={'auto'}>
-          <ModalHeader>Rooms</ModalHeader>
+          <ModalHeader>Phòng</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {rooms.map((room) => (
               <Box p={5} boxShadow='md' borderRadius={20}>
-                <Text>Name: {room.roomName}</Text>
+                <Text>Tên: {room.roomName}</Text>
                 <Text>Title: {room.roomSkill}</Text>
-                <Text>Number of candidate: {room.listCandidate.length}</Text>
+                <Text>Số ứng viên: {room.listCandidate.length}</Text>
                 <Text>
-                  Time: {formatDate(room.startDate)} to {formatDate(room.endDate)}
+                  Thời gian: {formatDate(room.startDate)} to {formatDate(room.endDate)}
                 </Text>
-                <Text>Status: {room.status}</Text>
+                <Text>Trạng thái phòng: {room.status}</Text>
                 <Button onClick={() => navigate(`/addCandidate/${job.id}/${room.id}`)} borderRadius={20} color={'#ffffff'} backgroundColor='rgb(3, 201, 215)'>
-                  Detail
+                  Chi tiết
                 </Button>
               </Box>
             ))}
@@ -283,6 +420,164 @@ function ListRoom({ job, setNumber }) {
           <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
+    </>
+  )
+}
+
+//  component item khi xem ở chế độ tiến trình
+const Post = ({ jobId }) => {
+  const [data, setData] = useState({})
+  const [province, setProvince] = useState([])
+  useEffect(() => {
+    jobService.getById(jobId).then((response) => setData(response))
+  }, [])
+
+  useEffect(() => {
+    locationService
+      .getAllProvince()
+      .then((response) => {
+        setProvince(response)
+      })
+      .catch((er) => console.log(er))
+  }, [])
+  return (
+    <>
+      <FormControl>
+        <HStack mt={3}>
+          <FormLabel w={'15%'}>Tên công việc</FormLabel>
+          <Input w={'35%'} type='text' value={data.name} name='name' id='Name' />
+          <FormLabel w={'15%'}>Địa chỉ làm việc</FormLabel>
+          <Input w={'35%'} type='text' value={data.detailLocation} name='position' id='position' />
+        </HStack>
+
+        <HStack mt={3}>
+          <FormLabel w={'15%'}>Lương</FormLabel>
+          <Select w={'35%'} value={data.salary}>
+            <option value='all'>Mức lương</option>
+            <option value='Dưới 10 triệu'>Dưới 10 triệu</option>
+            <option value='10 -15 triệu'>10 -15 triệu</option>
+            <option value='15 -20 triệu'>15 -20 triệu</option>
+            <option value='20 -25 triệu'>20 -25 triệu</option>
+            <option value='25 -30 triệu'>25 -30 triệu</option>
+            <option value='30 -50 triệu'>30 -50 triệu</option>
+            <option value='trên 50 triệu'>trên 50 triệu</option>
+            <option value='thỏa thuận'>thỏa thuận</option>
+          </Select>
+          <FormLabel w={'15%'}>Hình thức làm việc</FormLabel>
+          <Input w={'35%'} type='text' name='workingForm' id='workingForm' value={data.workingForm} />
+        </HStack>
+
+        <HStack mt={3}>
+          <FormLabel w={'15%'}>Địa chỉ</FormLabel>
+          <Select w={'35%'} value={data.location}>
+            <option value='all'>Địa điểm</option>
+            {province.map((p) => (
+              <option key={p.id} value={p.name}>
+                {p.name}
+              </option>
+            ))}
+          </Select>
+          <FormLabel w={'15%'}>Ngôn ngữ</FormLabel>
+          <Input value={data.language} w={'35%'} type='text' name='language' id='language' />
+        </HStack>
+
+        <HStack mt={3}>
+          <FormLabel w={'15%'}>Giới tính</FormLabel>
+          <Select w={'35%'} value={data.sex}>
+            <option value='Nam'>Nam</option>
+            <option value='Nữ'>Nữ</option>
+            <option value='Không yêu cầu'>Không yêu cầu</option>
+          </Select>
+          <FormLabel w={'15%'}>Số lượng tuyển</FormLabel>
+          <Input value={data.number} w={'35%'} type='text' name='number' id='number' />
+        </HStack>
+
+        <HStack mt={3}>
+          <FormLabel w={'15%'}>Chức vụ</FormLabel>
+          <Input w={'35%'} value={data.position} type='text' name='detailLocation' id='detailLocation' />
+          <FormLabel w={'15%'}>Kinh nghiệm</FormLabel>
+          <Select w={'35%'} value={data.experience}>
+            <option value='all'>Kinh nghiệm</option>
+            <option value='chưa có'>chưa có</option>
+            <option value='dưới 1 năm'>dưới 1 năm</option>
+            <option value='1 năm'>1 năm</option>
+            <option value='2 năm'>2 năm</option>
+            <option value='3 năm'>3 năm</option>
+            <option value='4 năm'>4 năm</option>
+            <option value='5 năm'>5 năm</option>
+            <option value='trên 5 năm'>trên 5 năm</option>
+          </Select>
+        </HStack>
+
+        <FormLabel>Mô tả</FormLabel>
+        <Textarea height={200} value={data.detailJob} type='text' name='detailJob' id='detailJob' />
+
+        <FormLabel>Yêu cầu</FormLabel>
+        <Textarea height={200} value={data.requirements} type='text' name='requirements' id='requirements' />
+
+        <FormLabel>Quyền lợi</FormLabel>
+        <Textarea height={200} value={data.interest} type='text' name='interest' id='interest' />
+
+        <FormLabel>Hình ảnh</FormLabel>
+        <Image style={{ padding: '5px', width: '200px' }} src={`${data.image}`} />
+      </FormControl>
+    </>
+  )
+}
+
+/// tab danh sách CV ứng tuyển
+const ListCVTab = ({ job, setTabIndex }) => {
+  const [candidates, setCandidates] = useState([])
+  const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  useEffect(() => {
+    interviewService
+      .getCandidatesByJob(accessToken, job.id)
+      .then((response) => setCandidates(response))
+      .catch((er) => console.log(er))
+  }, [job])
+  return (
+    <>
+      <HStack mb={5} spacing={1}>
+        <InputGroup w={300}>
+          <InputLeftElement pointerEvents='none'>
+            <SearchIcon color='gray.300' />
+          </InputLeftElement>
+          <Input type='text' placeholder='Tìm ứng viên' />
+        </InputGroup>
+        <Select placeholder='Hiện tất cả cv' w={250}>
+          <option value='option1'>Đã xem</option>
+          <option value='option2'>Chưa xem</option>
+        </Select>
+        <Select placeholder='Tất cả nhãn' w={250}>
+          <option value='option1'>Ưu tiên</option>
+          <option value='option2'>Ít tiềm năng</option>
+        </Select>
+        <Radio value='1'>Chỉ xem ứng viên pro</Radio>
+        <Button size={'sm'}>Xuất danh sách</Button>
+      </HStack>
+
+      {/* <HStack fontWeight={'bold'} w={'100%'}>
+          <Text w={'20%'}>Tên</Text>
+          <Text w={'20%'}>Email</Text>
+          <Text w={'20%'}>Ngày ứng tuyển</Text>
+          <Text w={'20%'}>CV status</Text>
+        </HStack> */}
+
+      {candidates.map((candidate) => (
+        <Card>
+          <CardBody>
+            <HStack>
+              <Text fontWeight={'bold'} w={'20%'}>
+                {candidate.fullName}
+              </Text>
+              <Text w={'20%'}>{candidate.email}</Text>
+              <Text w={'20%'}>{candidate.applyDate}</Text>
+              <Text w={'20%'}> {candidate.cvStatus}</Text>
+              <CandidateDetailInProces candidate={candidate} setTabIndex={setTabIndex} />
+            </HStack>
+          </CardBody>
+        </Card>
+      ))}
     </>
   )
 }

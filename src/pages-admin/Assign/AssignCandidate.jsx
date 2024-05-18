@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
-} from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import { Box, Badge, WrapItem, Text, Button, VStack, Spacer } from '@chakra-ui/react'
 import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react'
@@ -35,10 +27,7 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate }) => {
     const start = new Date(startDate)
     const end = new Date(endDate)
     const formattedDate = start.toISOString().split('T')[0]
-    const startTime = `${start.getHours().toString().padStart(2, '0')}h${start
-      .getMinutes()
-      .toString()
-      .padStart(2, '0')}`
+    const startTime = `${start.getHours().toString().padStart(2, '0')}h${start.getMinutes().toString().padStart(2, '0')}`
     const endTime = `${end.getHours().toString().padStart(2, '0')}h${end.getMinutes().toString().padStart(2, '0')}`
     const result = {
       date: formattedDate,
@@ -90,44 +79,23 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate }) => {
   return (
     <>
       <Button fontFamily={'Montserrat'} fontWeight={400} colorScheme='blue' onClick={onOpen}>
-        Assign Candidate
+        Đăng kí ứng viên
       </Button>
       <AlertDialog size={'2xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent fontFamily={'Montserrat'} fontWeight={400}>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Assign Candidate
+              Đăng kí ứng viên
             </AlertDialogHeader>
             <AlertDialogBody maxH={600} overflowY={'auto'}>
               {candidates.map((cadidate) => (
-                <Box
-                  onClick={() => handleSelect(cadidate.userId)}
-                  w={550}
-                  height={100}
-                  boxShadow={'lg'}
-                  borderRadius='lg'
-                  overflow='hidden'
-                  m={2}
-                  borderColor={idSelected === cadidate.userId ? 'green' : ''}
-                  borderWidth={idSelected === cadidate.userId ? '3px' : ''}
-                  backgroundColor={'#ffffff'}>
+                <Box onClick={() => handleSelect(cadidate.userId)} w={550} height={100} boxShadow={'lg'} borderRadius='lg' overflow='hidden' m={2} borderColor={idSelected === cadidate.userId ? 'green' : ''} borderWidth={idSelected === cadidate.userId ? '3px' : ''} backgroundColor={'#ffffff'}>
                   <WrapItem m={2} alignItems='center'>
                     <Avatar name={cadidate.fullName} src={cadidate.avatar} />
                     <Text m={2}>{truncatedEmail(cadidate.email)}</Text>
                     <Spacer />
                     <VStack justifyContent='flex-start'>
-                      <Button
-                        backgroundColor={
-                          cadidate.interviewStatus === 'Đã chấm'
-                            ? 'green'
-                            : cadidate.interviewStatus === 'Chưa phỏng vấn'
-                            ? 'orange'
-                            : 'grey'
-                        }
-                        p={1}
-                        h={'100%'}
-                        colorScheme='teal'
-                        size='xs'>
+                      <Button backgroundColor={cadidate.interviewStatus === 'Đã chấm' ? 'green' : cadidate.interviewStatus === 'Chưa phỏng vấn' ? 'orange' : 'grey'} p={1} h={'100%'} colorScheme='teal' size='xs'>
                         {cadidate.interviewStatus}
                       </Button>
                       <Link href={cadidate.cv} isExternal>
@@ -142,11 +110,7 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate }) => {
               <Button ref={cancelRef} onClick={onClose}>
                 Cancel
               </Button>
-              <Button
-                colorScheme='green'
-                onClick={() => handleAssign()}
-                ml={3}
-                disabled={idSelected === 0 ? true : false}>
+              <Button colorScheme='green' onClick={() => handleAssign()} ml={3} disabled={idSelected === 0 ? true : false}>
                 Assign
               </Button>
             </AlertDialogFooter>

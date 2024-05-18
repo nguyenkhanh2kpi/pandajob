@@ -92,26 +92,11 @@ const Navbar = () => {
               <MenuItem onClick={() => navigate('/userInfo')}>User info</MenuItem>
               <MenuItem onClick={() => navigate('/userInfo1')}>User info1</MenuItem>
               <MenuItem onClick={() => navigate('/messages')}>Messages</MenuItem>
-              <MenuItem onClick={() => navigate('/resume')}>Resume</MenuItem>
-              <MenuItem>
-                <Link to='/logout'>Log Out</Link>
-              </MenuItem>
+              <MenuItem onClick={() => navigate('/AdLogout')}>Logout</MenuItem>
             </MenuList>
           </Menu>
         </HStack>
 
-        {/* <TooltipComponent content='Profile' position='BottomCenter'>
-          <Box onClick={() => handleClick('userProfile')} fontFamily={'Montserrat'} fontWeight={400}>
-            <HStack>
-              <WrapItem>
-                <Avatar name={user && user.fullName ? user.fullName : data.data.email} src={avatar} />
-              </WrapItem>
-              <Text fontSize={20}>{data.data.username ? data.data.username : data.data.email}</Text>
-              <RiVipCrown2Line />
-              <MdKeyboardArrowDown className='text-gray-400 text-14' />
-            </HStack>
-          </Box>
-        </TooltipComponent> */}
 
         {isClicked.cart && <Cart />}
         {isClicked.chat && <Chat />}
