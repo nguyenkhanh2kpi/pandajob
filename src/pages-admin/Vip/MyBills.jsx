@@ -13,9 +13,9 @@ export const MyBills = () => {
       .catch((er) => console.log(er))
   }, [])
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
+    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
       <HStack justifyContent={'space-between'} w={'100%'}>
-        <Breadcrumb>
+        <Breadcrumb  pt={30}>
           <BreadcrumbItem>
             <BreadcrumbLink href='/vip'>Nâng cấp tài khoản</BreadcrumbLink>
           </BreadcrumbItem>
@@ -25,7 +25,7 @@ export const MyBills = () => {
         </Breadcrumb>
       </HStack>
 
-      <TableContainer borderRadius={20} bgColor={'white'}>
+      <TableContainer ml={30} mr={30} borderRadius={5} bgColor={'white'}>
         <Table variant='simple'>
           <Thead>
             <Tr>

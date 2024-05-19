@@ -10,9 +10,7 @@ import { registerLicense } from '@syncfusion/ej2-base'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
-registerLicense(
-  'Ngo9BigBOggjHTQxAR8/V1NHaF1cWmhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEFjWH9fcXRUQmRVUkRxWw=='
-)
+registerLicense('Ngo9BigBOggjHTQxAR8/V1NHaF1cWmhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEFjWH9fcXRUQmRVUkRxWw==')
 root.render(
   <ChakraProvider>
     <ContextProvider>

@@ -100,8 +100,8 @@ export const RoomEditInfomation = () => {
     return (
       <>
         <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
-        <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
-          <Breadcrumb>
+        <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
+          <Breadcrumb pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='/roomList'>Phòng họp</BreadcrumbLink>
             </BreadcrumbItem>
@@ -109,7 +109,7 @@ export const RoomEditInfomation = () => {
               <BreadcrumbLink href='#'>Edit</BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-          <VStack spacing={10}>
+          <VStack pl={30} pr={30} spacing={10}>
             <Box p={4} borderRadius='lg' backgroundColor={'#FFFFFF'} w={'100%'} h={'230px'}>
               <HStack h={'100%'}>
                 <Image borderRadius='lg' m={2} h={'100%'} w={'18%'} src='https://www.peninsulapersonnel.com.au/wp-content/uploads/2020/09/Best-HR-Interview-1.png' alt='Dan Abramov' />

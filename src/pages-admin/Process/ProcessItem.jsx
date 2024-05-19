@@ -47,6 +47,7 @@ import { Stack } from 'react-bootstrap'
 import { SearchIcon } from '@chakra-ui/icons'
 import { CandidateDetailInProces } from './CandidateDetailInProcess'
 import { ManageLabel } from './ManageLabel'
+import { labelService } from '../../Service/label.service'
 
 const steps = [
   { title: 'Tiếp nhận CV', description: 'Đăng tuyển dụng và chờ đợi các ứng viên ứng tuyển' },
@@ -89,38 +90,42 @@ export const ProcessItem = () => {
         </BreadcrumbItem>
       </Breadcrumb>
       <VStack pl={30} pr={30} spacing={3}>
-        <Box height={100} borderRadius={20} w={'100%'} mb={3}>
-          <Grid h={100} templateColumns='repeat(3, 1fr)' gap={6}>
-            <GridItem w='100%' h='100%'>
-              <Card>
-                <CardBody>
-                  <Text>Tổng lượng ứng viên</Text>
-                  <Text fontWeight={'bold'}>20</Text>
-                </CardBody>
-              </Card>
-            </GridItem>
+        {/* <Box overflow='hidden' height={70} w={'100%'}>
+          <HStack borderBottomRadius={5} justifyContent={'space-between'}>
+            <Box p={2} bgColor={'white'} borderRadius={5} w={'33%'}>
+              <VStack>
+                <Text w={'100%'} mb={0} display='inline'>
+                  Tổng lượng ứng viên
+                </Text>
+                <Text w={'100%'} fontWeight={'bold'} mt={0} display='inline'>
+                  20
+                </Text>
+              </VStack>
+            </Box>
+            <Box p={2} bgColor={'white'} borderRadius={5} w={'33%'}>
+              <VStack>
+                <Text w={'100%'} mb={0} display='inline'>
+                  Tổng lượng ứng viên
+                </Text>
+                <Text w={'100%'} fontWeight={'bold'} mt={0} display='inline'>
+                  20
+                </Text>
+              </VStack>
+            </Box>
+            <Box p={2} bgColor={'white'} borderRadius={5} w={'33%'}>
+              <VStack>
+                <Text w={'100%'} mb={0} display='inline'>
+                  Tổng lượng ứng viên
+                </Text>
+                <Text w={'100%'} fontWeight={'bold'} mt={0} display='inline'>
+                  20
+                </Text>
+              </VStack>
+            </Box>
+          </HStack>
+        </Box> */}
 
-            <GridItem w='100%' h='100%'>
-              <Card>
-                <CardBody>
-                  <Text>Tổng lượng ứng viên</Text>
-                  <Text fontWeight={'bold'}>20</Text>
-                </CardBody>
-              </Card>
-            </GridItem>
-
-            <GridItem w='100%' h='100%'>
-              <Card>
-                <CardBody>
-                  <Text>Tổng lượng ứng viên</Text>
-                  <Text fontWeight={'bold'}>20</Text>
-                </CardBody>
-              </Card>
-            </GridItem>
-          </Grid>
-        </Box>
-
-        <Box mt={5} minHeight={1000} overflow='auto' backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
+        <Box minHeight={1000} overflow='auto' backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
           <Tabs defaultIndex={tabIndex}>
             <TabList>
               <Tab>Bài đăng</Tab>
@@ -527,56 +532,69 @@ const Post = ({ jobId }) => {
 
 /// tab danh sách CV ứng tuyển
 const ListCVTab = ({ job, setTabIndex }) => {
+  let states = {
+    RECEIVE_CV: 'Tiếp nhận CV',
+    SUITABLE: 'Phù hợp yêu cầu',
+    SCHEDULE_INTERVIEW: 'Lên lịch phỏng vấn',
+    SEND_PROPOSAL: 'Gửi đề nghị',
+    ACCEPT: 'Nhận việc',
+    REJECT: 'Từ chối',
+  }
   const [candidates, setCandidates] = useState([])
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  const [labels, setLabels] = useState([])
+  const [load, setLoad] = useState(false)
   useEffect(() => {
     interviewService
       .getCandidatesByJob(accessToken, job.id)
       .then((response) => setCandidates(response))
       .catch((er) => console.log(er))
-  }, [job])
+  }, [job,load])
+
+  useEffect(() => {
+    labelService
+      .getMyLabel(accessToken)
+      .then((response) => setLabels(response))
+      .catch((er) => console.log(er))
+  }, [])
+
   return (
     <>
-      <HStack mb={5} spacing={1}>
-        <InputGroup w={300}>
+      <HStack w={'100%'} mb={5} spacing={1}>
+        <InputGroup>
           <InputLeftElement pointerEvents='none'>
             <SearchIcon color='gray.300' />
           </InputLeftElement>
           <Input type='text' placeholder='Tìm ứng viên' />
         </InputGroup>
-        <Select placeholder='Hiện tất cả cv' w={250}>
+        <Select placeholder='Tất cả trạng thái'>
+          {Object.entries(states).map(([key, value]) => (
+            <option key={key} value={key}>
+              {value}
+            </option>
+          ))}
+        </Select>
+        <Select placeholder='Hiện tất cả cv'>
           <option value='option1'>Đã xem</option>
           <option value='option2'>Chưa xem</option>
         </Select>
-        <Select placeholder='Tất cả nhãn' w={250}>
-          <option value='option1'>Ưu tiên</option>
-          <option value='option2'>Ít tiềm năng</option>
+        <Select placeholder='Tất cả nhãn'>
+          {labels.map((label) => (
+            <option value='option1'>{label.name}</option>
+          ))}
         </Select>
+      </HStack>
+      <Box bgColor={'#FEEBC8'} w={'100%'} as='blockquote' borderRadius={3} borderLeft='4px solid' borderColor='blue.400' pl={4} py={2} mb={4}>
+        Hãy sàng lọc những CV phù hợp với yêu cầu của mình và gán nhãn cho họ đến với những bước tiếp theo tron quá trình tuyển dụng
+      </Box>
+
+      <HStack w={'100%'} mb={5} spacing={1} justifyContent='flex-end'>
         <Radio value='1'>Chỉ xem ứng viên pro</Radio>
         <Button size={'sm'}>Xuất danh sách</Button>
       </HStack>
 
-      {/* <HStack fontWeight={'bold'} w={'100%'}>
-          <Text w={'20%'}>Tên</Text>
-          <Text w={'20%'}>Email</Text>
-          <Text w={'20%'}>Ngày ứng tuyển</Text>
-          <Text w={'20%'}>CV status</Text>
-        </HStack> */}
-
       {candidates.map((candidate) => (
-        <Card>
-          <CardBody>
-            <HStack>
-              <Text fontWeight={'bold'} w={'20%'}>
-                {candidate.fullName}
-              </Text>
-              <Text w={'20%'}>{candidate.email}</Text>
-              <Text w={'20%'}>{candidate.applyDate}</Text>
-              <Text w={'20%'}> {candidate.cvStatus}</Text>
-              <CandidateDetailInProces candidate={candidate} setTabIndex={setTabIndex} />
-            </HStack>
-          </CardBody>
-        </Card>
+        <CandidateDetailInProces load={load} setLoad={setLoad} candidate={candidate} setTabIndex={setTabIndex} />
       ))}
     </>
   )
