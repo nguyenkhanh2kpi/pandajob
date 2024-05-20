@@ -686,20 +686,10 @@ export const reccerLink = [
         icon: <BiBriefcase />,
       },
       {
-        title: 'Đội tuyển dụng',
-        name: 'manage-interviewer',
-        icon: <AiOutlineTeam />,
-      },
-      {
         title: 'Tiến trình',
         name: 'process',
         icon: <BiGitCommit />,
       },
-      // {
-      //   title: 'Screening',
-      //   name: 'screening',
-      //   icon: <AiOutlineSnippets />,
-      // },
       {
         name: 'roomList',
         title: 'Phòng phỏng vấn',

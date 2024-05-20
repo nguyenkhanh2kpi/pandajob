@@ -1,4 +1,4 @@
-import { Box, Button, Image, Text, Badge, Select, Input, Textarea, VStack, Link, HStack, FormControl, FormLabel, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody } from '@chakra-ui/react'
+import { Box, Button, Image, Text, Badge, Select, Input, Textarea, VStack, Link, HStack, FormControl, FormLabel, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, Icon } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hostName } from '../../global'
 import { locationService } from '../../Service/location.service'
 import { jobService } from '../../Service/job.service'
+import { AiOutlineFolderOpen, AiOutlineInfoCircle } from 'react-icons/ai'
 
 function JobDetailRecruiter() {
   const params = useParams()
@@ -38,6 +39,9 @@ function JobDetailRecruiter() {
   const [status, setStatus] = useState(data.status)
   const [language, setLanguage] = useState(data.language)
 
+  const [industry, setIndustry] = useState(data.industry)
+  const [industry2, setIndustry2] = useState(data.industry2)
+
   const [province, setProvince] = useState([])
   useEffect(() => {
     locationService
@@ -53,7 +57,7 @@ function JobDetailRecruiter() {
   const onOpen = async (e) => {
     e.preventDefault()
     if (name === '') {
-      toast.warning('name is required!', {
+      toast.error('name is required!', {
         position: 'top-center',
       })
     } else if (position === '') {
@@ -137,6 +141,8 @@ function JobDetailRecruiter() {
         interest: interest,
         image: img.length != 0 ? img.at(0) : data.image,
         status: status,
+        industry: industry,
+        industry2: industry2
       })
 
       let config = {
@@ -172,6 +178,18 @@ function JobDetailRecruiter() {
       }, 2000)
     }
   }
+
+  const [industries, setIndustries] = useState([])
+  useEffect(() => {
+    axios
+      .get(`${hostName}/industries`)
+      .then((response) => {
+        setIndustries(response.data)
+      })
+      .catch((error) => {
+        console.error('There was an error fetching the industries!', error)
+      })
+  }, [])
   if (data != null)
     return (
       <>
@@ -185,11 +203,51 @@ function JobDetailRecruiter() {
             </BreadcrumbItem>
           </Breadcrumb>
 
+          {/* ngành nghề */}
+          <Box pl={30} pr={30} w={'100%'} mb={5}>
+            <Card>
+              <CardBody>
+                <FormControl>
+                  <HStack alignItems='center' spacing={4}>
+                    <Icon as={AiOutlineFolderOpen} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                    <Text m={0} fontSize='2xl'>
+                      Ngành nghề
+                    </Text>
+                  </HStack>
+                  <HStack mt={3}>
+                    <FormLabel w={'15%'}>Ngành nghề chính</FormLabel>
+                    <Select value={industry != null ? industry : data.industry} w={'35%'} placeholder='Chọn ngành nghề' onChange={(e) => setIndustry(e.target.value)}>
+                      {industries.map((industry, index) => (
+                        <option key={index} value={industry}>
+                          {industry}
+                        </option>
+                      ))}
+                    </Select>
+                    <FormLabel w={'15%'}>Ngành nghề phụ</FormLabel>
+                    <Select value={industry2 != null ? industry2 : data.industry2} w={'35%'} placeholder='Chọn ngành nghề' onChange={(e) => setIndustry2(e.target.value)}>
+                      {industries.map((industry, index) => (
+                        <option key={index} value={industry}>
+                          {industry}
+                        </option>
+                      ))}
+                    </Select>
+                  </HStack>
+                </FormControl>
+              </CardBody>
+            </Card>
+          </Box>
+
           <VStack pl={30} pr={30} spacing={3}>
             <Box w={'100%'} mb={10}>
               <Card>
                 <CardBody>
                   <FormControl>
+                    <HStack alignItems='center' spacing={4}>
+                      <Icon as={AiOutlineInfoCircle} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                      <Text m={0} fontSize='2xl'>
+                        Thông tin
+                      </Text>
+                    </HStack>
                     <HStack mt={3}>
                       <FormLabel w={'15%'}>Tên công việc</FormLabel>
                       <Input w={'35%'} type='text' value={name != null ? name : data.name} onChange={(e) => setName(e.target.value)} name='name' id='Name' />
@@ -268,15 +326,17 @@ function JobDetailRecruiter() {
                     <FormLabel>Hình ảnh</FormLabel>
                     <Image style={{ padding: '5px', width: '200px' }} src={`${data.image}`} />
                     <Input type='file' onChange={(e) => setTestImage(e.target.files[0])} name='avatar' id='avatar' />
-
-                    <Button onClick={onOpen} mt={10} colorScheme='teal'>
-                      Lưu
-                    </Button>
                   </FormControl>
                 </CardBody>
               </Card>
             </Box>
           </VStack>
+
+          <HStack justifyContent={'space-between'} pl={30} pr={30} w={'100%'} mb={5}>
+            <Button w={300} color={'white'} onClick={onOpen} bgColor={'#2cccc7'}>
+              Lưu
+            </Button>
+          </HStack>
         </Box>
         <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
           <ToastContainer />

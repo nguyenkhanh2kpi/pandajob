@@ -2,7 +2,38 @@ import React, { useId, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
-import { Box, Flex, Text, Image, Badge, Select, HStack, VStack, Button, Textarea, Input, FormControl, FormLabel, BreadcrumbItem, BreadcrumbLink, Breadcrumb, Card, CardBody } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Text,
+  Image,
+  Badge,
+  Select,
+  HStack,
+  VStack,
+  Button,
+  Textarea,
+  Input,
+  FormControl,
+  FormLabel,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Breadcrumb,
+  Card,
+  CardBody,
+  Stepper,
+  Step,
+  StepIndicator,
+  StepStatus,
+  StepTitle,
+  StepDescription,
+  StepNumber,
+  useSteps,
+  StepIcon,
+  StepSeparator,
+  Heading,
+  Icon,
+} from '@chakra-ui/react'
 import Form from 'react-bootstrap/Form'
 import { useNavigate } from 'react-router-dom'
 import './style4.css'
@@ -16,6 +47,8 @@ import { storage } from '../../firebase.js'
 import { v4 } from 'uuid'
 import { hostName } from '../../global.js'
 import { locationService } from '../../Service/location.service.js'
+import { DragHandleIcon, InfoIcon, SmallAddIcon } from '@chakra-ui/icons'
+import { AiOutlineEdit, AiOutlineFire, AiOutlineFolderOpen, AiOutlineInfoCircle } from 'react-icons/ai'
 const JobPosting = () => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -47,6 +80,9 @@ const JobPosting = () => {
   const [interest, setInterest] = useState('')
   const [image, setImage] = useState('')
 
+  const [industry, setIndustry] = useState('')
+  const [industry2, setIndustry2] = useState('')
+
   const handleUpload = (e) => {
     const storageRef = ref(storage, `/files/${e.target.files[0].name + v4()}`)
     uploadBytes(storageRef, e.target.files[0]).then((data) => {
@@ -61,7 +97,15 @@ const JobPosting = () => {
   const HandleSubmit = async (e) => {
     e.preventDefault()
     if (name === '') {
-      toast.warning('name is required!', {
+      toast.error('name is required!', {
+        position: 'top-center',
+      })
+    } else if (industry === '') {
+      toast.error('industry is required!', {
+        position: 'top-center',
+      })
+    } else if (industry2 === '') {
+      toast.error('industry2 is required!', {
         position: 'top-center',
       })
     } else if (position === '') {
@@ -118,7 +162,6 @@ const JobPosting = () => {
       })
     } else {
       try {
-        console.log('image', image)
         const formData = new FormData()
         formData.append('file', image)
 
@@ -128,8 +171,6 @@ const JobPosting = () => {
           },
         })
         const imageData = imageResponse.data.data
-
-        console.log('hình anh tren firebase', imageResponse)
         let data = JSON.stringify({
           name,
           position,
@@ -144,6 +185,8 @@ const JobPosting = () => {
           detailJob,
           requirements,
           interest,
+          industry,
+          industry2,
           image: imageData,
         })
 
@@ -190,9 +233,23 @@ const JobPosting = () => {
       .catch((er) => console.log(er))
   }, [])
 
+  // danh sach nganh nghe
+  const [industries, setIndustries] = useState([])
+  useEffect(() => {
+    axios
+      .get(`${hostName}/industries`)
+      .then((response) => {
+        setIndustries(response.data)
+      })
+      .catch((error) => {
+        console.error('There was an error fetching the industries!', error)
+      })
+  }, [])
+
   return (
     <>
       <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+        <ToastContainer />
         <Breadcrumb pt={30}>
           <BreadcrumbItem>
             <BreadcrumbLink href='/allJob_Recruiter'>Công việc của tôi</BreadcrumbLink>
@@ -202,15 +259,70 @@ const JobPosting = () => {
           </BreadcrumbItem>
         </Breadcrumb>
 
-        <Box pl={30} pr={30} minHeight={1000} w={'100%'} mb={10}>
+        {/* tiêu đề */}
+        <Box pl={30} pr={30} w={'100%'} mb={5}>
           <Card>
             <CardBody>
               <FormControl>
+                <HStack alignItems='center' spacing={4}>
+                  <Icon as={AiOutlineEdit} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                  <Text m={0} fontSize='2xl'>
+                    Tiêu đề tuyển dụng
+                  </Text>
+                </HStack>
+                <Input mt={5} w={'50%'} type='text' onChange={(e) => setName(e.target.value)} name='name' id='Name' />
+              </FormControl>
+            </CardBody>
+          </Card>
+        </Box>
+
+        {/* ngành nghề */}
+        <Box pl={30} pr={30} w={'100%'} mb={5}>
+          <Card>
+            <CardBody>
+              <FormControl>
+                <HStack alignItems='center' spacing={4}>
+                  <Icon as={AiOutlineFolderOpen} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                  <Text m={0} fontSize='2xl'>
+                    Ngành nghề
+                  </Text>
+                </HStack>
                 <HStack mt={3}>
-                  <FormLabel w={'15%'}>Tên</FormLabel>
-                  <Input w={'35%'} type='text' onChange={(e) => setName(e.target.value)} name='name' id='Name' />
+                  <FormLabel w={'15%'}>Ngành nghề chính</FormLabel>
+                  <Select w={'35%'} placeholder='Chọn ngành nghề' value={industry} onChange={(e) => setIndustry(e.target.value)}>
+                    {industries.map((industry, index) => (
+                      <option key={index} value={industry}>
+                        {industry}
+                      </option>
+                    ))}
+                  </Select>
+                  <FormLabel w={'15%'}>Ngành nghề phụ</FormLabel>
+                  <Select w={'35%'} placeholder='Chọn ngành nghề' value={industry2} onChange={(e) => setIndustry2(e.target.value)}>
+                    {industries.map((industry, index) => (
+                      <option key={index} value={industry}>
+                        {industry}
+                      </option>
+                    ))}
+                  </Select>
+                </HStack>
+              </FormControl>
+            </CardBody>
+          </Card>
+        </Box>
+        {/* thoong tin chung */}
+        <Box pl={30} pr={30} w={'100%'} mb={5}>
+          <Card>
+            <CardBody>
+              <FormControl>
+                <HStack alignItems='center' spacing={4}>
+                  <Icon as={AiOutlineInfoCircle} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                  <Text m={0} fontSize='2xl'>
+                    Thông tin chung
+                  </Text>
+                </HStack>
+                <HStack mt={3}>
                   <FormLabel w={'15%'}>Địa chỉ làm việc</FormLabel>
-                  <Input w={'35%'} type='text' onChange={(e) => setDetailLocation(e.target.value)} name='position' id='position' />
+                  <Input w={'50%'} type='text' onChange={(e) => setDetailLocation(e.target.value)} name='position' id='position' />
                 </HStack>
 
                 <HStack mt={3}>
@@ -271,26 +383,71 @@ const JobPosting = () => {
                     <option value='trên 5 năm'>trên 5 năm</option>
                   </Select>
                 </HStack>
-
-                <FormLabel>Mô tả</FormLabel>
-                <Textarea onChange={(e) => setDetailJob(e.target.value)} type='text' name='detailJob' id='detailJob' />
-
-                <FormLabel>Yêu cầu</FormLabel>
-                <Textarea onChange={(e) => setRequirements(e.target.value)} type='text' name='requirements' id='requirements' />
-
-                <FormLabel>Quyền lợi</FormLabel>
-                <Textarea onChange={(e) => setInterest(e.target.value)} type='text' name='interest' id='interest' />
-
-                <FormLabel>Hình ảnh</FormLabel>
-                <Input type='file' onChange={(e) => setImage(e.target.files[0])} name='image' id='image' />
-
-                <Button onClick={HandleSubmit} mt={10} colorScheme='teal'>
-                  Lưu
-                </Button>
               </FormControl>
             </CardBody>
           </Card>
         </Box>
+        {/* chi tiet */}
+        <Box pl={30} pr={30} minHeight={1000} w={'100%'} mb={5}>
+          <Card>
+            <CardBody>
+              <FormControl>
+                <HStack alignItems='center' spacing={4}>
+                  <Icon as={DragHandleIcon} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                  <Text m={0} fontSize='2xl'>
+                    Thông tin chi tiết
+                  </Text>
+                </HStack>
+                <FormLabel>Mô tả</FormLabel>
+                <Textarea h={250} onChange={(e) => setDetailJob(e.target.value)} type='text' name='detailJob' id='detailJob' />
+
+                <FormLabel>Yêu cầu</FormLabel>
+                <Textarea h={250} onChange={(e) => setRequirements(e.target.value)} type='text' name='requirements' id='requirements' />
+
+                <FormLabel>Quyền lợi</FormLabel>
+                <Textarea h={250} onChange={(e) => setInterest(e.target.value)} type='text' name='interest' id='interest' />
+
+                <FormLabel>Hình ảnh</FormLabel>
+                <Input type='file' onChange={(e) => setImage(e.target.files[0])} name='image' id='image' />
+              </FormControl>
+            </CardBody>
+          </Card>
+        </Box>
+        {/* bổ sung */}
+        <Box pl={30} pr={30} w={'100%'} mb={5}>
+          <Card>
+            <CardBody>
+              <FormControl>
+                <HStack alignItems='center' spacing={4}>
+                  <Icon as={AiOutlineFire} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                  <Text m={0} fontSize='2xl'>
+                    Bổ sung
+                  </Text>
+                </HStack>
+                <HStack mt={3}>
+                  <FormLabel w={'15%'}>Vip</FormLabel>
+                  <Select w={'35%'} placeholder='Select option'>
+                    <option value='option1'>Option 1</option>
+                    <option value='option2'>Option 2</option>
+                    <option value='option3'>Option 3</option>
+                  </Select>
+                  <FormLabel w={'15%'}>Bài test sàng lọc</FormLabel>
+                  <Select w={'35%'} placeholder='Select option'>
+                    <option value='option1'>Option 1</option>
+                    <option value='option2'>Option 2</option>
+                    <option value='option3'>Option 3</option>
+                  </Select>
+                </HStack>
+              </FormControl>
+            </CardBody>
+          </Card>
+        </Box>
+
+        <HStack justifyContent={'space-between'} pl={30} pr={30} w={'100%'} mb={5}>
+          <Button w={300} color={'white'} onClick={HandleSubmit} bgColor={'#2cccc7'}>
+            Lưu
+          </Button>
+        </HStack>
       </Box>
     </>
   )

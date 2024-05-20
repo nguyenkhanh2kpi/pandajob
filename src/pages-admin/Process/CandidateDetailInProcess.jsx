@@ -1,4 +1,4 @@
-import { DragHandleIcon, ViewIcon } from '@chakra-ui/icons'
+import { DragHandleIcon, EmailIcon, PhoneIcon, SearchIcon, ViewIcon } from '@chakra-ui/icons'
 import {
   Modal,
   ModalOverlay,
@@ -27,6 +27,12 @@ import {
   Stack,
   Checkbox,
   useToast,
+  Tr,
+  Td,
+  List,
+  ListItem,
+  ListIcon,
+  Badge,
 } from '@chakra-ui/react'
 import { cvService } from '../../Service/cv.service'
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns'
@@ -41,14 +47,13 @@ const State = {
   ACCEPT: 'Nhận việc',
   REJECT: 'Từ chối',
 }
-
-const valueTemplate = (data) => {
-  return (
-    <HStack fontFamily={'Montserrat'} spacing={2}>
-      <Box w={3} h={3} borderRadius='50%' bgColor={data.color}></Box>
-      <Text mt={3}>{data.name}</Text>
-    </HStack>
-  )
+const State1 = {
+  RECEIVE_CV: { displayName: 'Tiếp nhận CV', colorScheme: 'blue' },
+  SUITABLE: { displayName: 'Phù hợp yêu cầu', colorScheme: 'green' },
+  SCHEDULE_INTERVIEW: { displayName: 'Lên lịch phỏng vấn', colorScheme: 'orange' },
+  SEND_PROPOSAL: { displayName: 'Gửi đề nghị', colorScheme: 'purple' },
+  ACCEPT: { displayName: 'Nhận việc', colorScheme: 'teal' },
+  REJECT: { displayName: 'Từ chối', colorScheme: 'red' },
 }
 
 export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
@@ -57,6 +62,7 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
   const [labels, setLabels] = useState([])
   const toast = useToast()
   const [cv, setCV] = useState({})
+  const [checkedLabels, setCheckedLabels] = useState({})
 
   useEffect(() => {
     labelService
@@ -88,8 +94,8 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
       .catch((er) => console.log(er))
   }, [load])
 
-  // ;=label
-  const [checkedLabels, setCheckedLabels] = useState({})
+  // label
+
   const handleCheckboxChange = (labelId) => {
     setCheckedLabels((prevCheckedLabels) => ({
       ...prevCheckedLabels,
@@ -98,29 +104,58 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
   }
   useEffect(() => {
     const checkedLabelIds = Object.keys(checkedLabels).filter((labelId) => checkedLabels[labelId])
-    if (checkedLabelIds.length >= 0) {
+    if (checkedLabelIds.length > 0 && labels.length > 0) {
+      console.log('checked lanle', JSON.stringify(checkedLabels))
       cvService
-        .updateLabel(accessToken, candidate.cvId, JSON.stringify(checkedLabelIds))
-        .then((response) => console.log(response))
+        .updateLabel(accessToken, candidate.cvId, JSON.stringify(checkedLabels))
+        .then((response) => console.log('chel', response))
         .catch((er) => console.log(er))
     }
   }, [checkedLabels])
 
+  // view
+  const handleChangeView = () => {
+    cvService
+      .updateView(accessToken, candidate.cvId, !candidate.view)
+      .then((response) => console.log(response))
+      .catch((er) => console.log(er))
+      .finally(() => setLoad(!load))
+  }
+
   return (
     <>
-      <Card mb={5} onClick={onOpen}>
-        <CardBody>
-          <HStack>
-            <Text fontWeight={'bold'} w={'25%'}>
-              {candidate.fullName}
-            </Text>
-            <Text w={'25%'}>{candidate.email}</Text>
-            <Text w={'25%'}>{candidate.applyDate}</Text>
-            <Text w={'25%'}> {candidate.cvStatus}</Text>
-          </HStack>
-        </CardBody>
-      </Card>
-      {/* <IconButton  bgColor={'white'} aria-label='Search database' icon={<ViewIcon />} /> */}
+      <Tr>
+        <Td>
+          <Flex spacing='4'>
+            <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+              <Avatar src={candidate.avatar} />
+              <Box>
+                <Heading size='sm'>{candidate.fullName}</Heading>
+                <Text>{candidate.view ? <Badge colorScheme='green'>Đã xem</Badge> : <Badge>Chưa xem</Badge>}</Text>
+              </Box>
+            </Flex>
+          </Flex>
+        </Td>
+        <Td>
+          <IconButton onClick={onOpen} icon={<SearchIcon />} />
+        </Td>
+        <Td>
+          <List p={0} m={0}>
+            <ListItem>
+              <ListIcon as={EmailIcon} color='green.500' />
+              {candidate.email}
+            </ListItem>
+            <ListItem>
+              <ListIcon as={PhoneIcon} color='green.500' />
+              {candidate.phone}
+            </ListItem>
+          </List>
+        </Td>
+        <Td>{candidate.applyDate}</Td>
+        <Td>
+          <Badge colorScheme={State1[candidate.cvStatus].colorScheme}>{State1[candidate.cvStatus].displayName}</Badge>
+        </Td>
+      </Tr>
 
       <Modal size={'6xl'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -159,23 +194,25 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
                     <Heading mt={5} size='sm'>
                       Nhãn
                     </Heading>
-                    <CheckboxGroup colorScheme='green' defaultValue={['naruto', 'kakashi']}>
-                      <VStack w={'100%'} alignItems={'flex-start'} spacing={[1, 5]} direction={['column', 'row']}>
+
+                    <VStack w={'100%'} alignItems={'flex-start'} spacing={[1, 5]} direction={['column', 'row']}>
+                      <CheckboxGroup colorScheme='green'>
                         {labels?.map((label) => (
-                          <Checkbox key={label.id} isChecked={checkedLabels[label.id]} onChange={() => handleCheckboxChange(label.id)}>
+                          <Checkbox key={label.id} onChange={() => handleCheckboxChange(label.id)} isChecked={checkedLabels[label.id]}>
                             <Text m={0}>{label.name}</Text>
                           </Checkbox>
                         ))}
-                      </VStack>
-                    </CheckboxGroup>
+                      </CheckboxGroup>
+                    </VStack>
+
                     <Heading mt={5} size='sm'>
                       Đã xem
                     </Heading>
-                    <Checkbox colorScheme='green' defaultChecked>
+                    <Checkbox onChange={handleChangeView} defaultChecked={candidate.view} colorScheme='green'>
                       Đã xem
                     </Checkbox>
                     <Button mt={5} w={'100%'} color={'white'} bgColor={'#2cccc7'}>
-                      Lưu
+                      Báo cáo
                     </Button>
                   </CardBody>
                 </Card>

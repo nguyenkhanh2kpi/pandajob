@@ -53,9 +53,9 @@ const TestAddForm = () => {
     <>
       {test ? (
         <>
-          <Box spacing={3} h={1100} fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
+          <Box spacing={3} h={1100} fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
             <HStack justifyContent={'space-between'} w={'100%'}>
-              <Breadcrumb>
+              <Breadcrumb pt={30}>
                 <BreadcrumbItem>
                   <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
                 </BreadcrumbItem>
@@ -67,51 +67,20 @@ const TestAddForm = () => {
                 </BreadcrumbItem>
               </Breadcrumb>
             </HStack>
-            <VStack>
+            <VStack pl={30} pr={30}>
               <Box h={1000} borderRadius={20} backgroundColor={'#e9f3f5'} w={'100%'} mb={10}>
-                <Text fontSize={20} fontWeight={'bold'} justifyContent={'space-between'} align={'center'} w={'100%'}>
-                  {test.summary}
-                </Text>
                 <HStack alignItems={'flex-start'} w={'100%'}>
                   <VStack w={'20%'}>
-                    <Box
-                      backgroundColor={'#ffffff'}
-                      borderRadius={10}
-                      pl={4}
-                      alignContent={'center'}
-                      h={50}
-                      overflow={'hidden'}
-                      fontWeight={'bold'}
-                      fontSize={14}
-                      _hover={{
-                        backgroundColor: 'gray.200',
-                        cursor: 'pointer',
-                      }}
-                      boxShadow={'lg'}
-                      w={'100%'}>
+                    <Box backgroundColor={'#ffffff'} borderRadius={5} pl={4} alignContent={'center'} h={50} overflow={'hidden'} fontWeight={'bold'} fontSize={14} boxShadow={'lg'} w={'100%'}>
                       Number of question: {test.questions.length}
                     </Box>
-                    <Box
-                      backgroundColor={'#ffffff'}
-                      borderRadius={10}
-                      pl={4}
-                      alignContent={'center'}
-                      h={50}
-                      overflow={'hidden'}
-                      fontWeight={'bold'}
-                      fontSize={14}
-                      _hover={{
-                        backgroundColor: 'gray.200',
-                        cursor: 'pointer',
-                      }}
-                      boxShadow={'lg'}
-                      w={'100%'}>
+                    <Box backgroundColor={'#ffffff'} borderRadius={5} pl={4} alignContent={'center'} h={50} overflow={'hidden'} fontWeight={'bold'} fontSize={14} boxShadow={'lg'} w={'100%'}>
                       Start: {new Date(test.startTime).toLocaleString()}
                     </Box>
                     <ImportExcel testID={test.id} load={load} setLoad={setLoad} />
                   </VStack>
 
-                  <Box backgroundColor={'#ffffff'} borderRadius={10} borderWidth={1} boxShadow={'lg'} w={'80%'}>
+                  <Box backgroundColor={'#ffffff'} borderRadius={5} borderWidth={1} boxShadow={'lg'} w={'80%'}>
                     <Box h={840} overflowY='auto' mt={30} mb={30} w={'100%'}>
                       {test.questions.length > 0 ? test.questions.map((question) => <QuestionItem setLoad={setLoad} load={load} key={question.id} question={question} testId={test.id} />) : <QuestionItem setLoad={setLoad} load={load} question={null} testId={test.id} />}
                     </Box>

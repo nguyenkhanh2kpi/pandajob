@@ -29,6 +29,8 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  CardBody,
+  Card,
 } from '@chakra-ui/react'
 import { loadJob } from '../../redux/Job-posting/Action'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -60,9 +62,9 @@ const Screening = () => {
   }, [load])
 
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
+    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
       <HStack justifyContent={'space-between'} w={'100%'}>
-        <Breadcrumb>
+        <Breadcrumb pt={30}>
           <BreadcrumbItem>
             <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
           </BreadcrumbItem>
@@ -103,19 +105,25 @@ const TestItemByJob = ({ jobId, load, setLoad }) => {
 const TestItem = ({ test, jobId, load, setLoad }) => {
   const navigate = useNavigate()
   return (
-    <Box backgroundColor={'#ffffff'} m={5} boxShadow={'md'} borderRadius={10} p={5} w={'100%'}>
-      <HStack>
-        <Image w={100} height={100} src='https://freedomtoteach.collins.co.uk/wp-content/uploads/sites/87/2023/03/shutterstock_397626016-1-scaled.jpg' />
-        <VStack>
-          <IconButton onClick={() => navigate(`/process/screening-test/${test.id}`)} backgroundColor={'#97E7E1'} icon={<AiOutlineEdit />} />
-          <IconButton backgroundColor={'#FEC7B4'} icon={<AiOutlineDelete />} />
-        </VStack>
-        <Box pl={30} w={'100%'}>
-          <Text>Test name: {test.summary}</Text>
-          <Text>
-            From: {new Date(test.startTime).toLocaleString()} to {new Date(test.endTime).toLocaleString()}
-          </Text>
-        </Box>
+    <Box w={'100%'}>
+      <HStack w={'100%'} mb={5} pl={30} pr={30}>
+        <Card w={'100%'}>
+          <CardBody>
+            <HStack>
+              <Image w={100} height={100} src='https://freedomtoteach.collins.co.uk/wp-content/uploads/sites/87/2023/03/shutterstock_397626016-1-scaled.jpg' />
+              <VStack>
+                <IconButton onClick={() => navigate(`/process/screening-test/${test.id}`)} backgroundColor={'#97E7E1'} icon={<AiOutlineEdit />} />
+                <IconButton backgroundColor={'#FEC7B4'} icon={<AiOutlineDelete />} />
+              </VStack>
+              <Box pl={30} w={'100%'}>
+                <Text>Test name: {test.summary}</Text>
+                <Text>
+                  From: {new Date(test.startTime).toLocaleString()} to {new Date(test.endTime).toLocaleString()}
+                </Text>
+              </Box>
+            </HStack>
+          </CardBody>
+        </Card>
       </HStack>
     </Box>
   )
@@ -177,8 +185,7 @@ const AddTestForm = ({ jobId, load, setLoad }) => {
 
   return (
     <>
-      {/* <IconButton ml={5} onClick={onOpen} icon={<AiOutlinePlus />} /> */}
-      <Button ml={8} color='white' borderRadius={10} backgroundColor={'rgb(3, 201, 215)'} onClick={onOpen} mr={3}>
+      <Button ml={8} color='white' borderRadius={10} backgroundColor={'rgb(3, 201, 215)'} onClick={onOpen} mr={30}>
         + new test
       </Button>
       <Modal fontFamily={'Montserrat'} size={'2xl'} isOpen={isOpen} onClose={onClose}>

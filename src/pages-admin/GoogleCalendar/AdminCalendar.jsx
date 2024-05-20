@@ -131,13 +131,13 @@ export const AdminCalendar = () => {
   } else
     return (
       <>
-        <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
-          <Breadcrumb>
+        <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} >
+          <Breadcrumb pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='#'>Calendar</BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-          <VStack spacing={3}>
+          <VStack spacing={3} ml={30} mr={30}>
             {/* <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}> */}
             <ScheduleComponent actionBegin={onActionBegin} height='650px' ref={(schedule) => setScheduleObj(schedule)} eventSettings={{ dataSource: displayCalendar }} selectedDate={new Date()} dragStart={onDragStart}>
               <ResourcesDirective>

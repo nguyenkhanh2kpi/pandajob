@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Image, Button, VStack, Grid, GridItem, List, Breadcrumb, BreadcrumbItem, BreadcrumbLink, HStack, CardBody, Card } from '@chakra-ui/react'
+import { Box, Flex, Text, Image, Button, VStack, Grid, GridItem, List, Breadcrumb, BreadcrumbItem, BreadcrumbLink, HStack, CardBody, Card, ListItem, ListIcon, Switch } from '@chakra-ui/react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { BsBag } from 'react-icons/bs'
@@ -12,6 +12,8 @@ import { toast, ToastContainer } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { hostName, webHost } from '../../global'
 import { FcFlashOn } from 'react-icons/fc'
+import { MdCheckCircle, MdSettings } from 'react-icons/md'
+import { ArrowUpIcon, CheckIcon, DeleteIcon, Search2Icon, StarIcon, ViewIcon } from '@chakra-ui/icons'
 const AllJob = () => {
   const navigate = useNavigate()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
@@ -59,12 +61,40 @@ const AllJob = () => {
       <Box w='100%' key={job.id} mb={5}>
         <Card>
           <CardBody>
-            <Link to={`/allJob_Recruiter/jobDetail_Recruiter/${job.id}`}>
-              <HStack>
-                <Text fontSize='20px'>{job.name}</Text>
-              </HStack>
+            <HStack>
+              <Text fontSize='20px'>{job.name}</Text>
+            </HStack>
 
-              <Flex>
+            <List spacing={3}>
+              <ListItem>
+                <ListIcon as={ViewIcon} color='green.500' />
+                Hiển thị <Switch size='lg' />
+              </ListItem>
+              <ListItem>
+                <ListIcon as={StarIcon} color='green.500' />
+                Chưa kích hoạt dịch vụ
+              </ListItem>
+              <ListItem>
+                {/* <ListIcon as={MdSettings} color='green.500' />
+                <Link to={`/allJob_Recruiter/jobDetail_Recruiter/${job.id}`}>Chỉnh sửa</Link> */}
+                <HStack>
+                  <Button rightIcon={<Search2Icon />} colorScheme='blue' variant='outline'>
+                    Xem CV ứng tuyển
+                  </Button>
+                  <Button onClick={() => navigate(`/allJob_Recruiter/jobDetail_Recruiter/${job.id}`)} rightIcon={<MdSettings />} colorScheme='gray' variant='outline'>
+                    Chỉnh sửa
+                  </Button>
+                  <Button onClick={() => navigate(`/process/screening/${job.id}`)} rightIcon={<CheckIcon />} colorScheme='yellow' variant='outline'>
+                    Bài test sàng lọc
+                  </Button>
+                  <Button rightIcon={<DeleteIcon />} colorScheme='red' variant='outline' data-value={job.id} onClick={submitHandler}>
+                    Xóa
+                  </Button>
+                </HStack>
+              </ListItem>
+            </List>
+
+            {/* <Flex>
                 <Box m={2} display='flex'>
                   <Button>Kinh nghiệm: {job.experience}</Button>
                 </Box>
@@ -80,8 +110,8 @@ const AllJob = () => {
                 <Button color={'white'} bgColor={'#76d6c0'} m={2} data-value={job.id}>
                   Đẩy top
                 </Button>
-              </Flex>
-            </Link>
+              </Flex> */}
+
             <ToastContainer />
           </CardBody>
         </Card>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { IoIosMore } from 'react-icons/io'
 import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns'
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Grid, GridItem, HStack, IconButton, Image, Skeleton, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, ButtonGroup, Card, CardBody, CardFooter, CardHeader, Divider, Grid, GridItem, HStack, Heading, IconButton, Image, SimpleGrid, Skeleton, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
 import { dropdownData } from '../../data/dummy'
 import { useStateContext } from '../../contexts/ContextProvider'
 import product9 from '../../data/product9.jpg'
@@ -75,88 +75,165 @@ export const K_Event = () => {
   } else
     return (
       <>
-        <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
-        <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
+        <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
           <HStack justifyContent={'space-between'} w={'100%'}>
-            <Breadcrumb>
+            <Breadcrumb pt={30}>
               <BreadcrumbItem>
                 <BreadcrumbLink href='#'>Events</BreadcrumbLink>
               </BreadcrumbItem>
             </Breadcrumb>
-            <Button color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px'>
+            <Button mr={30} color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px'>
               <Link to='/event/add'>+ Add event</Link>
             </Button>
           </HStack>
-          <VStack spacing={3}>
-            <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#e9f3f5'} w={'100%'} mb={10}>
-              <Grid p={5} w={'100%'} templateColumns='repeat(3, 1fr)' gap={3}>
+          <VStack spacing={3} pl={30} pr={30}>
+            <Box minHeight={1000} overflow='auto' w={'100%'} mb={10}>
+              <SimpleGrid maxW='100%' w='100%' spacing={4} templateColumns='repeat(auto-fill, minmax(300px, 1fr))'>
+                {events
+                  .filter((event) => event.status)
+                  .map((event) => (
+                    <Card maxW='sm'>
+                      <CardBody>
+                        <Image src={event.image} alt={event.title} borderRadius='lg' />
+                        <Stack mt='6' spacing='3'>
+                          <Heading size='md'>{event.title}</Heading>
+                          <Text>{event.article}</Text>
+                          <Text color='blue.600' fontSize='2xl'>
+                            {formatDate(event.time)}
+                          </Text>
+                        </Stack>
+                      </CardBody>
+                      <Divider />
+                      <CardFooter>
+                        <ButtonGroup spacing='2'>
+                          <Button onClick={() => naigate(`/event/edit/${event.id}`)} variant='solid' colorScheme='blue'>
+                            Sửa
+                          </Button>
+                          <Button onClick={() => handleDelete(event.id)} variant='ghost' colorScheme='blue'>
+                            Xóa
+                          </Button>
+                        </ButtonGroup>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                {events
+                  .filter((event) => event.status)
+                  .map((event) => (
+                    <Card maxW='sm'>
+                      <CardBody>
+                        <Image src={event.image} alt={event.title} borderRadius='lg' />
+                        <Stack mt='6' spacing='3'>
+                          <Heading size='md'>{event.title}</Heading>
+                          <Text>{event.article}</Text>
+                          <Text color='blue.600' fontSize='2xl'>
+                            {formatDate(event.time)}
+                          </Text>
+                        </Stack>
+                      </CardBody>
+                      <Divider />
+                      <CardFooter>
+                        <ButtonGroup spacing='2'>
+                          <Button onClick={() => naigate(`/event/edit/${event.id}`)} variant='solid' colorScheme='blue'>
+                            Sửa
+                          </Button>
+                          <Button onClick={() => handleDelete(event.id)} variant='ghost' colorScheme='blue'>
+                            Xóa
+                          </Button>
+                        </ButtonGroup>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                {events
+                  .filter((event) => event.status)
+                  .map((event) => (
+                    <Card maxW='sm'>
+                      <CardBody>
+                        <Image src={event.image} alt={event.title} borderRadius='lg' />
+                        <Stack mt='6' spacing='3'>
+                          <Heading size='md'>{event.title}</Heading>
+                          <Text>{event.article}</Text>
+                          <Text color='blue.600' fontSize='2xl'>
+                            {formatDate(event.time)}
+                          </Text>
+                        </Stack>
+                      </CardBody>
+                      <Divider />
+                      <CardFooter>
+                        <ButtonGroup spacing='2'>
+                          <Button onClick={() => naigate(`/event/edit/${event.id}`)} variant='solid' colorScheme='blue'>
+                            Sửa
+                          </Button>
+                          <Button onClick={() => handleDelete(event.id)} variant='ghost' colorScheme='blue'>
+                            Xóa
+                          </Button>
+                        </ButtonGroup>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                {events
+                  .filter((event) => event.status)
+                  .map((event) => (
+                    <Card maxW='sm'>
+                      <CardBody>
+                        <Image src={event.image} alt={event.title} borderRadius='lg' />
+                        <Stack mt='6' spacing='3'>
+                          <Heading size='md'>{event.title}</Heading>
+                          <Text>{event.article}</Text>
+                          <Text color='blue.600' fontSize='2xl'>
+                            {formatDate(event.time)}
+                          </Text>
+                        </Stack>
+                      </CardBody>
+                      <Divider />
+                      <CardFooter>
+                        <ButtonGroup spacing='2'>
+                          <Button onClick={() => naigate(`/event/edit/${event.id}`)} variant='solid' colorScheme='blue'>
+                            Sửa
+                          </Button>
+                          <Button onClick={() => handleDelete(event.id)} variant='ghost' colorScheme='blue'>
+                            Xóa
+                          </Button>
+                        </ButtonGroup>
+                      </CardFooter>
+                    </Card>
+                  ))}
+              </SimpleGrid>
+
+              {/* <Grid p={5} w={'100%'} templateColumns='repeat(3, 1fr)' gap={3}>
                 {events
                   .filter((event) => event.status)
                   .map((event) => (
                     <GridItem w={'100%'}>
-                      <Box backgroundColor={'#ffffff'} borderRadius={20} p={5} boxShadow={'lg'} key={event.id}>
-                        <div className='flex justify-between'>
-                          <p className='text-xl font-semibold'>{event.title}</p>
-                          <button type='button' className='text-xl font-semibold text-gray-500'>
-                            <IoIosMore onClick={() => naigate(`/event/edit/${event.id}`)} />
-                          </button>
-                        </div>
-                        <div className='mt-10'>
-                          <Image className='md:w-96 h-50 ' src={event.image} alt={product9} />
-                          <div className='mt-8'>
-                            <p className='font-semibold text-lg'>{event.author}</p>
-                            <p className='text-gray-400 '>{formatDate(event.time)}</p>
-                            <p className='mt-8 text-sm text-gray-400'>{event.article}</p>
-                            <div className='mt-3'>
-                              <IconButton color='#03C9D7' backgroundColor='#f7f7f7' aria-label='Search database' icon={<EditIcon />} onClick={() => naigate(`/event/edit/${event.id}`)} />
-                              <IconButton color='#e85f76' backgroundColor='#f7f7f7' aria-label='Search database' icon={<DeleteIcon />} value={event.id} onClick={() => handleDelete(event.id)} />
-                            </div>
-                          </div>
-                        </div>
+                      <Box backgroundColor='#ffffff' borderRadius={20} p={5} boxShadow='lg' key={event.id}>
+                        <Box d='flex' justifyContent='space-between'>
+                          <Text fontSize='xl' fontWeight='semibold'>
+                            {event.title}
+                          </Text>
+                          <IconButton color='#03C9D7' backgroundColor='#f7f7f7' aria-label='Edit' icon={<EditIcon />} />
+                        </Box>
+                        <Box mt={10}>
+                          <Image w='md' h='50' src={event.image} alt={event.title} />
+                          <Box mt={8}>
+                            <Text fontWeight='semibold' fontSize='lg'>
+                              {event.author}
+                            </Text>
+                            <Text color='gray.400'>{formatDate(event.time)}</Text>
+                            <Text mt={8} fontSize='sm' color='gray.400'>
+                              {event.article}
+                            </Text>
+                            <Box mt={3}>
+                              <IconButton color='#e85f76' backgroundColor='#f7f7f7' aria-label='Delete' icon={<DeleteIcon />}  />
+                            </Box>
+                          </Box>
+                        </Box>
                       </Box>
                     </GridItem>
                   ))}
-              </Grid>
+              </Grid> */}
             </Box>
           </VStack>
         </Box>
-        {/* 
-        <Box fontFamily={'Montserrat'} fontWeight={400} className='m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl'>
-          <Header title='Event' />
-
-          <Button color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px'>
-            <Link to='/event/add'>+ Add event</Link>
-          </Button>
-
-          <div className='mt-5'>
-            <div className='flex flex-wrap'>
-              {events
-                .filter((event) => event.status)
-                .map((event) => (
-                  <Box borderWidth={1} key={event.id} className='w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3'>
-                    <div className='flex justify-between'>
-                      <p className='text-xl font-semibold'>{event.title}</p>
-                      <button type='button' className='text-xl font-semibold text-gray-500'>
-                        <IoIosMore />
-                      </button>
-                    </div>
-                    <div className='mt-10'>
-                      <img className='md:w-96 h-50 ' src={event.image} alt={product9} />
-                      <div className='mt-8'>
-                        <p className='font-semibold text-lg'>{event.author}</p>
-                        <p className='text-gray-400 '>{formatDate(event.time)}</p>
-                        <p className='mt-8 text-sm text-gray-400'>{event.article}</p>
-                        <div className='mt-3'>
-                          <IconButton color='#03C9D7' backgroundColor='#f7f7f7' aria-label='Search database' icon={<EditIcon />} onClick={() => naigate(`/event/edit/${event.id}`)} />
-                          <IconButton color='#e85f76' backgroundColor='#f7f7f7' aria-label='Search database' icon={<DeleteIcon />} value={event.id} onClick={() => handleDelete(event.id)} />
-                        </div>
-                      </div>
-                    </div>
-                  </Box>
-                ))}
-            </div>
-          </div>
-        </Box> */}
+        <ToastContainer />
       </>
     )
 }

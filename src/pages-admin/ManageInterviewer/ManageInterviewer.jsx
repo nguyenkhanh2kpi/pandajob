@@ -78,17 +78,17 @@ export const ManageInterviewer = () => {
     )
   } else
     return (
-      <Box h={1000} fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
-        <HStack justifyContent={'space-between'} w={'100%'} pr={30}>
-          <Breadcrumb pt={30}>
+      <Box fontFamily={'Montserrat'}>
+        <HStack justifyContent={'space-between'} w={'100%'}>
+          {/* <Breadcrumb pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='#'>HR team</BreadcrumbLink>
             </BreadcrumbItem>
-          </Breadcrumb>
+          </Breadcrumb> */}
           <AddInterviewer />
         </HStack>
 
-        <VStack pl={30} pr={30}>
+        <VStack >
           <Box h={900} w='100%'>
             <VStack mt={3} w='100%'>
               {hrs.map((hr) => (
@@ -122,7 +122,6 @@ export const ManageInterviewer = () => {
               ))}
             </VStack>
           </Box>
-          {/* <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' /> */}
         </VStack>
       </Box>
     )

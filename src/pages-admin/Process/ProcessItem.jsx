@@ -1,4 +1,6 @@
 import {
+  Avatar,
+  Badge,
   Box,
   Breadcrumb,
   BreadcrumbItem,
@@ -20,15 +22,25 @@ import {
   InputGroup,
   InputLeftElement,
   Link,
+  List,
+  ListIcon,
+  ListItem,
   Radio,
   Select,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
+  Table,
+  TableContainer,
   Tabs,
+  Tbody,
+  Td,
   Text,
   Textarea,
+  Th,
+  Thead,
+  Tr,
   VStack,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -44,7 +56,7 @@ import { AiOutlinePlayCircle } from 'react-icons/ai'
 import { jobService } from '../../Service/job.service'
 import { locationService } from '../../Service/location.service'
 import { Stack } from 'react-bootstrap'
-import { SearchIcon } from '@chakra-ui/icons'
+import { EmailIcon, PhoneIcon, SearchIcon } from '@chakra-ui/icons'
 import { CandidateDetailInProces } from './CandidateDetailInProcess'
 import { ManageLabel } from './ManageLabel'
 import { labelService } from '../../Service/label.service'
@@ -138,14 +150,10 @@ export const ProcessItem = () => {
 
             <TabPanels>
               <TabPanel>
-                <Card>
-                  <CardBody>
-                    <Link color={'blue'} href={`/allJob_Recruiter/jobDetail_Recruiter/${job.id}`}>
-                      Chỉnh sửa bài đăng
-                    </Link>
-                    <Post jobId={params.jobId} />
-                  </CardBody>
-                </Card>
+                <Link color={'blue'} href={`/allJob_Recruiter/jobDetail_Recruiter/${job.id}`}>
+                  Chỉnh sửa bài đăng
+                </Link>
+                <Post jobId={params.jobId} />
               </TabPanel>
               <TabPanel>
                 <StepProcess job={job} />
@@ -447,85 +455,33 @@ const Post = ({ jobId }) => {
   }, [])
   return (
     <>
-      <FormControl>
-        <HStack mt={3}>
-          <FormLabel w={'15%'}>Tên công việc</FormLabel>
-          <Input w={'35%'} type='text' value={data.name} name='name' id='Name' />
-          <FormLabel w={'15%'}>Địa chỉ làm việc</FormLabel>
-          <Input w={'35%'} type='text' value={data.detailLocation} name='position' id='position' />
-        </HStack>
-
-        <HStack mt={3}>
-          <FormLabel w={'15%'}>Lương</FormLabel>
-          <Select w={'35%'} value={data.salary}>
-            <option value='all'>Mức lương</option>
-            <option value='Dưới 10 triệu'>Dưới 10 triệu</option>
-            <option value='10 -15 triệu'>10 -15 triệu</option>
-            <option value='15 -20 triệu'>15 -20 triệu</option>
-            <option value='20 -25 triệu'>20 -25 triệu</option>
-            <option value='25 -30 triệu'>25 -30 triệu</option>
-            <option value='30 -50 triệu'>30 -50 triệu</option>
-            <option value='trên 50 triệu'>trên 50 triệu</option>
-            <option value='thỏa thuận'>thỏa thuận</option>
-          </Select>
-          <FormLabel w={'15%'}>Hình thức làm việc</FormLabel>
-          <Input w={'35%'} type='text' name='workingForm' id='workingForm' value={data.workingForm} />
-        </HStack>
-
-        <HStack mt={3}>
-          <FormLabel w={'15%'}>Địa chỉ</FormLabel>
-          <Select w={'35%'} value={data.location}>
-            <option value='all'>Địa điểm</option>
-            {province.map((p) => (
-              <option key={p.id} value={p.name}>
-                {p.name}
-              </option>
-            ))}
-          </Select>
-          <FormLabel w={'15%'}>Ngôn ngữ</FormLabel>
-          <Input value={data.language} w={'35%'} type='text' name='language' id='language' />
-        </HStack>
-
-        <HStack mt={3}>
-          <FormLabel w={'15%'}>Giới tính</FormLabel>
-          <Select w={'35%'} value={data.sex}>
-            <option value='Nam'>Nam</option>
-            <option value='Nữ'>Nữ</option>
-            <option value='Không yêu cầu'>Không yêu cầu</option>
-          </Select>
-          <FormLabel w={'15%'}>Số lượng tuyển</FormLabel>
-          <Input value={data.number} w={'35%'} type='text' name='number' id='number' />
-        </HStack>
-
-        <HStack mt={3}>
-          <FormLabel w={'15%'}>Chức vụ</FormLabel>
-          <Input w={'35%'} value={data.position} type='text' name='detailLocation' id='detailLocation' />
-          <FormLabel w={'15%'}>Kinh nghiệm</FormLabel>
-          <Select w={'35%'} value={data.experience}>
-            <option value='all'>Kinh nghiệm</option>
-            <option value='chưa có'>chưa có</option>
-            <option value='dưới 1 năm'>dưới 1 năm</option>
-            <option value='1 năm'>1 năm</option>
-            <option value='2 năm'>2 năm</option>
-            <option value='3 năm'>3 năm</option>
-            <option value='4 năm'>4 năm</option>
-            <option value='5 năm'>5 năm</option>
-            <option value='trên 5 năm'>trên 5 năm</option>
-          </Select>
-        </HStack>
-
-        <FormLabel>Mô tả</FormLabel>
-        <Textarea height={200} value={data.detailJob} type='text' name='detailJob' id='detailJob' />
-
-        <FormLabel>Yêu cầu</FormLabel>
-        <Textarea height={200} value={data.requirements} type='text' name='requirements' id='requirements' />
-
-        <FormLabel>Quyền lợi</FormLabel>
-        <Textarea height={200} value={data.interest} type='text' name='interest' id='interest' />
-
-        <FormLabel>Hình ảnh</FormLabel>
-        <Image style={{ padding: '5px', width: '200px' }} src={`${data.image}`} />
-      </FormControl>
+      <Box borderWidth='1px' borderRadius='lg' p={6} overflow='hidden' boxShadow='md'>
+        <Stack direction='row' align='center' mb={4}>
+          <Image boxSize='50px' objectFit='cover' src={data.image} alt={data.name} borderRadius='full' mr={4} />
+          <Box>
+            <Text fontWeight='bold' fontSize='lg'>
+              {data.name}
+            </Text>
+            <Badge colorScheme='green' mt={1}>
+              {data.position}
+            </Badge>
+          </Box>
+        </Stack>
+        <VStack spacing={2} align='start'>
+          <Text>
+            <strong>Location:</strong> {data.location}
+          </Text>
+          <Text>
+            <strong>Salary:</strong> {data.salary}
+          </Text>
+          <Text>
+            <strong>Experience:</strong> {data.experience}
+          </Text>
+          <Text>
+            <strong>Working Form:</strong> {data.workingForm}
+          </Text>
+        </VStack>
+      </Box>
     </>
   )
 }
@@ -549,7 +505,7 @@ const ListCVTab = ({ job, setTabIndex }) => {
       .getCandidatesByJob(accessToken, job.id)
       .then((response) => setCandidates(response))
       .catch((er) => console.log(er))
-  }, [job,load])
+  }, [job, load])
 
   useEffect(() => {
     labelService
@@ -557,6 +513,46 @@ const ListCVTab = ({ job, setTabIndex }) => {
       .then((response) => setLabels(response))
       .catch((er) => console.log(er))
   }, [])
+
+  // bộ lọc
+  const [filteredCandidates, setFilteredCandidates] = useState([])
+  const [filter, setFilter] = useState('')
+  const [statusFilter, setStatusFilter] = useState('')
+  const [labelFilter, setLabelFilter] = useState('')
+
+  useEffect(() => {
+    const applyFilters = () => {
+      let filtered = candidates
+      if (filter) {
+        filtered = filtered.filter((candidate) => (filter === 'viewed' ? candidate.view === true : candidate.view === false))
+      }
+      if (statusFilter) {
+        filtered = filtered.filter((candidate) => candidate.cvStatus === statusFilter)
+      }
+      if (labelFilter) {
+        filtered = filtered.filter((candidate) => {
+          const candidateLabels = JSON.parse(candidate.labels);
+          // Lọc nhãn có giá trị là true
+          return candidateLabels[labelFilter] === true;
+        });
+      }
+      setFilteredCandidates(filtered)
+    }
+
+    applyFilters()
+  }, [candidates, filter, statusFilter,labelFilter])
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value)
+  }
+
+  const handleFilterStatusChange = (event) => {
+    setStatusFilter(event.target.value)
+  }
+
+  const handleLabelFilterChange = (event) => {
+    setLabelFilter(event.target.value)
+  }
 
   return (
     <>
@@ -567,35 +563,51 @@ const ListCVTab = ({ job, setTabIndex }) => {
           </InputLeftElement>
           <Input type='text' placeholder='Tìm ứng viên' />
         </InputGroup>
-        <Select placeholder='Tất cả trạng thái'>
+        <Select placeholder='Tất cả trạng thái' onChange={handleFilterStatusChange}>
           {Object.entries(states).map(([key, value]) => (
             <option key={key} value={key}>
               {value}
             </option>
           ))}
         </Select>
-        <Select placeholder='Hiện tất cả cv'>
-          <option value='option1'>Đã xem</option>
-          <option value='option2'>Chưa xem</option>
+        <Select placeholder='Hiện tất cả CV' onChange={handleFilterChange}>
+          <option value='viewed'>Đã xem</option>
+          <option value='notViewed'>Chưa xem</option>
         </Select>
-        <Select placeholder='Tất cả nhãn'>
+        <Select placeholder='Tất cả nhãn' onChange={handleLabelFilterChange}>
           {labels.map((label) => (
-            <option value='option1'>{label.name}</option>
+            <option key={label.id} value={label.id}>
+              {label.name}
+            </option>
           ))}
         </Select>
       </HStack>
-      <Box bgColor={'#FEEBC8'} w={'100%'} as='blockquote' borderRadius={3} borderLeft='4px solid' borderColor='blue.400' pl={4} py={2} mb={4}>
+      {/* <Box bgColor={'#FEEBC8'} w={'100%'} as='blockquote' borderRadius={3} borderLeft='4px solid' borderColor='blue.400' pl={4} py={2} mb={4}>
         Hãy sàng lọc những CV phù hợp với yêu cầu của mình và gán nhãn cho họ đến với những bước tiếp theo tron quá trình tuyển dụng
-      </Box>
+      </Box> */}
 
       <HStack w={'100%'} mb={5} spacing={1} justifyContent='flex-end'>
         <Radio value='1'>Chỉ xem ứng viên pro</Radio>
         <Button size={'sm'}>Xuất danh sách</Button>
       </HStack>
-
-      {candidates.map((candidate) => (
-        <CandidateDetailInProces load={load} setLoad={setLoad} candidate={candidate} setTabIndex={setTabIndex} />
-      ))}
+      <TableContainer fontFamily={'Montserrat'}>
+        <Table variant='striped'>
+          <Thead>
+            <Tr>
+              <Th>Ứng viên</Th>
+              <Th>CV</Th>
+              <Th>Thông tin liên hệ</Th>
+              <Th>Ngày ứng tuyển</Th>
+              <Th>Trạng thái</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {filteredCandidates.map((candidate) => (
+              <CandidateDetailInProces load={load} setLoad={setLoad} candidate={candidate} setTabIndex={setTabIndex} />
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
     </>
   )
 }
