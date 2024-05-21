@@ -75,7 +75,6 @@ export const ProcessItem = () => {
   const dispatch = useDispatch()
   // const job = useSelector((store) => store.jobDetail.data)
   const [job, setJob] = useState({})
-  const [tabIndex, setTabIndex] = useState(0)
 
   useEffect(() => {
     // dispatch(loadJobDetail(params.jobId))
@@ -90,6 +89,8 @@ export const ProcessItem = () => {
     benefit: 'Hiển thị trong TOP đề xuất việc làm phù hợp, Tin tuyển dụng được nằm trong danh sách đề xuất gửi thông báo tới ứng viên tiềm năng qua email / ứng dụng di động TopCV (hệ thống AI tự động gửi theo danh sách đề xuất nếu tin tuyển dụng phù hợp với ứng viên).',
   }
 
+  const tabIndex = parseInt(params.tab, 10) || 0
+
   return (
     // đây là trang chính
     <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
@@ -102,41 +103,6 @@ export const ProcessItem = () => {
         </BreadcrumbItem>
       </Breadcrumb>
       <VStack pl={30} pr={30} spacing={3}>
-        {/* <Box overflow='hidden' height={70} w={'100%'}>
-          <HStack borderBottomRadius={5} justifyContent={'space-between'}>
-            <Box p={2} bgColor={'white'} borderRadius={5} w={'33%'}>
-              <VStack>
-                <Text w={'100%'} mb={0} display='inline'>
-                  Tổng lượng ứng viên
-                </Text>
-                <Text w={'100%'} fontWeight={'bold'} mt={0} display='inline'>
-                  20
-                </Text>
-              </VStack>
-            </Box>
-            <Box p={2} bgColor={'white'} borderRadius={5} w={'33%'}>
-              <VStack>
-                <Text w={'100%'} mb={0} display='inline'>
-                  Tổng lượng ứng viên
-                </Text>
-                <Text w={'100%'} fontWeight={'bold'} mt={0} display='inline'>
-                  20
-                </Text>
-              </VStack>
-            </Box>
-            <Box p={2} bgColor={'white'} borderRadius={5} w={'33%'}>
-              <VStack>
-                <Text w={'100%'} mb={0} display='inline'>
-                  Tổng lượng ứng viên
-                </Text>
-                <Text w={'100%'} fontWeight={'bold'} mt={0} display='inline'>
-                  20
-                </Text>
-              </VStack>
-            </Box>
-          </HStack>
-        </Box> */}
-
         <Box minHeight={1000} overflow='auto' backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
           <Tabs defaultIndex={tabIndex}>
             <TabList>
@@ -159,7 +125,7 @@ export const ProcessItem = () => {
                 <StepProcess job={job} />
               </TabPanel>
               <TabPanel>
-                <ListCVTab job={job} setTabIndex={setTabIndex} />
+                <ListCVTab job={job} />
               </TabPanel>
               <TabPanel>4</TabPanel>
               <TabPanel>
@@ -456,18 +422,13 @@ const Post = ({ jobId }) => {
   return (
     <>
       <Box borderWidth='1px' borderRadius='lg' p={6} overflow='hidden' boxShadow='md'>
-        <Stack direction='row' align='center' mb={4}>
-          <Image boxSize='50px' objectFit='cover' src={data.image} alt={data.name} borderRadius='full' mr={4} />
-          <Box>
-            <Text fontWeight='bold' fontSize='lg'>
-              {data.name}
-            </Text>
-            <Badge colorScheme='green' mt={1}>
-              {data.position}
-            </Badge>
-          </Box>
-        </Stack>
         <VStack spacing={2} align='start'>
+          <Text fontWeight='bold' fontSize='lg'>
+            {data.name}
+          </Text>
+          <Badge colorScheme='green' mt={1}>
+            {data.position}
+          </Badge>
           <Text>
             <strong>Location:</strong> {data.location}
           </Text>
@@ -531,16 +492,16 @@ const ListCVTab = ({ job, setTabIndex }) => {
       }
       if (labelFilter) {
         filtered = filtered.filter((candidate) => {
-          const candidateLabels = JSON.parse(candidate.labels);
+          const candidateLabels = JSON.parse(candidate.labels)
           // Lọc nhãn có giá trị là true
-          return candidateLabels[labelFilter] === true;
-        });
+          return candidateLabels[labelFilter] === true
+        })
       }
       setFilteredCandidates(filtered)
     }
 
     applyFilters()
-  }, [candidates, filter, statusFilter,labelFilter])
+  }, [candidates, filter, statusFilter, labelFilter])
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value)

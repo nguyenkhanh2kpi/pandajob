@@ -33,18 +33,18 @@ const Process = () => {
 
       {jobData.map((job) => {
         return job.status === true && job.user_id === userId ? (
-          <Box ml={30} mr={30} onClick={() => navigate(`/process/item/${job.id}`)} h={200} w={'95%'} key={job.id}>
-            <Card>
+          <Box ml={30} mr={30} onClick={() => navigate(`/process/item/${job.id}`)} w={'95%'} key={job.id}>
+            <Card mb={5}>
               <CardBody>
                 <Text fontSize='xl' fontWeight='semibold'>
                   {job.name}
                 </Text>
-                <Text fontSize='md' mt='2'>
+                {/* <Text fontSize='md' mt='2'>
                   Địa điểm: {job.location}
                 </Text>
                 <Text fontSize='md' mt='2'>
                   Số lượng: {job.number}
-                </Text>
+                </Text> */}
               </CardBody>
             </Card>
           </Box>

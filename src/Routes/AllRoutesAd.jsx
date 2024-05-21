@@ -113,6 +113,7 @@ const AllRoutesAd = () => {
       {/* process */}
       <Route path='/process' element={<Process />} />
       <Route path='/process/item/:jobId' element={<ProcessItem />} />
+      <Route path='/process/item/:jobId/:tab' element={<ProcessItem />} />
       <Route path='/process/step/screening-resume/:jobId' element={<SceningProcess />} />
       <Route path='/process/screening/:jobId' element={<Screening />} />
       <Route path='/process/screening-test/:id' element={<TestAddForm />} />

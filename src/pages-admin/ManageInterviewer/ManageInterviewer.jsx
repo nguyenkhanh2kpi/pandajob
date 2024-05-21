@@ -1,11 +1,13 @@
-import { Avatar, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Card, CardBody, HStack, Img, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
+import { Avatar, Badge, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Card, CardBody, CardHeader, Flex, HStack, Heading, IconButton, Img, Menu, MenuButton, MenuItem, MenuList, Spinner, Stack, Text, VStack, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { AddInterviewer } from './AddInterviewer'
 import { interviewerService } from '../../Service/interviewer.service'
 import { userService } from '../../Service/user.servie'
-import { ToastContainer, toast } from 'react-toastify'
+import { BsThreeDotsVertical } from 'react-icons/bs'
+
 
 export const ManageInterviewer = () => {
+  const toast = useToast()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
   const [hrs, sethrs] = useState([])
   const [loading, setLoading] = useState(false)
@@ -29,7 +31,13 @@ export const ManageInterviewer = () => {
     userService
       .addBlacklist(accessToken, forms)
       .then((res) => {
-        toast.success(res.message)
+        toast({
+          title: 'Account block.',
+          description: res.message,
+          status: 'success',
+          duration: 1000,
+          isClosable: true,
+        })
         setChange(!change)
       })
       .catch((error) => console.log(error.message))
@@ -38,7 +46,13 @@ export const ManageInterviewer = () => {
     userService
       .removeBlacklist(accessToken, id)
       .then((res) => {
-        toast.success(res.message)
+        toast({
+          title: 'Account active.',
+          description: res.message,
+          status: 'success',
+          duration: 1000,
+          isClosable: true,
+        })
         setChange(!change)
       })
       .catch((error) => console.log(error.message))
@@ -80,17 +94,39 @@ export const ManageInterviewer = () => {
     return (
       <Box fontFamily={'Montserrat'}>
         <HStack justifyContent={'space-between'} w={'100%'}>
-          {/* <Breadcrumb pt={30}>
-            <BreadcrumbItem>
-              <BreadcrumbLink href='#'>HR team</BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb> */}
           <AddInterviewer />
         </HStack>
 
-        <VStack >
+        <VStack>
           <Box h={900} w='100%'>
             <VStack mt={3} w='100%'>
+              {hrs.map((hr) => (
+                <Card w={'100%'} key={hr.id} p={1}>
+                  <CardHeader>
+                    <Flex spacing='4'>
+                      <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                        <Avatar name={hr.name} src={hr.avatar} />
+
+                        <Box>
+                          <Heading size='sm'>{hr.fullName}</Heading>
+                          <Text>{hr.email}</Text>
+                        </Box>
+                        <Box>{hr.status === 'INPROCESS' ? <Badge colorScheme='green'>Hoạt động</Badge> : <Badge colorScheme='red'>Khóa</Badge>}</Box>
+                      </Flex>
+                      <Menu>
+                        <MenuButton>
+                          <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
+                        </MenuButton>
+                        <MenuList>
+                          <MenuItem onClick={() => handleAddBlackList(hr.id)}>Khóa</MenuItem>
+                          <MenuItem onClick={() => handleRemoveBlackList(hr.id)}>Active</MenuItem>
+                        </MenuList>
+                      </Menu>
+                    </Flex>
+                  </CardHeader>
+                </Card>
+              ))}
+              {/* 
               {hrs.map((hr) => (
                 <Box w='100%'>
                   <Card>
@@ -119,7 +155,7 @@ export const ManageInterviewer = () => {
                     </CardBody>
                   </Card>
                 </Box>
-              ))}
+              ))} */}
             </VStack>
           </Box>
         </VStack>

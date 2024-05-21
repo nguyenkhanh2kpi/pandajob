@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton } from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton, HStack, CardBody, Card, CardHeader, useEditable, Checkbox } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import { Box, Badge, WrapItem, Text, Button, VStack, Spacer } from '@chakra-ui/react'
 import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react'
 import { Link } from '@chakra-ui/react'
-import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { AtSignIcon, ExternalLinkIcon, StarIcon } from '@chakra-ui/icons'
 import { interviewService } from '../../Service/interview.service'
 import { toast } from 'react-toastify'
+import { labelService } from '../../Service/label.service'
 
 export const AssignCandidate = ({ jobId, roomId, startDate, endDate }) => {
   const [candidates, setCandidates] = useState([])
@@ -73,38 +74,61 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate }) => {
           toast.error(response.message)
         }
       })
-      .catch(toast.error('something went wrong'))
+      .catch(() => toast.error('something went wrong'))
   }
+
+  const [labels, setLabels] = useState([])
+  useEffect(() => {
+    labelService
+      .getMyLabel(accessToken)
+      .then((response) => setLabels(response))
+      .catch((er) => console.log('assign candidate', er))
+  }, [])
 
   return (
     <>
-      <Button fontFamily={'Montserrat'} fontWeight={400} colorScheme='blue' onClick={onOpen}>
+      <Button size='xs' leftIcon={<AtSignIcon />} colorScheme='teal' variant='solid' onClick={onOpen}>
         Đăng kí ứng viên
       </Button>
-      <AlertDialog size={'2xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+      <AlertDialog size={'4xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent fontFamily={'Montserrat'} fontWeight={400}>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
               Đăng kí ứng viên
             </AlertDialogHeader>
-            <AlertDialogBody maxH={600} overflowY={'auto'}>
-              {candidates.map((cadidate) => (
-                <Box onClick={() => handleSelect(cadidate.userId)} w={550} height={100} boxShadow={'lg'} borderRadius='lg' overflow='hidden' m={2} borderColor={idSelected === cadidate.userId ? 'green' : ''} borderWidth={idSelected === cadidate.userId ? '3px' : ''} backgroundColor={'#ffffff'}>
-                  <WrapItem m={2} alignItems='center'>
-                    <Avatar name={cadidate.fullName} src={cadidate.avatar} />
-                    <Text m={2}>{truncatedEmail(cadidate.email)}</Text>
-                    <Spacer />
-                    <VStack justifyContent='flex-start'>
-                      <Button backgroundColor={cadidate.interviewStatus === 'Đã chấm' ? 'green' : cadidate.interviewStatus === 'Chưa phỏng vấn' ? 'orange' : 'grey'} p={1} h={'100%'} colorScheme='teal' size='xs'>
-                        {cadidate.interviewStatus}
-                      </Button>
-                      <Link href={cadidate.cv} isExternal>
-                        Link Cv <ExternalLinkIcon mx='2px' />
-                      </Link>
-                    </VStack>
-                  </WrapItem>
+            <AlertDialogBody maxH={500} overflowY={'auto'}>
+              <HStack alignItems={'flex-start'}>
+                <Box w={'70%'}>
+                  {candidates.map((cadidate) => (
+                    <Box onClick={() => handleSelect(cadidate.userId)} w={550} height={100} boxShadow={'lg'} borderRadius='lg' overflow='hidden' m={2} borderColor={idSelected === cadidate.userId ? 'green' : ''} borderWidth={idSelected === cadidate.userId ? '3px' : ''} backgroundColor={'#ffffff'}>
+                      <WrapItem m={2} alignItems='center'>
+                        <Avatar name={cadidate.fullName} src={cadidate.avatar} />
+                        <Text m={2}>{truncatedEmail(cadidate.email)}</Text>
+                        <Spacer />
+                        <VStack justifyContent='flex-start'>
+                          <Button backgroundColor={cadidate.interviewStatus === 'Đã chấm' ? 'green' : cadidate.interviewStatus === 'Chưa phỏng vấn' ? 'orange' : 'grey'} p={1} h={'100%'} colorScheme='teal' size='xs'>
+                            {cadidate.interviewStatus}
+                          </Button>
+                          <Link href={cadidate.cv} isExternal>
+                            Link Cv <ExternalLinkIcon mx='2px' />
+                          </Link>
+                        </VStack>
+                      </WrapItem>
+                    </Box>
+                  ))}
                 </Box>
-              ))}
+                <Card h={'100%'} w={'30%'}>
+                  <CardHeader>
+                    <StarIcon />
+                    <Text>Lọc theo nhãn</Text>
+                  </CardHeader>
+                  <CardBody>
+                    {labels.map((label) => (
+                      <Checkbox defaultChecked>{label.name}</Checkbox>
+                    ))}
+                  </CardBody>
+                </Card>
+              </HStack>
             </AlertDialogBody>
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={onClose}>

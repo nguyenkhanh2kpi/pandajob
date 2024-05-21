@@ -101,8 +101,8 @@ const RoomAdd = () => {
   }
 
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily='Montserrat' fontWeight={400} backgroundColor='#e9f3f5' p={30}>
-      <Breadcrumb>
+    <Box minHeight={2000} overflow='auto' fontFamily='Montserrat' fontWeight={400} backgroundColor='#e9f3f5'>
+      <Breadcrumb pt={30}>
         <BreadcrumbItem>
           <BreadcrumbLink href='/roomList'>Phòng họp</BreadcrumbLink>
         </BreadcrumbItem>
@@ -110,10 +110,10 @@ const RoomAdd = () => {
           <BreadcrumbLink href='#'>Thêm phòng họp</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <VStack spacing={3}>
-        <Box minHeight={1000} overflow='auto' p='3%' borderRadius={20} backgroundColor='#FFFFFF' w='100%' mb={10}>
-          <HStack>
-            <Box p={10} w={'50%'}>
+      <VStack ml={30} mr={30} spacing={3}>
+        <Box overflow='auto' p={10} borderRadius={5} backgroundColor='#FFFFFF' w='100%' mb={10}>
+          <HStack alignItems={'self-start'}>
+            <Box w={'50%'}>
               <FormControl>
                 <FormLabel htmlFor='name'>Công việc</FormLabel>
                 <Select
@@ -167,13 +167,13 @@ const RoomAdd = () => {
                 <Input w={450} type='text' onChange={(e) => setLinkmeet(e.target.value)} name='position' id='position' />
               </FormControl>
 
-              <Button mt={30} color='white' mb={10} backgroundColor='rgb(3, 201, 215)' type='submit' onClick={handleSubmit}>
+              <Button w={200} mt={30} color='white' mb={10} backgroundColor='rgb(3, 201, 215)' type='submit' onClick={handleSubmit}>
                 Thêm
               </Button>
 
               <ToastContainer />
             </Box>
-            <Box w={'50%'}>
+            <Box w={'50%'} mt={100}>
               <Image borderRadius={20} h={'100%'} src='https://assets-global.website-files.com/6242f480c281185091f94d52/6262c3161abdd90a938e8a77_625837e19d80bd0780a0a18c_interveiw.jpeg' />
             </Box>
           </HStack>

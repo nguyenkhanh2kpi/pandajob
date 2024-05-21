@@ -100,10 +100,10 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
   return (
     <>
       <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
-      <Button fontFamily={'Montserrat'} fontWeight={400} w={'30%'} leftIcon={<MdVideocam />} colorScheme='teal' variant='solid' onClick={onOpen}>
+      <Button ml={500} fontFamily={'Montserrat'} fontWeight={400} w={'30%'} leftIcon={<MdVideocam />} colorScheme='teal' variant='solid' onClick={onOpen}>
         Lên lịch phỏng vấn
       </Button>
-      <Drawer isOpen={isOpen} placement='right' onClose={onClose} finalFocusRef={btnRef}>
+      <Drawer size={'lg'} isOpen={isOpen} placement='right' onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />
         <DrawerContent fontFamily={'Montserrat'} fontWeight={400}>
           <DrawerCloseButton />
@@ -143,10 +143,10 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
                 offline
               </Checkbox>
 
-              <FormLabel>Start date</FormLabel>
+              {/* <FormLabel>Start date</FormLabel>
               <Input disabled={true} type='datetime-local' name='startTime' value={formGoogle.startTime} />
               <FormLabel>End Date</FormLabel>
-              <Input disabled={true} type='datetime-local' name='endTime' value={formGoogle.endTime} />
+              <Input disabled={true} type='datetime-local' name='endTime' value={formGoogle.endTime} /> */}
             </FormControl>
           </DrawerBody>
 

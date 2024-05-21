@@ -80,7 +80,7 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
       .updateStatus(accessToken, cvId, status)
       .then((response) => {
         toast({ description: response.message })
-        setLoad(!load)
+        // setLoad(!load)
       })
       .catch((er) => console.log(er))
   }
@@ -119,7 +119,11 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
       .updateView(accessToken, candidate.cvId, !candidate.view)
       .then((response) => console.log(response))
       .catch((er) => console.log(er))
-      .finally(() => setLoad(!load))
+      .finally()
+  }
+  const handleClose = () => {
+    setLoad(!load)
+    onClose()
   }
 
   return (
@@ -157,7 +161,7 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
         </Td>
       </Tr>
 
-      <Modal size={'6xl'} isOpen={isOpen} onClose={onClose}>
+      <Modal size={'6xl'} isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent fontFamily={'Montserrat'} fontWeight={400}>
           <ModalHeader>Chi tiết ứng viên: {candidate.fullName}</ModalHeader>

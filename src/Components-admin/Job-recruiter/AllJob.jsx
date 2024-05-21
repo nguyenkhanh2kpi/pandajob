@@ -75,10 +75,8 @@ const AllJob = () => {
                 Chưa kích hoạt dịch vụ
               </ListItem>
               <ListItem>
-                {/* <ListIcon as={MdSettings} color='green.500' />
-                <Link to={`/allJob_Recruiter/jobDetail_Recruiter/${job.id}`}>Chỉnh sửa</Link> */}
                 <HStack>
-                  <Button rightIcon={<Search2Icon />} colorScheme='blue' variant='outline'>
+                  <Button onClick={()=>navigate(`/process/item/${job.id}/2`)} rightIcon={<Search2Icon />} colorScheme='blue' variant='outline'>
                     Xem CV ứng tuyển
                   </Button>
                   <Button onClick={() => navigate(`/allJob_Recruiter/jobDetail_Recruiter/${job.id}`)} rightIcon={<MdSettings />} colorScheme='gray' variant='outline'>
@@ -93,24 +91,6 @@ const AllJob = () => {
                 </HStack>
               </ListItem>
             </List>
-
-            {/* <Flex>
-                <Box m={2} display='flex'>
-                  <Button>Kinh nghiệm: {job.experience}</Button>
-                </Box>
-                <Box m={2} olor='blue.400'>
-                  {job.status ? <Button>Active</Button> : <Button>Delete</Button>}
-                </Box>
-                <Box m={2} color='blue.400'>
-                  <Button>Số lượng tuyển: {job.number}</Button>
-                </Box>
-                <Button color={'white'} bgColor={'#f280d0'} m={2} data-value={job.id} onClick={submitHandler}>
-                  xóa
-                </Button>
-                <Button color={'white'} bgColor={'#76d6c0'} m={2} data-value={job.id}>
-                  Đẩy top
-                </Button>
-              </Flex> */}
 
             <ToastContainer />
           </CardBody>

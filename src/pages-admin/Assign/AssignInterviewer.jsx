@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
-} from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import { Box, Badge, WrapItem, Text, Button, VStack, Spacer, Input } from '@chakra-ui/react'
 import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react'
 import { Link } from '@chakra-ui/react'
-import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { AtSignIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 import { interviewService } from '../../Service/interview.service'
 import { ToastContainer, toast } from 'react-toastify'
 import { interviewerService } from '../../Service/interviewer.service'
@@ -59,8 +51,8 @@ export const AssignInterviewer = ({ roomId }) => {
 
   return (
     <>
-      <Button fontFamily={'Montserrat'} fontWeight={400} colorScheme='blue' onClick={onOpen}>
-      Đăng kí người phỏng vấn
+      <Button size='xs' leftIcon={<AtSignIcon />} colorScheme='teal' variant='solid' onClick={onOpen}>
+        Đăng kí người phỏng vấn
       </Button>
       <AlertDialog size={'2xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
@@ -82,13 +74,7 @@ export const AssignInterviewer = ({ roomId }) => {
 
                     <Spacer />
                     <VStack justifyContent='flex-start'>
-                      <Button
-                        onClick={() => handleAssignInterviewer(interviewer.email)}
-                        backgroundColor='green'
-                        p={1}
-                        h={'100%'}
-                        colorScheme='teal'
-                        size='xs'>
+                      <Button onClick={() => handleAssignInterviewer(interviewer.email)} backgroundColor='green' p={1} h={'100%'} colorScheme='teal' size='xs'>
                         Đăng kí
                       </Button>
                     </VStack>
