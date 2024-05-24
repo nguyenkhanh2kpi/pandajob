@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, CardFooter, CardHeader, Divider, Flex, Icon, IconButton, List, ListIcon, ListItem, Menu, MenuButton, MenuItem, MenuList, Skeleton, Stack } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, CardFooter, CardHeader, Divider, Flex, Icon, IconButton, List, ListIcon, ListItem, Menu, MenuButton, MenuItem, MenuList, Skeleton, Stack, useToast } from '@chakra-ui/react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Heading, HStack, SlideFade, VStack, Image, Text, Button, Wrap, WrapItem, Avatar, FormLabel, Input, Select } from '@chakra-ui/react'
 import { AssignInterviewer } from '../Assign/AssignInterviewer'
@@ -11,6 +11,7 @@ import { MdCheckCircle, MdSettings } from 'react-icons/md'
 import { AiOutlineFolderOpen, AiOutlineSetting, AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { ChevronDownIcon } from '@chakra-ui/icons'
+import { interviewDetailService } from '../../Service/interviewDetail.service'
 const initialRoomData = {
   id: 0,
   jobPostId: 0,
@@ -41,6 +42,8 @@ const convertData = (initialRoomData) => {
 }
 
 export const RoomEditInfomation = () => {
+  const [load, setLoad] = useState(false)
+  const toastChakra = useToast()
   const [room, setRoom] = useState(initialRoomData)
   const params = useParams()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
@@ -69,7 +72,7 @@ export const RoomEditInfomation = () => {
         setListAttendee(uniqueEmails)
       })
       .catch((er) => console.log(er))
-  }, [])
+  }, [load])
 
   const handleOnChangeForm = (event) => {
     const { name, value } = event.target
@@ -87,6 +90,32 @@ export const RoomEditInfomation = () => {
         }
       })
       .catch(() => toast.error('something went wrong'))
+  }
+
+  //xoa ung vien
+  const [candidateToDelete, setCandidateToDelete] = useState(null)
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
+  const handleDeleteCandidate = () => {
+    interviewDetailService
+      .deleteCandidate(accessToken, candidateToDelete)
+      .then((response) =>
+        toast({
+          title: 'Delete Candidate',
+          description: response.message,
+          status: 'info',
+          duration: 1000,
+          isClosable: true,
+        })
+      )
+      .catch((er) => console.log(er))
+      .finally(() => {
+        setLoad(!load)
+        setIsConfirmationOpen(false)
+      })
+  }
+  const openConfirmModal = (candidateId) => {
+    setCandidateToDelete(candidateId)
+    setIsConfirmationOpen(true)
   }
 
   if (room.id === 0) {
@@ -152,7 +181,7 @@ export const RoomEditInfomation = () => {
                 </HStack>
 
                 {room.listInterviewer.map((interviewer) => (
-                  <Card key={interviewer.id} p={1}>
+                  <Card mb={1} key={interviewer.id} p={1}>
                     <Flex spacing='4'>
                       <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
                         <Avatar name={interviewer.fullName} src={interviewer.avatar} />
@@ -176,11 +205,11 @@ export const RoomEditInfomation = () => {
                 ))}
 
                 <HStack mt={10} alignItems={'flex-start'}>
-                  <Text fontWeight={'bold'}>Đội phỏng vấn</Text>
-                  <AssignCandidate roomId={params.idRoom} jobId={params.id} startDate={room.startDate} endDate={room.endDate} />
+                  <Text fontWeight={'bold'}>Ứng viên</Text>
+                  <AssignCandidate load={load} setLoad={setLoad} roomId={params.idRoom} jobId={params.id} startDate={room.startDate} endDate={room.endDate} />
                 </HStack>
                 {room.listCandidate.map((candidate) => (
-                  <Card key={candidate.id} p={1}>
+                  <Card mb={1} key={candidate.itemId} p={1}>
                     <Flex spacing='4'>
                       <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
                         <Avatar name={candidate.name} src={candidate.avatar} />
@@ -196,12 +225,15 @@ export const RoomEditInfomation = () => {
                         </MenuButton>
                         <MenuList>
                           <MenuItem>Xem</MenuItem>
-                          <MenuItem>Xóa</MenuItem>
+                          <MenuItem key={candidate.itemId} value={candidate.itemId} onClick={() => openConfirmModal(candidate.itemId)}>
+                            Xóa
+                          </MenuItem>
                         </MenuList>
                       </Menu>
                     </Flex>
                   </Card>
                 ))}
+                <DeleteConfirmationModal isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onDelete={handleDeleteCandidate} />
               </Box>
             </Box>
 
@@ -262,4 +294,25 @@ export const RoomEditInfomation = () => {
       </>
     )
   }
+}
+
+const DeleteConfirmationModal = ({ isOpen, onClose, onDelete }) => {
+  return (
+    <Box display={isOpen ? 'block' : 'none'} position='fixed' zIndex={999} top={0} left={0} right={0} bottom={0} bg='rgba(0,0,0,0.5)'>
+      <Box bg='white' maxWidth='400px' p={4} m='auto' mt={20} borderRadius='md' boxShadow='md'>
+        <Box fontWeight='bold' fontSize='lg' mb={4}>
+          Xác nhận xóa
+        </Box>
+        <Box mb={4}>Bạn có chắc chắn muốn xóa ứng viên này không, Mọi thông tin về ứng viên tại phòng này bao gồm bản ghi phỏng vấn( nếu có) sẽ bị xóa?</Box>
+        <Box textAlign='right'>
+          <Button variant='outline' mr={3} onClick={onClose}>
+            Hủy
+          </Button>
+          <Button colorScheme='red' onClick={onDelete}>
+            Xóa
+          </Button>
+        </Box>
+      </Box>
+    </Box>
+  )
 }

@@ -1,18 +1,26 @@
-import { Box, Button, Image, Text, Badge, Select, Input, Textarea, VStack, Link, HStack, FormControl, FormLabel, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, Icon } from '@chakra-ui/react'
+import { Box, Button, Image, Text, Badge, Select, Input, Textarea, VStack, Link, HStack, FormControl, FormLabel, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, Icon, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { loadJobDetail } from '../../redux/JobDetail/Action'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { hostName } from '../../global'
 import { locationService } from '../../Service/location.service'
 import { jobService } from '../../Service/job.service'
-import { AiOutlineFolderOpen, AiOutlineInfoCircle } from 'react-icons/ai'
+import { AiOutlineEye, AiOutlineFolderOpen, AiOutlineInfoCircle } from 'react-icons/ai'
+import ConfirmVipDialog from './ConfirmVipDialog'
+export const State = {
+  CREATE: 'Tạo',
+  ON: 'Mở nhận CV',
+  PAUSE: 'Tạm dừng',
+  END: 'Kết thúc',
+}
 
 function JobDetailRecruiter() {
+  const toast = useToast()
   const params = useParams()
   const cancelRef = React.useRef()
   const navigate = useNavigate()
@@ -142,7 +150,7 @@ function JobDetailRecruiter() {
         image: img.length != 0 ? img.at(0) : data.image,
         status: status,
         industry: industry,
-        industry2: industry2
+        industry2: industry2,
       })
 
       let config = {
@@ -190,6 +198,22 @@ function JobDetailRecruiter() {
         console.error('There was an error fetching the industries!', error)
       })
   }, [])
+
+  const handleApplyVip = () => {
+    jobService
+      .putVipJob(accessToken, params.id)
+      .then((response) =>
+        toast({
+          title: 'Áp dụng Top vip',
+          description: response.message,
+          status: 'info',
+          duration: 1000,
+          isClosable: true,
+        })
+      )
+      .catch((er) => console.log(er))
+  }
+
   if (data != null)
     return (
       <>
@@ -203,6 +227,33 @@ function JobDetailRecruiter() {
             </BreadcrumbItem>
           </Breadcrumb>
 
+          {/* hien thi */}
+          <Box pl={30} pr={30} w={'100%'} mb={5}>
+            <Card>
+              <CardBody>
+                <FormControl>
+                  <HStack alignItems='center' spacing={4}>
+                    <Icon as={AiOutlineEye} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                    <Text m={0} fontSize='2xl'>
+                      Hiển thị
+                    </Text>
+                  </HStack>
+                  <HStack mt={3}>
+                    <FormLabel w={'15%'}>Trạng thái</FormLabel>
+                    <Select w={'35%'} variant='filled'>
+                      {Object.values(State).map((state) => (
+                        <option key={state} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </Select>
+                    <FormLabel w={'15%'}>Top vip</FormLabel>
+                    <ConfirmVipDialog job={data} onConfirm={handleApplyVip} />
+                  </HStack>
+                </FormControl>
+              </CardBody>
+            </Card>
+          </Box>
           {/* ngành nghề */}
           <Box pl={30} pr={30} w={'100%'} mb={5}>
             <Card>

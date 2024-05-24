@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Image, Button, VStack, Grid, GridItem, List, Breadcrumb, BreadcrumbItem, BreadcrumbLink, HStack, CardBody, Card, ListItem, ListIcon, Switch } from '@chakra-ui/react'
+import { Box, Flex, Text, Image, Button, VStack, Grid, GridItem, List, Breadcrumb, BreadcrumbItem, BreadcrumbLink, HStack, CardBody, Card, ListItem, ListIcon, Switch, Select, Icon } from '@chakra-ui/react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { BsBag } from 'react-icons/bs'
@@ -14,6 +14,15 @@ import { hostName, webHost } from '../../global'
 import { FcFlashOn } from 'react-icons/fc'
 import { MdCheckCircle, MdSettings } from 'react-icons/md'
 import { ArrowUpIcon, CheckIcon, DeleteIcon, Search2Icon, StarIcon, ViewIcon } from '@chakra-ui/icons'
+// stateEnum.ts
+// stateEnum.js
+export const State = {
+  CREATE: 'Tạo',
+  ON: 'Mở nhận CV',
+  PAUSE: 'Tạm dừng',
+  END: 'Kết thúc',
+}
+
 const AllJob = () => {
   const navigate = useNavigate()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
@@ -54,12 +63,13 @@ const AllJob = () => {
     // getData(typeOfProduct).then((res) => setProductArr(res));
     dispatch(loadJob())
   }, [])
+
   const userId = JSON.parse(localStorage.getItem('data')).data.userInfo.id
   const jobData = useSelector((store) => store.job.data)
   const jobdatas = jobData.map((job) => {
     return job.status === true && job.user_id === userId ? (
       <Box w='100%' key={job.id} mb={5}>
-        <Card>
+        <Card border={job.isVip ? '2px solid gold' : '1px solid #e2e8f0'} boxShadow={job.isVip ? '0 0 10px rgba(255, 215, 0, 0.5)' : 'none'}>
           <CardBody>
             <HStack>
               <Text fontSize='20px'>{job.name}</Text>
@@ -68,15 +78,15 @@ const AllJob = () => {
             <List spacing={3}>
               <ListItem>
                 <ListIcon as={ViewIcon} color='green.500' />
-                Hiển thị <Switch size='lg' />
+                Trạng thái : {job.state}
               </ListItem>
               <ListItem>
                 <ListIcon as={StarIcon} color='green.500' />
-                Chưa kích hoạt dịch vụ
+                TOP VIP : {job.isVip}
               </ListItem>
               <ListItem>
                 <HStack>
-                  <Button onClick={()=>navigate(`/process/item/${job.id}/2`)} rightIcon={<Search2Icon />} colorScheme='blue' variant='outline'>
+                  <Button onClick={() => navigate(`/process/item/${job.id}/2`)} rightIcon={<Search2Icon />} colorScheme='blue' variant='outline'>
                     Xem CV ứng tuyển
                   </Button>
                   <Button onClick={() => navigate(`/allJob_Recruiter/jobDetail_Recruiter/${job.id}`)} rightIcon={<MdSettings />} colorScheme='gray' variant='outline'>

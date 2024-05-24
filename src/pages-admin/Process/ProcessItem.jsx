@@ -56,10 +56,11 @@ import { AiOutlinePlayCircle } from 'react-icons/ai'
 import { jobService } from '../../Service/job.service'
 import { locationService } from '../../Service/location.service'
 import { Stack } from 'react-bootstrap'
-import { EmailIcon, PhoneIcon, SearchIcon } from '@chakra-ui/icons'
+import { CheckIcon, EmailIcon, PhoneIcon, Search2Icon, SearchIcon, StarIcon, ViewIcon } from '@chakra-ui/icons'
 import { CandidateDetailInProces } from './CandidateDetailInProcess'
 import { ManageLabel } from './ManageLabel'
 import { labelService } from '../../Service/label.service'
+import { MdSettings } from 'react-icons/md'
 
 const steps = [
   { title: 'Tiếp nhận CV', description: 'Đăng tuyển dụng và chờ đợi các ứng viên ứng tuyển' },
@@ -104,7 +105,7 @@ export const ProcessItem = () => {
       </Breadcrumb>
       <VStack pl={30} pr={30} spacing={3}>
         <Box minHeight={1000} overflow='auto' backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
-          <Tabs defaultIndex={tabIndex}>
+          <Tabs borderRadius={10} defaultIndex={tabIndex}>
             <TabList>
               <Tab>Bài đăng</Tab>
               <Tab>Tiến trình</Tab>
@@ -116,9 +117,6 @@ export const ProcessItem = () => {
 
             <TabPanels>
               <TabPanel>
-                <Link color={'blue'} href={`/allJob_Recruiter/jobDetail_Recruiter/${job.id}`}>
-                  Chỉnh sửa bài đăng
-                </Link>
                 <Post jobId={params.jobId} />
               </TabPanel>
               <TabPanel>
@@ -407,6 +405,7 @@ function ListRoom({ job, setNumber }) {
 const Post = ({ jobId }) => {
   const [data, setData] = useState({})
   const [province, setProvince] = useState([])
+  const navigate = useNavigate()
   useEffect(() => {
     jobService.getById(jobId).then((response) => setData(response))
   }, [])
@@ -420,30 +419,34 @@ const Post = ({ jobId }) => {
       .catch((er) => console.log(er))
   }, [])
   return (
-    <>
-      <Box borderWidth='1px' borderRadius='lg' p={6} overflow='hidden' boxShadow='md'>
-        <VStack spacing={2} align='start'>
-          <Text fontWeight='bold' fontSize='lg'>
-            {data.name}
-          </Text>
-          <Badge colorScheme='green' mt={1}>
-            {data.position}
-          </Badge>
-          <Text>
-            <strong>Location:</strong> {data.location}
-          </Text>
-          <Text>
-            <strong>Salary:</strong> {data.salary}
-          </Text>
-          <Text>
-            <strong>Experience:</strong> {data.experience}
-          </Text>
-          <Text>
-            <strong>Working Form:</strong> {data.workingForm}
-          </Text>
-        </VStack>
-      </Box>
-    </>
+    <Card>
+      <CardBody>
+        <HStack>
+          <Text fontSize='20px'>{data.name}</Text>
+        </HStack>
+
+        <List spacing={3}>
+          <ListItem>
+            <ListIcon as={ViewIcon} color='green.500' />
+            Hiển thị
+          </ListItem>
+          <ListItem>
+            <ListIcon as={StarIcon} color='green.500' />
+            Dịch vụ vip
+          </ListItem>
+          <ListItem>
+            <HStack>
+              <Button onClick={() => navigate(`/allJob_Recruiter/jobDetail_Recruiter/${data.id}`)} rightIcon={<MdSettings />} colorScheme='gray' variant='outline'>
+                Chỉnh sửa
+              </Button>
+              <Button onClick={() => navigate(`/process/screening/${data.id}`)} rightIcon={<CheckIcon />} colorScheme='yellow' variant='outline'>
+                Bài test sàng lọc
+              </Button>
+            </HStack>
+          </ListItem>
+        </List>
+      </CardBody>
+    </Card>
   )
 }
 
@@ -480,6 +483,7 @@ const ListCVTab = ({ job, setTabIndex }) => {
   const [filter, setFilter] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [labelFilter, setLabelFilter] = useState('')
+
 
   useEffect(() => {
     const applyFilters = () => {
@@ -547,12 +551,8 @@ const ListCVTab = ({ job, setTabIndex }) => {
         Hãy sàng lọc những CV phù hợp với yêu cầu của mình và gán nhãn cho họ đến với những bước tiếp theo tron quá trình tuyển dụng
       </Box> */}
 
-      <HStack w={'100%'} mb={5} spacing={1} justifyContent='flex-end'>
-        <Radio value='1'>Chỉ xem ứng viên pro</Radio>
-        <Button size={'sm'}>Xuất danh sách</Button>
-      </HStack>
       <TableContainer fontFamily={'Montserrat'}>
-        <Table variant='striped'>
+        <Table mb={5} borderWidth={1} variant='simple'>
           <Thead>
             <Tr>
               <Th>Ứng viên</Th>
@@ -569,6 +569,11 @@ const ListCVTab = ({ job, setTabIndex }) => {
           </Tbody>
         </Table>
       </TableContainer>
+
+      <HStack w={'100%'} mb={5} spacing={1} justifyContent='flex-end'>
+        <Radio value='1'>Chỉ xem ứng viên pro</Radio>
+        <Button size={'sm'}>Xuất danh sách</Button>
+      </HStack>
     </>
   )
 }

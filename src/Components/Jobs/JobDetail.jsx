@@ -85,6 +85,7 @@ function JobDetail() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    window.scroll(0,0)
     dispatch(loadJobDetail(params.id))
     if (accessToken != null) {
       dispatch(loadUserInfo())

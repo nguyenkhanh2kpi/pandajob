@@ -1,14 +1,16 @@
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { Avatar, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, HStack, Img, Link, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
+import { Avatar, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Card, CardBody, HStack, Img, Link, Select, Spinner, Stack, Text, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { companyService } from '../../Service/company.service'
 import { ToastContainer, toast } from 'react-toastify'
+import { jobService } from '../../Service/job.service'
 
 export const InterviewResult = () => {
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
   const [candidates, setCandidates] = useState([])
   const [loading, setLoading] = useState(false)
   const [change, setChange] = useState(false)
+  const [jobs, setJobs] = useState([])
   useEffect(() => {
     companyService
       .getListCandidate(accessToken)
@@ -27,26 +29,39 @@ export const InterviewResult = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    jobService
+      .getMyJob(accessToken)
+      .then((response) => setJobs(response.data))
+      .catch((er) => console.log(er))
   }, [])
 
+  // listmu job
+
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} backgroundColor={'#e9f3f5'} p={30}>
+    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} backgroundColor={'#e9f3f5'}>
       <HStack justifyContent={'space-between'} w={'100%'}>
-        <Breadcrumb>
+        <Breadcrumb pt={30}>
           <BreadcrumbItem>
             <BreadcrumbLink href='#'>Kết quả</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
       </HStack>
       <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
-      <Box mb={5} h={100} bgColor={'white'} p={2} borderRadius={20} w='100%'>
-        filter
-      </Box>
-      <VStack spacing={3}>
+
+      <VStack ml={30} mr={30} spacing={3}>
+        <HStack w={'100%'}>
+          <Select bgColor={'white'} placeholder='Chọn công việc'>
+            {jobs.map((job) => (
+              <option key={job.id} value={job.id}>
+                {job.name}
+              </option>
+            ))}
+          </Select>
+        </HStack>
         <VStack w='100%'>
           {candidates.map((candidate) => (
-            <Box p={2} fontSize={14} bgColor={'white'} borderRadius={20} w='100%'>
-              <HStack>
+            <Card w={'100%'}>
+              <CardBody>
                 <HStack w={'50%'}>
                   <Avatar size='md' name={candidate.name ? candidate.name : candidate.email} src={candidate.avatar} />
                   <VStack>
@@ -71,16 +86,8 @@ export const InterviewResult = () => {
                     View cv here <ExternalLinkIcon mx='2px' />
                   </Link>
                 </VStack>
-
-                {/* <Button onClick={() => handleClick(true, candidate.detailId)} color={'white'} backgroundColor={'#ffffff'}>
-                  Hiring
-                </Button>
-
-                <Button onClick={() => handleClick(false, candidate.detailId)} color={'white'} backgroundColor={'#ffffff'}>
-                  Not Hiring
-                </Button> */}
-              </HStack>
-            </Box>
+              </CardBody>
+            </Card>
           ))}
         </VStack>
       </VStack>

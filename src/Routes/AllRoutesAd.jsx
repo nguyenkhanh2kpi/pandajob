@@ -105,6 +105,7 @@ const AllRoutesAd = () => {
       <Route path='/mark-candidate/:roomId' element={<MarkCandidate />} />
       <Route path='/interviewer-list-room' element={<InterviewerListRoom />} />
       <Route path='/my-company' element={<MyCompany />} />
+      <Route path='/my-company/:tab' element={<MyCompany />} />
       <Route path='/manage-interviewer' element={<ManageInterviewer />} />
 
       <Route path='/result' element={<InterviewResult />} />

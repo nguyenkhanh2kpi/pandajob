@@ -9,14 +9,18 @@ const postRelationJob = async (keyword, jobs) => {
     const data = {
       query: keyword,
       data: jobs,
-    }
-    const response = await axios.post(`${CHAT_HOST}/find-related-strings`, data)
-    return response.data
+    };
+
+    // Log dữ liệu trước khi gửi request
+    console.log('Request data:', data);
+
+    const response = await axios.post(`${CHAT_HOST}/find-related-strings`, data);
+    return response.data;
   } catch (error) {
-    console.error('Error posting local calendar:', error)
-    throw error
+    console.error('Error posting local calendar:', error);
+    throw error;
   }
-}
+};
 
 export const dataService = {
   postRelationJob,

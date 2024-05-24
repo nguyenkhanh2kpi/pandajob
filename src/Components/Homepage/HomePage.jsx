@@ -11,6 +11,10 @@ import DiscoverJob from './DiscoverJob'
 import JobOption from './JobOption'
 import { useNavigate } from 'react-router-dom'
 import { locationService } from '../../Service/location.service'
+import NewJob from './NewJob'
+import SliderBanner from './Banner'
+import ListIndustry from './ListIndustry'
+import ListCompany from './ListCompany'
 
 const HomePage = () => {
   const navigate = useNavigate()
@@ -39,7 +43,8 @@ const HomePage = () => {
 
   const handleSearch = () => {
     if (search.keyword !== '') {
-      localStorage.setItem('keyw', JSON.stringify({ keyw: search.keyword }));
+      // sessionStorage.setItem('keyw', search.keyword)
+      localStorage.setItem('keyw', JSON.stringify({ keyw: search.keyword }))
       navigate(`/jobpage-search/${search.keyword}/${search.location}/${search.experience}/${search.salary}`)
     } else {
       navigate(`/jobpage-search/${search.location}/${search.experience}/${search.salary}`)
@@ -58,12 +63,12 @@ const HomePage = () => {
   return (
     <Box>
       <Container mb={'28px'} h={'80px'} maxW={'100%'}>
-        <Heading fontFamily={'Montserrat'} textAlign={'center'} fontWeight={'700'} fontSize={'35px'} lineHeight={'50px'} mb={'6px'} mt={'104px'}>
-          Find jobs quickly 24 hours, latest jobs
+        <Heading fontFamily={'Montserrat'} textAlign={'center'} fontWeight={'700'} fontSize={'35px'} lineHeight={'50px'} mb={'3px'} mt={'104px'}>
+          Tìm việc làm nhanh 24h, việc làm mới nhất.
         </Heading>
       </Container>
       <Container h={'70px'} maxW={'100%'}>
-        <Flex boxShadow='base' p='6' rounded='md' bg='white' w={'995px'} h={'100%'} m={'auto'} borderRadius={'50px'} pl={'24px'} pr={'9px'} py={'9px'}>
+        <Flex boxShadow='base' p='6' rounded='md' bg='white' w={'80%'} h={'100%'} m={'auto'} borderRadius={'50px'} pl={'24px'} pr={'9px'} py={'9px'}>
           <Box w={'28px'} display={'flex'} alignItems={'center'}>
             <Image mr={'8px'} w={'20px'} h={'20px'} src='https://static.naukimg.com/s/7/103/i/search.9ec0e1ac.svg' />
           </Box>
@@ -72,10 +77,6 @@ const HomePage = () => {
           </Box>
           <Box w={'223px'} h={'100%'} pr={'0px'} pt={'4px'} pl={'10px'} pb={'6px'}>
             <Select fontFamily={'Montserrat'} onChange={handleChangeSearch} name='location' color={'#8292b4'} border={'none'} defaultValue='all'>
-              {/* 
-              <option value='Hồ Chí Minh'>Hồ Chí Minh</option>
-              <option value='Đà Nẵng'>Đà Nẵng</option>
-              <option value='Hà Nội'>Hà Nội</option> */}
               <option value='all'>Địa điểm</option>
               {province.map((p) => (
                 <option key={p.name} value={p.name}>
@@ -115,12 +116,15 @@ const HomePage = () => {
           </Button>
         </Flex>
       </Container>
-      <JobInterest />
-      <JobButton />
+      <SliderBanner />
+      <NewJob />
+      {/* <JobInterest /> */}
+      <ListIndustry />
+      {/* <JobButton /> */}
       <FeatureCompony />
-
+      {/* <ListCompany /> */}
       {/* event */}
-      <JobSlider />
+      {/* <JobSlider /> */}
       {/* <DiscoverJob />
       <JobOption /> */}
     </Box>

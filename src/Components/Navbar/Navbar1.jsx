@@ -42,18 +42,17 @@ const Navbar1 = () => {
   }
 
   return (
-    <Box fontFamily={'Montserrat'} as={Container} zIndex='3' top='0' maxW='100%' h={'72px'} position='fixed' bgColor='white' mb='150px'>
-      <Flex direction='row' w='80%' h='100%' m='auto' display='flex'>
+    <Box fontFamily={'Montserrat'} as={Container} zIndex='100' top='0' maxW='100%' h={'72px'} position='fixed' bgColor='white' mb='150px'>
+      <HStack justifyContent={'space-between'}  direction='row' w='82%' h='100%' m='auto' display='flex'>
         <Box w={'150px'} h={'100%'} display={'flex'} alignItems={'center'} justifyContent={'center'} cursor={'pointer'}>
           <Link to='/'>
             <Image w={'90%'} src={mainlogo} alt='Logo' alignItems={'center'} cursor={'pointer'} />
           </Link>
         </Box>
-        <Stack direction={'row'} w={'280px'} h={'100%'} ml={'80px'}>
+        <Stack direction={'row'} h={'100%'}>
           <ChatContainer />
-
           <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
-            <Menu isOpen={services.isOpen}>
+            {/* <Menu isOpen={services.isOpen}>
               <MenuButton
                 onClick={() => navigate('/jobpage')}
                 _hover={{
@@ -66,85 +65,61 @@ const Navbar1 = () => {
                 color={'#445578'}>
                 Jobs
               </MenuButton>
+            </Menu> */}
+            <Menu>
+              <MenuButton bgColor={'white'} as={Button}>
+                Việc làm
+              </MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => navigate('/jobpage')}>Tìm việc làm</MenuItem>
+                <MenuItem>Việc làm yêu thích</MenuItem>
+                <MenuItem>Đã ứng tuyển</MenuItem>
+              </MenuList>
             </Menu>
           </Box>
 
           <Box h={'100%'} display={'flex'} w={'auto'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
-            <Menu isOpen={false}>
-              <MenuButton
-                onClick={() => navigate('/companies')}
-                as={Button}
-                _hover={{
-                  background: 'white',
-                  border: 'none',
-                }}
-                border={'none'}
-                bgColor={'white'}
-                color={'#445578'}>
-                Companies
+            <Menu>
+              <MenuButton bgColor={'white'} as={Button}>
+                Công ty
               </MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => navigate('/companies')}>Tìm công ty</MenuItem>
+                {/* <MenuItem>Việc làm yêu thích</MenuItem>
+                <MenuItem>Đã ứng tuyển</MenuItem> */}
+              </MenuList>
             </Menu>
           </Box>
 
           <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
-            <Menu isOpen={services.isOpen}>
-              <MenuButton
-                onClick={() => navigate('/events')}
-                _hover={{
-                  background: 'white',
-                  border: 'none',
-                }}
-                border={'none'}
-                bgColor={'white'}
-                as={Button}
-                color={'#445578'}>
-                Events
+            <Menu>
+              <MenuButton bgColor={'white'} as={Button}>
+                Sự kiện
               </MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => navigate('/events')}>Xem sự kiện</MenuItem>
+                {/* <MenuItem>Việc làm yêu thích</MenuItem>
+                <MenuItem>Đã ứng tuyển</MenuItem> */}
+              </MenuList>
             </Menu>
           </Box>
 
           <Box h={'100%'} display={'flex'} w={'auto'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
-            <Menu isOpen={companies.isOpen}>
-              <MenuButton
-                as={Button}
-                onMouseEnter={companies.onOpen}
-                onMouseLeave={companies.onClose}
-                _hover={{
-                  background: 'white',
-                  border: 'none',
-                }}
-                border={'none'}
-                bgColor={'white'}
-                color={'#445578'}>
-                Profile and Carrer
+            <Menu>
+              <MenuButton bgColor={'white'} as={Button}>
+                Hồ sơ
               </MenuButton>
-              <MenuList onMouseEnter={companies.onOpen} onMouseLeave={companies.onClose}>
-                <MenuItem
-                  onClick={() => navigate('/resume')}
-                  _hover={{
-                    color: '#457eff',
-                  }}
-                  fontWeight={'500'}
-                  color={'#445578'}>
-                  Resume
-                </MenuItem>
-                <MenuItem
-                  onClick={() => navigate('/test')}
-                  _hover={{
-                    color: '#457eff',
-                  }}
-                  fontWeight={'500'}
-                  color={'#445578'}>
-                  Test Skill
-                </MenuItem>
+              <MenuList>
+                <MenuItem onClick={() => navigate('/resume')}>Resume</MenuItem>
+                <MenuItem>CV của tôi</MenuItem>
               </MenuList>
             </Menu>
           </Box>
         </Stack>
 
-        <Stack display={'flex'} ml={'340px'} direction={'row'} h={'100%'} w={'350px'} alignItems={'center'} justifyContent={'space-between'}>
+        <Stack direction={'row'} h={'100%'} alignItems={'center'}>
           {data !== null ? (
-            <div style={{ width: '100%', display: 'flex' }}>
+            <HStack w={'100%'}>
               <Menu>
                 <MenuButton bgColor={'white'} ml={5} as={Button} rightIcon={<ChevronDownIcon />}>
                   <WrapItem>
@@ -155,8 +130,8 @@ const Navbar1 = () => {
                   </WrapItem>
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={() => navigate('/userInfo')}>User info</MenuItem>
-                  <MenuItem onClick={() => navigate('/userInfo1')}>User info1</MenuItem>
+                  {/* <MenuItem onClick={() => navigate('/userInfo')}>User info</MenuItem> */}
+                  <MenuItem onClick={() => navigate('/userInfo1')}>User info</MenuItem>
                   <MenuItem onClick={() => navigate('/messages')}>Messages</MenuItem>
                   <MenuItem onClick={() => navigate('/resume')}>Resume</MenuItem>
                   <MenuItem>
@@ -164,29 +139,19 @@ const Navbar1 = () => {
                   </MenuItem>
                 </MenuList>
               </Menu>
-            </div>
+            </HStack>
           ) : (
-            <div style={{ width: '100%' }}>
+            <HStack>
               <Button border={'1px'} borderColor={'#457eff'} borderRadius={'50px'} color={'#457eff'} bg={'white'} h={'40px'} w={'80px'} fontWeight={'600'}>
                 <Link to='/login'>Login</Link>
               </Button>
               <Button ml={2} border={'none'} borderRadius={'50px'} color={'white'} borderColor={'#ff7555'} bgColor={'#ff7555'} w={'100px'}>
                 <Link to='/signup'>Register</Link>
               </Button>
-            </div>
-          )}
-
-          <Divider borderColor={'#445578'} orientation='vertical' h={'30%'} />
-
-          {data !== null && data.data.role === 'RECRUITER' ? (
-            <Button border={'none'} borderRadius={'50px'} color={'white'} borderColor={'#ff7555'} bgColor={'#33CC33'} w={'100px'}>
-              <Link to='/job-posting'>Đăng bài</Link>
-            </Button>
-          ) : (
-            <Button style={{ visibility: 'hidden' }}></Button>
+            </HStack>
           )}
         </Stack>
-      </Flex>
+      </HStack>
     </Box>
   )
 }

@@ -1,28 +1,75 @@
 import React, { useState, useEffect } from 'react'
-import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton, HStack, CardBody, Card, CardHeader, useEditable, Checkbox } from '@chakra-ui/react'
-import { useDisclosure } from '@chakra-ui/react'
-import { Box, Badge, WrapItem, Text, Button, VStack, Spacer } from '@chakra-ui/react'
-import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react'
-import { Link } from '@chakra-ui/react'
-import { AtSignIcon, ExternalLinkIcon, StarIcon } from '@chakra-ui/icons'
+import { Box, Text, Button, HStack, VStack, Checkbox, Avatar, Link, Spacer, WrapItem, useDisclosure, InputGroup, Input, InputRightAddon, Icon, Select, Menu, MenuButton, IconButton, MenuList, MenuItem, Flex, Heading, Card, useToast } from '@chakra-ui/react'
+import { AtSignIcon, CloseIcon, ExternalLinkIcon, SearchIcon, StarIcon } from '@chakra-ui/icons'
 import { interviewService } from '../../Service/interview.service'
-import { toast } from 'react-toastify'
 import { labelService } from '../../Service/label.service'
+import { BsThreeDotsVertical } from 'react-icons/bs'
 
-export const AssignCandidate = ({ jobId, roomId, startDate, endDate }) => {
+let states = {
+  RECEIVE_CV: 'Tiếp nhận CV',
+  SUITABLE: 'Phù hợp yêu cầu',
+  SCHEDULE_INTERVIEW: 'Lên lịch phỏng vấn',
+  SEND_PROPOSAL: 'Gửi đề nghị',
+  ACCEPT: 'Nhận việc',
+  REJECT: 'Từ chối',
+}
+
+export const AssignCandidate = ({ jobId, roomId, startDate, endDate , load, setLoad}) => {
+  const toast = useToast()
   const [candidates, setCandidates] = useState([])
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const cancelRef = React.useRef()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
-  const [idSelected, setIdSelected] = useState(0)
 
-  const [form, setForm] = useState({
-    candidateId: 0,
-    interviewId: parseInt(roomId, 10),
-    date: startDate,
-    time: endDate,
-    description: 'no description',
-  })
+  // close
+  const handleClose = () => {
+    onClose()
+    setLoad(!load)
+  }
+
+  // filter
+  const [filteredCandidates, setFilteredCandidates] = useState([])
+  const [labelFilter, setLabelFilter] = useState('')
+  const [statusFilter, setStatusFilter] = useState('')
+  const [search, setSearch] = useState('')
+  useEffect(() => {
+    const applyFilters = () => {
+      let filtered = candidates
+      if (labelFilter) {
+        filtered = filtered.filter((candidate) => {
+          const candidateLabels = JSON.parse(candidate.labels)
+          return candidateLabels[labelFilter] === true
+        })
+      }
+      if (statusFilter) {
+        filtered = filtered.filter((candidate) => candidate.cvStatus === statusFilter)
+      }
+      if (search) {
+        if (search != '') {
+          filtered = filtered.filter((candidate) => candidate.fullName.toLowerCase().includes(search.toLowerCase()))
+        }
+        else{
+
+        }
+      }
+      setFilteredCandidates(filtered)
+    }
+
+    applyFilters()
+  }, [candidates, labelFilter, statusFilter, search])
+  const handleFilterStatusChange = (event) => {
+    setStatusFilter(event.target.value)
+    setListSelected([])
+  }
+  const handleLabelFilterChange = (event) => {
+    setLabelFilter(event.target.value)
+    setListSelected([])
+  }
+  const handleChangS =(event) => {
+    setSearch(event.target.value)
+    setListSelected([])
+  }
+
+
 
   const convertDates = (startDate, endDate) => {
     const start = new Date(startDate)
@@ -37,45 +84,12 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate }) => {
     return result
   }
 
-  const handleSelect = (id) => {
-    if (idSelected === id) {
-      setIdSelected(0)
-    } else {
-      setForm((pre) => ({
-        ...pre,
-        candidateId: id,
-        ...convertDates(startDate, endDate),
-      }))
-      setIdSelected(id)
-    }
-  }
-
-  const truncatedEmail = (email) => {
-    if (email.length > 20) {
-      return `${email.substring(0, 20)}...`
-    }
-    return email
-  }
-
   useEffect(() => {
     interviewService
       .getCandidatesByJob(accessToken, jobId)
       .then((res) => setCandidates(res))
       .catch((error) => console.log(error))
-  }, [])
-
-  const handleAssign = () => {
-    interviewService
-      .candidateAssign(accessToken, form)
-      .then((response) => {
-        if (response.status === '200 OK') {
-          toast.success(response.message)
-        } else {
-          toast.error(response.message)
-        }
-      })
-      .catch(() => toast.error('something went wrong'))
-  }
+  }, [accessToken, jobId])
 
   const [labels, setLabels] = useState([])
   useEffect(() => {
@@ -83,64 +97,162 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate }) => {
       .getMyLabel(accessToken)
       .then((response) => setLabels(response))
       .catch((er) => console.log('assign candidate', er))
-  }, [])
+  }, [accessToken])
+
+  //new way
+  const [listSelected, setListSelected] = useState([])
+  const handleOnCheckBoxClick = (e) => {
+    const candidateId = parseInt(e.target.value, 10)
+    const isChecked = e.target.checked
+
+    setListSelected((prevSelected) => {
+      if (isChecked) {
+        return [...prevSelected, candidateId]
+      } else {
+        return prevSelected.filter((id) => id !== candidateId)
+      }
+    })
+  }
+  const handleOnSelectAll = (e) => {
+    const isChecked = e.target.checked
+
+    if (isChecked) {
+      const allCandidateIds = filteredCandidates.map((candidate) => candidate.userId)
+      setListSelected(allCandidateIds)
+    } else {
+      setListSelected([])
+    }
+  }
+
+  const handleAssign = () => {
+    const assignments = listSelected
+      .filter((candidateId) => candidateId !== null && !isNaN(candidateId))
+      .map((candidateId) => ({
+        candidateId,
+        interviewId: parseInt(roomId, 10),
+        ...convertDates(startDate, endDate),
+        description: 'no description',
+      }))
+    Promise.all(
+      assignments.map((assignment) =>
+        interviewService
+          .candidateAssign(accessToken, assignment)
+          .then((response) => {
+            if (response.status === '200 OK') {
+              return {
+                status: 'success',
+                message: response.message,
+              }
+            } else {
+              return {
+                status: 'info',
+                message: response.message,
+              }
+            }
+          })
+          .catch((er) => ({
+            status: 'error',
+            message: 'something went wrong',
+          }))
+      )
+    ).then((results) => {
+      results.forEach((result) => {
+        toast({
+          title: 'Đăng kí ứng viên',
+          description: result.message,
+          status: result.status,
+          duration: 1000,
+          isClosable: true,
+        })
+      })
+    })
+  }
 
   return (
     <>
       <Button size='xs' leftIcon={<AtSignIcon />} colorScheme='teal' variant='solid' onClick={onOpen}>
         Đăng kí ứng viên
       </Button>
-      <AlertDialog size={'4xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
-        <AlertDialogOverlay>
-          <AlertDialogContent fontFamily={'Montserrat'} fontWeight={400}>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Đăng kí ứng viên
-            </AlertDialogHeader>
-            <AlertDialogBody maxH={500} overflowY={'auto'}>
-              <HStack alignItems={'flex-start'}>
-                <Box w={'70%'}>
-                  {candidates.map((cadidate) => (
-                    <Box onClick={() => handleSelect(cadidate.userId)} w={550} height={100} boxShadow={'lg'} borderRadius='lg' overflow='hidden' m={2} borderColor={idSelected === cadidate.userId ? 'green' : ''} borderWidth={idSelected === cadidate.userId ? '3px' : ''} backgroundColor={'#ffffff'}>
-                      <WrapItem m={2} alignItems='center'>
-                        <Avatar name={cadidate.fullName} src={cadidate.avatar} />
-                        <Text m={2}>{truncatedEmail(cadidate.email)}</Text>
-                        <Spacer />
-                        <VStack justifyContent='flex-start'>
-                          <Button backgroundColor={cadidate.interviewStatus === 'Đã chấm' ? 'green' : cadidate.interviewStatus === 'Chưa phỏng vấn' ? 'orange' : 'grey'} p={1} h={'100%'} colorScheme='teal' size='xs'>
-                            {cadidate.interviewStatus}
-                          </Button>
-                          <Link href={cadidate.cv} isExternal>
-                            Link Cv <ExternalLinkIcon mx='2px' />
-                          </Link>
-                        </VStack>
-                      </WrapItem>
-                    </Box>
+
+      {isOpen && (
+        <Box position='fixed' top='0' left='0' width='100vw' height='100vh' bg='rgba(0, 0, 0, 0.6)' display='flex' alignItems='center' justifyContent='center' zIndex='2000'>
+          <Box bg='white' p={6} borderRadius='md' boxShadow='lg' maxWidth='90%' width='60%' maxHeight='90%' overflow={'hidden'}>
+            <HStack justifyContent={'space-between'} w={'100%'}>
+              <Text fontSize='lg' fontWeight='bold' mb={4}>
+                Đăng kí ứng viên
+              </Text>
+              <IconButton onClick={handleClose} aria-label='Search database' icon={<CloseIcon />} />
+            </HStack>
+
+            <VStack w={'100%'}>
+              <HStack mt={2} w={'100%'}>
+                <Select placeholder='Tất cả nhãn' onChange={handleLabelFilterChange}>
+                  {labels.map((label) => (
+                    <option key={label.id} value={label.id}>
+                      {label.name}
+                    </option>
                   ))}
-                </Box>
-                <Card h={'100%'} w={'30%'}>
-                  <CardHeader>
-                    <StarIcon />
-                    <Text>Lọc theo nhãn</Text>
-                  </CardHeader>
-                  <CardBody>
-                    {labels.map((label) => (
-                      <Checkbox defaultChecked>{label.name}</Checkbox>
-                    ))}
-                  </CardBody>
-                </Card>
+                </Select>
+                <Select placeholder='Tất cả trạng thái' onChange={handleFilterStatusChange}>
+                  {Object.entries(states).map(([key, value]) => (
+                    <option key={key} value={key}>
+                      {value}
+                    </option>
+                  ))}
+                </Select>
+                <InputGroup>
+                  <Input value={search} onChange={handleChangS} placeholder='tìm' />
+                  <InputRightAddon>
+                    <Icon as={SearchIcon} />
+                  </InputRightAddon>
+                </InputGroup>
               </HStack>
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button colorScheme='green' onClick={() => handleAssign()} ml={3} disabled={idSelected === 0 ? true : false}>
-                Assign
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+              <Box h={400} w={'100%'} overflow={'auto'}>
+                <VStack mt={5} w={'100%'}>
+                  {filteredCandidates.map((candidate) => (
+                    <Card w={'100%'} key={candidate.userId} p={1}>
+                      <Flex spacing='4'>
+                        <Checkbox onChange={handleOnCheckBoxClick} value={candidate.userId} mr={5} isChecked={listSelected.includes(candidate.userId)} />
+                        <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                          <Avatar name={candidate.fullName} src={candidate.avatar} />
+                          <Box>
+                            <Heading size='sm'>
+                              {candidate.fullName}
+                            </Heading>
+                            <Text>{candidate.email}</Text>
+                          </Box>
+                        </Flex>
+                        <Menu>
+                          <MenuButton>
+                            <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
+                          </MenuButton>
+                          <MenuList>
+                            <MenuItem>
+                              <Link href={candidate.cv} isExternal>
+                                Xem CV
+                              </Link>
+                            </MenuItem>
+                          </MenuList>
+                        </Menu>
+                      </Flex>
+                    </Card>
+                  ))}
+                </VStack>
+              </Box>
+
+              <HStack w={'100%'} justifyContent={'space-between'} mt={4}>
+                <Button onClick={handleClose}>Cancel</Button>
+                <HStack>
+                  <Checkbox onChange={handleOnSelectAll}>Chọn tất cả</Checkbox>
+                  <Button colorScheme='green' onClick={handleAssign}>
+                    Đăng kí
+                  </Button>
+                </HStack>
+              </HStack>
+            </VStack>
+          </Box>
+        </Box>
+      )}
     </>
   )
 }

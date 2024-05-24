@@ -41,7 +41,7 @@ const JobInterest = () => {
     return (
       <>
         <Heading fontFamily={'Montserrat'} mt={5} textAlign={'center'} fontWeight={'700'} fontSize={'27px'} lineHeight={'40px'} mb={'6px'}>
-          new job post
+          Công việc mới nhất
         </Heading>
         <Box className='container py-4 px-4 justify-conten-center '>
           <Swiper display='flex' slidesPerView={4} navigation={true} modules={[Navigation]} className='mySwiper'>

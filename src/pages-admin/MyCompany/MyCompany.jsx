@@ -8,10 +8,13 @@ import { storage } from '../../firebase'
 import { ManageInterviewer } from '../ManageInterviewer/ManageInterviewer'
 import { UserInfo1 } from '../../Components/UserInfo/UserInfo1'
 import { UserInfoAdmin } from '../UserAccount/UserInfoAdmin'
+import { TransactionHistory } from './TransactionHistory'
+import { useParams } from 'react-router-dom'
 
 export const MyCompany = () => {
   const [company, setCompany] = useState()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  const params = useParams();
 
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -104,7 +107,7 @@ export const MyCompany = () => {
             <Box w={'100%'}>
               <Card>
                 <CardBody>
-                  <Tabs position='relative' variant='unstyled'>
+                  <Tabs defaultIndex={params.tab ? params.tab : 0} position='relative' variant='unstyled'>
                     <TabList fontWeight={'bold'}>
                       <Tab>Thông tin cơ bản</Tab>
                       <Tab>Thông tin cá nhân</Tab>
@@ -117,13 +120,13 @@ export const MyCompany = () => {
                       <TabPanel>
                         <Box>
                           <FormControl>
-                            <FormLabel>Avatar</FormLabel>
+                            <FormLabel>Ảnh đại diện</FormLabel>
                             {loading ? <Spinner size='xl' /> : <Img w={200} alt='Choose img' borderRadius={20} src={company.avatar} onClick={openFileUpload} />}
                             <input id='file-upload' type='file' accept='image/*' onChange={handleFileChange} style={{ display: 'none' }} />
                           </FormControl>
                           <HStack mt={3}>
                             <FormControl>
-                              <FormLabel>Company name</FormLabel>
+                              <FormLabel>Tên công ty</FormLabel>
                               <Input onChange={handleOnChangeForm} name='name' value={company.name} placeholder='company name' />
                             </FormControl>
                             <FormControl>
@@ -132,15 +135,15 @@ export const MyCompany = () => {
                             </FormControl>
                           </HStack>
                           <FormControl>
-                            <FormLabel>Address</FormLabel>
+                            <FormLabel>Địa chỉ</FormLabel>
                             <Textarea onChange={handleOnChangeForm} name='address' value={company.address} placeholder='address' />
                           </FormControl>
                           <FormControl>
-                            <FormLabel>Phone</FormLabel>
+                            <FormLabel>Số điện thoại</FormLabel>
                             <Input onChange={handleOnChangeForm} name='phone' value={company.phone} placeholder='phone' />
                           </FormControl>
                           <FormControl>
-                            <FormLabel>Info</FormLabel>
+                            <FormLabel>Thông tin chi tiết</FormLabel>
                             <Textarea onChange={handleOnChangeForm} name='info' value={company.info} placeholder='info' />
                           </FormControl>
 
@@ -157,7 +160,8 @@ export const MyCompany = () => {
                         <ManageInterviewer />
                       </TabPanel>
                       <TabPanel>
-                        <p>three!</p>
+                        {/* ls giao dich */}
+                        <TransactionHistory/>
                       </TabPanel>
                       <TabPanel>
                         <p>threqqe!</p>

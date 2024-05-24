@@ -52,10 +52,37 @@ const markCandidate = async (token, form) => {
     }
 };
 
+const deleteCandidate = async (accessToken, id) => {
+    try {
+        let config = { headers: { Authorization: `Bearer ${accessToken}` } };
+        const res = await axios.delete(
+            `${API_URL}/interview-detail/${id}`,
+            config
+        );
+        if (res.data.status === "200 OK") {
+            return res.data;
+        } else {
+            throw new Error(res.data.message);
+        }
+    } catch (error) {
+        const axiosError = error;
+        if (
+            axiosError &&
+            axiosError.response &&
+            axiosError.response.status === 403
+        ) {
+            throw new Error("no_permistion");
+        } else {
+            throw error;
+        }
+    }
+}
+
 
 
 
 export const interviewDetailService = {
     getInterviewDetailById,
     markCandidate,
+    deleteCandidate
 };
