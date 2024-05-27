@@ -484,7 +484,6 @@ const ListCVTab = ({ job, setTabIndex }) => {
   const [statusFilter, setStatusFilter] = useState('')
   const [labelFilter, setLabelFilter] = useState('')
 
-
   useEffect(() => {
     const applyFilters = () => {
       let filtered = candidates

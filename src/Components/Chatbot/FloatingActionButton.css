@@ -5,7 +5,7 @@
   right: 20px;
   width: 70px;
   height: 70px;
-  background-color: #defbff;
+  background-color: #2cccc7;
   color: rgb(32, 34, 34);
   font-size: 16px;
   cursor: pointer;
@@ -15,7 +15,7 @@
 }
 
 .icon {
-  width: 100%; 
-  height: auto; 
-  color: rgb(70, 60, 60); 
+  width: 100%;
+  height: auto;
+  color: rgb(251, 251, 251);
 }

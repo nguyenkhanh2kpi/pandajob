@@ -1,12 +1,9 @@
-import { Avatar, Box, Button, Center, HStack, Heading, Image, SlideFade, Text, VStack } from '@chakra-ui/react'
+import { Box, HStack } from '@chakra-ui/react'
 import React from 'react'
-import { ConversationsStyle, MessagesStyle, UIKitSettingsBuilder } from '@cometchat/uikit-shared'
-import { AvatarStyle, BackdropStyle, BadgeStyle, CometChatConversations, CometChatMessages, CometChatUIKit, ListItemStyle, TitleAlignment } from '@cometchat/chat-uikit-react'
-import { CometChatUsersWithMessages } from '@cometchat/chat-uikit-react'
-import { ConversationsRequestBuilder } from '@cometchat/chat-sdk-javascript'
-import { useEffect, useState } from 'react'
+import { ConversationsStyle, MessagesStyle } from '@cometchat/uikit-shared'
+import { CometChatConversations, CometChatMessages, TitleAlignment } from '@cometchat/chat-uikit-react'
+import { useState } from 'react'
 import { CometChat } from '@cometchat/chat-sdk-javascript'
-import { cometChatService } from '../../Service/cometchat.service'
 const conversationsStyle = new ConversationsStyle({
   width: '100%',
   height: '100%',
@@ -38,17 +35,17 @@ const messagesStyle = new MessagesStyle({
   messageTextFont: 'sans-serif',
 })
 
-const COMETCHAT_CONSTANTS = {
-  APP_ID: '25621446d429b454',
-  REGION: 'us',
-  AUTH_KEY: '1de6a118d4d1a49b1ffb70d9b76a274fc9a330c9',
-}
-const UIKitSettings = new UIKitSettingsBuilder().setAppId(COMETCHAT_CONSTANTS.APP_ID).setRegion(COMETCHAT_CONSTANTS.REGION).setAuthKey(COMETCHAT_CONSTANTS.AUTH_KEY).subscribePresenceForFriends().build()
-CometChatUIKit.init(UIKitSettings)
-  .then(() => {
-    console.log('Initialization completed successfully')
-  })
-  .catch(console.log)
+// const COMETCHAT_CONSTANTS = {
+//   APP_ID: '25621446d429b454',
+//   REGION: 'us',
+//   AUTH_KEY: '1de6a118d4d1a49b1ffb70d9b76a274fc9a330c9',
+// }
+// const UIKitSettings = new UIKitSettingsBuilder().setAppId(COMETCHAT_CONSTANTS.APP_ID).setRegion(COMETCHAT_CONSTANTS.REGION).setAuthKey(COMETCHAT_CONSTANTS.AUTH_KEY).subscribePresenceForFriends().build()
+// CometChatUIKit.init(UIKitSettings)
+//   .then(() => {
+//     console.log('Initialization completed successfully')
+//   })
+//   .catch((er) => console.log(er))
 
 const Message = () => {
   const data = JSON.parse(localStorage.getItem('data'))
@@ -60,31 +57,31 @@ const Message = () => {
     })
   }
 
-  const handleAddNewUser = (uid, username, avatar, email, phone) => {
-    cometChatService
-      .createNewUser(uid, username, avatar, email, phone)
-      .then((reponse) => console.log('userBNN', reponse))
-      .catch((er) => console.log(er))
-  }
+  // const handleAddNewUser = (uid, username, avatar, email, phone) => {
+  //   cometChatService
+  //     .createNewUser(uid, username, avatar, email, phone)
+  //     .then((reponse) => console.log('userBNN', reponse))
+  //     .catch((er) => console.log(er))
+  // }
 
-  useEffect(() => {
-    CometChatUIKit.getLoggedinUser().then((user) => {
-      if (!user) {
-        CometChatUIKit.login(data.data.username)
-          .then((user) => {
-            console.log('Login Successful:', { user })
-          })
-          .catch((er) => {
-            if (er.code === 'ERR_UID_NOT_FOUND') {
-              handleAddNewUser(data.data.username, data.data.username, data.data.userInfo.avatar, data.data.email, data.data.userInfo.phone ? data.data.userInfo.phone : '0123456789')
-            } else {
-              console.log(er)
-            }
-          })
-      } else {
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   CometChatUIKit.getLoggedinUser().then((user) => {
+  //     if (!user) {
+  //       CometChatUIKit.login(data.data.email.split('@')[0])
+  //         .then((user) => {
+  //           console.log('Login cometchat Successful:', { user })
+  //         })
+  //         .catch((er) => {
+  //           if (er.code === 'ERR_UID_NOT_FOUND') {
+  //             handleAddNewUser(data.data.email, data.data.username, data.data.userInfo.avatar, data.data.email, data.data.userInfo.phone ? data.data.userInfo.phone : '0123456789')
+  //           } else {
+  //             console.log('comoetnchat', er)
+  //           }
+  //         })
+  //     } else {
+  //     }
+  //   })
+  // }, [])
 
   return (
     <Box mb={20} mt={120} fontFamily={'Montserrat'}>

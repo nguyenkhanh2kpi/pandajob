@@ -20,9 +20,24 @@ import {
   Link,
   Spacer,
   Skeleton,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Card,
+  CardBody,
+  Icon,
+  IconButton,
+  Menu,
+  MenuList,
+  MenuItem,
+  Flex,
+  MenuButton,
+  Badge,
 } from '@chakra-ui/react'
 import { MarkItem } from './MarkItem'
 import { interviewDetailService } from '../../Service/interviewDetail.service'
+import { AiOutlineEdit, AiOutlineUsergroupAdd } from 'react-icons/ai'
+import { BsThreeDotsVertical } from 'react-icons/bs'
 
 export const MarkCandidate = () => {
   const [room, setRoom] = useState()
@@ -85,30 +100,73 @@ export const MarkCandidate = () => {
   } else
     return (
       <>
-        <Box
-          fontFamily={'Montserrat'}
-          fontWeight={400}
-          backgroundColor={'#e9f3f5'}
-          p={30}
-          overflow='hidden'>
+        <Box overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+          <Breadcrumb pt={30}>
+            <BreadcrumbItem>
+              <BreadcrumbLink href='#'>Phòng phỏng vấn</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink href='#'>Chi tiết</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+          <VStack spacing={3} ml={30} mr={30}>
+            <HStack w={'100%'} mb={3} alignItems='center' spacing={4}>
+              <Icon as={AiOutlineUsergroupAdd} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0} fontSize='2xl'>
+                Danh sách ứng viên
+              </Text>
+            </HStack>
+
+            <SimpleGrid w={'100%'} columns={{ base: 1, sm: 2, md: 3 }} spacing='10px'>
+              {room.listCandidate.map((candidate) => (
+                <Card mb={1} key={candidate.itemId} p={1}>
+                  <Flex spacing='4'>
+                    <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                      <Avatar name={candidate.name} src={candidate.avatar} />
+                      <Box>
+                        <Heading size='sm' isTruncated maxW='275px'>
+                          {candidate.name} <Badge colorScheme={candidate.status === 'Đã chấm' ? 'green' : 'purple'}> {candidate.status}</Badge>
+                        </Heading>
+                        <Text isTruncated maxW='230px'>
+                          {candidate.email}
+                        </Text>
+                      </Box>
+                    </Flex>
+                    <Menu>
+                      <MenuButton as={IconButton} variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
+                      <MenuList>
+                        <MenuItem
+                          onClick={() => {
+                            setIdSelected(candidate.itemId)
+                            setClockBox(true)
+                          }}>
+                          Phỏng vấn
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
+                  </Flex>
+                </Card>
+              ))}
+            </SimpleGrid>
+
+            <HStack w={'100%'} mb={3} alignItems='center' spacing={4}>
+              <Icon as={AiOutlineEdit} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0} fontSize='2xl'>
+                Bản ghi phỏng vấn
+              </Text>
+            </HStack>
+
+            <MarkItem isClick={clickBox} roomId={selected} loadDetail={interviewDetail} />
+          </VStack>
+        </Box>
+
+        <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
           <VStack spacing={3}>
-            <Box p={4} borderRadius='lg' backgroundColor={'#FFFFFF'} w={'100%'} h={'230px'} mb={20}>
+            <Box p={4} borderRadius='lg' backgroundColor={'#FFFFFF'} w={'100%'} h={'230px'} mb={0}>
               <HStack h={'100%'}>
-                <Image
-                  borderRadius='lg'
-                  m={2}
-                  h={'100%'}
-                  w={'18%'}
-                  src='https://www.peninsulapersonnel.com.au/wp-content/uploads/2020/09/Best-HR-Interview-1.png'
-                  alt='Dan Abramov'
-                />
+                <Image borderRadius='lg' m={2} h={'100%'} w={'18%'} src='https://www.peninsulapersonnel.com.au/wp-content/uploads/2020/09/Best-HR-Interview-1.png' alt='Dan Abramov' />
                 <VStack h={'100%'} w={'82%'} p={2}>
-                  <HStack
-                    backgroundColor={'#FFFFFF'}
-                    w={'100%'}
-                    p={2}
-                    justifyContent={'space-between'}
-                    mb={0}>
+                  <HStack backgroundColor={'#FFFFFF'} w={'100%'} p={2} justifyContent={'space-between'} mb={0}>
                     <Text fontSize={27} fontWeight={'bold'}>
                       {room.roomName}
                     </Text>
@@ -125,12 +183,9 @@ export const MarkCandidate = () => {
                       {room.startDate}
                     </Button>
                     <Button size='sm' colorScheme='blue' variant='outline'>
-                      {room.listCandidate && Array.isArray(room.listCandidate)
-                        ? room.listCandidate.length
-                        : 0}{' '}
-                      Candidate
+                      {room.listCandidate && Array.isArray(room.listCandidate) ? room.listCandidate.length : 0} Ứng viên
                     </Button>
-                    <Wrap ml={20}>
+                    {/* <Wrap ml={20}>
                       {room.listCandidate.map((candidate) => (
                         <WrapItem key={candidate.itemId} position='relative'>
                           <Avatar name={candidate.name} src={candidate.avatar} />
@@ -141,24 +196,17 @@ export const MarkCandidate = () => {
                           <Avatar name={interviewer.fullName} src={interviewer.avatar} />
                         </WrapItem>
                       ))}
-                    </Wrap>
+                    </Wrap> */}
                   </HStack>
                 </VStack>
               </HStack>
             </Box>
 
             <Text fontWeight={'black'} ml={4} p={2} w={'100%'}>
-              List Candidate
+              Danh sách ứng viên
             </Text>
 
-            <Box
-              overflow={'auto'}
-              mt={0}
-              p={6}
-              borderRadius='lg'
-              w={'100%'}
-              backgroundColor={'#FFFFFF'}
-              h={80}>
+            <Box overflow={'auto'} mt={0} p={6} borderRadius='lg' w={'100%'} backgroundColor={'#FFFFFF'} h={80}>
               <SimpleGrid columns={[2, null, 3]} spacing='10px'>
                 {room.listCandidate.map((cadidate) => (
                   <Box
@@ -184,11 +232,7 @@ export const MarkCandidate = () => {
                       </VStack>
 
                       <VStack justifyContent='flex-start'>
-                        <Button
-                          p={1}
-                          h={'100%'}
-                          colorScheme={cadidate.status === 'Đã chấm' ? 'green' : 'red'}
-                          size='xs'>
+                        <Button p={1} h={'100%'} colorScheme={cadidate.status === 'Đã chấm' ? 'green' : 'red'} size='xs'>
                           {cadidate.status}
                         </Button>
                       </VStack>
@@ -199,7 +243,7 @@ export const MarkCandidate = () => {
             </Box>
 
             <Text fontWeight={'black'} ml={4} p={2} w={'100%'}>
-              Cadidate
+              Chi tiết
             </Text>
 
             <MarkItem isClick={clickBox} roomId={selected} loadDetail={interviewDetail} />

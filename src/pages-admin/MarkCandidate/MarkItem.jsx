@@ -1,30 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Heading,
-  HStack,
-  SlideFade,
-  VStack,
-  Image,
-  Text,
-  Button,
-  Wrap,
-  WrapItem,
-  Avatar,
-  FormLabel,
-  Input,
-  Select,
-  Box,
-  SimpleGrid,
-  Link,
-  Spacer,
-  Textarea,
-  Skeleton,
-} from '@chakra-ui/react'
+import { Heading, HStack, SlideFade, VStack, Image, Text, Button, Wrap, WrapItem, Avatar, FormLabel, Input, Select, Box, SimpleGrid, Link, Spacer, Textarea, Skeleton, Card, CardBody, Icon } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { QuestionMarkItem } from './QuestionMarkItem'
 import { interviewDetailService } from '../../Service/interviewDetail.service'
 import { questionService } from '../../Service/question.service'
 import { toast, ToastContainer } from 'react-toastify'
+import { AiOutlineUser } from 'react-icons/ai'
+import { CandidateDetailInProces } from '../Process/CandidateDetailInProcess'
 
 export const MarkItem = ({ roomId, loadDetail, isClick }) => {
   const [avg, setAvg] = useState(0)
@@ -110,10 +92,7 @@ export const MarkItem = ({ roomId, loadDetail, isClick }) => {
   const handleAddQuestion = (id, newQuestion, mark, type) => {
     setForm((prevQuestion) => ({
       ...prevQuestion,
-      [`${type}Question`]: [
-        ...prevQuestion[`${type}Question`],
-        { id: id, question: newQuestion, mark: mark },
-      ],
+      [`${type}Question`]: [...prevQuestion[`${type}Question`], { id: id, question: newQuestion, mark: mark }],
     }))
   }
 
@@ -154,129 +133,116 @@ export const MarkItem = ({ roomId, loadDetail, isClick }) => {
     )
   else
     return (
-      <Box
-        fontFamily={'Montserrat'}
-        fontWeight={400}
-        p={9}
-        borderRadius='lg'
-        w={'100%'}
-        backgroundColor={'#FFFFFF'}>
-        <VStack>
-          <Box p={10} borderRadius={4} w={'100%'} borderWidth={1}>
-            <Text fontWeight={'black'}>
-              CV Candidate {loadDetail.candidate.name}
-              {' , '}
-              {loadDetail.candidate.email}
-            </Text>
+      <Card w={'100%'}>
+        <CardBody w={'100%'}>
+          <VStack alignItems={'flex-start'} w={'100%'}>
+            <HStack w={'100%'} mb={3} alignItems='center' spacing={4}>
+              <Icon as={AiOutlineUser} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0}>Ứng viên</Text>
+            </HStack>
+            <VStack alignItems={'flex-start'} w={'100%'}>
+              <Text>Tên: {loadDetail.candidate.name}</Text>
+              <Text>Email: {loadDetail.candidate.email}</Text>
+              {/* <CandidateDetailInProces candidate={ca}/> */}
+            </VStack>
             <Link href={loadDetail.cv.url} isExternal>
-              View cv here <ExternalLinkIcon mx='2px' />
+              Xem CV <ExternalLinkIcon mx='2px' />
             </Link>
-            <Text>Date create: {loadDetail.cv.dateApply}</Text>
-          </Box>
-          <Box p={10} h={'100%'} borderWidth={1} borderRadius={4} w={'100%'}>
-            <Text pb={30} fontWeight={'black'}>
-              Canditate Detail with id: {loadDetail.id}
-            </Text>
-            <VStack justifyContent={'flex-start'} spacing={5}>
-              <HStack w={'100%'}>
-                <FormLabel w={'80px'}>Name</FormLabel>
-                <Input
-                  value={loadDetail.candidate.name ? loadDetail.candidate.name : ''}
-                  disabled={true}
-                  w={'400px'}
-                  placeholder='name'
-                />
-              </HStack>
-              <HStack w={'100%'}>
-                <FormLabel w={'80px'}>Email</FormLabel>
-                <Input
-                  value={loadDetail.candidate.email}
-                  disabled={true}
-                  w={'400px'}
-                  placeholder='email'
-                />
-                <FormLabel w={'60px'}>Status</FormLabel>
-                <Input
-                  value={loadDetail.candidate.status}
-                  disabled={true}
-                  w={'165px'}
-                  placeholder='status'
-                />
-              </HStack>
-            </VStack>
-            <br />
-            <hr />
-            <Text pt={30} pb={30} fontWeight={'black'}>
-              Mark{' '}
-            </Text>
-            <VStack justifyContent={'flex-start'} spacing={5}>
-              <HStack w={'100%'}>
-                <FormLabel w={'20%'}>Average Mark</FormLabel>
-                <Input
-                  name='averageMark'
-                  onChange={handleOnChangeForm}
-                  value={avg}
-                  disabled={true}
-                  type='number'
-                  w={'80%'}
-                  placeholder='mark'
-                />
-              </HStack>
+            <Text>Ngày tạo: {loadDetail.cv.dateApply}</Text>
 
-              <QuestionMarkItem
-                field='Language'
-                question={form.englishQuestion}
-                onAddClick={handleAddQuestion}
-                onDeleteClick={handleDeleteQuestion}
-              />
-              <QuestionMarkItem
-                field='TechSkill'
-                question={form.technicalQuestion}
-                onAddClick={handleAddQuestion}
-                onDeleteClick={handleDeleteQuestion}
-              />
-              <QuestionMarkItem
-                field='SoftSkill'
-                question={form.softSkillQuestion}
-                onAddClick={handleAddQuestion}
-                onDeleteClick={handleDeleteQuestion}
-              />
+            <Box p={3} h={'100%'} borderWidth={1} borderRadius={4} w={'100%'}>
+              <Text fontWeight={'black'}>Bản ghi ID: {loadDetail.id}</Text>
+              <VStack justifyContent={'flex-start'}>
+                <HStack w={'100%'}>
+                  <FormLabel w={'100px'}>Trạng thái</FormLabel>
+                  <Input value={loadDetail.candidate.status} disabled={true} w={'165px'} placeholder='status' />
+                </HStack>
+              </VStack>
+              <hr />
+              <VStack justifyContent={'flex-start'} spacing={5}>
+                <HStack w={'100%'}>
+                  <FormLabel w={'20%'}>Điểm trung bình</FormLabel>
+                  <Input name='averageMark' onChange={handleOnChangeForm} value={avg} disabled={true} type='number' w={'100%'} placeholder='mark' />
+                </HStack>
 
-              <HStack w={'100%'}>
-                <FormLabel w={'20%'}>Comment</FormLabel>
-                <Textarea
-                  name='comment'
-                  onChange={handleOnChangeForm}
-                  value={form.comment}
-                  w={'80%'}
-                  placeholder='comment'
-                />
-              </HStack>
+                <QuestionMarkItem field='Language' question={form.englishQuestion} onAddClick={handleAddQuestion} onDeleteClick={handleDeleteQuestion} />
+                <QuestionMarkItem field='TechSkill' question={form.technicalQuestion} onAddClick={handleAddQuestion} onDeleteClick={handleDeleteQuestion} />
+                <QuestionMarkItem field='SoftSkill' question={form.softSkillQuestion} onAddClick={handleAddQuestion} onDeleteClick={handleDeleteQuestion} />
 
-              <HStack display={'flex'}>
-                <Button
-                  color={'#ffffff'}
-                  w={100}
-                  backgroundColor={'rgb(3, 201, 215)'}
-                  onClick={handleMark}>
-                  Mark
-                </Button>
-              </HStack>
-            </VStack>
-          </Box>
-        </VStack>
-        <ToastContainer
-          position='bottom-right'
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme='light'
-        />
-      </Box>
+                <HStack w={'100%'}>
+                  <FormLabel w={'20%'}>Đánh giá</FormLabel>
+                  <Textarea name='comment' onChange={handleOnChangeForm} value={form.comment} w={'100%'} placeholder='comment' />
+                </HStack>
+
+                <HStack display={'flex'}>
+                  <Button color={'#ffffff'} w={100} backgroundColor={'rgb(3, 201, 215)'} onClick={handleMark}>
+                    Lưu
+                  </Button>
+                </HStack>
+              </VStack>
+            </Box>
+          </VStack>
+          <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
+        </CardBody>
+      </Card>
     )
+}
+{
+  /* <Card w={'100%'}>
+<CardBody>
+  <VStack>
+    <Box p={3} borderRadius={4} w={'100%'} borderWidth={1}>
+      <Text fontWeight={'black'}>
+        CV ứng viên {loadDetail.candidate.name}
+        {loadDetail.candidate.email}
+      </Text>
+      <Link href={loadDetail.cv.url} isExternal>
+        Xem CV <ExternalLinkIcon mx='2px' />
+      </Link>
+      <Text>Ngày tạo: {loadDetail.cv.dateApply}</Text>
+    </Box>
+    <Box p={3} h={'100%'} borderWidth={1} borderRadius={4} w={'100%'}>
+      <Text fontWeight={'black'}>Bản ghi ID: {loadDetail.id}</Text>
+      <VStack justifyContent={'flex-start'}>
+        <HStack w={'100%'}>
+          <FormLabel w={'80px'}>Tên</FormLabel>
+          <Input value={loadDetail.candidate.name ? loadDetail.candidate.name : ''} disabled={true} w={'400px'} placeholder='name' />
+        </HStack>
+        <HStack w={'100%'}>
+          <FormLabel w={'80px'}>Email</FormLabel>
+          <Input value={loadDetail.candidate.email} disabled={true} w={'400px'} placeholder='email' />
+          <FormLabel w={'60px'}>Trạng thái</FormLabel>
+          <Input value={loadDetail.candidate.status} disabled={true} w={'165px'} placeholder='status' />
+        </HStack>
+      </VStack>
+      <hr />
+      <Text pt={30} pb={30} fontWeight={'black'}>
+        Điểm
+      </Text>
+      <VStack justifyContent={'flex-start'} spacing={5}>
+        <HStack w={'100%'}>
+          <FormLabel w={'20%'}>Điểm trung bình</FormLabel>
+          <Input name='averageMark' onChange={handleOnChangeForm} value={avg} disabled={true} type='number' w={'100%'} placeholder='mark' />
+        </HStack>
+
+        <QuestionMarkItem field='Language' question={form.englishQuestion} onAddClick={handleAddQuestion} onDeleteClick={handleDeleteQuestion} />
+        <QuestionMarkItem field='TechSkill' question={form.technicalQuestion} onAddClick={handleAddQuestion} onDeleteClick={handleDeleteQuestion} />
+        <QuestionMarkItem field='SoftSkill' question={form.softSkillQuestion} onAddClick={handleAddQuestion} onDeleteClick={handleDeleteQuestion} />
+
+        <HStack w={'100%'}>
+          <FormLabel w={'20%'}>Đánh giá</FormLabel>
+          <Textarea name='comment' onChange={handleOnChangeForm} value={form.comment} w={'100%'} placeholder='comment' />
+        </HStack>
+
+        <HStack display={'flex'}>
+          <Button color={'#ffffff'} w={100} backgroundColor={'rgb(3, 201, 215)'} onClick={handleMark}>
+            Lưu
+          </Button>
+        </HStack>
+      </VStack>
+    </Box>
+  </VStack>
+  <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
+</CardBody>
+</Card> */
 }

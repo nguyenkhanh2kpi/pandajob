@@ -43,7 +43,7 @@ const Navbar1 = () => {
 
   return (
     <Box fontFamily={'Montserrat'} as={Container} zIndex='100' top='0' maxW='100%' h={'72px'} position='fixed' bgColor='white' mb='150px'>
-      <HStack justifyContent={'space-between'}  direction='row' w='82%' h='100%' m='auto' display='flex'>
+      <HStack justifyContent={'space-between'} direction='row' w='82%' h='100%' m='auto' display='flex'>
         <Box w={'150px'} h={'100%'} display={'flex'} alignItems={'center'} justifyContent={'center'} cursor={'pointer'}>
           <Link to='/'>
             <Image w={'90%'} src={mainlogo} alt='Logo' alignItems={'center'} cursor={'pointer'} />
@@ -134,8 +134,9 @@ const Navbar1 = () => {
                   <MenuItem onClick={() => navigate('/userInfo1')}>User info</MenuItem>
                   <MenuItem onClick={() => navigate('/messages')}>Messages</MenuItem>
                   <MenuItem onClick={() => navigate('/resume')}>Resume</MenuItem>
-                  <MenuItem>
-                    <Link to='/logout'>Log Out</Link>
+                  <MenuItem onClick={() => handleLogout()}>
+                    {/* <Link to='/logout'>Log Out</Link> */}
+                    Logout
                   </MenuItem>
                 </MenuList>
               </Menu>

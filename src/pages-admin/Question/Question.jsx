@@ -206,9 +206,14 @@ export const Question = () => {
     return (
       <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
         <VStack spacing={10}>
-          <Skeleton w={'70%'}>
+          <Skeleton w={'100%'} h='60px'>
             <div>contents wrapped</div>
-            <div>won't be visible</div>
+          </Skeleton>
+          <Skeleton w={'100%'} h='400px'>
+            <div>contents wrapped</div>
+          </Skeleton>
+          <Skeleton w={'100%'} h='400px'>
+            <div>contents wrapped</div>
           </Skeleton>
         </VStack>
       </Box>
@@ -411,7 +416,7 @@ export const Question = () => {
                               <ListIcon as={MdCheckCircle} color='green.500' />
                               Field: {item.fieldEnum}
                             </ListItem>
-                            <ListItem>
+                            {/* <ListItem>
                               <ListIcon as={MdCheckCircle} color='green.500' />
                               Skill:{' '}
                               {item.skillIds.map((id) => {
@@ -423,6 +428,23 @@ export const Question = () => {
                               Position:{' '}
                               {item.positionIds.map((id) => {
                                 return `${positions.find((s) => s.id === id).positionName}, `
+                              })}
+                            </ListItem> */}
+                            // Đoạn mã trong phần hiển thị các kỹ năng và vị trí:
+                            <ListItem>
+                              <ListIcon as={MdCheckCircle} color='green.500' />
+                              Skill:{' '}
+                              {item.skillIds.map((id) => {
+                                const skill = skills.find((s) => s.id === id)
+                                return skill ? `${skill.skillName}, ` : ''
+                              })}
+                            </ListItem>
+                            <ListItem>
+                              <ListIcon as={MdCheckCircle} color='green.500' />
+                              Position:{' '}
+                              {item.positionIds.map((id) => {
+                                const position = positions.find((p) => p.id === id)
+                                return position ? `${position.positionName}, ` : ''
                               })}
                             </ListItem>
                           </List>

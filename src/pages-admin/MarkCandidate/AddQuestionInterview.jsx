@@ -102,83 +102,71 @@ export const AddQuestionInterview = ({ field, onAddClick }) => {
 
   const onAddClickWithMark = (question) => {
     const mark = marks[question.id] || 0
-    onAddClick(
-      question.id,
-      question.question,
-      mark,
-      field === 'SoftSkill' ? 'softSkill' : field === 'TechSkill' ? 'technical' : 'english'
-    )
+    onAddClick(question.id, question.question, mark, field === 'SoftSkill' ? 'softSkill' : field === 'TechSkill' ? 'technical' : 'english')
   }
 
   return (
     <>
-      <Button
-        color={'#ffffff'}
-        backgroundColor={'rgb(3, 201, 215)'}
-        w={'16%'}
-        colorScheme='teal'
-        onClick={onOpen}>
+      <Button color={'#ffffff'} backgroundColor={'rgb(3, 201, 215)'} w={'16%'} colorScheme='teal' onClick={onOpen}>
         + {field}
       </Button>
 
-      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+      <AlertDialog size={'4xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontFamily={'Montserrat'} fontSize='lg' fontWeight='bold'>
-              Find your question
+              Tìm câu hỏi
             </AlertDialogHeader>
 
-            <AlertDialogBody
-              style={{ maxHeight: '500px', overflowY: 'auto', fontFamily: 'Montserrat' }}>
-              <Input onChange={handleType} value={keyword} placeholder='Search' size='md' />
-              <Select defaultValue={0} onChange={handleSelectChange} m={3} w={'90%'}>
-                <option value={0}>---</option>
-                {skills.map((skill) => (
-                  <option value={skill.id}>{skill.skillName}</option>
-                ))}
-              </Select>
+            <AlertDialogBody style={{ maxHeight: '500px', overflowY: 'auto', fontFamily: 'Montserrat' }}>
+              <HStack>
+                <Input onChange={handleType} value={keyword} placeholder='Search' size='md' />
+                <Select defaultValue={0} onChange={handleSelectChange} w={'100%'}>
+                  <option value={0}>---</option>
+                  {skills.map((skill) => (
+                    <option value={skill.id}>{skill.skillName}</option>
+                  ))}
+                </Select>
+              </HStack>
+
               {isFilter
                 ? filterQuestions.map((question) => (
-                    <Box p={2} borderRadius={4} m={2} borderWidth={1}>
-                      <Text m={3}>{question.question}</Text>
-                      <HStack>
-                        <NumberInput
-                          defaultValue={0}
-                          min={0}
-                          max={10}
-                          name={`mark-${question.id}`}
-                          onChange={(valueString) => handleMarkChange(valueString, question.id)}>
-                          <NumberInputField />
-                          <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                          </NumberInputStepper>
-                        </NumberInput>
-                        <Button onClick={() => onAddClickWithMark(question)} w={'100%'}>
-                          +
-                        </Button>
+                    <Box p={1} borderRadius={4} mt={1} borderWidth={1}>
+                      <HStack w={'100%'}>
+                        <Text w={'70%'} m={3}>
+                          {question.question}
+                        </Text>
+                        <HStack w={'30%'}>
+                          <NumberInput defaultValue={0} min={0} max={10} name={`mark-${question.id}`} onChange={(valueString) => handleMarkChange(valueString, question.id)}>
+                            <NumberInputField />
+                            <NumberInputStepper>
+                              <NumberIncrementStepper />
+                              <NumberDecrementStepper />
+                            </NumberInputStepper>
+                          </NumberInput>
+                          <Button onClick={() => onAddClickWithMark(question)} w={'100%'}>
+                            +
+                          </Button>
+                        </HStack>
                       </HStack>
                     </Box>
                   ))
                 : questions.map((question) => (
-                    <Box p={2} borderRadius={4} m={2} borderWidth={1}>
-                      <Text m={3}>{question.question}</Text>
-                      <HStack>
-                        <NumberInput
-                          defaultValue={0}
-                          min={0}
-                          max={10}
-                          name={`mark-${question.id}`}
-                          onChange={(valueString) => handleMarkChange(valueString, question.id)}>
-                          <NumberInputField />
-                          <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                          </NumberInputStepper>
-                        </NumberInput>
-                        <Button w={'100%'} onClick={() => onAddClickWithMark(question)}>
-                          +
-                        </Button>
+                    <Box p={1} borderRadius={4} mt={1} borderWidth={1}>
+                      <HStack w={'100%'} justifyContent={'space-between'}>
+                        <Text m={3}>{question.question}</Text>
+                        <HStack>
+                          <NumberInput defaultValue={0} min={0} max={10} name={`mark-${question.id}`} onChange={(valueString) => handleMarkChange(valueString, question.id)}>
+                            <NumberInputField />
+                            <NumberInputStepper>
+                              <NumberIncrementStepper />
+                              <NumberDecrementStepper />
+                            </NumberInputStepper>
+                          </NumberInput>
+                          <Button w={'100%'} onClick={() => onAddClickWithMark(question)}>
+                            +
+                          </Button>
+                        </HStack>
                       </HStack>
                     </Box>
                   ))}

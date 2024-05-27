@@ -1,4 +1,4 @@
-import { DragHandleIcon, EmailIcon, PhoneIcon, SearchIcon, ViewIcon } from '@chakra-ui/icons'
+import { ChatIcon, DragHandleIcon, EmailIcon, PhoneIcon, SearchIcon, ViewIcon } from '@chakra-ui/icons'
 import {
   Modal,
   ModalOverlay,
@@ -38,6 +38,7 @@ import { cvService } from '../../Service/cv.service'
 import { MultiSelectComponent } from '@syncfusion/ej2-react-dropdowns'
 import { useEffect, useState } from 'react'
 import { labelService } from '../../Service/label.service'
+import ChatWindow from '../MessageAdmin/ChatWindow'
 
 const State = {
   RECEIVE_CV: 'Tiếp nhận CV',
@@ -126,6 +127,12 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
     onClose()
   }
 
+  // chat
+  const [isChatOpen, setIsChatOpen] = useState(false)
+  const toggleChatWindow = () => {
+    setIsChatOpen(!isChatOpen)
+  }
+
   return (
     <>
       <Tr>
@@ -152,6 +159,13 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
             <ListItem>
               <ListIcon as={PhoneIcon} color='green.500' />
               {candidate.phone}
+            </ListItem>
+            <ListItem>
+              <ListIcon as={ChatIcon} color='green.500' />
+              <Button size='xs' onClick={toggleChatWindow}>
+                Chat với ứng viên
+              </Button>
+              {isChatOpen && <ChatWindow onClose={toggleChatWindow} email={candidate.email} />}
             </ListItem>
           </List>
         </Td>

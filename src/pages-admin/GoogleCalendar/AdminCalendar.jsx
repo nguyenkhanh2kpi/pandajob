@@ -23,22 +23,6 @@ export const AdminCalendar = () => {
     arg.navigation.enable = true
   }
 
-  // useEffect(() => {
-  //   calendarService
-  //     .getMyCalendar(accessToken)
-  //     .then((res) => {
-  //       setDisplayCalendar(calendarConver.convertCalendar(res))
-  //     })
-  //     .catch((er) => console.log(er))
-
-  //   // calendarService
-  //   //   .getLocalCalendar(accessToken)
-  //   //   .then((res) => {
-  //   //     setDisplayCalendar(calendarConver.convertCalendarLocal(res))
-  //   //   })
-  //   //   .catch((er) => console.log(er))
-  // }, [])
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -59,7 +43,6 @@ export const AdminCalendar = () => {
   const onActionBegin = (args) => {
     switch (args.requestType) {
       case 'eventCreate':
-        // console.log('Sự kiện mới được thêm:', JSON.stringify(args.data))
         if (args.data && args.data.length > 0) {
           const eventData = args.data[0]
           const createForm = {
@@ -112,14 +95,16 @@ export const AdminCalendar = () => {
 
   if (displayCalendar === undefined) {
     return (
-      <div className='m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl'>
-        <Header category='pages' title='Calendar' />
-        <Stack>
-          <Skeleton height='50px' />
-          <Skeleton height='50px' />
-          <Skeleton height='50px' />
-        </Stack>
-      </div>
+      <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+        <Breadcrumb pt={30}>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='#'>Calendar</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+        <Box spacing={3} ml={30} mr={30}>
+          <Skeleton height='650px'/>
+        </Box>
+      </Box>
     )
   } else if (displayCalendar.length === 0) {
     return (
@@ -131,7 +116,7 @@ export const AdminCalendar = () => {
   } else
     return (
       <>
-        <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} >
+        <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
           <Breadcrumb pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='#'>Calendar</BreadcrumbLink>
