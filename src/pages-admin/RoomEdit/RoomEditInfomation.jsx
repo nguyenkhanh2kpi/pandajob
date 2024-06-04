@@ -12,6 +12,7 @@ import { AiOutlineFolderOpen, AiOutlineSetting, AiOutlineUsergroupAdd } from 're
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { interviewDetailService } from '../../Service/interviewDetail.service'
+import ChatWindow from '../MessageAdmin/ChatWindow'
 const initialRoomData = {
   id: 0,
   jobPostId: 0,
@@ -117,6 +118,13 @@ export const RoomEditInfomation = () => {
     setCandidateToDelete(candidateId)
     setIsConfirmationOpen(true)
   }
+  //chat
+  const [openChatCandidate, setOpenChatCandidate] = useState(null)
+
+  // Function to toggle the chat window for a specific candidate
+  const toggleChatWindow = (candidateEmail) => {
+    setOpenChatCandidate(candidateEmail === openChatCandidate ? null : candidateEmail)
+  }
 
   if (room.id === 0) {
     return (
@@ -210,6 +218,7 @@ export const RoomEditInfomation = () => {
                 </HStack>
                 {room.listCandidate.map((candidate) => (
                   <Card mb={1} key={candidate.itemId} p={1}>
+                    {openChatCandidate === candidate.email && <ChatWindow onClose={() => toggleChatWindow(candidate.email)} email={candidate.email} />}
                     <Flex spacing='4'>
                       <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
                         <Avatar name={candidate.name} src={candidate.avatar} />
@@ -225,6 +234,7 @@ export const RoomEditInfomation = () => {
                         </MenuButton>
                         <MenuList>
                           <MenuItem>Xem</MenuItem>
+                          <MenuItem onClick={() => toggleChatWindow(candidate.email)}>Gửi tin nhắn</MenuItem>
                           <MenuItem key={candidate.itemId} value={candidate.itemId} onClick={() => openConfirmModal(candidate.itemId)}>
                             Xóa
                           </MenuItem>

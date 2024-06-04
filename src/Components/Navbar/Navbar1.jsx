@@ -1,33 +1,51 @@
 import React from 'react'
-import { Badge, Box, Button, Card, CardBody, Flex, Heading, HStack, IconButton, Image, SlideFade, Stack, Text, Wrap, WrapItem, useDisclosure, Menu, MenuButton, MenuItem, MenuList, Container, Divider, Avatar, VStack } from '@chakra-ui/react'
+import {
+  Badge,
+  Box,
+  Button,
+  Card,
+  CardBody,
+  Flex,
+  Heading,
+  HStack,
+  IconButton,
+  Image,
+  SlideFade,
+  Stack,
+  Text,
+  Wrap,
+  WrapItem,
+  useDisclosure,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Container,
+  Divider,
+  Avatar,
+  VStack,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+} from '@chakra-ui/react'
 
 import mainlogo from '../../Components/req/jobpandacom-logo.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { ChatIcon, ChevronDownIcon } from '@chakra-ui/icons'
+import { ChatIcon, ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons'
 import { GoogleLogout } from 'react-google-login'
 import { webHost } from '../../global'
 import { CometChatUIKit } from '@cometchat/chat-uikit-react'
 import ChatContainer from '../Chatbot/Chatbot'
 
-const client_id = '854899780211-p148qqqvv8svo8mmviv8tuf6sbmip7iq.apps.googleusercontent.com'
 const Navbar1 = () => {
   const navigate = useNavigate()
-
-  // const employers = useDisclosure()
-  // const jobs = useDisclosure()
   const companies = useDisclosure()
   const services = useDisclosure()
   const data = JSON.parse(localStorage.getItem('data'))
 
-  // const handleLogout = () => {
-  //   console.log('logout')
-  //   const auth2 = window.gapi.auth2.getAuthInstance()
-  //   if (auth2 != null) {
-  //     auth2.signOut().then(auth2.disconnect())
-  //   }
-  //   localStorage.removeItem('data')
-  //   window.location.replace(`${webHost}`)
-  // }
   const handleLogout = () => {
     console.log('logout')
     if (window.gapi && window.gapi.auth2) {
@@ -52,20 +70,6 @@ const Navbar1 = () => {
         <Stack direction={'row'} h={'100%'}>
           <ChatContainer />
           <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
-            {/* <Menu isOpen={services.isOpen}>
-              <MenuButton
-                onClick={() => navigate('/jobpage')}
-                _hover={{
-                  background: 'white',
-                  border: 'none',
-                }}
-                border={'none'}
-                bgColor={'white'}
-                as={Button}
-                color={'#445578'}>
-                Jobs
-              </MenuButton>
-            </Menu> */}
             <Menu>
               <MenuButton bgColor={'white'} as={Button}>
                 Việc làm
@@ -85,8 +89,6 @@ const Navbar1 = () => {
               </MenuButton>
               <MenuList>
                 <MenuItem onClick={() => navigate('/companies')}>Tìm công ty</MenuItem>
-                {/* <MenuItem>Việc làm yêu thích</MenuItem>
-                <MenuItem>Đã ứng tuyển</MenuItem> */}
               </MenuList>
             </Menu>
           </Box>
@@ -98,8 +100,6 @@ const Navbar1 = () => {
               </MenuButton>
               <MenuList>
                 <MenuItem onClick={() => navigate('/events')}>Xem sự kiện</MenuItem>
-                {/* <MenuItem>Việc làm yêu thích</MenuItem>
-                <MenuItem>Đã ứng tuyển</MenuItem> */}
               </MenuList>
             </Menu>
           </Box>
@@ -130,24 +130,20 @@ const Navbar1 = () => {
                   </WrapItem>
                 </MenuButton>
                 <MenuList>
-                  {/* <MenuItem onClick={() => navigate('/userInfo')}>User info</MenuItem> */}
-                  <MenuItem onClick={() => navigate('/userInfo1')}>User info</MenuItem>
-                  <MenuItem onClick={() => navigate('/messages')}>Messages</MenuItem>
-                  <MenuItem onClick={() => navigate('/resume')}>Resume</MenuItem>
-                  <MenuItem onClick={() => handleLogout()}>
-                    {/* <Link to='/logout'>Log Out</Link> */}
-                    Logout
-                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/userInfo1')}>Thông tin cá nhân</MenuItem>
+                  <MenuItem onClick={() => navigate('/messages')}>Tin nhắn</MenuItem>
+                  <MenuItem onClick={() => navigate('/resume')}>Hồ sơ CV</MenuItem>
+                  <MenuItem onClick={() => handleLogout()}>Đăng xuất</MenuItem>
                 </MenuList>
               </Menu>
             </HStack>
           ) : (
             <HStack>
               <Button border={'1px'} borderColor={'#457eff'} borderRadius={'50px'} color={'#457eff'} bg={'white'} h={'40px'} w={'80px'} fontWeight={'600'}>
-                <Link to='/login'>Login</Link>
+                <Link to='/login'>Đăng nhập</Link>
               </Button>
               <Button ml={2} border={'none'} borderRadius={'50px'} color={'white'} borderColor={'#ff7555'} bgColor={'#ff7555'} w={'100px'}>
-                <Link to='/signup'>Register</Link>
+                <Link to='/signup'>Đăng kí</Link>
               </Button>
             </HStack>
           )}

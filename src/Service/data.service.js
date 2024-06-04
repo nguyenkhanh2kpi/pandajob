@@ -11,9 +11,6 @@ const postRelationJob = async (keyword, jobs) => {
       data: jobs,
     };
 
-    // Log dữ liệu trước khi gửi request
-    console.log('Request data:', data);
-
     const response = await axios.post(`${CHAT_HOST}/find-related-strings`, data);
     return response.data;
   } catch (error) {

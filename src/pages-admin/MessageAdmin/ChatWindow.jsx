@@ -39,7 +39,7 @@ const ChatWindow = ({ onClose, email }) => {
 
   return (
     <Box zIndex={10000000} position='fixed' bottom='0' right='20px' width='400px' height='500px' bg={bg} color={color} borderRadius='8px 8px 0 0' boxShadow='lg' display='flex' flexDirection='column'>
-      <Flex pr={2} justifyContent='space-between' alignItems='center' bg='blue.500' color='white' borderRadius='8px 8px 0 0'>
+      <Flex pr={2} justifyContent='space-between' alignItems='center' bg='white' color='white' borderRadius='8px 8px 0 0'>
         {chatUser && <CometChatMessageHeader hideBackButton={true} user={chatUser} subtitleView={getSubtitleView(chatUser)} messageHeaderStyle={messageHeaderStyle} />}
         <IconButton icon={<CloseIcon />} size='sm' onClick={onClose} aria-label='Close chat' />
       </Flex>

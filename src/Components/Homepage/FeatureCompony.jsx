@@ -62,7 +62,7 @@ const FeatureCompony = () => {
             }}>
             {companies
               .map((company) => (
-                <SwiperSlide>
+                <SwiperSlide key={company.id}>
                   <div>
                     <Box
                       _hover={{
