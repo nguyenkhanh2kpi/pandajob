@@ -11,7 +11,6 @@ import { useStateContext } from './contexts/ContextProvider'
 import { TooltipComponent } from '@syncfusion/ej2-react-popups'
 import { FiSettings } from 'react-icons/fi'
 import { Navbar, FooterAdmin, Sidebar, ThemeSettings } from './Components-admin'
-
 import { ConversationsStyle, MessagesStyle, UIKitSettingsBuilder } from '@cometchat/uikit-shared'
 import { AvatarStyle, BackdropStyle, BadgeStyle, CometChatConversations, CometChatMessages, CometChatUIKit, ListItemStyle, TitleAlignment } from '@cometchat/chat-uikit-react'
 import { CometChatUsersWithMessages } from '@cometchat/chat-uikit-react'
@@ -19,6 +18,8 @@ import { ConversationsRequestBuilder } from '@cometchat/chat-sdk-javascript'
 import { CometChat } from '@cometchat/chat-sdk-javascript'
 import { cometChatService } from './Service/cometchat.service'
 import ChatWindow from './pages-admin/MessageAdmin/ChatWindow'
+import SockJS from 'sockjs-client'
+import { Client } from '@stomp/stompjs'
 
 function App() {
   const data = JSON.parse(localStorage.getItem('data'))
@@ -141,18 +142,31 @@ function App() {
         </BrowserRouter>
       )
   }
+
   return (
     <BrowserRouter>
       <Provider store={store}>
         <div className='App'>
           {isChatOpen ? <ChatWindow onClose={toggleChatWindow} email={sendToMe.sender.uid} /> : <></>}
-          <Navbar1 />
+          <ConditionalNavbar />
           <AllRoutes />
-          <Footer />
+          <ConditionalFooter />
         </div>
       </Provider>
     </BrowserRouter>
   )
+}
+
+const ConditionalNavbar = () => {
+  const location = useLocation()
+  const isLoginPage = location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/resetPassword'
+  return !isLoginPage && <Navbar1 />
+}
+
+const ConditionalFooter = () => {
+  const location = useLocation()
+  const isLoginPage = location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/resetPassword'
+  return !isLoginPage && <Footer />
 }
 
 export default App

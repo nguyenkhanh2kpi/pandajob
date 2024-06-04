@@ -39,9 +39,11 @@ import { SceningProcess } from '../pages-admin/Process/SceningProcess'
 import { Vip } from '../pages-admin/Vip/Vip'
 import { VipCart } from '../pages-admin/Vip/VipCart'
 import { MyBills } from '../pages-admin/Vip/MyBills'
-import { UserInfo1 } from '../Components/UserInfo/UserInfo1'
 import { LoadingComponent } from '../Components-admin/LoadingComponent'
 import Message from '../Components/Message/Message'
+import MessageAdmin from '../pages-admin/MessageAdmin/MessageList'
+import UserInfo1 from '../Components/UserInfo/UserInfo1'
+import { SearchCandidate } from '../pages-admin/SearchCandidate/SearchCandidate'
 
 const AllRoutesAd = () => {
   return (
@@ -124,7 +126,8 @@ const AllRoutesAd = () => {
       <Route path='/vip/cart/:packId' element={<VipCart />} />
       <Route path='/loading' element={<LoadingComponent />} />
 
-      <Route path='/messages' element={<Message />} />
+      <Route path='/messages' element={<MessageAdmin />} />
+      <Route path='/search-candidate' element={<SearchCandidate />} />
     </Routes>
   )
 }

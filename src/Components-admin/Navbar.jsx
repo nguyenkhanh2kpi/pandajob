@@ -53,11 +53,11 @@ const Navbar = () => {
     <div className='flex justify-between p-2 md:ml-6 md:mr-6 relative'>
       <NavButton title='Menu' customFunc={handleActiveMenu} color={currentColor} icon={<AiOutlineMenu />} />
       <div className='flex'>
-        {/* <NavButton title='Cart' customFunc={() => navigate('/vip/my-bills')} color={currentColor} icon={<FiShoppingCart />} />
+        <NavButton title='Cart' customFunc={() => navigate('/vip/my-bills')} color={currentColor} icon={<FiShoppingCart />} />
         <NavButton title='Chat' dotColor='#03C9D7' customFunc={() => handleClick('chat')} color={currentColor} icon={<BsChatLeft />} />
-        <NavButton title='Notification' dotColor='rgb(254, 201, 15)' customFunc={() => handleClick('notification')} color={currentColor} icon={<RiNotification3Line />} /> */}
+        <NavButton title='Notification' dotColor='rgb(254, 201, 15)' customFunc={() => handleClick('notification')} color={currentColor} icon={<RiNotification3Line />} />
         <HStack>
-          <Menu>
+          {/* <Menu>
             <MenuButton bgColor={'white'} as={Button}>
               <WrapItem>
                 <FiShoppingCart />
@@ -77,14 +77,13 @@ const Navbar = () => {
                 <RiNotification3Line />
               </WrapItem>
             </MenuButton>
-          </Menu>
+          </Menu> */}
           <Menu>
             <MenuButton bgColor={'white'} as={Button} rightIcon={<ChevronDownIcon />}>
               <WrapItem>
                 <HStack spacing='2'>
                   <Avatar name={data.data.username} src={data.data.userInfo.avatar} size='sm' />
                   <Text mt={3}>{data.data.username}</Text>
-                  <IconButton borderRadius={'50%'} bgColor='yellow' icon={<RiVipCrown2Line />} />
                 </HStack>
               </WrapItem>
             </MenuButton>
