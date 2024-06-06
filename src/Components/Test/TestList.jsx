@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { ArrowForwardIcon, CopyIcon, StarIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom'
-import { Box, CardHeader, Heading, Container, FormControl, VStack, FormErrorMessage, FormLabel, SlideFade, Stack, Input, HStack, CardBody, Card, Text, Radio, RadioGroup, StackDivider, Button, GridItem, Grid, Image } from '@chakra-ui/react'
+import { Box, CardHeader, Heading, Container, FormControl, VStack, FormErrorMessage, FormLabel, SlideFade, Stack, Input, HStack, CardBody, Card, Text, Radio, RadioGroup, StackDivider, Button, GridItem, Grid, Image, Icon } from '@chakra-ui/react'
 import { testService } from '../../Service/test.service'
+import { AiOutlineUser } from 'react-icons/ai'
+import { FaCode, FaPencilAlt, FaRegQuestionCircle } from 'react-icons/fa'
 
 export const TestList = () => {
   const [tests, setTest] = useState([])
@@ -21,8 +23,6 @@ export const TestList = () => {
       .then((response) => setTest(response))
       .catch((er) => console.log(er))
   }, [])
-
-  console.log(tests)
 
   return (
     <>
@@ -55,6 +55,24 @@ export const TestList = () => {
 
 const TestItem = ({ test }) => {
   const navigate = useNavigate()
+  const handleOnTestClick = (test) => {
+    if (test.type === 'MULTIPLE_CHOICE') {
+      navigate('/test-record/' + test.id)
+    } else if (test.type === 'ESSAY') {
+      navigate('/essay/' + test.id)
+    }
+  }
+  let icon
+  if (test.type === 'MULTIPLE_CHOICE') {
+    icon = FaRegQuestionCircle
+  } else if (test.type === 'ESSAY') {
+    icon = FaCode
+  } else if (test.type === 'CODE') {
+    icon = FaCode
+  } else {
+    icon = FaPencilAlt
+  }
+
   return (
     <Box
       backgroundColor='#ffffff'
@@ -68,17 +86,28 @@ const TestItem = ({ test }) => {
         transform: 'translate(2px, -5px)',
       }}>
       <Box p='6' borderWidth='1px' borderRadius='lg'>
-        <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1}>
-          {test.summary}
-        </Box>
+        <HStack alignItems='center' spacing={4}>
+          <Icon as={icon} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+          <Text m={0} fontSize='2xl'>
+            {test.summary}
+          </Text>
+        </HStack>
+        {test.record ? (
+          <Button size='xs' mt={1} colorScheme='green'>
+            Đã làm
+          </Button>
+        ) : (
+          <Button size='xs' mt={1} colorScheme='red'>
+            Chưa làm
+          </Button>
+        )}
 
         <Box noOfLines={3} mt='2'>
           Thời gian thực hiện: {test.time} phút
         </Box>
-        <Box noOfLines={3}>Công việc: {test.job}</Box>
 
         <Box display='flex' mt='4' alignItems='center'>
-          <Button rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant='outline' flex='1' onClick={() => navigate('/test-record/' + test.id)}>
+          <Button rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant='outline' flex='1' onClick={() => handleOnTestClick(test)}>
             Làm bài
           </Button>
         </Box>

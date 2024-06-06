@@ -25,6 +25,9 @@ import { TestMain } from '../Components/Test/TestMain'
 import { TestList } from '../Components/Test/TestList'
 import UserInfo1 from '../Components/UserInfo/UserInfo1'
 import { ChangeUsePassword } from '../Components/UserInfo/ChangeUsePassword'
+import { CodeEditor } from '../Components/CodeEditor/CodeEditor'
+import { HomeEssay } from '../Components/Essay/HomeEssay'
+import { CodeEssay } from '../Components/Essay/CodeEssay'
 
 const AllRoutes = () => {
   return (
@@ -57,6 +60,9 @@ const AllRoutes = () => {
       <Route path='/resume' element={<ResumeProfile />} />
       <Route path='/test' element={<TestList />} />
       <Route path='/test-record/:id' element={<TestMain />} />
+      <Route path='/code' element={<CodeEditor />} />
+      <Route path='/essay/:testId' element={<HomeEssay />} />
+      <Route path='/code-essay' element={<CodeEssay />} />
     </Routes>
   )
 }

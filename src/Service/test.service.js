@@ -31,10 +31,30 @@ const getTestByjd = async (token, jobid) => {
   }
 }
 
+const getATestById = async (token, id) => {
+  try {
+    let config = { headers: { Authorization: `Bearer ${token}` } }
+    const response = await axios.get(`${hostName}/mul-test/a-test/${id}`, config)
+    return response.data.data
+  } catch (error) {
+    throw error
+  }
+}
+
 const record = async (token, form) => {
   try {
     let config = { headers: { Authorization: `Bearer ${token}` } }
     const response = await axios.post(`${hostName}/mul-test/record`, form, config)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
+const StartRecord = async (token, form) => {
+  try {
+    let config = { headers: { Authorization: `Bearer ${token}` } }
+    const response = await axios.post(`${hostName}/mul-test/start-record`, form, config)
     return response.data
   } catch (error) {
     throw error
@@ -77,13 +97,28 @@ const addTest = async (token, testData) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-    };
-    const response = await axios.post(`${hostName}/mul-test/new-test`, testData, config);
-    return response.data;
+    }
+    const response = await axios.post(`${hostName}/mul-test/new-test`, testData, config)
+    return response.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
+
+const addEssayTest = async (token, testData) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const response = await axios.post(`${hostName}/mul-test/new-eaasy-test`, testData, config)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
 
 const getRecordByJobId = async (token, jobId) => {
   try {
@@ -92,13 +127,13 @@ const getRecordByJobId = async (token, jobId) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-    };
-    const response = await axios.get(`${hostName}/mul-test/record/${jobId}`, config);
-    return response.data;
+    }
+    const response = await axios.get(`${hostName}/mul-test/record/${jobId}`, config)
+    return response.data
   } catch (error) {
-    throw error;
+    throw error
   }
-} 
+}
 
 export const testService = {
   getMyTest,
@@ -109,4 +144,7 @@ export const testService = {
   deleteQuestion,
   addTest,
   getRecordByJobId,
+  addEssayTest,
+  getATestById,
+  StartRecord,
 }

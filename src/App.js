@@ -150,7 +150,7 @@ function App() {
           {isChatOpen ? <ChatWindow onClose={toggleChatWindow} email={sendToMe.sender.uid} /> : <></>}
           <ConditionalNavbar />
           <AllRoutes />
-          <ConditionalFooter />
+          {/* <ConditionalFooter /> */}
         </div>
       </Provider>
     </BrowserRouter>

@@ -1,4 +1,4 @@
-import { Box, CardHeader, Heading, Container, FormControl, VStack, FormErrorMessage, FormLabel, SlideFade, Stack, Input, HStack, CardBody, Card, Text, Radio, RadioGroup, StackDivider, Button } from '@chakra-ui/react'
+import { Box, CardHeader, Heading, Container, FormControl, VStack, FormErrorMessage, FormLabel, SlideFade, Stack, Input, HStack, CardBody, Card, Text, Radio, RadioGroup, StackDivider, Button, useToast } from '@chakra-ui/react'
 import { useField } from 'formik'
 import React, { useEffect, useState } from 'react'
 import ReactPaginate from 'react-paginate'
@@ -9,11 +9,41 @@ import { testService } from '../../Service/test.service'
 import { toast } from 'react-toastify'
 
 export const TestMain = () => {
+  const toast = useToast()
   const { id } = useParams()
   const [test, setTest] = useState(null)
   const [start, setStart] = useState(false)
   const navigate = useNavigate()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+
+  // handle start
+  const handleStartTest = async () => {
+    if (test.start) {
+      setStart(true)
+    } else {
+      const form = {
+        id: 1,
+        testId: id,
+        startTime: new Date().toLocaleString(),
+      }
+      testService
+        .StartRecord(accessToken, form)
+        .then((response) => {
+          if (response.message === 'Success !') {
+            setStart(true)
+          } else {
+            toast({
+              title: 'Thực hiện bài test',
+              description: 'Đã có lỗi xảy ra, hãy thử lại sau',
+              status: 'info',
+              duration: 9000,
+              isClosable: true,
+            })
+          }
+        })
+        .catch((er) => console.log(er))
+    }
+  }
 
   useEffect(() => {
     testService
@@ -55,7 +85,7 @@ export const TestMain = () => {
                 {start ? (
                   <></>
                 ) : (
-                  <Button w={'100%'} size='lg' colorScheme='teal' onClick={() => setStart(true)}>
+                  <Button w={'100%'} size='lg' colorScheme='teal' onClick={handleStartTest}>
                     Bắt đầu làm bài
                   </Button>
                 )}
@@ -132,26 +162,44 @@ const DoTest = ({ test }) => {
   const displayQuestion = test.questions.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
 
   // count
-  const initialSeconds = test.time * 60; 
-  const [minutes, setMinutes] = useState(Math.floor(initialSeconds / 60));
-  const [seconds, setSeconds] = useState(initialSeconds % 60);
+  const parseDateTime = (dateTimeString) => {
+    const [time, date] = dateTimeString.split(' ')
+    const [hours, minutes, seconds] = time.split(':').map(Number)
+    const [day, month, year] = date.split('/').map(Number)
+    return new Date(year, month - 1, day, hours, minutes, seconds)
+  }
+
+  // Calculate end time
+  const startTime = test.startTime ? parseDateTime(test.startTime) : new Date()
+  const endTime = new Date(startTime.getTime() + test.time * 60000)
+
+  // Timer
+  const calculateTimeLeft = () => {
+    const now = new Date()
+    const difference = endTime - now
+    const minutesLeft = Math.floor(difference / 60000)
+    const secondsLeft = Math.floor((difference % 60000) / 1000)
+    return {
+      minutes: minutesLeft,
+      seconds: secondsLeft,
+    }
+  }
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft())
+
   useEffect(() => {
     const timer = setInterval(() => {
-      if (seconds > 0) {
-        setSeconds(seconds - 1);
+      const newTimeLeft = calculateTimeLeft()
+      if (newTimeLeft.minutes <= 0 && newTimeLeft.seconds <= 0) {
+        clearInterval(timer)
+        // Handle test end (e.g., submit test)
       } else {
-        if (minutes > 0) {
-          setMinutes(minutes - 1);
-          setSeconds(59);
-        } else {
-          clearInterval(timer);
-        }
+        setTimeLeft(newTimeLeft)
       }
-    }, 1000);
+    }, 1000)
 
-    return () => clearInterval(timer);
-  }, [minutes, seconds]);
-
+    return () => clearInterval(timer)
+  }, [])
 
   ///submit
   const handleConfirm = () => {
@@ -258,7 +306,9 @@ const DoTest = ({ test }) => {
                     fontWeight: 'bold',
                     color: 'black',
                   }}>
-                  {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+                  <div>
+                    {timeLeft.minutes} : {timeLeft.seconds}
+                  </div>
                 </div>
               </VStack>
             </VStack>

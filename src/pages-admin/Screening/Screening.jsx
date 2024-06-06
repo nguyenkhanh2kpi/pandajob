@@ -54,6 +54,7 @@ import { EmailIcon } from '@chakra-ui/icons'
 import { FaCode, FaPencilAlt, FaRegQuestionCircle } from 'react-icons/fa'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { bgcolor } from '@mui/system'
+import { AddEssayTest } from './AddEssayTest'
 
 const Screening = () => {
   const params = useParams()
@@ -90,10 +91,8 @@ const Screening = () => {
       </HStack>
       <HStack mb={3}>
         {job ? <AddTestForm jobId={job.id} load={load} setLoad={setLoad} /> : <></>}
+        {job ? <AddEssayTest jobId={job.id} /> : <></>}
 
-        <Button color={'white'} leftIcon={<FaPencilAlt />} backgroundColor={'rgb(3, 201, 215)'} variant='solid'>
-          Bài kiểm tra tự luận
-        </Button>
         <Button color={'white'} leftIcon={<FaCode />} backgroundColor={'rgb(3, 201, 215)'} variant='solid'>
           Kiểm tra code(dành cho ngành IT)
         </Button>
@@ -143,9 +142,9 @@ const TestItem = ({ test, jobId, load, setLoad }) => {
                   </Box>
                 </Flex>
                 <Menu>
-                  <MenuButton _hover={{bgcolor: "white"}} bgColor={'white'} as={Button} rightIcon={<BsThreeDotsVertical />} />
+                  <MenuButton _hover={{ bgcolor: 'white' }} bgColor={'white'} as={Button} rightIcon={<BsThreeDotsVertical />} />
                   <MenuList>
-                    <MenuItem onClick={() => navigate(`/process/screening-test/${test.id}`)} >Chỉnh sửa</MenuItem>
+                    <MenuItem onClick={() => navigate(`/process/screening-test/${test.id}`)}>Chỉnh sửa</MenuItem>
                     <MenuItem>Xóa</MenuItem>
                   </MenuList>
                 </Menu>

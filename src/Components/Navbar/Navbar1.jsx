@@ -140,6 +140,9 @@ const Navbar1 = () => {
                   <MenuItem onClick={() => navigate('/messages')}>Tin nhắn</MenuItem>
                   <MenuItem onClick={() => navigate('/resume')}>Hồ sơ CV</MenuItem>
                   <MenuItem onClick={() => navigate('/test')}>Kiểm tra sàng lọc</MenuItem>
+                  <MenuItem onClick={() => navigate('/code')}>Code</MenuItem>
+                  <MenuItem onClick={() => navigate('/code-essay')}>Code essay</MenuItem>
+                  <MenuItem onClick={() => navigate('/essay')}>tu luan</MenuItem>
                   <MenuItem onClick={() => handleLogout()}>Đăng xuất</MenuItem>
                 </MenuList>
               </Menu>
