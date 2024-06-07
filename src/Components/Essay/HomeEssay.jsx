@@ -158,9 +158,6 @@ export const HomeEssay = () => {
     return new Date(year, month - 1, day, hours, minutes, seconds)
   }
 
-  // const startTime = test?.startTime ? parseDateTime(test.startTime) : 0
-  // const endTime = test?.startTime ? new Date(startTime.getTime() + test.time * 60000) : 0
-
   const calculateTimeLeft = () => {
     const now = new Date()
     const difference = endTime - now

@@ -60,6 +60,8 @@ const TestItem = ({ test }) => {
       navigate('/test-record/' + test.id)
     } else if (test.type === 'ESSAY') {
       navigate('/essay/' + test.id)
+    } else if (test.type === 'CODE') {
+      navigate('/code-essay/' + test.id)
     }
   }
   let icon

@@ -1,0 +1,15 @@
+/* editorjs-custom.css */
+
+.cdx-block {
+  text-align: left;
+}
+
+.cdx-input,
+.ce-paragraph,
+.ce-header {
+  text-align: left;
+}
+
+.cdx-block__content {
+  text-align: left;
+}

@@ -1,45 +1,52 @@
-import { Box, Button, FormControl, FormLabel, HStack, Heading, Input, useDisclosure, useToast } from '@chakra-ui/react'
-import { useCallback, useRef, useState } from 'react'
-import { createReactEditorJS } from 'react-editor-js'
-import { FaPencilAlt } from 'react-icons/fa'
+import { Box, Button, FormControl, FormLabel, HStack, Heading, useToast } from '@chakra-ui/react'
+import React, { useCallback, useRef, useState } from 'react'
+import { OverlayComponent } from '../../Components-admin/OverlayComponent'
 import { EDITOR_JS_TOOLS } from '../../Components/Essay/tool'
-import { testService } from '../../Service/test.service'
+import { createReactEditorJS } from 'react-editor-js'
+import './addQCode.css'
 import { upLoadService } from '../../Service/uploadFile.service'
+import { testService } from '../../Service/test.service'
 
-export const AddEssayTest = ({ jobId, load, setLoad }) => {
-  const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+export const AddNewQuestion = ({ jobId, testId, load, setLoad }) => {
   const toast = useToast()
-
+  const accessToken = JSON.parse(localStorage.getItem('data')).access_token
   // overlay
-  const ReactEditorJS = createReactEditorJS()
   const [isOpen, setIsOpen] = useState(false)
   const handleOpen = () => {
     setIsOpen(true)
   }
   const handleClose = () => {
     setLoad(!load)
+    setForm({
+      jdId: jobId,
+      testId: testId,
+      questionText: '',
+      value: '',
+      language: 'javascript',
+      testCase: '',
+    })
     setIsOpen(false)
   }
+
   // editor
+  const ReactEditorJS = createReactEditorJS()
   const editorCore = useRef(null)
-  const handleInitialize = useCallback((instance) => {
-    editorCore.current = instance
-  }, [])
+  const handleInitialize = useCallback(
+    (instance) => {
+      editorCore.current = instance
+    },
+    [jobId, testId]
+  )
 
   //   form
   const [form, setForm] = useState({
     jdId: jobId,
-    summary: '',
-    time: 0,
-    essayQuestion: '',
+    testId: testId,
+    questionText: '',
+    value: '',
+    language: 'javascript',
+    testCase: '',
   })
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setForm({
-      ...form,
-      [name]: value,
-    })
-  }
 
   const handleSave = async () => {
     const savedData = await editorCore.current.save()
@@ -49,19 +56,21 @@ export const AddEssayTest = ({ jobId, load, setLoad }) => {
       }
     })
     await Promise.all(uploadPromises)
-    form.essayQuestion = JSON.stringify(savedData)
+    form.questionText = JSON.stringify(savedData)
 
+    console.log('form', JSON.stringify(form))
     testService
-      .addEssayTest(accessToken, form)
-      .then((response) =>
+      .addCodeQuestionForATest(accessToken, form)
+      .then((response) => {
+        handleClose()
         toast({
-          title: 'Test Create',
+          title: 'Code Question',
           description: response.message,
           status: 'info',
           duration: 3000,
           isClosable: true,
         })
-      )
+      })
       .catch((er) => console.log(er))
   }
 
@@ -92,22 +101,22 @@ export const AddEssayTest = ({ jobId, load, setLoad }) => {
 
   return (
     <>
-      <Button onClick={handleOpen} color={'white'} leftIcon={<FaPencilAlt />} backgroundColor={'rgb(3, 201, 215)'} variant='solid'>
-        Bài kiểm tra tự luận
+      <Button onClick={handleOpen} color={'white'} backgroundColor={'#2cccc7'}>
+        + Thêm câu hỏi
       </Button>
-      <Overlay isOpen={isOpen} onClose={handleClose}>
-        <Box overflow={'auto'} fontFamily={'Montserrat'} p={5} w={800} h={650} bgColor={'white'} borderRadius={10}>
+
+      <OverlayComponent isOpen={isOpen} onClose={handleClose}>
+        <Box fontFamily={'Montserrat'} p={5} w={800} h={650} bgColor={'white'} borderRadius={10}>
           <Heading size={'md'} fontFamily={'Montserrat'}>
-            Thêm bài kiểm tra tự luận
+            Thêm bài câu hỏi về code
           </Heading>
           <FormControl minH={500}>
-            <FormLabel>Tên bài kiểm tra</FormLabel>
-            <Input type='text' name='summary' value={form.summary} onChange={handleChange} />
-            <FormLabel>Thời gian( Phút)</FormLabel>
-            <Input type='number' name='time' value={form.time} onChange={handleChange} min={1} max={200} />
             <FormLabel>Nội dung câu hỏi</FormLabel>
-            <ReactEditorJS editorCore={editorCore} tools={EDITOR_JS_TOOLS} onInitialize={handleInitialize} />
+            <Box h={500} overflow={'auto'} borderWidth={1} borderRadius={10} borderColor={'gray'}>
+              <ReactEditorJS editorCore={editorCore} tools={EDITOR_JS_TOOLS} onInitialize={handleInitialize} />
+            </Box>
           </FormControl>
+
           <HStack alignItems={'flex-end'} mt={5} w={'40%'}>
             <Button w={'50%'} colorScheme='gray' onClick={handleClose}>
               Đóng
@@ -117,24 +126,7 @@ export const AddEssayTest = ({ jobId, load, setLoad }) => {
             </Button>
           </HStack>
         </Box>
-      </Overlay>
+      </OverlayComponent>
     </>
   )
-}
-
-const Overlay = ({ isOpen, onClose, children }) => {
-  const overlayStyle = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: isOpen ? 'flex' : 'none',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 9999999,
-  }
-
-  return <div style={overlayStyle}>{children}</div>
 }

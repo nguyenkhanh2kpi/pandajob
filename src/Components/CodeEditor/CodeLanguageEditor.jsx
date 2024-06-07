@@ -9,7 +9,7 @@ export const CodeLanguageEditor = ({ language, onSelect }) => {
   return (
     <HStack w={'100%'} justifyContent={'flex-end'}>
       <Menu isLazy>
-        <MenuButton variant={'outline'} size='xs' colorScheme='blue' as={Button}>
+        <MenuButton m={1} variant={'outline'} size='xs' colorScheme='blue' as={Button}>
           {language}
         </MenuButton>
         <MenuList bg='#ffffff'>

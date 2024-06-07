@@ -15,7 +15,6 @@ export const executeCode = async (language, sourceCode) => {
       },
     ],
   })
-  console.log('code1', JSON.stringify(response.data))
   return response.data
 }
 

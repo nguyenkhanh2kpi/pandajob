@@ -62,7 +62,7 @@ const AllRoutes = () => {
       <Route path='/test-record/:id' element={<TestMain />} />
       <Route path='/code' element={<CodeEditor />} />
       <Route path='/essay/:testId' element={<HomeEssay />} />
-      <Route path='/code-essay' element={<CodeEssay />} />
+      <Route path='/code-essay/:testId' element={<CodeEssay />} />
     </Routes>
   )
 }

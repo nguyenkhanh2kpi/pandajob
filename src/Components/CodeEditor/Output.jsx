@@ -30,13 +30,13 @@ export const Output = ({ editorRef, language }) => {
   }
   return (
     <VStack w={'100%'}>
-      <HStack w={'100%'}>
-        <Button variant={'outline'} colorScheme='teal' size='xs' isLoading={isLoading} onClick={runCode}>
-          Run
-        </Button>
-      </HStack>
-      <Box bgColor={'white'} overflow={'auto'} w={'100%'} height='200px' p={2} color={isError ? 'red.400' : ''} border='1px solid' borderRadius={4} borderColor={isError ? 'red.500' : '#333'}>
-        {output ? output.map((line, i) => <Text key={i}>{line}</Text>) : 'Click "Run Code" to see the output here'}
+      <Box bgColor={'white'} overflow={'auto'} w={'100%'} height='230px' p={2} color={isError ? 'red.400' : ''} borderRadius={4} borderColor={isError ? 'red.500' : '#333'}>
+        <HStack alignItems={'flex-start'} justifyContent={'space-between'} w={'100%'}>
+          <Box w={'95%'}>{output ? output.map((line, i) => <Text key={i}>{line}</Text>) : 'Click "Run Code" to see the output here'}</Box>
+          <Button variant={'outline'} colorScheme='teal' size='xs' isLoading={isLoading} onClick={runCode}>
+            Run
+          </Button>
+        </HStack>
       </Box>
     </VStack>
   )

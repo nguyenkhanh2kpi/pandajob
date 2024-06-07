@@ -44,6 +44,8 @@ import Message from '../Components/Message/Message'
 import MessageAdmin from '../pages-admin/MessageAdmin/MessageList'
 import UserInfo1 from '../Components/UserInfo/UserInfo1'
 import { SearchCandidate } from '../pages-admin/SearchCandidate/SearchCandidate'
+import { EditCodeTest } from '../pages-admin/CodeTestEdit/EditCodeTest'
+import { EditEssayTest } from '../pages-admin/Screening/EditeEssayTest'
 
 const AllRoutesAd = () => {
   return (
@@ -118,6 +120,8 @@ const AllRoutesAd = () => {
       <Route path='/process' element={<Process />} />
       <Route path='/process/item/:jobId' element={<ProcessItem />} />
       <Route path='/process/item/:jobId/:tab' element={<ProcessItem />} />
+      <Route path='/process/edit-code-test/:testId' element={<EditCodeTest />} />
+      <Route path='/process/edit-essay-test/:testId' element={<EditEssayTest />} />
       <Route path='/process/step/screening-resume/:jobId' element={<SceningProcess />} />
       <Route path='/process/screening/:jobId' element={<Screening />} />
       <Route path='/process/screening-test/:id' element={<TestAddForm />} />

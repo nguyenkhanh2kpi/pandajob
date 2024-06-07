@@ -25,7 +25,7 @@ export const CodeEditor = () => {
 
       <HStack h={1000} align={'flex-start'} w={'80vw'}>
         <HStack w={'100%'}>
-          <Box w={'50%'}>
+          <Box bgColor={'white'} w={'50%'}>
             <CodeLanguageEditor language={language} onSelect={onSelect} />
             <Editor onMount={onMount} onChange={(value) => setvalue(value)} height='90vh' language={language} defaultValue={CODE_SNIPPETS[language]} value={value} />
           </Box>

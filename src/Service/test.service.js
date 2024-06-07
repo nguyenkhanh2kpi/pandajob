@@ -120,6 +120,50 @@ const addEssayTest = async (token, testData) => {
   }
 }
 
+const addCodeTest = async (token, testData) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const response = await axios.post(`${hostName}/mul-test/new-code-test`, testData, config)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+const addCodeQuestionForATest = async (token, testData) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const response = await axios.post(`${hostName}/mul-test-code/add-question`, testData, config)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
+const deleteCodeQuestionById = async (token, codeQuestionId) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const response = await axios.delete(`${hostName}/mul-test-code/${codeQuestionId}`, config)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
 const getRecordByJobId = async (token, jobId) => {
   try {
     const config = {
@@ -147,4 +191,7 @@ export const testService = {
   addEssayTest,
   getATestById,
   StartRecord,
+  addCodeTest,
+  addCodeQuestionForATest,
+  deleteCodeQuestionById,
 }
