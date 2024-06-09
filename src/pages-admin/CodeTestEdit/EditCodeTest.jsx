@@ -20,7 +20,7 @@ export const EditCodeTest = () => {
     testService
       .getATestById(accessToken, params.testId)
       .then((response) => {
-        console.log(JSON.stringify(response))
+        // console.log(JSON.stringify(response))
         settest(response)
       })
       .catch((er) => console.log(er))
@@ -46,9 +46,9 @@ export const EditCodeTest = () => {
                   </HStack>
                 </Box>
                 {test.codeQuestions.length > 0 ? (
-                  <VStack spacing={4} w='100%'>
+                  <VStack  spacing={4} w='100%'>
                     {test.codeQuestions.map((question) => (
-                      <TestQuestionItem question={question} load={load} setLoad={setLoad} />
+                      <TestQuestionItem key={question.id} question={question} load={load} setLoad={setLoad} />
                     ))}
                   </VStack>
                 ) : (

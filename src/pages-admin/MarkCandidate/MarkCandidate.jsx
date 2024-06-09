@@ -100,7 +100,7 @@ export const MarkCandidate = () => {
   } else
     return (
       <>
-        <Box overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+        <Box pb={100} minH={1000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
           <Breadcrumb pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='#'>Phòng phỏng vấn</BreadcrumbLink>
@@ -160,7 +160,7 @@ export const MarkCandidate = () => {
           </VStack>
         </Box>
 
-        <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
+        {/* <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
           <VStack spacing={3}>
             <Box p={4} borderRadius='lg' backgroundColor={'#FFFFFF'} w={'100%'} h={'230px'} mb={0}>
               <HStack h={'100%'}>
@@ -185,7 +185,7 @@ export const MarkCandidate = () => {
                     <Button size='sm' colorScheme='blue' variant='outline'>
                       {room.listCandidate && Array.isArray(room.listCandidate) ? room.listCandidate.length : 0} Ứng viên
                     </Button>
-                    {/* <Wrap ml={20}>
+                    <Wrap ml={20}>
                       {room.listCandidate.map((candidate) => (
                         <WrapItem key={candidate.itemId} position='relative'>
                           <Avatar name={candidate.name} src={candidate.avatar} />
@@ -196,7 +196,7 @@ export const MarkCandidate = () => {
                           <Avatar name={interviewer.fullName} src={interviewer.avatar} />
                         </WrapItem>
                       ))}
-                    </Wrap> */}
+                    </Wrap>
                   </HStack>
                 </VStack>
               </HStack>
@@ -248,7 +248,9 @@ export const MarkCandidate = () => {
 
             <MarkItem isClick={clickBox} roomId={selected} loadDetail={interviewDetail} />
           </VStack>
-        </Box>
+        </Box> */}
+
+
       </>
     )
 }

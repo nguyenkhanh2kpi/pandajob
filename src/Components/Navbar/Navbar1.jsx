@@ -81,6 +81,7 @@ const Navbar1 = () => {
                 <MenuItem onClick={() => navigate('/jobpage')}>Tìm việc làm</MenuItem>
                 <MenuItem>Việc làm yêu thích</MenuItem>
                 <MenuItem>Đã ứng tuyển</MenuItem>
+                <MenuItem onClick={() => navigate('/test')}>Kiểm tra sàng lọc</MenuItem>
               </MenuList>
             </Menu>
           </Box>
@@ -139,10 +140,10 @@ const Navbar1 = () => {
                   <MenuItem onClick={() => navigate('/change-password')}>Đổi mật khẩu</MenuItem>
                   <MenuItem onClick={() => navigate('/messages')}>Tin nhắn</MenuItem>
                   <MenuItem onClick={() => navigate('/resume')}>Hồ sơ CV</MenuItem>
-                  <MenuItem onClick={() => navigate('/test')}>Kiểm tra sàng lọc</MenuItem>
-                  <MenuItem onClick={() => navigate('/code')}>Code</MenuItem>
-                  <MenuItem onClick={() => navigate('/code-essay')}>Code essay</MenuItem>
-                  <MenuItem onClick={() => navigate('/essay')}>tu luan</MenuItem>
+{/* 
+                  <MenuItem onClick={() => navigate('/code')}>Code</MenuItem> */}
+{/* 
+                  <MenuItem onClick={() => navigate('/essay')}>tu luan</MenuItem> */}
                   <MenuItem onClick={() => handleLogout()}>Đăng xuất</MenuItem>
                 </MenuList>
               </Menu>

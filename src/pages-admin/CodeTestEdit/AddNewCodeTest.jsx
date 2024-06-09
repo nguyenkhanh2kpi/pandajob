@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { OverlayComponent } from '../../Components-admin/OverlayComponent'
-import { Box, Button, FormControl, FormLabel, HStack, Heading, Input, useToast } from '@chakra-ui/react'
+import { Box, Button, FormControl, FormLabel, HStack, Heading, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useToast } from '@chakra-ui/react'
 import { FaCode } from 'react-icons/fa'
 import { testService } from '../../Service/test.service'
 
@@ -89,13 +89,20 @@ export const AddNewCodeTest = ({ jobId, load, setLoad }) => {
       <OverlayComponent isOpen={isOpen} onClose={handleClose}>
         <Box minH={200} overflow={'auto'} fontFamily={'Montserrat'} p={5} bgColor={'white'} borderRadius={10}>
           <Heading size={'md'} fontFamily={'Montserrat'}>
-            Kiểm tra code(dành cho ngành IT)
+            Coding test(dành cho ngành IT)
           </Heading>
           <FormControl minH={200}>
             <FormLabel>Tên bài kiểm tra</FormLabel>
             <Input type='text' name='summary' value={form.summary} onChange={handleChange} />
             <FormLabel>Thời gian( Phút)</FormLabel>
-            <Input type='number' name='time' value={form.time} onChange={handleChange} min={1} max={200} />
+            <NumberInput defaultValue={10} min={10} max={200}>
+              <NumberInputField name='time' value={form.time} onChange={handleChange} />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            {/* <Input type='number' name='time' value={form.time} onChange={handleChange} min={1} max={200} /> */}
           </FormControl>
           <HStack alignItems={'flex-end'} mt={5} w={'40%'}>
             <Button w={'50%'} colorScheme='gray' onClick={handleClose}>

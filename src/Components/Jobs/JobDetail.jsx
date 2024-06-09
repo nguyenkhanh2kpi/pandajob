@@ -1,20 +1,4 @@
-import {
-  Alert,
-  AlertIcon,
-  Box,
-  Button,
-  Image,
-  Text,
-  useDisclosure,
-  SimpleGrid,
-  Badge,
-  Link,
-  Input,
-  Stack,
-  Radio,
-  RadioGroup,
-  VStack,
-} from '@chakra-ui/react'
+import { Alert, AlertIcon, Box, Button, Image, Text, useDisclosure, SimpleGrid, Badge, Link, Input, Stack, Radio, RadioGroup, VStack } from '@chakra-ui/react'
 import React, { Fragment, useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
@@ -34,15 +18,7 @@ import { IoMedalOutline } from 'react-icons/io5'
 import { AiOutlineUser, AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { companyService } from '../../Service/company.service'
 import { loadUserInfo } from '../../redux/UserInfo/Action'
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
-} from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton } from '@chakra-ui/react'
 import FileInput from '../FileInput'
 import { storage } from '../../firebase'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
@@ -54,8 +30,7 @@ function JobDetail() {
     companyService.getAllCompany().then((res) => setCompanies(res))
   }, [])
 
-  const accessToken =
-    JSON.parse(localStorage.getItem('data')) !== null ? JSON.parse(localStorage.getItem('data')).access_token : null
+  const accessToken = JSON.parse(localStorage.getItem('data')) !== null ? JSON.parse(localStorage.getItem('data')).access_token : null
   //  hàm submit cv
   const submitHandler = async (e) => {
     // if (user.cv_pdf === null) {
@@ -85,7 +60,7 @@ function JobDetail() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    window.scroll(0,0)
+    window.scroll(0, 0)
     dispatch(loadJobDetail(params.id))
     if (accessToken != null) {
       dispatch(loadUserInfo())
@@ -100,12 +75,7 @@ function JobDetail() {
       <Box mt='100px' fontFamily={'Montserrat'}>
         <Box display='flex' justifyContent='space-evenly'>
           <Box w='850px'>
-            <Box
-              borderRadius={7}
-              ml='50px'
-              p='20px'
-              boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em'
-              color='RGBA(0, 0, 0, 0.76)'>
+            <Box borderRadius={7} ml='50px' p='20px' boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em' color='RGBA(0, 0, 0, 0.76)'>
               <Text fontSize='20px' fontWeight='bold'>
                 {data.name}
               </Text>
@@ -168,14 +138,7 @@ function JobDetail() {
               </Box>
             </Box>
 
-            <Box
-              borderRadius={7}
-              mb={20}
-              mt='30px'
-              ml='50px'
-              p='20px'
-              boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em'
-              color='RGBA(0, 0, 0, 0.76)'>
+            <Box borderRadius={7} mb={20} mt='30px' ml='50px' p='20px' boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em' color='RGBA(0, 0, 0, 0.76)'>
               <Text fontSize='20px' fontWeight='bold'>
                 Job description
               </Text>
@@ -243,10 +206,7 @@ function JobDetail() {
             </Box>
           </Box>
           <Box width='400px' height='400px'>
-            <Box
-              borderRadius={7}
-              p='20px'
-              boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em'>
+            <Box borderRadius={7} p='20px' boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em'>
               <Text fontSize='18px' mb='20px' fontWeight='bold'>
                 Genaral information
               </Text>
@@ -310,11 +270,7 @@ function JobDetail() {
               </Box>
             </Box>
 
-            <Box
-              borderRadius={7}
-              p='20px'
-              mt='20px'
-              boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em'>
+            <Box borderRadius={7} p='20px' mt='20px' boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em'>
               <Text fontSize='18px' mb='20px' fontWeight='bold'>
                 Company
               </Text>
@@ -355,8 +311,7 @@ const AlertDialogExample = ({ data, user, jobId }) => {
   const [newCV, setNewCv] = useState(null)
   const [value, setValue] = useState('1')
 
-  const accessToken =
-    JSON.parse(localStorage.getItem('data')) !== null ? JSON.parse(localStorage.getItem('data')).access_token : null
+  const accessToken = JSON.parse(localStorage.getItem('data')) !== null ? JSON.parse(localStorage.getItem('data')).access_token : null
   const [waitingUpload, setWaitingUpload] = useState(false)
 
   const [quickForm, setQuickForm] = useState({
@@ -438,28 +393,30 @@ const AlertDialogExample = ({ data, user, jobId }) => {
 
   useEffect(() => {}, [jobId])
 
+  console.log('doigua', user.cv_pdf)
+
   return (
     <>
       <Button fontFamily={'Montserrat'} w='100%' onClick={onOpen} value={data.id}>
-        Apply
+        Ứng tuyển
       </Button>
 
       <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent fontFamily={'Montserrat'}>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Chose your cv pdf or upload
+              Chọn CV để upload
             </AlertDialogHeader>
 
             <AlertDialogBody>
               <RadioGroup onChange={setValue} value={value}>
                 <Stack direction='column' spacing={4}>
                   <Box>
-                    <Radio value='1' size='lg' name='1' disabled={user.cv_pdf === null ? true : false}>
-                      recent CV
+                    <Radio value='1' size='lg' name='1' disabled={user.cv_pdf === null || user.cv_pdf === '' ? true : false}>
+                      CV hiện có
                     </Radio>
                     <Box w='100%' mt={2}>
-                      {user.cv_pdf === null ? (
+                      {user.cv_pdf === null || user.cv_pdf === '' ? (
                         <></>
                       ) : (
                         <Box h={200}>
@@ -470,10 +427,8 @@ const AlertDialogExample = ({ data, user, jobId }) => {
                   </Box>
                   <Box>
                     <Radio value='2' size='lg' name='1'>
-                      new cv pdf{' '}
-                      <Button onClick={handleFileButtonClick}>
-                        {waitingUpload === false ? <>Chose file</> : <>waiting...</>}
-                      </Button>
+                      CV mới
+                      <Button onClick={handleFileButtonClick}>{waitingUpload === false ? <>Chọn file</> : <>waiting...</>}</Button>
                     </Radio>
                     <Box h={200} mt={30}>
                       {newCV ? (
@@ -492,15 +447,15 @@ const AlertDialogExample = ({ data, user, jobId }) => {
 
             <AlertDialogFooter maxH={100}>
               <Button ref={cancelRef} onClick={onClose}>
-                Cancel
+                Thoát
               </Button>
               {waitingUpload == true ? (
                 <Button isLoading colorScheme='teal' onClick={handleConfirm} ml={3}>
-                  Confirm
+                  Xác nhận
                 </Button>
               ) : (
                 <Button colorScheme='teal' onClick={handleConfirm} ml={3}>
-                  Confirm
+                  Xác nhận
                 </Button>
               )}
             </AlertDialogFooter>

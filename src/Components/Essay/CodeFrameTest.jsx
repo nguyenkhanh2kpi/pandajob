@@ -7,7 +7,7 @@ import { Output } from '../CodeEditor/Output'
 import { createReactEditorJS } from 'react-editor-js'
 import { EDITOR_JS_TOOLS } from './tool'
 
-export const CodeFrameTest = ({ listQuestion, timeLeft ,handleSave}) => {
+export const CodeFrameTest = ({ listQuestion, timeLeft, handleSave }) => {
   const editorRef = useRef()
   const [language, setLanguage] = useState('javascript')
   const [questions, setQuestions] = useState(listQuestion)
@@ -46,7 +46,7 @@ export const CodeFrameTest = ({ listQuestion, timeLeft ,handleSave}) => {
   // }
   useEffect(() => {
     console.log(timeLeft)
-  },[timeLeft])
+  }, [timeLeft])
 
   return (
     <HStack h={650} align={'flex-start'} w={'98vw'}>
@@ -60,9 +60,9 @@ export const CodeFrameTest = ({ listQuestion, timeLeft ,handleSave}) => {
               Nộp
             </Button>
             <Text>{questions.length} Câu</Text>
-            {questions.map((q) => (
-              <Button key={q.id} borderRadius={'50%'} onClick={() => handleQuestionClick(q)} variant={selectedQuestion.id === q.id ? 'solid' : 'outline'} w={'80%'} colorScheme='yellow'>
-                {q.id}
+            {questions.map((q, index) => (
+              <Button key={index} borderRadius={'50%'} onClick={() => handleQuestionClick(q)} variant={selectedQuestion.id === q.id ? 'solid' : 'outline'} w={'80%'} colorScheme='yellow'>
+                {index + 1} 
               </Button>
             ))}
           </VStack>

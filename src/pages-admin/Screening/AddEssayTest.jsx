@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormLabel, HStack, Heading, Input, useDisclosure, useToast } from '@chakra-ui/react'
+import { Box, Button, FormControl, FormLabel, HStack, Heading, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useDisclosure, useToast } from '@chakra-ui/react'
 import { useCallback, useRef, useState } from 'react'
 import { createReactEditorJS } from 'react-editor-js'
 import { FaPencilAlt } from 'react-icons/fa'
@@ -96,17 +96,32 @@ export const AddEssayTest = ({ jobId, load, setLoad }) => {
         Bài kiểm tra tự luận
       </Button>
       <Overlay isOpen={isOpen} onClose={handleClose}>
-        <Box overflow={'auto'} fontFamily={'Montserrat'} p={5} w={800} h={650} bgColor={'white'} borderRadius={10}>
+        <Box fontFamily={'Montserrat'} p={5} w={800} h={650} bgColor={'white'} borderRadius={10}>
           <Heading size={'md'} fontFamily={'Montserrat'}>
-            Thêm bài kiểm tra tự luận
+            Test
           </Heading>
           <FormControl minH={500}>
-            <FormLabel>Tên bài kiểm tra</FormLabel>
-            <Input type='text' name='summary' value={form.summary} onChange={handleChange} />
-            <FormLabel>Thời gian( Phút)</FormLabel>
-            <Input type='number' name='time' value={form.time} onChange={handleChange} min={1} max={200} />
+            <HStack>
+              <Box>
+                <FormLabel>Tên bài kiểm tra</FormLabel>
+                <Input type='text' name='summary' value={form.summary} onChange={handleChange} />
+              </Box>
+              <Box>
+                <FormLabel>Thời gian( Phút)</FormLabel>
+                <NumberInput defaultValue={10} min={10} max={200}>
+                  <NumberInputField name='time' value={form.time} onChange={handleChange} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </Box>
+            </HStack>
+            {/* <Input type='number' name='time' value={form.time} onChange={handleChange} min={1} max={200} /> */}
             <FormLabel>Nội dung câu hỏi</FormLabel>
-            <ReactEditorJS editorCore={editorCore} tools={EDITOR_JS_TOOLS} onInitialize={handleInitialize} />
+            <Box overflow={'auto'} h={390} borderWidth={1} borderRadius={10}>
+              <ReactEditorJS editorCore={editorCore} tools={EDITOR_JS_TOOLS} onInitialize={handleInitialize} />
+            </Box>
           </FormControl>
           <HStack alignItems={'flex-end'} mt={5} w={'40%'}>
             <Button w={'50%'} colorScheme='gray' onClick={handleClose}>
