@@ -59,7 +59,7 @@ export const AddInterviewer = () => {
 
       <AlertDialog size={'2xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
-          <AlertDialogContent fontFamily={'Montserrat'} fontWeight={400}>
+          <AlertDialogContent fontFamily={'Roboto'} fontWeight={400}>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
               Add interviewers
             </AlertDialogHeader>

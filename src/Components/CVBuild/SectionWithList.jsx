@@ -50,7 +50,7 @@ export const SectionWithList = ({
     <div
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      style={{ fontFamily: 'Montserrat' }}
+      style={{ fontFamily: 'Roboto' }}
       className='section'>
       <i className={iconName} style={{ fontSize: '25px', color: 'green' }}>
         {' '}

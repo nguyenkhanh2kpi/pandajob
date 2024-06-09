@@ -128,7 +128,7 @@ export const EventEdit = () => {
                 pauseOnHover
                 theme="light"
             />
-            <Box fontFamily={'Montserrat'} fontWeight={400} className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
+            <Box fontFamily={'Roboto'} fontWeight={400} className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
                 <Header category="Edit Event" title="Editor" />
 
                 <Stack spacing={5}>

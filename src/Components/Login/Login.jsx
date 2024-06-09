@@ -132,10 +132,10 @@ function Login() {
       minH={1000}
       bgColor={'#f0f4f5'}
       w={'100%'}>
-      <Box w={'500px'} mt={15} fontFamily={'Montserrat'} fontSize={'20px'} display={'flex'}>
+      <Box w={'500px'} mt={15} fontFamily={'Roboto'} fontSize={'20px'} display={'flex'}>
         <Card w={'100%'}>
           <CardBody w={'500px'}>
-            <Heading fontFamily={'Montserrat'} size={'lg'}>
+            <Heading fontFamily={'Roboto'} size={'lg'}>
               Đăng nhập JobPanda
             </Heading>
 
@@ -172,7 +172,7 @@ function Login() {
             </VStack>
 
             <VStack>
-              <Link fontFamily={'Montserrat'} to={`/resetPassword`}>
+              <Link fontFamily={'Roboto'} to={`/resetPassword`}>
                 <Text style={{ marginTop: '20px', fontSize: '15px' }}>Quên tài khoản </Text>
               </Link>
             </VStack>

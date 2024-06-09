@@ -114,11 +114,11 @@ export const AddQuestionInterview = ({ field, onAddClick }) => {
       <AlertDialog size={'4xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent>
-            <AlertDialogHeader fontFamily={'Montserrat'} fontSize='lg' fontWeight='bold'>
+            <AlertDialogHeader fontFamily={'Roboto'} fontSize='lg' fontWeight='bold'>
               Tìm câu hỏi
             </AlertDialogHeader>
 
-            <AlertDialogBody style={{ maxHeight: '500px', overflowY: 'auto', fontFamily: 'Montserrat' }}>
+            <AlertDialogBody style={{ maxHeight: '500px', overflowY: 'auto', fontFamily: 'Roboto' }}>
               <HStack>
                 <Input onChange={handleType} value={keyword} placeholder='Search' size='md' />
                 <Select defaultValue={0} onChange={handleSelectChange} w={'100%'}>

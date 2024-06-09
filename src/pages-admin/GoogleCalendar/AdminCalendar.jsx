@@ -95,7 +95,7 @@ export const AdminCalendar = () => {
 
   if (displayCalendar === undefined) {
     return (
-      <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
         <Breadcrumb pt={30}>
           <BreadcrumbItem>
             <BreadcrumbLink href='#'>Calendar</BreadcrumbLink>
@@ -116,7 +116,7 @@ export const AdminCalendar = () => {
   } else
     return (
       <>
-        <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+        <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
           <Breadcrumb pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='#'>Calendar</BreadcrumbLink>

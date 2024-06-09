@@ -21,7 +21,7 @@ const FeatureCompony = () => {
       .catch((er) => console.log(er.message))
   }, [])
   return (
-    <VStack fontFamily={'Montserrat'} w={'100%'}>
+    <VStack fontFamily={'Roboto'} w={'100%'}>
       <Box borderRadius={10} overflow={'hidden'} position='relative' w={'100%'} bgColor={'white'}>
         <HStack alignItems='center' spacing={4} p={4}>
           <Icon as={AiOutlineAlert} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
@@ -76,7 +76,7 @@ const FeatureCompony = () => {
                       borderRadius={5}
                       mt={5}
                       overflow='hidden'
-                      fontFamily={'Montserrat'}>
+                      fontFamily={'Roboto'}>
                       <Image h={146} w={310} src={company.avatar} fallbackSrc='https://static.tintuc.com.vn/images/ver3/2020/02/06/1580924892844-screenshot-135.png' />
 
                       <Box p='6'>
@@ -102,7 +102,7 @@ const FeatureCompony = () => {
               .slice(-10)}
           </Swiper>
           <Container textAlign='center' mt={3} mb={5}>
-            <Button fontFamily={'Montserrat'} onClick={() => navigate('/companies')} border='1px solid teal' p={7} borderRadius={20} bg='white' color='teal' fontWeight='bold'>
+            <Button fontFamily={'Roboto'} onClick={() => navigate('/companies')} border='1px solid teal' p={7} borderRadius={20} bg='white' color='teal' fontWeight='bold'>
               Xem tất cả
             </Button>
           </Container>

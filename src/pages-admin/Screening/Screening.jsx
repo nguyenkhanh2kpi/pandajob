@@ -77,7 +77,7 @@ const Screening = () => {
   }, [load])
 
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+    <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
       <HStack justifyContent={'space-between'} w={'100%'}>
         <Breadcrumb pt={30}>
           <BreadcrumbItem>
@@ -137,7 +137,7 @@ const TestItem = ({ test, jobId, load, setLoad }) => {
                     <Avatar name='Question' src='https://img.icons8.com/?size=100&id=11737&format=png&color=000000' />
 
                     <Box>
-                      <Heading fontFamily={'Montserrat'} size='sm'>
+                      <Heading fontFamily={'Roboto'} size='sm'>
                         Tên: {test.summary}
                       </Heading>
                       <Text>Thời gian làm bài {test.time} phút</Text>
@@ -165,7 +165,7 @@ const TestItem = ({ test, jobId, load, setLoad }) => {
                     <Avatar name='Question' src='https://img.icons8.com/?size=100&id=6651&format=png&color=000000' />
 
                     <Box>
-                      <Heading fontFamily={'Montserrat'} size='sm'>
+                      <Heading fontFamily={'Roboto'} size='sm'>
                         Tên: {test.summary}
                       </Heading>
                       <Text>Thời gian làm bài {test.time} phút</Text>
@@ -193,7 +193,7 @@ const TestItem = ({ test, jobId, load, setLoad }) => {
                     <Avatar name='Question' src='https://img.icons8.com/?size=100&id=2778&format=png&color=000000' />
 
                     <Box>
-                      <Heading fontFamily={'Montserrat'} size='sm'>
+                      <Heading fontFamily={'Roboto'} size='sm'>
                         Tên: {test.summary}
                       </Heading>
                       <Text>Thời gian làm bài {test.time} phút</Text>
@@ -297,9 +297,9 @@ const AddTestForm = ({ jobId, load, setLoad }) => {
       <Button ml={8} color={'white'} leftIcon={<FaRegQuestionCircle />} onClick={onOpen} backgroundColor={'rgb(3, 201, 215)'} variant='solid'>
         Bài kiểm tra trắc nghiệm
       </Button>
-      <Modal fontFamily={'Montserrat'} size={'2xl'} isOpen={isOpen} onClose={onClose}>
+      <Modal fontFamily={'Roboto'} size={'2xl'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent fontFamily={'Montserrat'}>
+        <ModalContent fontFamily={'Roboto'}>
           <ModalHeader>Thêm bài kiểm tra trắc nghiệm</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

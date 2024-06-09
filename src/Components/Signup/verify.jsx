@@ -71,7 +71,7 @@ const Verify = () => {
   return (
     <>
       <session>
-        <Box fontFamily={'Montserrat'} className='main'>
+        <Box fontFamily={'Roboto'} className='main'>
           <Box mt={40} className='form_data1'>
             <div className='form_heading'>
               <h2

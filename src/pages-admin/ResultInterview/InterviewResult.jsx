@@ -38,7 +38,7 @@ export const InterviewResult = () => {
   // listmu job
 
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} backgroundColor={'#e9f3f5'}>
+    <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} backgroundColor={'#e9f3f5'}>
       <HStack justifyContent={'space-between'} w={'100%'}>
         <Breadcrumb pt={30}>
           <BreadcrumbItem>

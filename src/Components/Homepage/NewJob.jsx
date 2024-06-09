@@ -21,7 +21,7 @@ export default function NewJob() {
   const navigate = useNavigate()
   const [jobs, setjobs] = useState([])
   useEffect(() => {
-    if (resume != null && accessToken!=null) {
+    if (resume != null && accessToken != null) {
       console.log('das', resume.applicationPosition)
       jobService
         .getAllJob()
@@ -45,7 +45,7 @@ export default function NewJob() {
         })
         .then()
     }
-  }, [resume,accessToken])
+  }, [resume, accessToken])
 
   let storedData = localStorage.getItem('keyw')
   const keyWords = JSON.parse(storedData).keyw
@@ -62,7 +62,7 @@ export default function NewJob() {
   const displayItems = filterJob.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
 
   return (
-    <VStack p={5} fontFamily={'Montserrat'} w={'80hv'}>
+    <VStack p={5} fontFamily={'Roboto'} w={'80hv'}>
       <Box w={'100%'}>
         <HStack alignItems='center' spacing={4}>
           <Icon as={AiOutlineAlert} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
@@ -94,7 +94,7 @@ export default function NewJob() {
             <>
               {displayItems.map((job) => (
                 <Card key={job.id} onClick={() => navigate(`/jobDetail/${job.id}`)} p={2} h={[150, 100]} direction={{ base: 'column', sm: 'row' }} overflow='hidden' variant='outline'>
-                  <Image borderWidth={1} borderRadius={10} objectFit='cover' w={[120, 90]} src={job.image} alt='Caffe Latte' />
+                  <Image borderColor='black' borderWidth='1px' borderRadius='10px' objectFit='cover' w={['120px', '90px']} src={job.image} alt='Caffe Latte' />{' '}
                   <Stack>
                     <CardBody>
                       <Text isTruncated maxW='230px'>

@@ -45,7 +45,7 @@ export const SectionWithInfo = ({ title, type, sectionData, handleUpdateData, is
     <div
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      style={{ fontFamily: 'Montserrat' }}
+      style={{ fontFamily: 'Roboto' }}
       className='section'>
       {sectionData.map((item, idx) => (
         <div className='info-wrapper' key={idx}>

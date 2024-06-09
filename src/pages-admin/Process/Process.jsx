@@ -22,7 +22,7 @@ const Process = () => {
   }, [])
 
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+    <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
       <HStack pt={30} justifyContent={'space-between'} w={'100%'}>
         <Breadcrumb>
           <BreadcrumbItem>

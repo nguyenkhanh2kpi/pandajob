@@ -194,19 +194,19 @@ export const HomeEssay = () => {
       switch (block.type) {
         case 'header':
           return (
-            <Heading fontFamily={'Montserrat'} as={`h${block.data.level}`} size={`md`} my={2} key={block.id}>
+            <Heading fontFamily={'Roboto'} as={`h${block.data.level}`} size={`md`} my={2} key={block.id}>
               {block.data.text}
             </Heading>
           )
         case 'paragraph':
           return (
-            <Text fontFamily={'Montserrat'} my={2} key={block.id}>
+            <Text fontFamily={'Roboto'} my={2} key={block.id}>
               {block.data.text}
             </Text>
           )
         case 'list':
           return (
-            <UnorderedList fontFamily={'Montserrat'} key={block.id} my={2}>
+            <UnorderedList fontFamily={'Roboto'} key={block.id} my={2}>
               {block.data.items.map((item, index) => (
                 <ListItem key={index}>{item}</ListItem>
               ))}
@@ -233,7 +233,7 @@ export const HomeEssay = () => {
     <>
       {test ? (
         <>
-          <VStack minH={1000} bgColor={'#f0f4f5'} fontFamily={'Montserrat'}>
+          <VStack minH={1000} bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
             <SlideFade offsetY={20}>
               <Heading size={'lg'} m={'6'} mt={24}></Heading>
             </SlideFade>
@@ -276,7 +276,7 @@ export const HomeEssay = () => {
                   <Box w={'37%'}>
                     <Card w={'100%'}>
                       <CardBody>
-                        <Heading fontFamily={'Montserrat'} size='md'>
+                        <Heading fontFamily={'Roboto'} size='md'>
                           Câu hỏi
                         </Heading>
                         {renderEssayQuestion(test.essayQuestion)}
@@ -299,8 +299,8 @@ export const HomeEssay = () => {
             )}
             <Overlay isOpen={isOpen} onClose={onClose}>
               <Center h='100vh' w='100vw' bg='rgba(0, 0, 0, 0.4)'>
-                <Box overflow='auto' fontFamily='Montserrat' p={5} w='400px' bgColor='white' borderRadius='10px'>
-                  <Heading fontFamily={'Montserrat'} fontSize='lg' mb={4}>
+                <Box overflow='auto' fontFamily='Roboto' p={5} w='400px' bgColor='white' borderRadius='10px'>
+                  <Heading fontFamily={'Roboto'} fontSize='lg' mb={4}>
                     Xác nhận
                   </Heading>
                   <Text mb={4}>Bạn có chắc chắn muốn nộp câu trả lời này không?</Text>
@@ -317,8 +317,8 @@ export const HomeEssay = () => {
             </Overlay>
             <Overlay isOpen={isEndOpen} onClose={onEndClose}>
               <Center h='100vh' w='100vw' bg='rgba(0, 0, 0, 0.4)'>
-                <Box overflow='auto' fontFamily='Montserrat' p={5} w='400px' bgColor='white' borderRadius='10px'>
-                  <Heading fontFamily={'Montserrat'} fontSize='lg' mb={4}>
+                <Box overflow='auto' fontFamily='Roboto' p={5} w='400px' bgColor='white' borderRadius='10px'>
+                  <Heading fontFamily={'Roboto'} fontSize='lg' mb={4}>
                     Xác nhận
                   </Heading>
                   <Text mb={4}>Thời gian làm bài đã kết thúc bạn phải nộp bài</Text>

@@ -81,7 +81,7 @@ const Ecommerce = () => {
 
   return (
     <>
-      <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
         <VStack spacing={3}>
           <Box minHeight={1000} overflow='auto' p={'3%'} borderRadius={20} backgroundColor={'#e9f3f5'} w={'100%'} mb={10}>
             <HStack justifyContent={'space-between'} w={'100%'}>

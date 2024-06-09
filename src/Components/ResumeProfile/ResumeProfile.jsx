@@ -128,7 +128,7 @@ export const ResumeProfile = () => {
 
   return (
     <>
-      <VStack bgColor={'#f0f4f5'} fontFamily={'Montserrat'}>
+      <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
         <SlideFade offsetY={20}>
           <Heading size={'lg'} m={'6'} mt={24}></Heading>
         </SlideFade>
@@ -312,7 +312,7 @@ export const ResumeProfile = () => {
         </VStack>
       </VStack>
 
-      {/* <Box fontFamily={'Montserrat'} mt={100} h={10000} display={'flex'} justifyContent={'center'}>
+      {/* <Box fontFamily={'Roboto'} mt={100} h={10000} display={'flex'} justifyContent={'center'}>
         <Box h={500} w={'60%'}>
           <HStack align='flex-start'>
             <Box borderRadius={20} p={5} mt={20} m={5} w={'100%'} boxShadow={'lg'} backgroundColor={'#f0f5f4'}>

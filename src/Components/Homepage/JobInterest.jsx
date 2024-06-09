@@ -40,7 +40,7 @@ const JobInterest = () => {
   if (filterJob !== null)
     return (
       <>
-        <Heading fontFamily={'Montserrat'} mt={5} textAlign={'center'} fontWeight={'700'} fontSize={'27px'} lineHeight={'40px'} mb={'6px'}>
+        <Heading fontFamily={'Roboto'} mt={5} textAlign={'center'} fontWeight={'700'} fontSize={'27px'} lineHeight={'40px'} mb={'6px'}>
           Công việc mới nhất
         </Heading>
         <Box className='container py-4 px-4 justify-conten-center '>
@@ -62,7 +62,7 @@ const JobInterest = () => {
                         maxW='sm'
                         h={330}
                         borderRadius={20}
-                        fontFamily={'Montserrat'}
+                        fontFamily={'Roboto'}
                         overflow='hidden'>
                         <Image w={277} h={164} src={i.image} alt='image' />
 

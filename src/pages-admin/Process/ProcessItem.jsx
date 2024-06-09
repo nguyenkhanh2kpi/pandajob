@@ -94,7 +94,7 @@ export const ProcessItem = () => {
 
   return (
     // đây là trang chính
-    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+    <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
       <Breadcrumb pt={30}>
         <BreadcrumbItem>
           <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
@@ -312,7 +312,7 @@ function ListCandidate({ job }) {
         Chi tiết
       </Button>
 
-      <Modal fontFamily={'Montserrat'} size={'2xl'} isOpen={isOpen} onClose={onClose}>
+      <Modal fontFamily={'Roboto'} size={'2xl'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxH={500} overflow={'auto'}>
           <ModalHeader>{candidates.length} resumes</ModalHeader>
@@ -372,7 +372,7 @@ function ListRoom({ job, setNumber }) {
         Phòng họp
       </Button>
 
-      <Modal fontFamily={'Montserrat'} size={'2xl'} isOpen={isOpen} onClose={onClose}>
+      <Modal fontFamily={'Roboto'} size={'2xl'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent w={1000} maxH={500} overflow={'auto'}>
           <ModalHeader>Phòng</ModalHeader>
@@ -550,7 +550,7 @@ const ListCVTab = ({ job, setTabIndex }) => {
         Hãy sàng lọc những CV phù hợp với yêu cầu của mình và gán nhãn cho họ đến với những bước tiếp theo tron quá trình tuyển dụng
       </Box> */}
 
-      <TableContainer fontFamily={'Montserrat'}>
+      <TableContainer fontFamily={'Roboto'}>
         <Table mb={5} borderWidth={1} variant='simple'>
           <Thead>
             <Tr>

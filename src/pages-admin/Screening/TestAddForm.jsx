@@ -53,7 +53,7 @@ const TestAddForm = () => {
     <>
       {test ? (
         <>
-          <Box spacing={3} h={1100} fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
+          <Box spacing={3} h={1100} fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
             <HStack justifyContent={'space-between'} w={'100%'}>
               <Breadcrumb pt={30}>
                 <BreadcrumbItem>
@@ -221,7 +221,7 @@ const AddQuestionModel = ({ testId, setLoad, load }) => {
 
       <Modal size={'2xl'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent fontFamily={'Montserrat'}>
+        <ModalContent fontFamily={'Roboto'}>
           <ModalHeader>Add Question</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

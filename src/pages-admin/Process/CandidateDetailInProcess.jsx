@@ -177,7 +177,7 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
 
       <Modal size={'6xl'} isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay />
-        <ModalContent fontFamily={'Montserrat'} fontWeight={400}>
+        <ModalContent fontFamily={'Roboto'} fontWeight={400}>
           <ModalHeader>Chi tiết ứng viên: {candidate.fullName}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

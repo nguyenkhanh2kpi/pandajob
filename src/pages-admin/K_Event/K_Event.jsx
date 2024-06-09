@@ -64,7 +64,7 @@ export const K_Event = () => {
     )
   } else if (events.length === 0) {
     return (
-      <Box fontFamily={'Montserrat'} fontWeight={400} className='m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl'>
+      <Box fontFamily={'Roboto'} fontWeight={400} className='m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl'>
         <Header category='App' title='Event' />
         <Button mb={10} height='50px' color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px'>
           <Link to='/event/add'>Add</Link>
@@ -75,7 +75,7 @@ export const K_Event = () => {
   } else
     return (
       <>
-        <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+        <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
           <HStack justifyContent={'space-between'} w={'100%'}>
             <Breadcrumb pt={30}>
               <BreadcrumbItem>

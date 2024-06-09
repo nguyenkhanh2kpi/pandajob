@@ -23,7 +23,7 @@ const CompanyProfile = () => {
   } else {
     return (
       <>
-        <VStack bgColor={'#f0f4f5'} fontFamily={'Montserrat'}>
+        <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
           <SlideFade in={true} offsetY={20}>
             <Heading size={'lg'} m={'6'} mt={24}></Heading>
           </SlideFade>

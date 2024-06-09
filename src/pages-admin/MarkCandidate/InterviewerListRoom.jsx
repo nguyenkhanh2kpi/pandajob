@@ -87,7 +87,7 @@ export default function InterviewerListRoom() {
   } else
     return (
       <>
-        <Box minH={'1000px'} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+        <Box minH={'1000px'} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
           <Breadcrumb pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='#'>Phòng phỏng vấn</BreadcrumbLink>

@@ -97,14 +97,14 @@ const Line = () => {
 
   return (
     <div
-      style={{ fontFamily: 'Montserrat' }}
+      style={{ fontFamily: 'Roboto' }}
       className='m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl'>
       {/* <ChartsHeader category='Line' title='Inflation Rate' />
       <div className='w-full'>
         <LineChart />
       </div> */}
 
-      <ChartsHeader fontFamily={'Montserrat'} category='Users' title='Người dùng mới hàng tháng' />
+      <ChartsHeader fontFamily={'Roboto'} category='Users' title='Người dùng mới hàng tháng' />
       <div className='w-full'>
         <ChartComponent
           id='charts'
@@ -113,7 +113,7 @@ const Line = () => {
           chartArea={{ border: { width: 0 } }}
           legendSettings={{ mode: 'Range', background: 'white' }}
           tooltip={{ enable: true }}
-          fontFamily={'Montserrat'}
+          fontFamily={'Roboto'}
           background={'#fff'}>
           <Inject services={[ColumnSeries, Tooltip, Category, Legend]} />
           <SeriesCollectionDirective>

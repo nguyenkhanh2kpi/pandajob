@@ -69,14 +69,14 @@ export const UpdateCompany = ({ data }) => {
 
   return (
     <>
-      <Button fontFamily={'Montserrat'} fontWeight={400} onClick={onOpen} mt={4} w='200px' size='lg' color='#ffffff' backgroundColor='rgb(3, 201, 215)' variant='solid'>
+      <Button fontFamily={'Roboto'} fontWeight={400} onClick={onOpen} mt={4} w='200px' size='lg' color='#ffffff' backgroundColor='rgb(3, 201, 215)' variant='solid'>
         Edit
       </Button>
       <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
 
       <Modal size={'2xl'} initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent fontFamily={'Montserrat'} fontWeight={400}>
+        <ModalContent fontFamily={'Roboto'} fontWeight={400}>
           <ModalHeader>Update your company</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>

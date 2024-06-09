@@ -68,7 +68,7 @@ export const SceningProcess = () => {
   }
 
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
+    <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
       <Breadcrumb>
         <BreadcrumbItem>
           <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
@@ -147,7 +147,7 @@ const CVview = ({ candidate }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
-      <Button fontFamily={'Montserrat'} padding={2} fontSize={15} size='s' onClick={onOpen} m={4}>
+      <Button fontFamily={'Roboto'} padding={2} fontSize={15} size='s' onClick={onOpen} m={4}>
         CV
       </Button>
 
@@ -183,11 +183,11 @@ const AssignCandidate = ({ job }) => {
   }, [job])
   return (
     <>
-      <Button fontFamily={'Montserrat'} padding={2} fontSize={15} size='s' onClick={onOpen} m={4}>
+      <Button fontFamily={'Roboto'} padding={2} fontSize={15} size='s' onClick={onOpen} m={4}>
         Interview
       </Button>
 
-      <Modal fontFamily={'Montserrat'} size={'2xl'} isOpen={isOpen} onClose={onClose}>
+      <Modal fontFamily={'Roboto'} size={'2xl'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Assign Interview </ModalHeader>

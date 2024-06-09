@@ -16,7 +16,7 @@ export default function ListCompany() {
   }, [])
 
   return (
-    <VStack fontFamily={'Montserrat'} w={'80hv'}>
+    <VStack fontFamily={'Roboto'} w={'80hv'}>
       <Box borderRadius={10} overflow={'hidden'} position='relative' w='80%' bgColor={'white'}>
         <HStack alignItems='center' spacing={4} p={4}>
           <Icon as={AiOutlineAlert} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />

@@ -86,7 +86,7 @@ export const EditorData = () => (
   </div>
 )
 const customerGridImage = (props) => (
-  <div style={{ fontFamily: 'Montserrat' }} className='image flex items-center gap-2'>
+  <div style={{ fontFamily: 'Roboto' }} className='image flex items-center gap-2'>
     {/* <img className='rounded-full w-10 h-10' src={props.avt} alt='employee' /> */}
     <Avatar name={props.name} src={props.avt} />
     <div>
@@ -97,7 +97,7 @@ const customerGridImage = (props) => (
 )
 
 const customerGridStatus = (props) => (
-  <div style={{ fontFamily: 'Montserrat' }} className='flex gap-2 justify-center items-center text-gray-700 capitalize'>
+  <div style={{ fontFamily: 'Roboto' }} className='flex gap-2 justify-center items-center text-gray-700 capitalize'>
     {props.status !== 'BLACKLIST' ? <p style={{ background: '#8BE78B' }} className='rounded-full h-3 w-3' /> : <p style={{ background: '#FF0000' }} className='rounded-full h-3 w-3' />}
     <p>{props.status}</p>
   </div>

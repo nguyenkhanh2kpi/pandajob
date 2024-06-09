@@ -204,7 +204,7 @@ export const Question = () => {
 
   if (allQuestions.length === 0) {
     return (
-      <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
+      <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
         <VStack spacing={10}>
           <Skeleton w={'100%'} h='60px'>
             <div>contents wrapped</div>
@@ -221,7 +221,7 @@ export const Question = () => {
   } else
     return (
       <>
-        <Box minHeight={1000} fontFamily={'Montserrat'} backgroundColor={'#e9f3f5'} overflow='hidden'>
+        <Box minHeight={1000} fontFamily={'Roboto'} backgroundColor={'#e9f3f5'} overflow='hidden'>
           <Breadcrumb pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='#'>Bộ câu hỏi</BreadcrumbLink>
@@ -476,7 +476,7 @@ export const Question = () => {
           </VStack>
         </Box>
 
-        {/* <div style={{ fontFamily: 'Montserrat' }} className='m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl'>
+        {/* <div style={{ fontFamily: 'Roboto' }} className='m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl'>
           <Header title='Question' />
           <IconButton color='#03C9D7' backgroundColor='#f7f7f7' aria-label='Search database' icon={<AddIcon />} onClick={() => navigate('/question/add')} />
 

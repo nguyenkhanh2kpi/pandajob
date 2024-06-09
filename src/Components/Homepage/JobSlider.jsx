@@ -21,7 +21,7 @@ const JobSlider = () => {
 
   return (
     <div>
-      <Heading fontFamily={'Montserrat'} mt={10} mb={10} textAlign='center'>
+      <Heading fontFamily={'Roboto'} mt={10} mb={10} textAlign='center'>
         New Event
       </Heading>
       <Box className='container py-4 px-4 justify-conten-center '>
@@ -64,7 +64,7 @@ const JobSlider = () => {
                       transition: 'all 0.2s ease-in-out',
                       transform: 'translate(2px, -5px)',
                     }}
-                    fontFamily={'Montserrat'}
+                    fontFamily={'Roboto'}
                     onClick={() => navigate(`/event/${event.id}`)}
                     maxW='sm'
                     borderRadius='lg'

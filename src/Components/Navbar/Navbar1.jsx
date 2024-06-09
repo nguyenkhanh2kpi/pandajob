@@ -63,14 +63,17 @@ const Navbar1 = () => {
   }
 
   return (
-    <Box fontFamily={'Montserrat'} as={Container} zIndex='100' top='0' maxW='100%' h={'72px'} position='fixed' bgColor='white' mb='150px'>
+    <Box fontFamily={'Roboto'} as={Container} zIndex='100' top='0' maxW='100%' h={'72px'} position='fixed' bgColor='white' mb='150px'>
       <ChatContainer />
       <HStack justifyContent={'space-between'} direction='row' w='100%' h='100%' m='auto' display='flex'>
         <Stack direction={'row'} h={'100%'}>
           <Box w={'150px'} h={'100%'} display={'flex'} alignItems={'center'} justifyContent={'center'} cursor={'pointer'}>
-            <Link to='/'>
+            {/* <Link to='/'>
               <Image w={'90%'} src={mainlogo} alt='Logo' alignItems={'center'} cursor={'pointer'} />
-            </Link>
+            </Link> */}
+            <Heading onClick={() => navigate('/')} fontStyle={'italic'} fontFamily={'Roboto'}>
+              Panda
+            </Heading>
           </Box>
           <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu>
@@ -140,9 +143,9 @@ const Navbar1 = () => {
                   <MenuItem onClick={() => navigate('/change-password')}>Đổi mật khẩu</MenuItem>
                   <MenuItem onClick={() => navigate('/messages')}>Tin nhắn</MenuItem>
                   <MenuItem onClick={() => navigate('/resume')}>Hồ sơ CV</MenuItem>
-{/* 
+                  {/* 
                   <MenuItem onClick={() => navigate('/code')}>Code</MenuItem> */}
-{/* 
+                  {/* 
                   <MenuItem onClick={() => navigate('/essay')}>tu luan</MenuItem> */}
                   <MenuItem onClick={() => handleLogout()}>Đăng xuất</MenuItem>
                 </MenuList>

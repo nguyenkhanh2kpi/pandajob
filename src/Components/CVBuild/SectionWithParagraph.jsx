@@ -3,7 +3,7 @@ import './indexBuild.css'
 
 export const SectionWithParagraph = ({ iconName, title, sectionData }) => {
   return (
-    <div style={{ fontFamily: 'Montserrat' }} className='section'>
+    <div style={{ fontFamily: 'Roboto' }} className='section'>
       <i className={iconName} style={{ fontSize: '25px', color: 'green' }}>
         {' '}
         {title}

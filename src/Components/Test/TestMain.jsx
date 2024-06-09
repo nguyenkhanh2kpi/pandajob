@@ -73,7 +73,7 @@ export const TestMain = () => {
 
   return (
     <>
-      <VStack h={1300} fontFamily={'Montserrat'} fontWeight={400} mb={20}>
+      <VStack h={1300} fontFamily={'Roboto'} fontWeight={400} mb={20}>
         <SlideFade in={true} offsetY={20}>
           <Heading size={'lg'} m={'6'} mt={24} ml={2} textAlign={'left'} marginRight='auto'></Heading>
           <Stack direction='row' spacing={4}></Stack>
@@ -243,7 +243,7 @@ const DoTest = ({ test }) => {
   return (
     <div className='cv' style={{ width: '1000px' }}>
       <HStack alignItems='flex-start'>
-        <div className='page' style={{ fontFamily: 'Montserrat', padding: '20px' }}>
+        <div className='page' style={{ fontFamily: 'Roboto', padding: '20px' }}>
           <div>
             <HStack w={'100%'} justifyContent='space-between'>
               <Text>Bài test: {test.summary}</Text>
@@ -254,7 +254,7 @@ const DoTest = ({ test }) => {
           </div>
           <div>
             {displayQuestion.map((question, index) => (
-              <Card key={question.id} fontFamily='Montserrat' mt={2}>
+              <Card key={question.id} fontFamily='Roboto' mt={2}>
                 <CardHeader>
                   <Heading fontSize={16} size='m'>
                     Question: {question.questionText}

@@ -100,7 +100,7 @@ export const MarkCandidate = () => {
   } else
     return (
       <>
-        <Box pb={100} minH={1000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+        <Box pb={100} minH={1000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
           <Breadcrumb pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='#'>Phòng phỏng vấn</BreadcrumbLink>
@@ -160,7 +160,7 @@ export const MarkCandidate = () => {
           </VStack>
         </Box>
 
-        {/* <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
+        {/* <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
           <VStack spacing={3}>
             <Box p={4} borderRadius='lg' backgroundColor={'#FFFFFF'} w={'100%'} h={'230px'} mb={0}>
               <HStack h={'100%'}>

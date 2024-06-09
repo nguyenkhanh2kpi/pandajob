@@ -78,7 +78,7 @@ export const AddCompany = () => {
         theme='light'
       />
       <Button
-        fontFamily={'Montserrat'}
+        fontFamily={'Roboto'}
         fontWeight={400}
         ml={'8%'}
         color='white'
@@ -88,7 +88,7 @@ export const AddCompany = () => {
       </Button>
 
       <AlertDialog
-        fontFamily={'Montserrat'}
+        fontFamily={'Roboto'}
         fontWeight={400}
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}

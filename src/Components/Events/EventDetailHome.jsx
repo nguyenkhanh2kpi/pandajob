@@ -24,7 +24,7 @@ export const EventDetailHome = () => {
   }, [])
 
   return (
-    <VStack fontFamily={'Montserrat'} m={2} p={2}>
+    <VStack fontFamily={'Roboto'} m={2} p={2}>
       <SlideFade in={true} offsetY={20}>
         <Heading size={'lg'} m={'6'} mt={24} ml={2} textAlign={'left'} marginRight='auto'></Heading>
       </SlideFade>

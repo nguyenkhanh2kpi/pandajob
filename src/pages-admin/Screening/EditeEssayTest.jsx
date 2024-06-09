@@ -3,7 +3,7 @@ import React from 'react'
 
 export const EditEssayTest = () => {
   return (
-    <Box minH={1000} fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
+    <Box minH={1000} fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
       <Breadcrumb pt={30}>
         <BreadcrumbItem>
           <BreadcrumbLink href='#'>Bài test tự luận</BreadcrumbLink>

@@ -234,7 +234,7 @@ export const CurriculumVitae = () => {
   }
 
   return (
-    <VStack fontFamily={'Montserrat'} fontWeight={400} mb={20}>
+    <VStack fontFamily={'Roboto'} fontWeight={400} mb={20}>
       <SlideFade in={true} offsetY={20}>
         <Heading size={'lg'} m={'6'} mt={24} ml={2} textAlign={'left'} marginRight='auto'></Heading>
         <Stack direction='row' spacing={4}>
@@ -257,7 +257,7 @@ export const CurriculumVitae = () => {
           style={{
             backgroundImage: "url('https://cv.fullstack.edu.vn/backgrounds/graph-dot-top-458966.svg')",
           }}>
-          <div className='page' ref={cvRef} style={{ fontFamily: 'Montserrat', padding: '20px' }}>
+          <div className='page' ref={cvRef} style={{ fontFamily: 'Roboto', padding: '20px' }}>
             <div>
               <input
                 className='cv-ipt name'

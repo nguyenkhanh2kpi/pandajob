@@ -94,10 +94,10 @@ const Notification = () => {
 
       {showPopover && (
         <div style={{ position: 'absolute', left: popoverPosition.left, top: popoverPosition.top }}>
-          <Box fontFamily={'Montserrat'} p={1} maxH={600} bgColor={'white'} w={400} boxShadow={'lg'} borderRadius={10} borderWidth={1}>
+          <Box fontFamily={'Roboto'} p={1} maxH={600} bgColor={'white'} w={400} boxShadow={'lg'} borderRadius={10} borderWidth={1}>
             <VStack w={'100%'}>
               <HStack p={2} w={'100%'} justifyContent={'space-between'}>
-                <Heading fontFamily={'Montserrat'} size={'md'}>
+                <Heading fontFamily={'Roboto'} size={'md'}>
                   Thông báo
                 </Heading>
               </HStack>
@@ -105,7 +105,7 @@ const Notification = () => {
                 {myNotifications.length > 0 ? (
                   myNotifications.map((notify) => (
                     <Card p={2} key={notify.id} w={'100%'} sx={cardStyles}>
-                      <Heading fontFamily={'Montserrat'} size={'sm'}>
+                      <Heading fontFamily={'Roboto'} size={'sm'}>
                         {notify.title}
                         {notify.status === 'UNREAD' ? (
                           <Icon viewBox='0 0 200 200' color='red.500'>
@@ -127,7 +127,7 @@ const Notification = () => {
                 ) : (
                   <>
                     <Card p={2} w={'100%'} sx={cardStyles}>
-                      <Heading fontFamily={'Montserrat'} size={'sm'}>
+                      <Heading fontFamily={'Roboto'} size={'sm'}>
                         Bạn không có thông báo nào
                       </Heading>
                     </Card>

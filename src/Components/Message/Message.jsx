@@ -7,7 +7,7 @@ import { CometChat } from '@cometchat/chat-sdk-javascript'
 const conversationsStyle = new ConversationsStyle({
   width: '100%',
   height: '100%',
-  fontFamily: 'Montserrat',
+  fontFamily: 'Roboto',
 })
 const avatarStyle = {
   width: '75px',
@@ -84,7 +84,7 @@ const Message = () => {
   // }, [])
 
   return (
-    <VStack bgColor={'#f0f4f5'} fontFamily={'Montserrat'}>
+    <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
       <SlideFade offsetY={20}>
         <Heading size={'lg'} m={'6'} mt={24}></Heading>
       </SlideFade>

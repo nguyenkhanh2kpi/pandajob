@@ -27,7 +27,7 @@ export const EventCard = ({ id, title, article, time, author, image, content, st
         maxW='sm'
         borderRadius='lg'
         overflow='hidden'
-        fontFamily={'Montserrat'}
+        fontFamily={'Roboto'}
         _hover={{
           boxShadow: 'xl',
           transition: 'all 0.2s ease-in-out',

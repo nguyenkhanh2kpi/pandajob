@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 
 export default function SliderBanner() {
+
   const slides = [
-    { id: 1, content: 'Chợ việc làm 2024', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/quanlytuyendung-4fb2c.appspot.com/o/1717181978014_bann3.png?alt=media' },
-    { id: 2, content: 'Chúng tôi đang tuyển', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/quanlytuyendung-4fb2c.appspot.com/o/1717181978014_bann3.png?alt=media' },
+    { id: 1, content: 'dd', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/upload2-23381.appspot.com/o/1717931976105_newban1111.png?alt=media' },
+    { id: 2, content: 'ss', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/upload2-23381.appspot.com/o/1717934503641_ban22222.png?alt=media' },
     // { id: 3, content: 'Slide 3 Content', imageUrl: 'https://static.topcv.vn/img/T1%201100x220.png' },
   ]
 
@@ -26,7 +27,7 @@ export default function SliderBanner() {
   }, [])
 
   return (
-    <VStack fontFamily={'Montserrat'} mt={10} w={'80%'}>
+    <VStack fontFamily={'Roboto'} mt={10} w={'80%'}>
       <Box borderRadius={10} overflow={'hidden'} position='relative' w='100%' bgColor={'white'}>
         {slides.map((slide, index) => (
           <Box key={slide.id} display={index === currentSlide ? 'block' : 'none'}>

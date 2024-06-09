@@ -106,12 +106,12 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
 
   return (
     <>
-      <Button ml={500} fontFamily={'Montserrat'} fontWeight={400} w={'30%'} leftIcon={<MdVideocam />} colorScheme='teal' variant='solid' onClick={handleOpen}>
+      <Button ml={500} fontFamily={'Roboto'} fontWeight={400} w={'30%'} leftIcon={<MdVideocam />} colorScheme='teal' variant='solid' onClick={handleOpen}>
         Lên lịch phỏng vấn
       </Button>
       <Drawer size={'lg'} isOpen={isOpen} placement='right' onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />
-        <DrawerContent fontFamily={'Montserrat'} fontWeight={400}>
+        <DrawerContent fontFamily={'Roboto'} fontWeight={400}>
           <DrawerCloseButton />
           <DrawerHeader>Gooogle Calendar</DrawerHeader>
           <DrawerBody>

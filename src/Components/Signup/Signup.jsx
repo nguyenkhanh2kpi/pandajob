@@ -88,7 +88,7 @@ const Signup = () => {
   return (
     <>
       <session>
-        <Box h={1000} bgColor={'#f0f4f5'} fontFamily={'Montserrat'} className='main'>
+        <Box h={1000} bgColor={'#f0f4f5'} fontFamily={'Roboto'} className='main'>
           <Box
             mt={10}
             h={700}

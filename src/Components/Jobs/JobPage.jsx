@@ -85,7 +85,7 @@ const JobPage = () => {
             key={job.id}
             maxW='sm'
             borderRadius='lg'
-            fontFamily={'Montserrat'}
+            fontFamily={'Roboto'}
             overflow='hidden'>
             <Image w={'100%'} h={164} src={job.image} fallbackSrc='https://static.tintuc.com.vn/images/ver3/2020/02/06/1580924892844-screenshot-135.png' />
 
@@ -149,7 +149,7 @@ const JobPage = () => {
 
   return (
     <>
-      <Box bgColor={'#f0f4f5'} mb={10} fontFamily={'Montserrat'} alignItems={'center'} w={'100%'}>
+      <Box bgColor={'#f0f4f5'} mb={10} fontFamily={'Roboto'} alignItems={'center'} w={'100%'}>
         <VStack>
           <Box mt='120px' fontWeight='bold' width='80%' fontSize='20px'>
             <Container h={'70px'} maxW={'100%'}>

@@ -72,7 +72,7 @@ function JobDetail() {
 
   if (data != null) {
     return (
-      <Box mt='100px' fontFamily={'Montserrat'}>
+      <Box mt='100px' fontFamily={'Roboto'}>
         <Box display='flex' justifyContent='space-evenly'>
           <Box w='850px'>
             <Box borderRadius={7} ml='50px' p='20px' boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em' color='RGBA(0, 0, 0, 0.76)'>
@@ -397,13 +397,13 @@ const AlertDialogExample = ({ data, user, jobId }) => {
 
   return (
     <>
-      <Button fontFamily={'Montserrat'} w='100%' onClick={onOpen} value={data.id}>
+      <Button fontFamily={'Roboto'} w='100%' onClick={onOpen} value={data.id}>
         Ứng tuyển
       </Button>
 
       <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
-          <AlertDialogContent fontFamily={'Montserrat'}>
+          <AlertDialogContent fontFamily={'Roboto'}>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
               Chọn CV để upload
             </AlertDialogHeader>

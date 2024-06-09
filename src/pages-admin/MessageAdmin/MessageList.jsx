@@ -7,7 +7,7 @@ import { CometChat } from '@cometchat/chat-sdk-javascript'
 const conversationsStyle = new ConversationsStyle({
   width: '100%',
   height: '100%',
-  fontFamily: 'Montserrat',
+  fontFamily: 'Roboto',
 })
 const avatarStyle = {
   width: '75px',
@@ -46,7 +46,7 @@ const MessageAdmin = () => {
   }
 
   return (
-    <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
+    <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
       {/* <Breadcrumb pt={30}>
         <BreadcrumbItem>
           <BreadcrumbLink href='#'>Tin nhắn</BreadcrumbLink>
@@ -66,7 +66,7 @@ const MessageAdmin = () => {
       </VStack>
     </Box>
 
-    // <Box mb={20} mt={120} fontFamily={'Montserrat'}>
+    // <Box mb={20} mt={120} fontFamily={'Roboto'}>
     //   <Box h={600} display='flex' justifyContent='space-evenly'>
     //     <Box overflow={'hidden'} borderRadius={20} borderWidth={1} h={600} display='flex' w='75%' boxShadow={'lg'}>
     //       <HStack w={'100%'}>

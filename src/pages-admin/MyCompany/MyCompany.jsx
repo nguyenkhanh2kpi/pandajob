@@ -80,7 +80,7 @@ export const MyCompany = () => {
   if (company === undefined) {
     return (
       <>
-        <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
+        <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
           <VStack spacing={3}>
             <Box p={'20%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
               <Skeleton>
@@ -95,7 +95,7 @@ export const MyCompany = () => {
   } else
     return (
       <>
-        <Box minHeight={1000} fontFamily={'Montserrat'} backgroundColor={'#e9f3f5'} overflow='hidden'>
+        <Box minHeight={1000} fontFamily={'Roboto'} backgroundColor={'#e9f3f5'} overflow='hidden'>
           <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
 
           <Breadcrumb pt={30}>

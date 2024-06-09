@@ -3,7 +3,7 @@ import { Avatar, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Circul
 
 export const LoadingComponent = () => {
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+    <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
       <HStack w={'100%'}>
         <Box p={30} w={'50%'} justifyContent={'space-between'}>
           <Stack w={'50%'}>

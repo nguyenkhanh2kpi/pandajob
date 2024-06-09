@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 const CompaniesCard = ({ id, name, avatar, info }) => {
   const navigate = useNavigate()
   return (
-    <Box fontFamily={'Montserrat'} backgroundColor={'#ffffff'} maxW='700px' borderWidth='1px' borderRadius='lg' overflow='hidden' transition='transform 0.3s ease-in-out' _hover={{ transform: 'scale(1.05)' }} onClick={() => navigate('/companies/' + id)}>
+    <Box fontFamily={'Roboto'} backgroundColor={'#ffffff'} maxW='700px' borderWidth='1px' borderRadius='lg' overflow='hidden' transition='transform 0.3s ease-in-out' _hover={{ transform: 'scale(1.05)' }} onClick={() => navigate('/companies/' + id)}>
       <Image width={384} src={avatar} alt='' height={'180px'} />
 
       <Box p='6'>

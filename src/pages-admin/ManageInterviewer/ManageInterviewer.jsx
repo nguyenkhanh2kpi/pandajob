@@ -60,7 +60,7 @@ export const ManageInterviewer = () => {
 
   if (loading) {
     return (
-      <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
+      <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
         <VStack>
           <Box w={'100%'}>
             <AddInterviewer />
@@ -76,7 +76,7 @@ export const ManageInterviewer = () => {
     )
   } else if (hrs.length === 0 && loading === false) {
     return (
-      <Box fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
+      <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
         <VStack>
           <Box w={'100%'}>
             <AddInterviewer />
@@ -92,7 +92,7 @@ export const ManageInterviewer = () => {
     )
   } else
     return (
-      <Box fontFamily={'Montserrat'}>
+      <Box fontFamily={'Roboto'}>
         <HStack justifyContent={'space-between'} w={'100%'}>
           <AddInterviewer />
         </HStack>

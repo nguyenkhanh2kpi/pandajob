@@ -248,7 +248,7 @@ const JobPosting = () => {
 
   return (
     <>
-      <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
         <ToastContainer />
         <Breadcrumb pt={30}>
           <BreadcrumbItem>

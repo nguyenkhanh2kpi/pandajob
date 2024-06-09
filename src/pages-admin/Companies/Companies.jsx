@@ -27,7 +27,7 @@ export const Companies = () => {
       <>
         <AddCompany />
 
-        <Grid fontFamily={'Montserrat'} fontWeight={400} m={20} templateColumns='repeat(3, 1fr)' gap={6}>
+        <Grid fontFamily={'Roboto'} fontWeight={400} m={20} templateColumns='repeat(3, 1fr)' gap={6}>
           {companies.map((property) => (
             <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
               <Image w={500} h={200} src={property.avatar} alt={property.avatar} />

@@ -56,7 +56,7 @@ export const SectionWithTable = ({
     <div
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      style={{ fontFamily: 'Montserrat' }}
+      style={{ fontFamily: 'Roboto' }}
       className='section'>
       <i className={iconName} style={{ fontSize: '25px', color: 'green' }}>
         {title}

@@ -27,7 +27,7 @@ export const SearchCompany = ({ keyword, onChange, companies }) => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              <Input fontFamily={'Montserrat'} value={keyword} name='keyword' onChange={onChange} backgroundColor={'#FFFFFF'} pr='4.5rem' type='text' placeholder='Search' borderRadius={30} p={6} />
+              <Input fontFamily={'Roboto'} value={keyword} name='keyword' onChange={onChange} backgroundColor={'#FFFFFF'} pr='4.5rem' type='text' placeholder='Search' borderRadius={30} p={6} />
             </AlertDialogHeader>
 
             <AlertDialogBody>

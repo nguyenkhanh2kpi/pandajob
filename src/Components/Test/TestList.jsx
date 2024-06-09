@@ -26,7 +26,7 @@ export const TestList = () => {
 
   return (
     <>
-      <VStack bgColor={'#f0f4f5'} fontFamily={'Montserrat'}>
+      <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
         <SlideFade offsetY={20}>
           <Heading size={'lg'} m={'6'} mt={24}></Heading>
         </SlideFade>
@@ -81,7 +81,7 @@ const TestItem = ({ test }) => {
       maxW='sm'
       borderRadius='lg'
       overflow='hidden'
-      fontFamily={'Montserrat'}
+      fontFamily={'Roboto'}
       _hover={{
         boxShadow: 'xl',
         transition: 'all 0.2s ease-in-out',

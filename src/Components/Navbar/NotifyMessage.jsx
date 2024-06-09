@@ -7,7 +7,7 @@ import ChatWindow from '../../pages-admin/MessageAdmin/ChatWindow'
 const conversationsStyle = new ConversationsStyle({
   width: '100%',
   height: '100%',
-  fontFamily: 'Montserrat',
+  fontFamily: 'Roboto',
 })
 const avatarStyle = {
   width: '75px',
@@ -87,7 +87,7 @@ export const NotifyMessage = () => {
       {isChatOpen ? <ChatWindow onClose={toggleChatWindow} email={'reccer1@gmail.com'} /> : <></>}
       {showPopover && (
         <div style={{ position: 'absolute', left: popoverPosition.left, top: popoverPosition.top }}>
-          <Box fontFamily={'Montserrat'} p={1} maxH={600} bgColor={'white'} w={400} boxShadow={'lg'} borderRadius={10} borderWidth={1}>
+          <Box fontFamily={'Roboto'} p={1} maxH={600} bgColor={'white'} w={400} boxShadow={'lg'} borderRadius={10} borderWidth={1}>
             <VStack w={'100%'}>
               <HStack w={'100%'} justifyContent={'space-between'}>
                 <CometChatConversations onItemClick={handleOnItemClick} listItemStyle={listItemStyle} avatarStyle={avatarStyle} title='Tin nhắn' titleAlignment={TitleAlignment.center} conversationsStyle={conversationsStyle} />

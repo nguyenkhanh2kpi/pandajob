@@ -12,7 +12,7 @@ const Footer = () => {
   return (
     <>
       <Divider orientation={'horizontal'} w={'100%'} borderColor={'gray.300'} />
-      <Container fontFamily={'Montserrat'} h={'425px'} pt={'80px'} pb={'60px'} maxW={'100%'}>
+      <Container fontFamily={'Roboto'} h={'425px'} pt={'80px'} pb={'60px'} maxW={'100%'}>
         <Flex h={'160px'} px={'148px'} maxW={'100%'}>
           <Flex direction={'row'}>
             <Flex direction={'column'} pr={'17px'} w={'180px'} h={'100%'}>

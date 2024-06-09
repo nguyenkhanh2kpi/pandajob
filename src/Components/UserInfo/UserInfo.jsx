@@ -200,7 +200,7 @@ const UserInfo = () => {
     )
   else {
     return (
-      <Box fontFamily={'Montserrat'} display='flex' justifyContent='center' alignItems='center'>
+      <Box fontFamily={'Roboto'} display='flex' justifyContent='center' alignItems='center'>
         <Box w={'60%'} mt={20}>
           <Box h={'auto'} p={10} justifyContent={'center'} className='form_data3'>
             <Box mt={10} fontSize={25} className='form_heading'>

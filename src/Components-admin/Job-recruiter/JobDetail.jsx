@@ -217,7 +217,7 @@ function JobDetailRecruiter() {
   if (data != null)
     return (
       <>
-        <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+        <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
           <Breadcrumb pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='/allJob_Recruiter'>Công việc của tôi</BreadcrumbLink>
@@ -389,7 +389,7 @@ function JobDetailRecruiter() {
             </Button>
           </HStack>
         </Box>
-        <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
+        <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
           <ToastContainer />
         </Box>
       </>

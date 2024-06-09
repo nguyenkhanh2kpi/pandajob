@@ -113,7 +113,7 @@ const AllJob = () => {
 
   return (
     <>
-      <Box minHeight={2000} overflow='auto' fontFamily={'Montserrat'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
         <HStack w={'97%'} justifyContent={'space-between'}>
           <Breadcrumb pt={30}>
             <BreadcrumbItem>
@@ -125,7 +125,7 @@ const AllJob = () => {
           </Button>
         </HStack>
 
-        <Box w={'97%'} fontFamily={'Montserrat'} display='flex' justifyContent='space-between'>
+        <Box w={'97%'} fontFamily={'Roboto'} display='flex' justifyContent='space-between'>
           <List w={'100%'}>{jobdatas}</List>
         </Box>
       </Box>

@@ -140,8 +140,8 @@ export const AddNewQuestion = ({ jobId, testId, load, setLoad }) => {
       </Button>
 
       <OverlayComponent isOpen={isOpen} onClose={handleClose}>
-        <Box overflow={'auto'} fontFamily={'Montserrat'} p={5} w={800} h={650} bgColor={'white'} borderRadius={10}>
-          <Heading size={'md'} fontFamily={'Montserrat'}>
+        <Box overflow={'auto'} fontFamily={'Roboto'} p={5} w={800} h={650} bgColor={'white'} borderRadius={10}>
+          <Heading size={'md'} fontFamily={'Roboto'}>
             Câu hỏi coding
           </Heading>
           <Accordion minH={500} allowToggle>
