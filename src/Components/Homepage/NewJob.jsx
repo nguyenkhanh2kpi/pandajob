@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Card, CardBody, CardFooter, Grid, GridItem, HStack, Heading, Icon, Image, Skeleton, Stack, Text, VStack } from '@chakra-ui/react'
+import { Badge, Box, Button, Card, CardBody, CardFooter, Center, Grid, GridItem, HStack, Heading, Icon, Image, Skeleton, Stack, Tag, Text, Tooltip, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { AiOutlineAlert, AiOutlineFolderOpen } from 'react-icons/ai'
 import { jobService } from '../../Service/job.service'
@@ -6,6 +6,7 @@ import ReactPaginate from 'react-paginate'
 import { dataService } from '../../Service/data.service'
 import { useNavigate } from 'react-router-dom'
 import { resumeService } from '../../Service/resume.service'
+import { JobItemInList } from '../Jobs/JobItemInList'
 
 export default function NewJob() {
   const accessToken = localStorage.getItem('data') ? localStorage.getItem('data').access_token : null
@@ -62,7 +63,7 @@ export default function NewJob() {
   const displayItems = filterJob.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
 
   return (
-    <VStack p={5} fontFamily={'Roboto'} w={'80hv'}>
+    <VStack p={5} fontFamily={'Roboto'} w={'100%'}>
       <Box w={'100%'}>
         <HStack alignItems='center' spacing={4}>
           <Icon as={AiOutlineAlert} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
@@ -89,31 +90,17 @@ export default function NewJob() {
           />
         </HStack>
 
-        <Grid mt={5} templateColumns={['repeat(1, 1fr)', 'repeat(3, 1fr)']} gap={6}>
+        <Grid w={'100%'} mt={5} templateColumns={['repeat(1, 1fr)', 'repeat(3, 1fr)']} gap={6}>
           {displayItems.length > 0 ? (
             <>
               {displayItems.map((job) => (
-                <Card key={job.id} onClick={() => navigate(`/jobDetail/${job.id}`)} p={2} h={[150, 100]} direction={{ base: 'column', sm: 'row' }} overflow='hidden' variant='outline'>
-                  <Image borderColor='black' borderWidth='1px' borderRadius='10px' objectFit='cover' w={['120px', '90px']} src={job.image} alt='Caffe Latte' />{' '}
-                  <Stack>
-                    <CardBody>
-                      <Text isTruncated maxW='230px'>
-                        {job.name}
-                      </Text>
-                      <HStack>
-                        <Badge>{job.salary}</Badge>
-                        <Badge>{job.location}</Badge>
-                      </HStack>
-                    </CardBody>
-                  </Stack>
-                </Card>
+                <JobItemInList job={job} wishLists={[]} handleLike={() => {}} />
               ))}
             </>
           ) : (
             <SkeletonCard />
           )}
         </Grid>
-        <Stack w={'100%'} mt={10}></Stack>
       </Box>
     </VStack>
   )

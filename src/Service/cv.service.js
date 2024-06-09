@@ -120,6 +120,26 @@ const updateView = async (token, cvId,view) => {
   }
 }
 
+const getAllMyAppliedJobs = async (token) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    }
+    const res = await axios.get(`${API_URL}/apply-job/get-all-my-applied-job`, config)
+    return res.data
+  } catch (error) {
+    const axiosError = error
+    if (axiosError && axiosError.response && axiosError.response.status === 403) {
+      throw new Error('no_permistion')
+    } else {
+      throw error
+    }
+  }
+}
+
 export const cvService = {
   getAllCVs,
   postCVQuick,
@@ -127,4 +147,5 @@ export const cvService = {
   getCVById,
   updateLabel,
   updateView,
+  getAllMyAppliedJobs
 }

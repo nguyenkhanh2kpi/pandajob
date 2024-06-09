@@ -178,8 +178,15 @@ function JobDetailRecruiter() {
           })
         })
 
-      toast.success('Update Job Successfuly', {
-        position: 'top-center',
+      // toast.success('Update Job Successfuly', {
+      //   position: 'top-center',
+      // })
+      toast({
+        title: 'Update Job Successfuly',
+        description: "We've created your account for you.",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
       })
       setTimeout(() => {
         navigate('/allJob_Recruiter')

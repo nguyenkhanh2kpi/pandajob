@@ -1,4 +1,4 @@
-import { Box, Badge, Image, SimpleGrid, Center, Spinner, VStack, InputGroup, InputLeftElement, Input, Flex, Select, Container, Button } from '@chakra-ui/react'
+import { Box, Badge, Image, SimpleGrid, Center, Spinner, VStack, InputGroup, InputLeftElement, Input, Flex, Select, Container, Button, Text, HStack, Tag, Icon, Tooltip, useColorModeValue } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,15 +9,22 @@ import { BiDollar, BiDollarCircle, BiLocationPlus } from 'react-icons/bi'
 import { SearchIcon } from '@chakra-ui/icons'
 import ReactPaginate from 'react-paginate'
 import { locationService } from '../../Service/location.service'
+import { jobService } from '../../Service/job.service'
+import { MdLocationOn, MdAttachMoney, MdFavoriteBorder, MdSearch } from 'react-icons/md'
 
 const JobPage = () => {
   const dispatch = useDispatch()
   const params = useParams()
+
+  const jobList = useSelector((store) => store.job.data)
+
   useEffect(() => {
     dispatch(loadJob())
   }, [])
+  console.log(jobList)
+
   const navigate = useNavigate()
-  const jobList = useSelector((store) => store.job.data)
+
   const [jobFiltered, setFilteredJobList] = useState([])
 
   const [search, setSearch] = useState({
@@ -61,7 +68,7 @@ const JobPage = () => {
 
   // panigate
   const [currentPage, setCurrentPage] = useState(0)
-  const itemsPerPage = 6
+  const itemsPerPage = 12
   const pageCount = Math.ceil(jobFiltered.length / itemsPerPage)
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected)
@@ -149,7 +156,7 @@ const JobPage = () => {
 
   return (
     <>
-      <Box bgColor={'#f0f4f5'} mb={10} fontFamily={'Roboto'} alignItems={'center'} w={'100%'}>
+      <Box bgColor={'#f0f4f5'} pb={20} fontFamily={'Roboto'} alignItems={'center'} w={'100%'}>
         <VStack>
           <Box mt='120px' fontWeight='bold' width='80%' fontSize='20px'>
             <Container h={'70px'} maxW={'100%'}>
@@ -202,11 +209,47 @@ const JobPage = () => {
               </Flex>
             </Container>
           </Box>
+
           <Box w={'80%'} display='flex' justifyContent='space-between'>
+            {/* <SimpleGrid w={'100%'} columns={{ sm: 1, md: 2, lg: 3 }} spacing={5} p={5}>
+              {displayItems.map((job) => (
+                <Box key={job.id} borderWidth='1px' borderRadius='lg' overflow='hidden' p={2} bg='white' boxShadow='sm' _hover={{ boxShadow: 'lg' }} display='flex' alignItems='center' width='100%'>
+                  <Image src={job.image} alt={job.name} boxSize='80px' objectFit='cover' borderRadius='md' flexShrink={0} marginRight={3} />
+                  <VStack align='start' spacing={2} flex={1} overflow='hidden'>
+                    <Tooltip label={job.name} hasArrow>
+                      <Text m={0} p={0} fontSize='md' fontWeight='bold' isTruncated w={'190px'} whiteSpace='nowrap'>
+                        {job.name}
+                      </Text>
+                    </Tooltip>
+                    <VStack align='start' spacing={0}>
+                      <HStack spacing={1}>
+                        <Icon m={0} p={0} as={MdLocationOn} color='gray.500' />
+                        <Text m={0} p={0} fontSize='sm'>
+                          {job.location}
+                        </Text>
+                      </HStack>
+                      <HStack spacing={1}>
+                        <Icon m={0} p={0} as={MdAttachMoney} color='gray.500' />
+                        <Text m={0} p={0} fontSize='sm'>
+                          {job.salary}
+                        </Text>
+                      </HStack>
+                    </VStack>
+                    <HStack spacing={1}>
+                      <Tag colorScheme='blue'>{job.position}</Tag>
+                      <Tag colorScheme='green'>{job.workingForm}</Tag>
+                      <Icon as={MdFavoriteBorder} color='red.500' />
+                    </HStack>
+                  </VStack>
+                </Box>
+              ))}
+            </SimpleGrid> */}
+
             <SimpleGrid w='100%' top='50' left='50' ml='10' mt='50px' mr='10' columns={3} spacing={'5'}>
               {jobdatas}
             </SimpleGrid>
           </Box>
+          {/* <JobGrid displayItems={displayItems} /> */}
           <ReactPaginate
             className='question-panigate'
             pageCount={pageCount}
@@ -232,3 +275,92 @@ const JobPage = () => {
 }
 
 export default JobPage
+
+const locations = ['Hà Nội', 'TP.HCM', 'Đà Nẵng', 'Cần Thơ']
+const experiences = ['Không yêu cầu', 'Dưới 1 năm', '1-3 năm', '3-5 năm', 'Trên 5 năm']
+const salaries = ['< 5 triệu', '5-10 triệu', '10-20 triệu', '20-50 triệu', '> 50 triệu']
+const industries = ['Công nghệ thông tin', 'Kế toán', 'Marketing', 'Nhân sự', 'Kinh doanh']
+
+const JobGrid = ({ displayItems }) => {
+  const [search, setSearch] = useState('')
+  const [location, setLocation] = useState('')
+  const [experience, setExperience] = useState('')
+  const [salary, setSalary] = useState('')
+  const [industry, setIndustry] = useState('')
+
+  // Lọc các công việc dựa trên các điều kiện tìm kiếm
+  const filteredItems = displayItems.filter((job) => {
+    return (search === '' || job.name.toLowerCase().includes(search.toLowerCase())) && (location === '' || job.location === location) && (experience === '' || job.experience === experience) && (salary === '' || job.salary === salary) && (industry === '' || job.industry === industry)
+  })
+  const boxBgColor = useColorModeValue('white', 'gray.800')
+
+  return (
+    <Box w={'85%'} mt={50} p={5}>
+      <Flex p={5} direction={{ base: 'column', md: 'row' }} align='center' justify='space-between' wrap='wrap'>
+        <Input placeholder='Tìm kiếm công việc' size='md' mb={{ base: 2, md: 0 }} value={search} onChange={(e) => setSearch(e.target.value)} icon={<MdSearch />} flex='1 1 200px' mr={{ base: 0, md: 3 }} />
+        <Select placeholder='Địa điểm' size='md' mb={{ base: 2, md: 0 }} value={location} onChange={(e) => setLocation(e.target.value)} flex='1 1 150px' mr={{ base: 0, md: 3 }}>
+          {locations.map((loc) => (
+            <option key={loc} value={loc}>
+              {loc}
+            </option>
+          ))}
+        </Select>
+        <Select placeholder='Kinh nghiệm' size='md' mb={{ base: 2, md: 0 }} value={experience} onChange={(e) => setExperience(e.target.value)} flex='1 1 150px' mr={{ base: 0, md: 3 }}>
+          {experiences.map((exp) => (
+            <option key={exp} value={exp}>
+              {exp}
+            </option>
+          ))}
+        </Select>
+        <Select placeholder='Mức lương' size='md' mb={{ base: 2, md: 0 }} value={salary} onChange={(e) => setSalary(e.target.value)} flex='1 1 150px' mr={{ base: 0, md: 3 }}>
+          {salaries.map((sal) => (
+            <option key={sal} value={sal}>
+              {sal}
+            </option>
+          ))}
+        </Select>
+        <Select placeholder='Ngành nghề' size='md' value={industry} onChange={(e) => setIndustry(e.target.value)} flex='1 1 150px'>
+          {industries.map((ind) => (
+            <option key={ind} value={ind}>
+              {ind}
+            </option>
+          ))}
+        </Select>
+      </Flex>
+
+      <SimpleGrid w={'100%'} columns={{ sm: 1, md: 2, lg: 3 }} spacing={5} p={5}>
+        {displayItems.map((job) => (
+          <Box key={job.id} borderWidth='1px' borderRadius='lg' overflow='hidden' p={2} bg='white' boxShadow='sm' _hover={{ boxShadow: 'lg' }} display='flex' alignItems='center' width='100%'>
+            <Image src={job.image} alt={job.name} boxSize='80px' objectFit='cover' borderRadius='md' flexShrink={0} marginRight={3} />
+            <VStack align='start' spacing={2} flex={1} overflow='hidden'>
+              <Tooltip label={job.name} hasArrow>
+                <Text m={0} p={0} fontSize='md' fontWeight='bold' isTruncated w={'190px'} whiteSpace='nowrap'>
+                  {job.name}
+                </Text>
+              </Tooltip>
+              <VStack align='start' spacing={0}>
+                <HStack spacing={1}>
+                  <Icon m={0} p={0} as={MdLocationOn} color='gray.500' />
+                  <Text m={0} p={0} fontSize='sm'>
+                    {job.location}
+                  </Text>
+                </HStack>
+                <HStack spacing={1}>
+                  <Icon m={0} p={0} as={MdAttachMoney} color='gray.500' />
+                  <Text m={0} p={0} fontSize='sm'>
+                    {job.salary}
+                  </Text>
+                </HStack>
+              </VStack>
+              <HStack spacing={1}>
+                <Tag colorScheme='blue'>{job.position}</Tag>
+                <Tag colorScheme='green'>{job.workingForm}</Tag>
+                <Icon as={MdFavoriteBorder} color='red.500' />
+              </HStack>
+            </VStack>
+          </Box>
+        ))}
+      </SimpleGrid>
+    </Box>
+  )
+}

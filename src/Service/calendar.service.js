@@ -2,6 +2,8 @@ import axios, { AxiosError } from 'axios'
 import { hostName } from '../global'
 const API_URL = hostName
 
+
+//  lấy lịch của tôi
 const getMyCalendar = async (token) => {
   try {
     let config = { headers: { Authorization: `Bearer ${token}` } }

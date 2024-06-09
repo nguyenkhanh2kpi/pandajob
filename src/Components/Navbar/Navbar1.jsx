@@ -82,21 +82,18 @@ const Navbar1 = () => {
               </MenuButton>
               <MenuList>
                 <MenuItem onClick={() => navigate('/jobpage')}>Tìm việc làm</MenuItem>
-                <MenuItem>Việc làm yêu thích</MenuItem>
-                <MenuItem>Đã ứng tuyển</MenuItem>
-                <MenuItem onClick={() => navigate('/test')}>Kiểm tra sàng lọc</MenuItem>
+                <MenuItem onClick={() => navigate(data?.access_token ? '/jobpage/favorite' : '/login')}>Việc làm yêu thích</MenuItem>
+                <MenuItem onClick={() => navigate(data?.access_token ? '/jobpage/applied' : '/login')}>Đã ứng tuyển</MenuItem>
+                <MenuItem onClick={() => navigate(data?.access_token ? '/test' : '/login')}>Kiểm tra sàng lọc</MenuItem>
               </MenuList>
             </Menu>
           </Box>
 
           <Box h={'100%'} display={'flex'} w={'auto'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu>
-              <MenuButton bgColor={'white'} as={Button}>
+              <MenuButton onClick={() => navigate('/companies')} bgColor={'white'} as={Button}>
                 Công ty
               </MenuButton>
-              <MenuList>
-                <MenuItem onClick={() => navigate('/companies')}>Tìm công ty</MenuItem>
-              </MenuList>
             </Menu>
           </Box>
 

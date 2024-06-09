@@ -25,9 +25,9 @@ const CompanyProfile = () => {
       <>
         <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
           <SlideFade in={true} offsetY={20}>
-            <Heading size={'lg'} m={'6'} mt={24}></Heading>
+            <Heading size={'lg'} mt={24}></Heading>
           </SlideFade>
-          <HStack m={5} align={'flex-start'} w={'70vw'} p={3}>
+          <HStack align={'flex-start'} w={'80%'}>
             <Box maxW='100%' borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'} w={'100vw'} m={2} backgroundColor={'#FFFFFF'}>
               <Image src={company.avatar} alt={company.name} width='100%' height='200px' objectFit='cover' />
 

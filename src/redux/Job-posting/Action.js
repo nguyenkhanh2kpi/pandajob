@@ -13,12 +13,9 @@ export const loadJob=()=>async (dispatch)=>{
        
         try {
             let response = await axios.get(`${hostName}/job-posting`);
-            console.log("in the logi func try",response.data.data);
             dispatch({type:JOB_SUCCESS,payload : response.data.data});
       
         } catch (error) {
-            // console.log("in the logi func catch");
-            console.log("sai roi ");
             dispatch({type:JOB_ERROR,payload : error.message});
         }
 }

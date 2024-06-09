@@ -28,6 +28,9 @@ import { ChangeUsePassword } from '../Components/UserInfo/ChangeUsePassword'
 import { CodeEditor } from '../Components/CodeEditor/CodeEditor'
 import { HomeEssay } from '../Components/Essay/HomeEssay'
 import { CodeEssay } from '../Components/Essay/CodeEssay'
+import { NJobPage } from '../Components/Jobs/NJobPage'
+import { FavoriteJobs } from '../Components/Jobs/FavoriteJobs'
+import { AppliedJobs } from '../Components/Jobs/AppliedJobs'
 
 const AllRoutes = () => {
   return (
@@ -48,7 +51,9 @@ const AllRoutes = () => {
       <Route path='/signup' element={<Signup />} />
       <Route path='/resetPassword' element={<ResetPassword />} />
       <Route path='/mainhome' element={<MainHomepage />} />
-      <Route path='/jobpage' element={<JobPage />} />
+      <Route path='/jobpage' element={<NJobPage />} />
+      <Route path='/jobpage/favorite' element={<FavoriteJobs />} />
+      <Route path='/jobpage/applied' element={<AppliedJobs />} />
       <Route path='/jobpage-search/:keyword/:location/:experience/:salary' element={<JobPage />} />
       <Route path='/jobpage-search/:location/:experience/:salary' element={<JobPage />} />
       <Route path='/jobpage/:jobId' element={<JobDetail />} />

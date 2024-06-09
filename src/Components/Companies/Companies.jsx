@@ -8,7 +8,7 @@ const Companies = () => (
       <Heading size={'lg'} m={'6'} mt={24}></Heading>
     </SlideFade>
 
-    <HStack h={1000} align={'flex-start'} w={'80vw'}>
+    <HStack minH={1000} align={'flex-start'} w={'80vw'}>
       <CompaniesContainer />
     </HStack>
   </VStack>
