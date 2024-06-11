@@ -31,17 +31,23 @@ import {
   DrawerHeader,
   DrawerBody,
   useMediaQuery,
+  Icon,
 } from '@chakra-ui/react'
 
 import mainlogo from '../../Components/req/jobpandacom-logo.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { ChatIcon, ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { ArrowForwardIcon, AttachmentIcon, ChatIcon, ChevronDownIcon, EmailIcon, HamburgerIcon, InfoOutlineIcon, LockIcon } from '@chakra-ui/icons'
 import { GoogleLogout } from 'react-google-login'
 import { webHost } from '../../global'
 import { CometChatUIKit } from '@cometchat/chat-uikit-react'
 import ChatContainer from '../Chatbot/Chatbot'
 import Notification from './Notification'
 import { NotifyMessage } from './NotifyMessage'
+import { FaRegUser } from 'react-icons/fa'
+import { MdLockOpen } from 'react-icons/md'
+import { FaRegFolder } from 'react-icons/fa'
+import { CiLogout } from 'react-icons/ci'
+import { BiMessage } from 'react-icons/bi'
 
 const Navbar1 = () => {
   const navigate = useNavigate()
@@ -111,10 +117,10 @@ const Navbar1 = () => {
           <Box h={'100%'} display={'flex'} w={'auto'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu>
               <MenuButton bgColor={'white'} as={Button}>
-                Hồ sơ
+                CV
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={() => navigate('/resume')}>Resume</MenuItem>
+                <MenuItem onClick={() => navigate('/resume-build')}>Tạo CV</MenuItem>
                 <MenuItem>CV của tôi</MenuItem>
               </MenuList>
             </Menu>
@@ -136,15 +142,26 @@ const Navbar1 = () => {
                   </WrapItem>
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={() => navigate('/userInfo1')}>Thông tin cá nhân</MenuItem>
-                  <MenuItem onClick={() => navigate('/change-password')}>Đổi mật khẩu</MenuItem>
-                  <MenuItem onClick={() => navigate('/messages')}>Tin nhắn</MenuItem>
-                  <MenuItem onClick={() => navigate('/resume')}>Hồ sơ CV</MenuItem>
-                  {/* 
-                  <MenuItem onClick={() => navigate('/code')}>Code</MenuItem> */}
-                  {/* 
-                  <MenuItem onClick={() => navigate('/essay')}>tu luan</MenuItem> */}
-                  <MenuItem onClick={() => handleLogout()}>Đăng xuất</MenuItem>
+                  <MenuItem onClick={() => navigate('/userInfo1')}>
+                    <Icon as={FaRegUser} mr={1} />
+                    Thông tin cá nhân
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/change-password')}>
+                    <Icon as={MdLockOpen} mr={1} />
+                    Đổi mật khẩu
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/messages')}>
+                    <Icon as={BiMessage} mr={1} />
+                    Tin nhắn
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/resume')}>
+                    <Icon as={FaRegFolder} mr={1} />
+                    Hồ sơ CV
+                  </MenuItem>
+                  <MenuItem onClick={() => handleLogout()}>
+                    <Icon as={CiLogout} mr={1} />
+                    Đăng xuất
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </HStack>

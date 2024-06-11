@@ -31,6 +31,8 @@ import { CodeEssay } from '../Components/Essay/CodeEssay'
 import { NJobPage } from '../Components/Jobs/NJobPage'
 import { FavoriteJobs } from '../Components/Jobs/FavoriteJobs'
 import { AppliedJobs } from '../Components/Jobs/AppliedJobs'
+import { MainResumeJson } from '../Components/ResumeJson/MainResumeJson'
+import { MainCVTheme } from '../Components/CVTheme/MainCVTheme'
 
 const AllRoutes = () => {
   return (
@@ -60,9 +62,11 @@ const AllRoutes = () => {
       <Route path='/services' element={<ServicesPage />} />
       <Route path='/events' element={<Events />} />
       <Route path='/event/:id' element={<EventDetailHome />} />
-      <Route path='/cv-build' element={<CurriculumVitae />} />
+      {/* <Route path='/cv-build' element={<CurriculumVitae />} /> */}
+      <Route path='/cv-build-theme' element={<MainCVTheme />} />
       <Route path='/messages' element={<Message />} />
-      <Route path='/resume' element={<ResumeProfile />} />
+      {/* <Route path='/resume' element={<ResumeProfile />} /> */}
+      <Route path='/resume-build' element={<MainResumeJson />} />
       <Route path='/test' element={<TestList />} />
       <Route path='/test-record/:id' element={<TestMain />} />
       <Route path='/code' element={<CodeEditor />} />
