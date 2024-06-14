@@ -14,7 +14,7 @@ export const EventContainer = () => {
       .catch((er) => console.log(er))
   })
   return (
-    <VStack width={'100vw'} align={'flex-start'} m={2} p={2}>
+    <VStack  width={'100vw'} align={'flex-start'} m={2} p={2}>
       {!events ? (
         <Center direction='row' spacing={4} w={'80vw'} h={'20vw'}>
           <Spinner color='blue.500' size='xl' />
@@ -29,18 +29,7 @@ export const EventContainer = () => {
         </SimpleGrid>
       )}
 
-      <ToastContainer
-        position='bottom-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='light'
-      />
+      <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
     </VStack>
   )
 }

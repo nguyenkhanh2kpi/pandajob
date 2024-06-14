@@ -24,12 +24,12 @@ export const EventDetailHome = () => {
   }, [])
 
   return (
-    <VStack fontFamily={'Roboto'} m={2} p={2}>
+    <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'} m={2} p={2}>
       <SlideFade in={true} offsetY={20}>
         <Heading size={'lg'} m={'6'} mt={24} ml={2} textAlign={'left'} marginRight='auto'></Heading>
       </SlideFade>
       <HStack align={'flex-start'} w={'70vw'} alignItems={'center'} display={'flex'} justifyContent={'center'}>
-        <Box maxW='960px' borderWidth='1px' borderRadius='lg' overflow='hidden' w={'100%'}>
+        <Box bgColor={'white'} maxW='960px' borderWidth='1px' borderRadius='lg' overflow='hidden' w={'100%'}>
           <Image src={event.image} alt='Image' />
 
           <Box p='6'>
@@ -59,7 +59,7 @@ export const EventDetailHome = () => {
         </Box>
       </HStack>
       <HStack align={'flex-start'} w={'70vw'} alignItems={'center'} display={'flex'} justifyContent={'center'}>
-        <Box maxW='960px' borderWidth='1px' borderRadius='lg' overflow='hidden' w={'100vw'}>
+        <Box bgColor={'white'} maxW='960px' borderWidth='1px' borderRadius='lg' overflow='hidden' w={'100vw'}>
           <Box m={5}>{event.content}</Box>
         </Box>
       </HStack>

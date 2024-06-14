@@ -1,8 +1,11 @@
-import { Box, Button, Center, HStack, Heading, SlideFade, Text, VStack, useDisclosure, useToast } from '@chakra-ui/react'
+import { Box, Button, Center, HStack, Heading, List, ListIcon, ListItem, SlideFade, Text, VStack, useDisclosure, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { CodeFrameTest } from './CodeFrameTest'
 import { useNavigate, useParams } from 'react-router-dom'
 import { testService } from '../../Service/test.service'
+import { CheckCircleIcon } from '@chakra-ui/icons'
+import { StartComponent } from './StartComponent'
+import { calculateTimeLeft, parseDateTime } from './function'
 
 export const CodeEssay = () => {
   const toast = useToast()
@@ -13,6 +16,8 @@ export const CodeEssay = () => {
   const [endTime, setEndTime] = useState(null)
   const [startTime, setStartTime] = useState(null)
   const [timeLeft, setTimeLeft] = useState({ minutes: 0, seconds: 0 })
+  // cau tra loi luu vao record
+  const [record, setRecord] = useState(null);
 
   // test
   const [test, settest] = useState(null)
@@ -58,28 +63,9 @@ export const CodeEssay = () => {
     }
   }
 
-  // handletime
-  const parseDateTime = (dateTimeString) => {
-    const [time, date] = dateTimeString.split(' ')
-    const [hours, minutes, seconds] = time.split(':').map(Number)
-    const [day, month, year] = date.split('/').map(Number)
-    return new Date(year, month - 1, day, hours, minutes, seconds)
-  }
-
-  const calculateTimeLeft = () => {
-    const now = new Date()
-    const difference = endTime - now
-    const minutesLeft = Math.floor(difference / 60000)
-    const secondsLeft = Math.floor((difference % 60000) / 1000)
-    return {
-      minutes: minutesLeft,
-      seconds: secondsLeft,
-    }
-  }
-
   useEffect(() => {
     const timer = setInterval(() => {
-      const newTimeLeft = calculateTimeLeft()
+      const newTimeLeft = calculateTimeLeft(endTime)
       if (newTimeLeft.minutes <= 0 && newTimeLeft.seconds <= 0) {
         clearInterval(timer)
         onEndOpen()
@@ -94,11 +80,11 @@ export const CodeEssay = () => {
   //cua so xác nhận
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { isOpen: isEndOpen, onOpen: onEndOpen, onClose: onEndClose } = useDisclosure()
-
-
   const handleSave = async () => {
     onOpen()
   }
+
+
   // submit
   const handleConfirmSubmit = async () => {
     onClose()
@@ -106,7 +92,7 @@ export const CodeEssay = () => {
       id: 1,
       testId: params.testId,
       score: 0,
-      record: JSON.stringify('abc'),
+      record: JSON.stringify(record),
     }
     testService
       .record(accessToken, form)
@@ -125,21 +111,22 @@ export const CodeEssay = () => {
             <>
               {start ? (
                 <>
-                  <CodeFrameTest handleSave={handleSave} timeLeft={timeLeft} listQuestion={test.codeQuestions} />
+                  <CodeFrameTest record={record} setRecord={setRecord} handleSave={handleSave} timeLeft={timeLeft} codeQuestions={test.codeQuestions} />
                 </>
               ) : (
-                <HStack align={'flex-start'} w={'60vw'} m={5} p={5}>
-                  <Button w={'100%'} size='lg' colorScheme='teal' onClick={handleStartTest}>
-                    Bắt đầu làm bài code
-                  </Button>
-                </HStack>
+                <StartComponent handleStartTest={handleStartTest} />
               )}
             </>
           ) : (
             <>
-              <HStack align={'flex-start'} w={'60vw'} m={5} p={5}>
-                <Button w={'100%'}>Bài kiểm tra không thể thực hiện lại</Button>
-              </HStack>
+              <VStack spacing={5} fontFamily={'Roboto'} align={'flex-start'} w={'60vw'} mt={20} p={5}>
+                <Box bgColor={'white'} borderRadius={20} p={10} borderLeftWidth={'5px'} borderColor={'orange'} h={'100px'} w={'100%'}>
+                  Bài kiểm tra không thể thực hiện lại
+                </Box>
+                <Button onClick={() => navigate(-1)} colorScheme='teal' h={'50px'} w={'100%'}>
+                  Trở về trang trước
+                </Button>
+              </VStack>
             </>
           )}
         </VStack>
@@ -183,6 +170,33 @@ export const CodeEssay = () => {
     </>
   )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const Overlay = ({ isOpen, onClose, children }) => {
   const overlayStyle = {

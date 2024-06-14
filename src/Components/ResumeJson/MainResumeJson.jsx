@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormLabel, HStack, Heading, Icon, Input, Select, SlideFade, Text, Textarea, VStack } from '@chakra-ui/react'
+import { Box, Button, FormControl, FormLabel, HStack, Heading, Icon, Input, Select, SlideFade, Text, Textarea, VStack, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { AiOutlineUser } from 'react-icons/ai'
 import { json, useNavigate } from 'react-router-dom'
@@ -16,6 +16,7 @@ import { ResumeJsonTitleAward } from './TitleAwardJson'
 import { resumeJsonService } from '../../Service/resumeJson.service'
 
 export const MainResumeJson = () => {
+  const toast = useToast()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
   const [resume, setResume] = useState(null)
   const [resumeJson, setResumeJson] = useState(null)
@@ -176,7 +177,15 @@ export const MainResumeJson = () => {
     resume.resumeJson = JSON.stringify(resumeJson)
     resumeJsonService
       .putResumeJson(accessToken, resume)
-      .then((response) => alert(JSON.stringify(response)))
+      .then((response) =>
+        toast({
+          title: 'CV',
+          description: response.message,
+          status: 'info',
+          duration: 3000,
+          isClosable: true,
+        })
+      )
       .catch((er) => console.log(er))
   }
 
@@ -207,197 +216,197 @@ export const MainResumeJson = () => {
 
   if (!resume || !resumeJson) {
     return <></>
-  } else console.log(resumeJson)
-  return (
-    <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
-      <SlideFade offsetY={20}>
-        <Heading size={'lg'} m={'6'} mt={24}></Heading>
-      </SlideFade>
+  } else
+    return (
+      <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
+        <SlideFade offsetY={20}>
+          <Heading size={'lg'} m={'6'} mt={24}></Heading>
+        </SlideFade>
 
-      <VStack pb={20} minH={1000} align={'flex-start'} w={'80vw'}>
-        {/* mỗi phần này là 1 frame  */}
-        <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
-          <HStack alignItems='center' spacing={4}>
-            <Icon as={AiOutlineUser} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-            <Text m={0} fontSize='2xl'>
-              Thông tin cá nhân
-            </Text>
-          </HStack>
-
-          <VStack w={'100%'}>
-            <HStack spacing={10} w={'100%'}>
-              <FormControl w={'50%'} isRequired>
-                <FormLabel>Họ và tên</FormLabel>
-                <Input onChange={handleOnChange} name='fullName' value={resumeJson.fullName} />
-              </FormControl>
-              <FormControl w={'50%'} isRequired>
-                <FormLabel>Vị trí hiện tại, vị trí ứng tuyển</FormLabel>
-                <Input onChange={handleOnChange} name='applicationPosition' value={resumeJson.applicationPosition} />
-              </FormControl>
-            </HStack>
-            <HStack spacing={10} w={'100%'}>
-              <FormControl w={'50%'} isRequired>
-                <FormLabel>Email</FormLabel>
-                <Input onChange={handleOnChange} name='email' value={resumeJson.email} />
-              </FormControl>
-              <FormControl w={'50%'} isRequired>
-                <FormLabel>Số điện thoại</FormLabel>
-                <Input onChange={handleOnChange} name='phone' value={resumeJson.phone} />
-              </FormControl>
+        <VStack pb={20} minH={1000} align={'flex-start'} w={'80vw'}>
+          {/* mỗi phần này là 1 frame  */}
+          <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+            <HStack alignItems='center' spacing={4}>
+              <Icon as={AiOutlineUser} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0} fontSize='2xl'>
+                Thông tin cá nhân
+              </Text>
             </HStack>
 
-            <HStack spacing={10} w={'100%'}>
-              <FormControl w={'50%'} isRequired>
-                <FormLabel>Giới tính</FormLabel>
-                <Select onChange={handleOnChange} name='gender' value={resumeJson.gender} placeholder='Giới tính'>
-                  <option value='Male'>Nam</option>
-                  <option value='FeMale'>Nữ</option>
-                  <option value='Other'>Khác</option>
-                </Select>
-              </FormControl>
-              <FormControl w={'50%'} isRequired>
-                <FormLabel>Ngày sinh</FormLabel>
-                <Input onChange={handleOnChange} name='dateOB' type='date' value={resumeJson.dateOB} />
-              </FormControl>
-            </HStack>
+            <VStack w={'100%'}>
+              <HStack spacing={10} w={'100%'}>
+                <FormControl w={'50%'} isRequired>
+                  <FormLabel>Họ và tên</FormLabel>
+                  <Input onChange={handleOnChange} name='fullName' value={resumeJson.fullName} />
+                </FormControl>
+                <FormControl w={'50%'} isRequired>
+                  <FormLabel>Vị trí hiện tại, vị trí ứng tuyển</FormLabel>
+                  <Input onChange={handleOnChange} name='applicationPosition' value={resumeJson.applicationPosition} />
+                </FormControl>
+              </HStack>
+              <HStack spacing={10} w={'100%'}>
+                <FormControl w={'50%'} isRequired>
+                  <FormLabel>Email</FormLabel>
+                  <Input onChange={handleOnChange} name='email' value={resumeJson.email} />
+                </FormControl>
+                <FormControl w={'50%'} isRequired>
+                  <FormLabel>Số điện thoại</FormLabel>
+                  <Input onChange={handleOnChange} name='phone' value={resumeJson.phone} />
+                </FormControl>
+              </HStack>
 
-            <HStack spacing={10} w={'100%'}>
-              <FormControl w={'50%'} isRequired>
-                <FormLabel>Thành phố</FormLabel>
-                <Select onChange={handleOnChange} name='city' value={resumeJson.city} placeholder='Tỉnh/Thành phố'>
-                  {province.map((p) => (
-                    <option key={p.name} value={p.name}>
-                      {p.name}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl w={'50%'}>
-                <FormLabel>Địa chỉ</FormLabel>
-                <Input onChange={handleOnChange} name='address' value={resumeJson.address} />
-              </FormControl>
-            </HStack>
+              <HStack spacing={10} w={'100%'}>
+                <FormControl w={'50%'} isRequired>
+                  <FormLabel>Giới tính</FormLabel>
+                  <Select onChange={handleOnChange} name='gender' value={resumeJson.gender} placeholder='Giới tính'>
+                    <option value='Male'>Nam</option>
+                    <option value='FeMale'>Nữ</option>
+                    <option value='Other'>Khác</option>
+                  </Select>
+                </FormControl>
+                <FormControl w={'50%'} isRequired>
+                  <FormLabel>Ngày sinh</FormLabel>
+                  <Input onChange={handleOnChange} name='dateOB' type='date' value={resumeJson.dateOB} />
+                </FormControl>
+              </HStack>
 
-            <HStack spacing={10} w={'100%'}>
-              <FormControl w={'50%'}>
-                <FormLabel>Linkedin</FormLabel>
-                <Input onChange={handleOnChange} name='linkedIn' value={resumeJson.linkedIn} />
-              </FormControl>
-              <FormControl w={'50%'}>
-                <FormLabel>Github</FormLabel>
-                <Input onChange={handleOnChange} name='github' placeholder='Dành cho ứng viên là lập trình viên' value={resumeJson.github} />
-              </FormControl>
-            </HStack>
+              <HStack spacing={10} w={'100%'}>
+                <FormControl w={'50%'} isRequired>
+                  <FormLabel>Thành phố</FormLabel>
+                  <Select onChange={handleOnChange} name='city' value={resumeJson.city} placeholder='Tỉnh/Thành phố'>
+                    {province.map((p) => (
+                      <option key={p.name} value={p.name}>
+                        {p.name}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl w={'50%'}>
+                  <FormLabel>Địa chỉ</FormLabel>
+                  <Input onChange={handleOnChange} name='address' value={resumeJson.address} />
+                </FormControl>
+              </HStack>
 
-            <HStack spacing={10} w={'100%'}>
-              <FormControl w={'100%'}>
-                <FormLabel>Giới thiệu bản thân</FormLabel>
-                <Textarea onChange={handleOnChange} name='aboutYourself' value={resumeJson.aboutYourself} />
-              </FormControl>
-            </HStack>
+              <HStack spacing={10} w={'100%'}>
+                <FormControl w={'50%'}>
+                  <FormLabel>Linkedin</FormLabel>
+                  <Input onChange={handleOnChange} name='linkedIn' value={resumeJson.linkedIn} />
+                </FormControl>
+                <FormControl w={'50%'}>
+                  <FormLabel>Github</FormLabel>
+                  <Input onChange={handleOnChange} name='github' placeholder='Dành cho ứng viên là lập trình viên' value={resumeJson.github} />
+                </FormControl>
+              </HStack>
+
+              <HStack spacing={10} w={'100%'}>
+                <FormControl w={'100%'}>
+                  <FormLabel>Giới thiệu bản thân</FormLabel>
+                  <Textarea onChange={handleOnChange} name='aboutYourself' value={resumeJson.aboutYourself} />
+                </FormControl>
+              </HStack>
+            </VStack>
           </VStack>
-        </VStack>
-        {/* end frame */}
-        {/* frame work exp */}
-        <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
-          <HStack alignItems='center' spacing={4}>
-            <Icon as={BiBriefcase} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-            <Text m={0} fontSize='2xl'>
-              Kinh nghiệm làm việc
-            </Text>
-          </HStack>
-          <VStack alignItems={'flex-start'} w={'100%'}>
-            {resumeJson.workingExperiences.map((workExp, index) => (
-              <ResumeJsonWorkExp key={index} workExp={workExp} index={index} onWorkExpChange={handleWorkExpChange} handleAdd={handleAddWorkExp} handleDelete={handleDeleteWorkExp} />
+          {/* end frame */}
+          {/* frame work exp */}
+          <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+            <HStack alignItems='center' spacing={4}>
+              <Icon as={BiBriefcase} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0} fontSize='2xl'>
+                Kinh nghiệm làm việc
+              </Text>
+            </HStack>
+            <VStack alignItems={'flex-start'} w={'100%'}>
+              {resumeJson.workingExperiences.map((workExp, index) => (
+                <ResumeJsonWorkExp key={index} workExp={workExp} index={index} onWorkExpChange={handleWorkExpChange} handleAdd={handleAddWorkExp} handleDelete={handleDeleteWorkExp} />
+              ))}
+            </VStack>
+          </VStack>
+          {/* end frame work exp */}
+          {/* frame educationi */}
+          <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+            <HStack alignItems='center' spacing={4}>
+              <Icon as={FaGraduationCap} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0} fontSize='2xl'>
+                Học vấn
+              </Text>
+            </HStack>
+            {resumeJson.education.map((education, index) => (
+              <ResumeJsonEducation key={index} education={education} index={index} onEducationChange={handleEducationChange} handleAdd={handleAddEducation} handleDelete={handleDeleteEducation} />
             ))}
           </VStack>
-        </VStack>
-        {/* end frame work exp */}
-        {/* frame educationi */}
-        <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
-          <HStack alignItems='center' spacing={4}>
-            <Icon as={FaGraduationCap} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-            <Text m={0} fontSize='2xl'>
-              Học vấn
-            </Text>
-          </HStack>
-          {resumeJson.education.map((education, index) => (
-            <ResumeJsonEducation key={index} education={education} index={index} onEducationChange={handleEducationChange} handleAdd={handleAddEducation} handleDelete={handleDeleteEducation} />
-          ))}
-        </VStack>
-        {/* end frame education */}
-        {/* frame skill */}
-        <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
-          <HStack alignItems='center' spacing={4}>
-            <Icon as={BiBrain} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-            <Text m={0} fontSize='2xl'>
-              Kĩ năng
-            </Text>
-          </HStack>
-          {resumeJson.skills.map((skill, index) => (
-            <ResumeJsonSkill key={index} skill={skill} index={index} onSkillChange={handleSkillChange} handleAdd={handleAddSkill} handleDelete={handleDeleteSkill} />
-          ))}
-        </VStack>
-        {/* end frame skill */}
-        {/* frame dự án */}
-        <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
-          <HStack alignItems='center' spacing={4}>
-            <Icon as={BiFolder} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-            <Text m={0} fontSize='2xl'>
-              Dự án
-            </Text>
-          </HStack>
-          {resumeJson.workingProjects.map((project, index) => (
-            <ResumeJsonProject key={index} worksProject={project} index={index} onProjectChange={handleProjectChange} handleAdd={handleAddProject} handleDelete={handleDeleteProject} />
-          ))}
-        </VStack>
-        {/* end frame dự án */}
-        <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
-          <HStack alignItems='center' spacing={4}>
-            <Icon as={FaCertificate} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-            <Text m={0} fontSize='2xl'>
-              Chứng chỉ
-            </Text>
-          </HStack>
-          <VStack alignItems={'flex-start'} w={'100%'}>
-            {resumeJson.certificate.map((certificate, index) => (
-              <ResumeJsonCertificate key={index} certificate={certificate} index={index} onCertificateChange={handleCertificateChange} handleAdd={handleAddCertificate} handleDelete={handleDeleteCertificate} />
+          {/* end frame education */}
+          {/* frame skill */}
+          <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+            <HStack alignItems='center' spacing={4}>
+              <Icon as={BiBrain} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0} fontSize='2xl'>
+                Kĩ năng
+              </Text>
+            </HStack>
+            {resumeJson.skills.map((skill, index) => (
+              <ResumeJsonSkill key={index} skill={skill} index={index} onSkillChange={handleSkillChange} handleAdd={handleAddSkill} handleDelete={handleDeleteSkill} />
             ))}
           </VStack>
-        </VStack>
-        {/* // end frame certificate */}
-        <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
-          <HStack alignItems='center' spacing={4}>
-            <Icon as={FaHandsHelping} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-            <Text m={0} fontSize='2xl'>
-              Hoạt động
-            </Text>
-          </HStack>
-          <VStack alignItems={'flex-start'} w={'100%'}>
-            {resumeJson.activate.map((activate, index) => (
-              <ResumeJsonActivate key={index} activate={activate} index={index} onActivateChange={handleActivateChange} handleAdd={handleAddActivity} handleDelete={handleDeleteActivity} />
+          {/* end frame skill */}
+          {/* frame dự án */}
+          <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+            <HStack alignItems='center' spacing={4}>
+              <Icon as={BiFolder} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0} fontSize='2xl'>
+                Dự án
+              </Text>
+            </HStack>
+            {resumeJson.workingProjects.map((project, index) => (
+              <ResumeJsonProject key={index} worksProject={project} index={index} onProjectChange={handleProjectChange} handleAdd={handleAddProject} handleDelete={handleDeleteProject} />
             ))}
           </VStack>
-        </VStack>
-        {/*  */}
-        <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
-          <HStack alignItems='center' spacing={4}>
-            <Icon as={FaTrophy} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-            <Text m={0} fontSize='2xl'>
-              Giải thưởng
-            </Text>
-          </HStack>
-          <VStack alignItems={'flex-start'} w={'100%'}>
-            {resumeJson.title_award.map((award, index) => (
-              <ResumeJsonTitleAward key={index} titleAward={award} index={index} onTitleAwardChange={handleTitleAwardChange} handleAdd={handleAddAward} handleDelete={handleDeleteAward} />
-            ))}
+          {/* end frame dự án */}
+          <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+            <HStack alignItems='center' spacing={4}>
+              <Icon as={FaCertificate} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0} fontSize='2xl'>
+                Chứng chỉ
+              </Text>
+            </HStack>
+            <VStack alignItems={'flex-start'} w={'100%'}>
+              {resumeJson.certificate.map((certificate, index) => (
+                <ResumeJsonCertificate key={index} certificate={certificate} index={index} onCertificateChange={handleCertificateChange} handleAdd={handleAddCertificate} handleDelete={handleDeleteCertificate} />
+              ))}
+            </VStack>
           </VStack>
+          {/* // end frame certificate */}
+          <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+            <HStack alignItems='center' spacing={4}>
+              <Icon as={FaHandsHelping} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0} fontSize='2xl'>
+                Hoạt động
+              </Text>
+            </HStack>
+            <VStack alignItems={'flex-start'} w={'100%'}>
+              {resumeJson.activate.map((activate, index) => (
+                <ResumeJsonActivate key={index} activate={activate} index={index} onActivateChange={handleActivateChange} handleAdd={handleAddActivity} handleDelete={handleDeleteActivity} />
+              ))}
+            </VStack>
+          </VStack>
+          {/*  */}
+          <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+            <HStack alignItems='center' spacing={4}>
+              <Icon as={FaTrophy} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0} fontSize='2xl'>
+                Giải thưởng
+              </Text>
+            </HStack>
+            <VStack alignItems={'flex-start'} w={'100%'}>
+              {resumeJson.title_award.map((award, index) => (
+                <ResumeJsonTitleAward key={index} titleAward={award} index={index} onTitleAwardChange={handleTitleAwardChange} handleAdd={handleAddAward} handleDelete={handleDeleteAward} />
+              ))}
+            </VStack>
+          </VStack>
+          {/* // end frame title_award */}
         </VStack>
-        {/* // end frame title_award */}
+        <FixButton handleSave={handleSave} />
       </VStack>
-      <FixButton handleSave={handleSave} />
-    </VStack>
-  )
+    )
 }
 
 // nút menu bên cạnh khung hình

@@ -356,7 +356,7 @@ const TestList = ({ tests }) => {
             </VStack>
             <VStack align='flex-start' w={'40%'}>
               {test.record ? (
-                <Text>Đã làm vào lúc: {formatDate(test.startTime)}</Text>
+                <Text>Đã làm vào lúc: {test.startTime}</Text>
               ) : (
                 <Button colorScheme='teal' onClick={() => (window.location.href = `/code-essay/${test.id}`)}>
                   Đi đến làm bài

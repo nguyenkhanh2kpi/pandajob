@@ -19,6 +19,22 @@ const postRelationJob = async (keyword, jobs) => {
   }
 };
 
+
+const postRelationJobJava = async (keyword, jobs) => {
+  try {
+    const data = {
+      keyword: keyword,
+    };
+
+    const response = await axios.post(`${hostName}/find-related/find-related-job`, data);
+    return response.data;
+  } catch (error) {
+    console.error('Error posting local calendar:', error);
+    throw error;
+  }
+};
+
 export const dataService = {
   postRelationJob,
+  postRelationJobJava
 }

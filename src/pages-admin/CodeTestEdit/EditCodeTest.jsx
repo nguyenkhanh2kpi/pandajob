@@ -20,7 +20,6 @@ export const EditCodeTest = () => {
     testService
       .getATestById(accessToken, params.testId)
       .then((response) => {
-        // console.log(JSON.stringify(response))
         settest(response)
       })
       .catch((er) => console.log(er))

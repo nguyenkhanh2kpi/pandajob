@@ -2,7 +2,6 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { AdLogout, Ecommerce, Orders, Calendar, Interviewer, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor, RoomList } from '../pages-admin'
 import RoomAdd from '../pages-admin/RoomEdit/RoomAdd'
-import RoomAddCandidate from '../pages-admin/RoomEdit/RoomAddCandidate'
 import { K_Event } from '../pages-admin/K_Event/K_Event'
 import { EventEdit } from '../pages-admin/K_Event/EventEdit'
 import { EventAdd } from '../pages-admin/K_Event/EventAdd'
@@ -46,6 +45,7 @@ import UserInfo1 from '../Components/UserInfo/UserInfo1'
 import { SearchCandidate } from '../pages-admin/SearchCandidate/SearchCandidate'
 import { EditCodeTest } from '../pages-admin/CodeTestEdit/EditCodeTest'
 import { EditEssayTest } from '../pages-admin/Screening/EditeEssayTest'
+import { CodeTestResultMain } from '../pages-admin/TestResult/CodeTestResult/CodeTestResultMain'
 
 const AllRoutesAd = () => {
   return (
@@ -121,6 +121,7 @@ const AllRoutesAd = () => {
       <Route path='/process/item/:jobId' element={<ProcessItem />} />
       <Route path='/process/item/:jobId/:tab' element={<ProcessItem />} />
       <Route path='/process/edit-code-test/:testId' element={<EditCodeTest />} />
+      <Route path='/process/code-test/result/:testId' element={<CodeTestResultMain />} />
       <Route path='/process/edit-essay-test/:testId' element={<EditEssayTest />} />
       <Route path='/process/step/screening-resume/:jobId' element={<SceningProcess />} />
       <Route path='/process/screening/:jobId' element={<Screening />} />

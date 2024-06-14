@@ -494,11 +494,19 @@ const ListCVTab = ({ job, setTabIndex }) => {
         filtered = filtered.filter((candidate) => candidate.cvStatus === statusFilter)
       }
       if (labelFilter) {
-        filtered = filtered.filter((candidate) => {
-          const candidateLabels = JSON.parse(candidate.labels)
-          // Lọc nhãn có giá trị là true
-          return candidateLabels[labelFilter] === true
-        })
+        // filtered = filtered.filter((candidate) => {
+        //   const candidateLabels = JSON.parse(candidate.labels)
+        //   return candidateLabels[labelFilter] === true
+        // })
+        filtered = filtered.filter(candidate => {
+          try {
+            const candidateLabels = candidate.labels ? JSON.parse(candidate.labels) : {};
+            return candidateLabels[labelFilter] === true;
+          } catch (error) {
+            console.error('Error parsing labels:', error);
+            return false; 
+          }
+        });
       }
       setFilteredCandidates(filtered)
     }
@@ -546,9 +554,6 @@ const ListCVTab = ({ job, setTabIndex }) => {
           ))}
         </Select>
       </HStack>
-      {/* <Box bgColor={'#FEEBC8'} w={'100%'} as='blockquote' borderRadius={3} borderLeft='4px solid' borderColor='blue.400' pl={4} py={2} mb={4}>
-        Hãy sàng lọc những CV phù hợp với yêu cầu của mình và gán nhãn cho họ đến với những bước tiếp theo tron quá trình tuyển dụng
-      </Box> */}
 
       <TableContainer fontFamily={'Roboto'}>
         <Table mb={5} borderWidth={1} variant='simple'>

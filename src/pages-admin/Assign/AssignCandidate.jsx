@@ -14,7 +14,7 @@ let states = {
   REJECT: 'Từ chối',
 }
 
-export const AssignCandidate = ({ jobId, roomId, startDate, endDate , load, setLoad}) => {
+export const AssignCandidate = ({ jobId, roomId, startDate, endDate, load, setLoad }) => {
   const toast = useToast()
   const [candidates, setCandidates] = useState([])
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -35,9 +35,19 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate , load, setL
     const applyFilters = () => {
       let filtered = candidates
       if (labelFilter) {
+        // code này lỗi
+        // filtered = filtered.filter((candidate) => {
+        //   const candidateLabels = JSON.parse(candidate.labels)
+        //   return candidateLabels[labelFilter] === true
+        // })
         filtered = filtered.filter((candidate) => {
-          const candidateLabels = JSON.parse(candidate.labels)
-          return candidateLabels[labelFilter] === true
+          try {
+            const candidateLabels = candidate.labels ? JSON.parse(candidate.labels) : {}
+            return candidateLabels[labelFilter] === true
+          } catch (error) {
+            console.error('Error parsing labels:', error)
+            return false // Exclude candidate if labels cannot be parsed
+          }
         })
       }
       if (statusFilter) {
@@ -46,9 +56,7 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate , load, setL
       if (search) {
         if (search != '') {
           filtered = filtered.filter((candidate) => candidate.fullName.toLowerCase().includes(search.toLowerCase()))
-        }
-        else{
-
+        } else {
         }
       }
       setFilteredCandidates(filtered)
@@ -64,12 +72,10 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate , load, setL
     setLabelFilter(event.target.value)
     setListSelected([])
   }
-  const handleChangS =(event) => {
+  const handleChangS = (event) => {
     setSearch(event.target.value)
     setListSelected([])
   }
-
-
 
   const convertDates = (startDate, endDate) => {
     const start = new Date(startDate)
@@ -216,9 +222,7 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate , load, setL
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
                           <Avatar name={candidate.fullName} src={candidate.avatar} />
                           <Box>
-                            <Heading size='sm'>
-                              {candidate.fullName}
-                            </Heading>
+                            <Heading size='sm'>{candidate.fullName}</Heading>
                             <Text>{candidate.email}</Text>
                           </Box>
                         </Flex>

@@ -48,9 +48,11 @@ const HomePage = () => {
     if (search.keyword !== '') {
       // sessionStorage.setItem('keyw', search.keyword)
       localStorage.setItem('keyw', JSON.stringify({ keyw: search.keyword }))
-      navigate(`/jobpage-search/${search.keyword}/${search.location}/${search.experience}/${search.salary}`)
+      navigate(`/jobpage`)
+      // navigate(`/jobpage/${search.keyword}/${search.location}/${search.experience}/${search.salary}`)
     } else {
-      navigate(`/jobpage-search/${search.location}/${search.experience}/${search.salary}`)
+      navigate(`/jobpage`)
+      // navigate(`/jobpage/${search.location}/${search.experience}/${search.salary}`)
     }
   }
 

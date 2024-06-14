@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 import { loadJob } from '../../redux/Job-posting/Action'
 import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, FormControl, FormLabel, HStack, Heading, Image, Input, Select, Text, VStack } from '@chakra-ui/react'
 import { hostName } from '../../global'
-
+const meetLinkPattern = /^https:\/\/meet\.google\.com\/[a-zA-Z0-9-]+$/
 const RoomAdd = () => {
   const userId = JSON.parse(localStorage.getItem('data')).data.userInfo.id
   const dispatch = useDispatch()
@@ -37,10 +37,6 @@ const RoomAdd = () => {
       toast.warning('room Name is required!', {
         position: 'top-center',
       })
-    } else if (roomSkill === '') {
-      toast.error('room Skill is required!', {
-        position: 'top-center',
-      })
     } else if (roomDescription === '') {
       toast.error('room Description is required!', {
         position: 'top-center',
@@ -53,6 +49,10 @@ const RoomAdd = () => {
       toast.error('end Date is required!', {
         position: 'top-center',
       })
+    } else if (!meetLinkPattern.test(linkmeet)) {
+      toast.error('link không hợp lệ!', {
+        position: 'top-center',
+      })
     } else if (startDate >= endDate) {
       toast.error('Start date should be before the end date', {
         position: 'top-center',
@@ -62,7 +62,7 @@ const RoomAdd = () => {
         let data = JSON.stringify({
           jobPostId: jobName,
           roomName: roomName,
-          roomSkill: roomSkill,
+          roomSkill: '',
           roomDescription: roomDescription,
           startDate: startDate,
           endDate: endDate,
@@ -119,7 +119,7 @@ const RoomAdd = () => {
                 <Select
                   w={450}
                   borderColor='#8292b4'
-                  placeholder='Job Name'
+                  placeholder='Tên công việc'
                   backgroundColor='#ffffff'
                   mt='10px'
                   mb='10px'
@@ -142,11 +142,11 @@ const RoomAdd = () => {
                 <FormLabel htmlFor='position'>Meeting name</FormLabel>
                 <Input w={450} type='text' onChange={(e) => setRoomName(e.target.value)} name='position' id='position' />
               </FormControl>
-
+              {/* 
               <FormControl>
                 <FormLabel htmlFor='position'>Kĩ năng</FormLabel>
                 <Input w={450} type='text' onChange={(e) => setRoomSkill(e.target.value)} name='position' id='position' />
-              </FormControl>
+              </FormControl> */}
 
               <FormControl>
                 <FormLabel htmlFor='position'>Mô tả</FormLabel>

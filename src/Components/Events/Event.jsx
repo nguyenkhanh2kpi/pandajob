@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify'
 
 export const Events = () => {
   return (
-    <VStack fontFamily={'Roboto'}>
+    <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
       <SlideFade in={true} offsetY={20}>
         <Heading size={'lg'} m={'6'} mt={24} ml={2} textAlign={'left'} marginRight='auto'></Heading>
       </SlideFade>

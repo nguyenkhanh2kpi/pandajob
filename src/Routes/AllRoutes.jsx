@@ -33,6 +33,7 @@ import { FavoriteJobs } from '../Components/Jobs/FavoriteJobs'
 import { AppliedJobs } from '../Components/Jobs/AppliedJobs'
 import { MainResumeJson } from '../Components/ResumeJson/MainResumeJson'
 import { MainCVTheme } from '../Components/CVTheme/MainCVTheme'
+import { MyCV } from '../Components/MyCV/MyCV'
 
 const AllRoutes = () => {
   return (
@@ -64,6 +65,7 @@ const AllRoutes = () => {
       <Route path='/event/:id' element={<EventDetailHome />} />
       {/* <Route path='/cv-build' element={<CurriculumVitae />} /> */}
       <Route path='/cv-build-theme' element={<MainCVTheme />} />
+      <Route path='/my-cv' element={<MyCV />} />
       <Route path='/messages' element={<Message />} />
       {/* <Route path='/resume' element={<ResumeProfile />} /> */}
       <Route path='/resume-build' element={<MainResumeJson />} />

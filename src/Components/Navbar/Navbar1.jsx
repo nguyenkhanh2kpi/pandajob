@@ -1,43 +1,7 @@
-import React from 'react'
-import {
-  Badge,
-  Box,
-  Button,
-  Card,
-  CardBody,
-  Flex,
-  Heading,
-  HStack,
-  IconButton,
-  Image,
-  SlideFade,
-  Stack,
-  Text,
-  Wrap,
-  WrapItem,
-  useDisclosure,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Container,
-  Divider,
-  Avatar,
-  VStack,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  useMediaQuery,
-  Icon,
-} from '@chakra-ui/react'
-
-import mainlogo from '../../Components/req/jobpandacom-logo.png'
+import React, { useEffect } from 'react'
+import { Box, Button, Heading, HStack, Stack, Text, WrapItem, Menu, MenuButton, MenuItem, MenuList, Container, Avatar, Icon, Image } from '@chakra-ui/react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ArrowForwardIcon, AttachmentIcon, ChatIcon, ChevronDownIcon, EmailIcon, HamburgerIcon, InfoOutlineIcon, LockIcon } from '@chakra-ui/icons'
-import { GoogleLogout } from 'react-google-login'
+import { ChevronDownIcon } from '@chakra-ui/icons'
 import { webHost } from '../../global'
 import { CometChatUIKit } from '@cometchat/chat-uikit-react'
 import ChatContainer from '../Chatbot/Chatbot'
@@ -48,11 +12,11 @@ import { MdLockOpen } from 'react-icons/md'
 import { FaRegFolder } from 'react-icons/fa'
 import { CiLogout } from 'react-icons/ci'
 import { BiMessage } from 'react-icons/bi'
+import pandalogo from '../assets/pandalogo.jpg'
+import LiveChatComponent from './LiveChatComponent'
 
 const Navbar1 = () => {
   const navigate = useNavigate()
-  const companies = useDisclosure()
-  const services = useDisclosure()
   const data = JSON.parse(localStorage.getItem('data'))
 
   const handleLogout = () => {
@@ -64,22 +28,52 @@ const Navbar1 = () => {
       }
     }
     localStorage.removeItem('data')
+    localStorage.removeItem('tokenExpiration')
+    localStorage.removeItem('avatar')
     window.location.replace(`${webHost}`)
     CometChatUIKit.logout()
   }
 
+  useEffect(() => {
+    const checkTokenExpiration = async () => {
+      try {
+        const tokenExpiration = localStorage.getItem('tokenExpiration')
+        const allowedPaths = ['', '/', '/jobpage', '/events']
+        const isAllowedPath = allowedPaths.some((path) => window.location.pathname.startsWith(path))
+
+        if (!tokenExpiration) {
+          if (!isAllowedPath) {
+            throw new Error('Token not found and not on allowed path')
+          }
+        } else {
+          // Kiểm tra token đã hết hạn
+          if (Date.now() >= parseInt(tokenExpiration, 10)) {
+            throw new Error('Token expired')
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error.message)
+        if (error.message === 'Token expired' || error.message === 'Token not found and not on allowed path') {
+          console.log('Token expired or not on allowed path, logging out...')
+          handleLogout()
+        }
+      }
+    }
+
+    checkTokenExpiration()
+  }, [window.location.pathname])
   return (
     <Box fontFamily={'Roboto'} as={Container} zIndex='100' top='0' maxW='100%' h={'72px'} position='fixed' bgColor='white' mb='150px'>
       <ChatContainer />
       <HStack justifyContent={'space-between'} direction='row' w='100%' h='100%' m='auto' display='flex'>
         <Stack direction={'row'} h={'100%'}>
           <Box w={'150px'} h={'100%'} display={'flex'} alignItems={'center'} justifyContent={'center'} cursor={'pointer'}>
-            {/* <Link to='/'>
-              <Image w={'90%'} src={mainlogo} alt='Logo' alignItems={'center'} cursor={'pointer'} />
-            </Link> */}
-            <Heading onClick={() => navigate('/')} fontStyle={'italic'} fontFamily={'Roboto'}>
+            <Link to='/'>
+              <Image h={'72px'} w={'90%'} src={pandalogo} alt='Logo' alignItems={'center'} cursor={'pointer'} />
+            </Link>
+            {/* <Heading onClick={() => navigate('/')} fontStyle={'italic'} fontFamily={'Roboto'}>
               Panda
-            </Heading>
+            </Heading> */}
           </Box>
           <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu>
@@ -105,12 +99,9 @@ const Navbar1 = () => {
 
           <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu>
-              <MenuButton bgColor={'white'} as={Button}>
+              <MenuButton onClick={() => navigate('/events')} bgColor={'white'} as={Button}>
                 Sự kiện
               </MenuButton>
-              <MenuList>
-                <MenuItem onClick={() => navigate('/')}>Xem sự kiện</MenuItem>
-              </MenuList>
             </Menu>
           </Box>
 
@@ -120,8 +111,8 @@ const Navbar1 = () => {
                 CV
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={() => navigate('/resume-build')}>Tạo CV</MenuItem>
-                <MenuItem>CV của tôi</MenuItem>
+                <MenuItem onClick={() => navigate(data?.access_token ? '/resume-build' : '/login')}>Tạo CV</MenuItem>
+                <MenuItem onClick={() => navigate(data?.access_token ? '/my-cv' : '/login')}>CV của tôi</MenuItem>
               </MenuList>
             </Menu>
           </Box>
@@ -150,13 +141,9 @@ const Navbar1 = () => {
                     <Icon as={MdLockOpen} mr={1} />
                     Đổi mật khẩu
                   </MenuItem>
-                  <MenuItem onClick={() => navigate('/messages')}>
+                  <MenuItem onClick={() => navigate(data?.access_token ? '/messages' : '/login')}>
                     <Icon as={BiMessage} mr={1} />
                     Tin nhắn
-                  </MenuItem>
-                  <MenuItem onClick={() => navigate('/resume')}>
-                    <Icon as={FaRegFolder} mr={1} />
-                    Hồ sơ CV
                   </MenuItem>
                   <MenuItem onClick={() => handleLogout()}>
                     <Icon as={CiLogout} mr={1} />
@@ -177,6 +164,7 @@ const Navbar1 = () => {
           )}
         </Stack>
       </HStack>
+      {/* <LiveChatComponent /> */}
     </Box>
   )
 }

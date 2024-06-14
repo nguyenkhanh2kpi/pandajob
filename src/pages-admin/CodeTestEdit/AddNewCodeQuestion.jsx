@@ -49,6 +49,7 @@ export const AddNewQuestion = ({ jobId, testId, load, setLoad }) => {
     value: '',
     language: 'javascript',
     testCase: '',
+    testFunction: '',
   })
 
   const handleSave = async () => {
@@ -109,6 +110,13 @@ export const AddNewQuestion = ({ jobId, testId, load, setLoad }) => {
       value: value,
     }))
   }
+  //  các hàm truyền cho component con
+  const handleChangeTestFunctionCode = (value) => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      testFunction: value,
+    }))
+  }
 
   const [testCases, setTestCases] = useState([
     {
@@ -128,10 +136,7 @@ export const AddNewQuestion = ({ jobId, testId, load, setLoad }) => {
     }))
   }
 
-  useEffect(()=> {
-
-  },[isOpen])
-
+  useEffect(() => {}, [isOpen])
 
   return (
     <>
@@ -179,6 +184,20 @@ export const AddNewQuestion = ({ jobId, testId, load, setLoad }) => {
               <h2>
                 <AccordionButton>
                   <Box as='span' flex='1' textAlign='left'>
+                    Hàm test
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                <SampleFunction handleChangeValueCode={handleChangeTestFunctionCode} />
+              </AccordionPanel>
+            </AccordionItem>
+
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box as='span' flex='1' textAlign='left'>
                     Test Case
                   </Box>
                   <AccordionIcon />
@@ -208,10 +227,10 @@ const SampleFunction = ({ handleChangeValueCode }) => {
   const [codeSnippets, setCodeSnippets] = useState(CODE_SNIPPETS)
 
   const handleEditorChange = (value, language) => {
-    // setCodeSnippets({
-    //   ...codeSnippets,
-    //   [language]: value,
-    // })
+    setCodeSnippets({
+      ...codeSnippets,
+      [language]: value,
+    })
     handleChangeValueCode(
       JSON.stringify({
         ...codeSnippets,
@@ -239,7 +258,7 @@ const SampleFunction = ({ handleChangeValueCode }) => {
   )
 }
 
-const TestCaseSample = ({ testCases, setTestCases,handleChangeTestCases }) => {
+const TestCaseSample = ({ testCases, setTestCases, handleChangeTestCases }) => {
   const [selectedTestCaseIndex, setSelectedTestCaseIndex] = useState(0)
 
   const handleAddTestCase = () => {

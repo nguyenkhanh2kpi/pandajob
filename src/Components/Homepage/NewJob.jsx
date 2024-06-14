@@ -1,8 +1,6 @@
 import { Badge, Box, Button, Card, CardBody, CardFooter, Center, Grid, GridItem, HStack, Heading, Icon, Image, Skeleton, Stack, Tag, Text, Tooltip, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { AiOutlineAlert, AiOutlineFolderOpen } from 'react-icons/ai'
-import { jobService } from '../../Service/job.service'
-import ReactPaginate from 'react-paginate'
 import { dataService } from '../../Service/data.service'
 import { useNavigate } from 'react-router-dom'
 import { resumeService } from '../../Service/resume.service'
@@ -22,30 +20,8 @@ export default function NewJob() {
   const navigate = useNavigate()
   const [jobs, setjobs] = useState([])
   useEffect(() => {
-    if (resume != null && accessToken != null) {
-      console.log('das', resume.applicationPosition)
-      jobService
-        .getAllJob()
-        .then((response) => {
-          setjobs(response)
-          dataService
-            .postRelationJob(resume.applicationPosition, response)
-            .then((res) => setFilterJob(res))
-            .catch((er) => console.log(er))
-        })
-        .then()
-    } else {
-      jobService
-        .getAllJob()
-        .then((response) => {
-          setjobs(response)
-          dataService
-            .postRelationJob(keyWords, response)
-            .then((res) => setFilterJob(res))
-            .catch((er) => console.log(er))
-        })
-        .then()
-    }
+    dataService.postRelationJobJava(keyWords)
+    .then(response => setFilterJob(response.data))
   }, [resume, accessToken])
 
   let storedData = localStorage.getItem('keyw')
@@ -53,14 +29,6 @@ export default function NewJob() {
 
   const [filterJob, setFilterJob] = useState([])
 
-  const [currentPage, setCurrentPage] = useState(0)
-  const itemsPerPage = 12
-  const pageCount = Math.ceil(filterJob.length / itemsPerPage)
-  const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected)
-  }
-
-  const displayItems = filterJob.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
 
   return (
     <VStack p={5} fontFamily={'Roboto'} w={'100%'}>
@@ -70,30 +38,12 @@ export default function NewJob() {
           <Text fontWeight={'bold'} m={0} fontSize={['xl', '2xl']}>
             Công việc gợi ý
           </Text>
-          <ReactPaginate
-            className='question-panigate'
-            pageCount={pageCount}
-            onPageChange={handlePageChange}
-            previousLabel='<'
-            nextLabel='>'
-            breakLabel='...'
-            breakClassName='page-item'
-            breakLinkClassName='page-link'
-            containerClassName='pagination'
-            pageClassName='page-item'
-            pageLinkClassName='page-link'
-            previousClassName='page-item'
-            previousLinkClassName='page-link'
-            nextClassName='page-item'
-            nextLinkClassName='page-link'
-            activeClassName='active'
-          />
         </HStack>
 
         <Grid w={'100%'} mt={5} templateColumns={['repeat(1, 1fr)', 'repeat(3, 1fr)']} gap={6}>
-          {displayItems.length > 0 ? (
+          {filterJob.length > 0 ? (
             <>
-              {displayItems.map((job) => (
+              {filterJob.map((job) => (
                 <JobItemInList job={job} wishLists={[]} handleLike={() => {}} />
               ))}
             </>

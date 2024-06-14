@@ -8,4 +8,4 @@ export const webHost = 'http://localhost:3000/'
 // export const hostName = 'https://resume.workon.space/api'
 export const chatHost = 'https://resume.workon.space/chatbot'
 // export const webHost="https://resume.workon.space/"
-export const ChatEngineId = '2689e2c3-fe10-416a-95b8-1267082c3cca'
+

@@ -66,6 +66,8 @@ function Login() {
           })
           localStorage.setItem('data', JSON.stringify(data))
           localStorage.setItem('avatar', JSON.stringify(data.data.userInfo.avatar))
+          const expirationTime = new Date(Date.now() + 86400  * 1000); 
+          localStorage.setItem('tokenExpiration', expirationTime.getTime());
           setLoading(true)
           window.location.replace(`${webHost}`)
         } else {

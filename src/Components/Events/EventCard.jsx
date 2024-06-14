@@ -36,15 +36,6 @@ export const EventCard = ({ id, title, article, time, author, image, content, st
         <Image src={image} alt={property.imageUrl} width='400px' height='262px' />
 
         <Box p='6'>
-          <Box display='flex' alignItems='baseline'>
-            <Badge borderRadius='full' px='2' colorScheme='teal'>
-              New
-            </Badge>
-            <Box color='gray.500' fontWeight='semibold' letterSpacing='wide' fontSize='xs' textTransform='uppercase' ml='2'>
-              {property.beds} beds &bull; {property.baths} baths
-            </Box>
-          </Box>
-
           <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1}>
             {title}
           </Box>
@@ -53,7 +44,7 @@ export const EventCard = ({ id, title, article, time, author, image, content, st
 
           <Box display='flex' mt='2' alignItems='center'>
             <Button rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant='outline' onClick={() => navigate('/event/' + id)} w='200px'>
-              View more
+              Xem thêm
             </Button>
             <IconButton value={id} aria-label='Search database' icon={<CopyIcon />} marginLeft='auto' onClick={copyToClipboard} />
           </Box>

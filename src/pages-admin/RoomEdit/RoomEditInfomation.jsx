@@ -277,10 +277,10 @@ export const RoomEditInfomation = () => {
                   <FormLabel w={'20%'}>Tên</FormLabel>
                   <Input onChange={handleOnChangeForm} name='roomName' backgroundColor={'#FFFFFF'} w={'60%'} placeholder='Room name' value={room.roomName} />
                 </HStack>
-                <HStack w={'100%'}>
+                {/* <HStack w={'100%'}>
                   <FormLabel w={'20%'}>Kĩ năng</FormLabel>
                   <Input name='roomSkill' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'60%'} placeholder='Room skill' value={room.roomSkill} />
-                </HStack>
+                </HStack> */}
                 <HStack w={'100%'}>
                   <FormLabel w={'20%'}>Trạng thái</FormLabel>
                   <Select name='status' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'60%'} size='md' value={room.status}>

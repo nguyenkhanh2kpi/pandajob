@@ -8,10 +8,14 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups'
 
 import { Cart, Chat, Notification, UserProfile } from '.'
 import { useStateContext } from '../contexts/ContextProvider'
-import { Avatar, Box, HStack, Link, Menu, MenuButton, MenuItem, MenuList, Text, WrapItem, Button, IconButton } from '@chakra-ui/react'
+import { Avatar, Box, HStack, Link, Menu, MenuButton, MenuItem, MenuList, Text, WrapItem, Button, IconButton, Icon } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { RiVipCrown2Line } from 'react-icons/ri'
 import { ChevronDownIcon } from '@chakra-ui/icons'
+import { CiLogout } from 'react-icons/ci'
+import { CometChatUIKit } from '@cometchat/chat-uikit-react'
+import { webHost } from '../global'
+import { BiMessage } from 'react-icons/bi'
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position='BottomCenter'>
@@ -49,35 +53,27 @@ const Navbar = () => {
 
   const handleActiveMenu = () => setActiveMenu(!activeMenu)
 
+  const handleLogout = () => {
+    console.log('logout')
+    if (window.gapi && window.gapi.auth2) {
+      const auth2 = window.gapi.auth2.getAuthInstance()
+      if (auth2 != null) {
+        auth2.signOut().then(auth2.disconnect())
+      }
+    }
+    localStorage.removeItem('data')
+    window.location.replace(`${webHost}`)
+    CometChatUIKit.logout()
+  }
+
   return (
     <div className='flex justify-between p-2 md:ml-6 md:mr-6 relative'>
       <NavButton title='Menu' customFunc={handleActiveMenu} color={currentColor} icon={<AiOutlineMenu />} />
       <div className='flex'>
-        <NavButton title='Cart' customFunc={() => navigate('/vip/my-bills')} color={currentColor} icon={<FiShoppingCart />} />
-        <NavButton title='Chat' dotColor='#03C9D7' customFunc={() => handleClick('chat')} color={currentColor} icon={<BsChatLeft />} />
-        <NavButton title='Notification' dotColor='rgb(254, 201, 15)' customFunc={() => handleClick('notification')} color={currentColor} icon={<RiNotification3Line />} />
+        {/* <NavButton title='Cart' customFunc={() => navigate('/vip/my-bills')} color={currentColor} icon={<FiShoppingCart />} /> */}
+        <NavButton title='Chat' dotColor='#03C9D7' customFunc={() => handleClick('chat')} icon={<BsChatLeft />} />
+        <NavButton title='Notification' dotColor='rgb(254, 201, 15)' customFunc={() => handleClick('notification')} icon={<RiNotification3Line />} />
         <HStack>
-          {/* <Menu>
-            <MenuButton bgColor={'white'} as={Button}>
-              <WrapItem>
-                <FiShoppingCart />
-              </WrapItem>
-            </MenuButton>
-          </Menu>
-          <Menu>
-            <MenuButton bgColor={'white'} as={Button}>
-              <WrapItem>
-                <BsChatLeft />
-              </WrapItem>
-            </MenuButton>
-          </Menu>
-          <Menu>
-            <MenuButton bgColor={'white'} as={Button}>
-              <WrapItem>
-                <RiNotification3Line />
-              </WrapItem>
-            </MenuButton>
-          </Menu> */}
           <Menu>
             <MenuButton bgColor={'white'} as={Button} rightIcon={<ChevronDownIcon />}>
               <WrapItem>
@@ -88,14 +84,19 @@ const Navbar = () => {
               </WrapItem>
             </MenuButton>
             <MenuList>
-              <MenuItem onClick={() => navigate('/userInfo')}>User info</MenuItem>
-              <MenuItem onClick={() => navigate('/userInfo1')}>User info1</MenuItem>
-              <MenuItem onClick={() => navigate('/messages')}>Messages</MenuItem>
-              <MenuItem onClick={() => navigate('/AdLogout')}>Logout</MenuItem>
+              <MenuItem onClick={() => navigate('/userInfo')}>Thông tin cá nhân</MenuItem>
+              <MenuItem onClick={() => navigate('/userInfo1')}>Thông tin cá nhân 1</MenuItem>
+              <MenuItem onClick={() => navigate(data?.access_token ? '/messages' : '/login')}>
+                <Icon as={BiMessage} mr={1} />
+                Tin nhắn
+              </MenuItem>
+              <MenuItem onClick={() => handleLogout()}>
+                <Icon as={CiLogout} mr={1} />
+                Đăng xuất
+              </MenuItem>
             </MenuList>
           </Menu>
         </HStack>
-
 
         {isClicked.cart && <Cart />}
         {isClicked.chat && <Chat />}

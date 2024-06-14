@@ -178,6 +178,20 @@ const getRecordByJobId = async (token, jobId) => {
     throw error
   }
 }
+const getAllRecordCodeByTestId = async (token, testId) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const response = await axios.get(`${hostName}/mul-test-code/result/${testId}`, config)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
 
 export const testService = {
   getMyTest,
@@ -194,4 +208,5 @@ export const testService = {
   addCodeTest,
   addCodeQuestionForATest,
   deleteCodeQuestionById,
+  getAllRecordCodeByTestId,
 }
