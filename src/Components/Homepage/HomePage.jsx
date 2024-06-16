@@ -17,11 +17,13 @@ import ListIndustry from './ListIndustry'
 import ListCompany from './ListCompany'
 import { Notification } from '../../Components-admin'
 import { AiOutlineUser } from 'react-icons/ai'
+import Tour from 'reactour'
 
 const HomePage = () => {
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem('userInfo'))
-  
+  const [isTourOpen, setIsTourOpen] = useState(false)
+
   const [search, setSearch] = useState({
     keyword: '',
     location: 'all',
@@ -65,6 +67,23 @@ const HomePage = () => {
       .catch((er) => console.log(er))
   }, [])
 
+  // react tour
+  const steps = [
+    {
+      selector: '.search-bar', // Selector của phần tử cần hướng dẫn
+      content: 'Đây là thanh tìm kiếm việc làm. Hãy nhập từ khóa và chọn các điều kiện tìm kiếm.',
+    },
+    {
+      selector: '.slider-banner',
+      content: 'Đây là banner quảng cáo.',
+    },
+    // Thêm các bước hướng dẫn khác tương tự
+  ]
+  // Handler mở/closed tour
+  const toggleTour = () => {
+    setIsTourOpen(!isTourOpen)
+  }
+
   return (
     <VStack w={'100%'} bgColor={'#f0f4f5'} fontFamily={'Roboto'} mt={'72px'}>
       <VStack pb={10} bgGradient='linear(to-b, #8ad4d4, #f0f4f5)' w={'100%'} overflow='hidden' align={'center'}>
@@ -73,8 +92,12 @@ const HomePage = () => {
             Tìm việc làm nhanh 24h, việc làm mới nhất.
           </Heading>
         </Container>
+        <Button onClick={toggleTour}>Bắt đầu hướng dẫn</Button>
+
+        {/* Tour */}
+        <Tour steps={steps} isOpen={isTourOpen} onRequestClose={toggleTour} rounded={10} accentColor='#457eff' />
         <Container h={'70px'} maxW={'100%'}>
-          <Flex boxShadow='base' p='6' rounded='md' bg='white' w={'80%'} h={'100%'} m={'auto'} borderRadius={'50px'} pl={'24px'} pr={'9px'} py={'9px'}>
+          <Flex className='search-bar' boxShadow='base' p='6' rounded='md' bg='white' w={'80%'} h={'100%'} m={'auto'} borderRadius={'50px'} pl={'24px'} pr={'9px'} py={'9px'}>
             <Box w={'28px'} display={'flex'} alignItems={'center'}>
               <Image mr={'8px'} w={'20px'} h={'20px'} src='https://static.naukimg.com/s/7/103/i/search.9ec0e1ac.svg' />
             </Box>
@@ -122,7 +145,7 @@ const HomePage = () => {
             </Button>
           </Flex>
         </Container>
-        <SliderBanner />
+        <SliderBanner  />
       </VStack>
       <VStack mb={100} minH={1000} align={'flex-start'} w={'80vw'}>
         <VStack bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' boxShadow='md' align={'flex-start'}>
@@ -134,11 +157,9 @@ const HomePage = () => {
         <VStack bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' boxShadow='md' align={'flex-start'}>
           <ListIndustry />
         </VStack>
-        <VStack bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' boxShadow='md' align={'flex-start'}>
-        </VStack>
+        <VStack bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' boxShadow='md' align={'flex-start'}></VStack>
       </VStack>
     </VStack>
-
   )
 }
 

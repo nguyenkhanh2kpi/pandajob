@@ -22,6 +22,7 @@ import {
   ModalHeader,
   ModalOverlay,
   SlideFade,
+  Spinner,
   Stack,
   Text,
   UnorderedList,
@@ -148,7 +149,6 @@ export const HomeEssay = () => {
         .catch((er) => console.log(er))
     }
   }
-
 
   // handletime
   const parseDateTime = (dateTimeString) => {
@@ -333,7 +333,9 @@ export const HomeEssay = () => {
           </VStack>
         </>
       ) : (
-        <></>
+        <HStack minH={800} w='100%' justifyContent='center' alignItems='center'>
+          <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+        </HStack>
       )}
     </>
   )

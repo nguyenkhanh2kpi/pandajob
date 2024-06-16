@@ -1,4 +1,4 @@
-import { Box, Button, Flex, HStack, Image, Input, Select, Stack, Text, Tooltip, VStack } from '@chakra-ui/react'
+import { Box, Button, Flex, HStack, Image, Input, Select, Spinner, Stack, Text, Tooltip, VStack } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { CurriculumVitae } from '../CVBuild/CurriculumVitae'
 import { MainTheme1 } from './Themme1/MainTheme1'
@@ -30,7 +30,11 @@ export const MainCVTheme = () => {
   const [isTheme1, setIsTheme1] = useState(false)
 
   if (!resumeJson) {
-    return <></>
+    return (
+      <HStack minH={800} w='100%' justifyContent='center' alignItems='center'>
+        <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+      </HStack>
+    )
   } else
     return (
       <VStack bgColor={'#f0f4f5'} minHeight={'100vh'} fontFamily={'Roboto'} fontWeight={400} pb={20} position={'relative'}>
@@ -74,5 +78,3 @@ const MenuCVTheme = ({ handleExport, setIsTheme1 }) => {
     </Box>
   )
 }
-
-

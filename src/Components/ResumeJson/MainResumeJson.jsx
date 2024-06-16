@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormLabel, HStack, Heading, Icon, Input, Select, SlideFade, Text, Textarea, VStack, useToast } from '@chakra-ui/react'
+import { Box, Button, FormControl, FormLabel, HStack, Heading, Icon, Input, Select, SlideFade, Spinner, Text, Textarea, VStack, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { AiOutlineUser } from 'react-icons/ai'
 import { json, useNavigate } from 'react-router-dom'
@@ -215,7 +215,11 @@ export const MainResumeJson = () => {
   }, [])
 
   if (!resume || !resumeJson) {
-    return <></>
+    return (
+      <HStack minH={800} w='100%' justifyContent='center' alignItems='center'>
+        <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+      </HStack>
+    )
   } else
     return (
       <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>

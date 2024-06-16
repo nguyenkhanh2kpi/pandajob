@@ -12,7 +12,8 @@ import { useNavigate } from 'react-router-dom'
 import './Both.css'
 import { hostName } from '../../global'
 import { useParams } from 'react-router-dom'
-import { Box, Button } from '@chakra-ui/react'
+import { Box, Button, FormControl, FormLabel, HStack, Heading, Icon, Input, SlideFade, Text, VStack } from '@chakra-ui/react'
+import { AiOutlineUser } from 'react-icons/ai'
 const Verify = () => {
   const params = useParams()
   const [passShow, setPassShow] = useState(false)
@@ -60,7 +61,7 @@ const Verify = () => {
         setError(error.response.data.message)
         const FError = error.response.data.message
         console.log(FError)
-        toast.error("something went wrong", {
+        toast.error('something went wrong', {
           position: 'top-center',
         })
         setLoading(false)
@@ -70,33 +71,29 @@ const Verify = () => {
 
   return (
     <>
-      <session>
-        <Box fontFamily={'Roboto'} className='main'>
-          <Box mt={40} className='form_data1'>
-            <div className='form_heading'>
-              <h2
-                style={{
-                  color: '#000000',
-                  fontSize: '30px',
-                  marginLeft: '-40%',
-                }}>
-                Nhập mã xác nhận từ mail
-              </h2>
-            </div>
-            <form>
-              <div className='form_input_name'>
-                <label htmlFor='name'>Please Enter verify code</label>
-                <input type='verify' onChange={(e) => setCodeVerify(e.target.value)} name='verify' id='verify' placeholder='Enter Your Name ' />
-              </div>
-
-              <Button mb={10} onClick={handleSubmit} color={'white'} backgroundColor={'#87b2c4'}>
-                Xác thực
-              </Button>
-            </form>
-            <ToastContainer />
-          </Box>
-        </Box>
-      </session>
+      <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
+        <SlideFade offsetY={20}>
+          <Heading size={'lg'} m={'6'} mt={24}></Heading>
+        </SlideFade>
+        <HStack h={1000} align={'flex-start'} w={'40vw'}>
+          <VStack bgColor={'white'} w={'100%'} pr={3} p={10} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+            <HStack alignItems='center' spacing={4}>
+              <Icon as={AiOutlineUser} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0} fontSize='2xl'>
+                Nhập mã xác thực nhận từ email của bạn
+              </Text>
+            </HStack>
+            <FormControl w={'100%'}>
+              <FormLabel>OPT</FormLabel>
+              <Input type='verify' onChange={(e) => setCodeVerify(e.target.value)} name='verify' id='verify' />
+            </FormControl>
+            <Button mt={4} colorScheme='teal' onClick={handleSubmit}>
+              Xác thực
+            </Button>
+          </VStack>
+        </HStack>
+        <ToastContainer />
+      </VStack>
     </>
   )
 }

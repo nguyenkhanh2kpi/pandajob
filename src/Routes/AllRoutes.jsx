@@ -34,6 +34,11 @@ import { AppliedJobs } from '../Components/Jobs/AppliedJobs'
 import { MainResumeJson } from '../Components/ResumeJson/MainResumeJson'
 import { MainCVTheme } from '../Components/CVTheme/MainCVTheme'
 import { MyCV } from '../Components/MyCV/MyCV'
+import { AboutUs } from '../Components/AboutUs/AboutUs'
+import { ContactUs } from '../Components/AboutUs/ContactUs'
+import { PrivacyPolicy } from '../Components/AboutUs/PrivacyPolicy'
+import { TermsOfService } from '../Components/AboutUs/TermsOfService'
+import { UserManual } from '../Components/UserManual/UserManual'
 
 const AllRoutes = () => {
   return (
@@ -74,6 +79,11 @@ const AllRoutes = () => {
       <Route path='/code' element={<CodeEditor />} />
       <Route path='/essay/:testId' element={<HomeEssay />} />
       <Route path='/code-essay/:testId' element={<CodeEssay />} />
+      <Route path='/about-us' element={<AboutUs />} />
+      <Route path='/contact-us' element={<ContactUs />} />
+      <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+      <Route path='/term-service' element={<TermsOfService />} />
+      <Route path='/user-manual' element={<UserManual />} />
     </Routes>
   )
 }

@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined'
-import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import './Both.css'
 import { hostName } from '../../global'
-import { Box, Button } from '@chakra-ui/react'
+import { Box, Button, FormControl, FormLabel, HStack, Heading, Icon, Input, SlideFade, Text, VStack, useToast } from '@chakra-ui/react'
+import { AiOutlineUser } from 'react-icons/ai'
 const ResetPassword = () => {
+  const toast = useToast()
   const navigate = useNavigate()
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -18,8 +19,12 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (email === '') {
-      toast.warning('Email is required!', {
-        position: 'top-center',
+      toast({
+        title: 'Email',
+        description: 'Yêu cầu bạn nhập email',
+        status: 'info',
+        duration: 3000,
+        isClosable: true,
       })
     } else {
       try {
@@ -33,19 +38,27 @@ const ResetPassword = () => {
         const { data } = await axios.post(`${hostName}/recover/send-otp`, { email }, config)
         if (data.message === 'Success !') {
           console.log(data)
-          toast.success(data.message, {
-            position: 'top-center',
+          toast({
+            title: 'Yêu cầu lấy lại mật khẩu',
+            description: data.message,
+            status: 'info',
+            duration: 3000,
+            isClosable: true,
           })
           navigate(`/verifyResetPW/${email}`)
         } else {
-          toast.error(data.message, {
-            position: 'top-center',
+          toast({
+            title: 'Yêu cầu lấy lại mật khẩu',
+            description: data.message,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
           })
         }
       } catch (error) {
         setError(error.response.data.message)
         const FError = error.response.data.message
-        toast.error("something went wrong", {
+        toast.error('something went wrong', {
           position: 'top-center',
         })
         setLoading(false)
@@ -55,32 +68,28 @@ const ResetPassword = () => {
 
   return (
     <>
-      <session>
-        <Box fontFamily={'Roboto'} className='main'>
-          <Box mt={40} className='form_data1'>
-            <div className='form_heading'>
-              <h2
-                style={{
-                  color: '#000000',
-                  fontSize: '30px',
-                }}>
-                Nhập Email của bạn
-              </h2>
-            </div>
-            <form>
-              <div className='form_input_name'>
-                <label htmlFor='name'>Please Enter your Email</label>
-                <input type='verify' onChange={(e) => setEmail(e.target.value)} name='verify' id='verify' placeholder='Enter Your Email ' />
-              </div>
-
-              <Button color={'white'} mb={10} onClick={handleSubmit} backgroundColor={'#87b2c4'}>
-                Xác thực
-              </Button>
-            </form>
-            <ToastContainer />
-          </Box>
-        </Box>
-      </session>
+      <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
+        <SlideFade offsetY={20}>
+          <Heading size={'lg'} m={'6'} mt={24}></Heading>
+        </SlideFade>
+        <HStack h={1000} align={'flex-start'} w={'40vw'}>
+          <VStack bgColor={'white'} w={'100%'} pr={3} p={10} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+            <HStack alignItems='center' spacing={4}>
+              <Icon as={AiOutlineUser} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+              <Text m={0} fontSize='2xl'>
+                Nhập địa chỉ email của bạn
+              </Text>
+            </HStack>
+            <FormControl w={'100%'}>
+              <FormLabel>Email</FormLabel>
+              <Input type='verify' onChange={(e) => setEmail(e.target.value)} name='verify' id='verify' />
+            </FormControl>
+            <Button mt={4} colorScheme='teal' onClick={handleSubmit}>
+              Xác thực
+            </Button>
+          </VStack>
+        </HStack>
+      </VStack>
     </>
   )
 }

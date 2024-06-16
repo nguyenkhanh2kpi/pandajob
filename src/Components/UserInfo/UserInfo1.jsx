@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Box, Button, FormLabel, Image, Input, useToast, VStack, FormControl, Select, InputRightAddon, InputGroup, SlideFade, Heading, HStack, Spinner, Text, Icon, Textarea, FormHelperText, FormErrorMessage } from '@chakra-ui/react'
+import { Box, Button, FormLabel, Image, Input, useToast, VStack, FormControl, Select, InputRightAddon, InputGroup, SlideFade, Heading, HStack, Spinner, Text, Icon, Textarea, FormHelperText, FormErrorMessage, Avatar } from '@chakra-ui/react'
 import { userService } from '../../Service/user.servie'
 import { ToastContainer } from 'react-toastify'
 import { AiOutlineUser, AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { json } from 'react-router-dom'
+import { display } from '@mui/system'
 
 const UserInfo1 = () => {
   const [user, setUser] = useState(null)
@@ -23,7 +24,6 @@ const UserInfo1 = () => {
       try {
         setLoading(true)
         const response = await userService.uploadAvatar(file, token).then((response) => {
-          console.log(response)
           setUser(response.data)
         })
 
@@ -100,6 +100,16 @@ const UserInfo1 = () => {
     }
   }
 
+  const [isHovered, setIsHovered] = useState(false) // State để lưu trạng thái hover
+
+  const handleMouseEnter = () => {
+    setIsHovered(true)
+  }
+
+  const handleMouseLeave = () => {
+    setIsHovered(false)
+  }
+
   return (
     <>
       <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
@@ -107,10 +117,9 @@ const UserInfo1 = () => {
           <Heading size={'lg'} m={'6'} mt={24}></Heading>
         </SlideFade>
         {loading || user === null ? (
-          <Box h={1000} mt={10}>
-            <Spinner size='xl' />
-            <Text mt={4}>Loading...</Text>
-          </Box>
+          <HStack minH={600} w='100%' justifyContent='center' alignItems='center'>
+            <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+          </HStack>
         ) : (
           <HStack h={1000} align={'flex-start'} w={'80vw'}>
             <VStack bgColor={'white'} w={'100%'} pr={3} p={10} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
@@ -121,53 +130,49 @@ const UserInfo1 = () => {
                 </Text>
               </HStack>
               <HStack w={'100%'} alignItems='center' spacing={4}>
-                <Box w={'30%'}>
-                  <Image src={user.avatar} alt='Upload Avatar' w={'150px'} h={'150px'} objectFit='cover' cursor='pointer' onClick={handleImageClick} borderRadius='50%' />
+                <Box w={'25%'}>
+                  <Avatar _hover={isHovered ? { borderWidth: '5px', borderColor: 'grey', boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)' } : ''} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} cursor={'pointer'} name={user.email} size='2xl' src={user.avatar} onClick={handleImageClick} />
                   <Input type='file' accept='image/*' ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
                   <Button onClick={handleImageClick} isLoading={loading} colorScheme='teal' mt={4} display='none'>
                     Upload Avatar
                   </Button>
                 </Box>
-                <FormControl isRequired isInvalid={user.fullName === ''}>
-                  <FormLabel>Email</FormLabel>
-                  <Input disabled value={user.email} type='email' />
-                  <FormLabel>Họ và tên</FormLabel>
-                  <Input name='fullName' onChange={handleInputChange} value={user.fullName} type='text' />
-                  {!user.fullName === '' ? <></> : <FormErrorMessage>Yêu cầu tên đầy đủ.</FormErrorMessage>}
-                </FormControl>
-                <FormControl>
-                  <FormLabel>SDT</FormLabel>
-                  <Input name='phone' onChange={handleInputChange} value={user.phone} type='number' />
-                  <FormLabel>Giới tính</FormLabel>
-                  <Select value={user.gender} onChange={(e) => setUser({ ...user, gender: e.target.value })}>
-                    <option value='MALE'>Nam</option>
-                    <option value='FEMALE'>Nữ</option>
-                    <option value='NON_BINARY'>Khác</option>
-                  </Select>
-                </FormControl>
+                <VStack w={'100%'}>
+                  <HStack w={'100%'}>
+                    <FormControl isRequired isInvalid={user.fullName === ''}>
+                      <FormLabel>Email</FormLabel>
+                      <Input disabled value={user.email} type='email' />
+                      <FormLabel>Họ và tên</FormLabel>
+                      <Input name='fullName' onChange={handleInputChange} value={user.fullName} type='text' />
+                      {!user.fullName === '' ? <></> : <FormErrorMessage>Yêu cầu tên đầy đủ.</FormErrorMessage>}
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>SDT</FormLabel>
+                      <Input name='phone' onChange={handleInputChange} value={user.phone} type='number' />
+                      <FormLabel>Giới tính</FormLabel>
+                      <Select value={user.gender} onChange={(e) => setUser({ ...user, gender: e.target.value })}>
+                        <option value='MALE'>Nam</option>
+                        <option value='FEMALE'>Nữ</option>
+                        <option value='NON_BINARY'>Khác</option>
+                      </Select>
+                    </FormControl>
+                  </HStack>
+                  <FormControl w={'100%'}>
+                    <HStack w={'100%'}>
+                      <VStack w={'100%'} alignItems={'flex-start'}>
+                        <FormLabel>Địa chỉ</FormLabel>
+                        <Input name='address' onChange={handleInputChange} value={user.address} type='text' />
+                      </VStack>
+                    </HStack>
+                  </FormControl>
+                </VStack>
               </HStack>
-              <FormControl p={2} w={'100%'}>
-                <HStack w={'100%'}>
-                  <VStack w={'50%'} alignItems={'flex-start'}>
-                    <FormLabel>Địa chỉ</FormLabel>
-                    <Input name='address' onChange={handleInputChange} value={user.address} type='text' />
-                  </VStack>
-                  <VStack w={'50%'} alignItems={'flex-start'}>
-                    <FormLabel>Ngôn ngữ</FormLabel>
-                    <Input value={user.language} onChange={(e) => setUser({ ...user, language: e.target.value })} type='text' />
-                  </VStack>
-                </HStack>
 
-                <FormLabel>Kĩ năng</FormLabel>
-                <Input value={user.skill} onChange={(e) => setUser({ ...user, skill: e.target.value })} type='text' />
-                <FormLabel>Kinh nghiệm</FormLabel>
-                <Textarea value={user.experience} onChange={(e) => setUser({ ...user, experience: e.target.value })} type='text' />
-                <FormLabel>Mô tả bản thân</FormLabel>
-                <Textarea id='des' type='text' value={user.description} onChange={(e) => setUser({ ...user, description: e.target.value })} />
-              </FormControl>
-              <Button w={200} color={'white'} onClick={SubmitHandler} m={2} bgColor={'#2cccc7'}>
-                Lưu
-              </Button>
+              <HStack w={'100%'} justifyContent='flex-end' p={2}>
+                <Button w={200} colorScheme='blue' onClick={SubmitHandler} m={2}>
+                  Lưu
+                </Button>
+              </HStack>
             </VStack>
           </HStack>
         )}

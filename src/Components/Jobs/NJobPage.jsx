@@ -15,6 +15,7 @@ import { hostName } from '../../global'
 import axios from 'axios'
 import { favoriteService } from '../../Service/favorite.service'
 import { JobItemInList } from './JobItemInList'
+import { LoadingComponent } from '../../Components-admin/LoadingComponent'
 
 export const NJobPage = () => {
   const dispatch = useDispatch()
@@ -50,7 +51,15 @@ export const NJobPage = () => {
 
   return (
     <Box bgColor={'#f0f4f5'} pb={20} fontFamily={'Roboto'} alignItems={'center'} w={'100%'}>
-      <VStack>{jobList.length > 0 ? <JobGrid displayItems={jobList} provinces={provinces} industries={industries} /> : <></>}</VStack>
+      <VStack>
+        {jobList.length > 0 ? (
+          <JobGrid displayItems={jobList} provinces={provinces} industries={industries} />
+        ) : (
+          <HStack minH={800} w='100%' justifyContent='center' alignItems='center'>
+            <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+          </HStack>
+        )}
+      </VStack>
     </Box>
   )
 }
@@ -102,6 +111,10 @@ const JobGrid = ({ displayItems, provinces, industries }) => {
       .then((response) => setWhishList(response.data))
       .catch((er) => console.log(er))
   }, [])
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [currentPage])
 
   return (
     <>

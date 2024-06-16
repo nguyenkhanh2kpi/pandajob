@@ -116,6 +116,21 @@ const Navbar1 = () => {
               </MenuList>
             </Menu>
           </Box>
+
+          <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
+            <Menu>
+              <MenuButton bgColor={'white'} as={Button}>
+                Thông tin
+              </MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => navigate('/about-us')}>Về chúng tôi</MenuItem>
+                <MenuItem onClick={() => navigate('/privacy-policy')}>Điều khoản dịch vụ</MenuItem>
+                <MenuItem onClick={() => navigate('/term-service')}>Chính sách bảo mật</MenuItem>
+                <MenuItem onClick={() => navigate('/user-manual')}>Hướng dẫn sử dụng</MenuItem>
+                <MenuItem onClick={() => navigate('/contact-us')}>Thông tin liên hệ</MenuItem>
+              </MenuList>
+            </Menu>
+          </Box>
         </Stack>
 
         <Stack direction={'row'} h={'100%'} alignItems={'center'}>

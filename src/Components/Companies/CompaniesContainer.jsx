@@ -1,12 +1,12 @@
-import { AspectRatio, Box, Button, Container, Flex, Input, Link, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
+import { AspectRatio, Box, Button, Container, Flex, HStack, Input, Link, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
 import { PhoneIcon, ExternalLinkIcon, AddIcon } from '@chakra-ui/icons' // import các icon từ Chakra UI
 import { useEffect, useState } from 'react'
 import { companyService } from '../../Service/company.service'
 import { useNavigate } from 'react-router-dom'
 
 const CompaniesContainer = () => {
-  const [companies, setCompanies] = useState([])
-  const [filteredCompanies, setFilteredCompanies] = useState([])
+  const [companies, setCompanies] = useState(null)
+  const [filteredCompanies, setFilteredCompanies] = useState(null)
   const [keyword, setKeyword] = useState('')
 
   useEffect(() => {
@@ -37,7 +37,9 @@ const CompaniesContainer = () => {
       </Container>
 
       {!filteredCompanies ? (
-        <Spinner color='blue.500' size='xl' />
+        <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
+          <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+        </HStack>
       ) : (
         <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={5} mt={8} width='100%'>
           {filteredCompanies.map((company) => (

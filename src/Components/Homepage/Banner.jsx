@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 
 export default function SliderBanner() {
-
   const slides = [
     { id: 1, content: 'dd', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/upload2-23381.appspot.com/o/1717931976105_newban1111.png?alt=media' },
     { id: 2, content: 'ss', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/upload2-23381.appspot.com/o/1717934503641_ban22222.png?alt=media' },
@@ -27,26 +26,13 @@ export default function SliderBanner() {
   }, [])
 
   return (
-    <VStack fontFamily={'Roboto'} mt={10} w={'80%'}>
+    <VStack className='slider-banner' fontFamily={'Roboto'} mt={10} w={'80%'}>
       <Box borderRadius={10} overflow={'hidden'} position='relative' w='100%' bgColor={'white'}>
         {slides.map((slide, index) => (
           <Box key={slide.id} display={index === currentSlide ? 'block' : 'none'}>
             <Box h='300px' w='100%' bgImage={`url(${slide.imageUrl})`} bgSize='cover' bgPosition='center' textAlign='center' lineHeight='200px' fontSize='2xl' color='white'>
               <Text color={'black'}>{slide.content}</Text>
             </Box>
-            {/* <HStack p={3} w={'100%'}>
-              <Flex w={'100%'} spacing='4'>
-                <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                  <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-
-                  <Box>
-                    <Heading size='sm'>{slide.content}</Heading>
-                    <Text>Creator, Chakra UI</Text>
-                  </Box>
-                </Flex>
-                <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
-              </Flex>
-            </HStack> */}
           </Box>
         ))}
         <HStack position='absolute' top='50%' w='100%' justifyContent='space-between' px={4}>

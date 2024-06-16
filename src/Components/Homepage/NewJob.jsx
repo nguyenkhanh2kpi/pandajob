@@ -5,8 +5,10 @@ import { dataService } from '../../Service/data.service'
 import { useNavigate } from 'react-router-dom'
 import { resumeService } from '../../Service/resume.service'
 import { JobItemInList } from '../Jobs/JobItemInList'
+import { favoriteService } from '../../Service/favorite.service'
 
 export default function NewJob() {
+  const navigate = useNavigate()
   const accessToken = localStorage.getItem('data') ? localStorage.getItem('data').access_token : null
   const [resume, setResume] = useState(null)
 
@@ -17,11 +19,11 @@ export default function NewJob() {
       .catch((er) => console.log(er.message))
   }
 
-  const navigate = useNavigate()
-  const [jobs, setjobs] = useState([])
   useEffect(() => {
-    dataService.postRelationJobJava(keyWords)
-    .then(response => setFilterJob(response.data))
+    dataService
+      .postRelationJobJava(keyWords ? keyWords : '')
+      .then((response) => setFilterJob(response.data))
+      .catch((er) => console.log('new job', er))
   }, [resume, accessToken])
 
   let storedData = localStorage.getItem('keyw')
@@ -29,22 +31,26 @@ export default function NewJob() {
 
   const [filterJob, setFilterJob] = useState([])
 
-
   return (
     <VStack p={5} fontFamily={'Roboto'} w={'100%'}>
       <Box w={'100%'}>
-        <HStack alignItems='center' spacing={4}>
-          <Icon as={AiOutlineAlert} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-          <Text fontWeight={'bold'} m={0} fontSize={['xl', '2xl']}>
-            Công việc gợi ý
-          </Text>
+        <HStack w={'100%'} justifyContent={'space-between'}>
+          <HStack alignItems='center' spacing={4}>
+            <Icon as={AiOutlineAlert} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+            <Text fontWeight={'bold'} m={0} fontSize={['xl', '2xl']}>
+              Công việc gợi ý
+            </Text>
+          </HStack>
+          <Button variant={'outline'} onClick={() => navigate('/jobpage')} colorScheme='blue'>
+            Xem tất cả
+          </Button>
         </HStack>
 
         <Grid w={'100%'} mt={5} templateColumns={['repeat(1, 1fr)', 'repeat(3, 1fr)']} gap={6}>
           {filterJob.length > 0 ? (
             <>
               {filterJob.map((job) => (
-                <JobItemInList job={job} wishLists={[]} handleLike={() => {}} />
+                <JobItemInList job={job} wishLists={[]} handleLike={() =>{}} />
               ))}
             </>
           ) : (

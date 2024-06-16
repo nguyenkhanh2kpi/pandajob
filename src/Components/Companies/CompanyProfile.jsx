@@ -16,9 +16,9 @@ const CompanyProfile = () => {
   }, [])
   if (!company) {
     return (
-      <Center h={'100vh'} direction='row' spacing={4}>
-        <Spinner color='blue.500' size='xl' />
-      </Center>
+      <HStack minH={800} w='100%' justifyContent='center' alignItems='center'>
+        <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+      </HStack>
     )
   } else {
     return (

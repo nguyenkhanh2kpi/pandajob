@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { ArrowForwardIcon, CopyIcon, StarIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom'
-import { Box, CardHeader, Heading, Container, FormControl, VStack, FormErrorMessage, FormLabel, SlideFade, Stack, Input, HStack, CardBody, Card, Text, Radio, RadioGroup, StackDivider, Button, GridItem, Grid, Image, Icon } from '@chakra-ui/react'
+import { Box, CardHeader, Heading, Container, FormControl, VStack, FormErrorMessage, FormLabel, SlideFade, Stack, Input, HStack, CardBody, Card, Text, Radio, RadioGroup, StackDivider, Button, GridItem, Grid, Image, Icon, Spinner } from '@chakra-ui/react'
 import { testService } from '../../Service/test.service'
 import { AiOutlineUser } from 'react-icons/ai'
 import { FaCode, FaPencilAlt, FaRegQuestionCircle } from 'react-icons/fa'
 
 export const TestList = () => {
-  const [tests, setTest] = useState([])
+  const [tests, setTest] = useState(null)
   const navigate = useNavigate()
   // const accessToken = JSON.parse(localStorage.getItem('data')).access_token
   let accessToken = ''
@@ -23,34 +23,40 @@ export const TestList = () => {
       .then((response) => setTest(response))
       .catch((er) => console.log(er))
   }, [])
+  if (!tests)
+    return (
+      <HStack minH={800} w='100%' justifyContent='center' alignItems='center'>
+        <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+      </HStack>
+    )
+  else
+    return (
+      <>
+        <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
+          <SlideFade offsetY={20}>
+            <Heading size={'lg'} m={'6'} mt={24}></Heading>
+          </SlideFade>
 
-  return (
-    <>
-      <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
-        <SlideFade offsetY={20}>
-          <Heading size={'lg'} m={'6'} mt={24}></Heading>
-        </SlideFade>
-
-        <HStack h={1000} align={'flex-start'} w={'80vw'}>
-          <Grid templateColumns='repeat(3, 1fr)' gap={6}>
-            {tests.length > 0 ? (
-              tests.map((test) => (
-                <GridItem key={test.id}>
-                  <TestItem test={test} />
-                </GridItem>
-              ))
-            ) : (
-              <Box w='100%' h={200} borderRadius='md' p={4}>
-                <Text fontSize='xl' fontWeight='bold' textAlign='center'>
-                  Hiện tại không có bài test nào
-                </Text>
-              </Box>
-            )}
-          </Grid>
-        </HStack>
-      </VStack>
-    </>
-  )
+          <HStack h={1000} align={'flex-start'} w={'80vw'}>
+            <Grid templateColumns='repeat(3, 1fr)' gap={6}>
+              {tests.length > 0 ? (
+                tests.map((test) => (
+                  <GridItem key={test.id}>
+                    <TestItem test={test} />
+                  </GridItem>
+                ))
+              ) : (
+                <Box w='100%' h={200} borderRadius='md' p={4}>
+                  <Text fontSize='xl' fontWeight='bold' textAlign='center'>
+                    Hiện tại không có bài test nào
+                  </Text>
+                </Box>
+              )}
+            </Grid>
+          </HStack>
+        </VStack>
+      </>
+    )
 }
 
 const TestItem = ({ test }) => {

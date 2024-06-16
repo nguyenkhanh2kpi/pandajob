@@ -1,8 +1,10 @@
-import React from 'react';
-import { Box, Container, Stack, Text, Link, HStack, IconButton } from '@chakra-ui/react';
-import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import React from 'react'
+import { Box, Container, Stack, Text, Link, HStack, IconButton } from '@chakra-ui/react'
+import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
 const Footer = () => {
+  const navigate = useNavigate()
   return (
     <Box fontFamily={'Roboto'} bg='gray.200' color='gray.800' py={8}>
       <Container maxW='6xl'>
@@ -15,10 +17,10 @@ const Footer = () => {
               <Text fontSize='sm'>© {new Date().getFullYear()} JOB Panda. All rights reserved.</Text>
             </Stack>
             <Stack direction='row' spacing={6}>
-              <Link href='#'>Về chúng tôi</Link>
-              <Link href='#'>Liên hệ</Link>
-              <Link href='#'>Chính sách bảo mật</Link>
-              <Link href='#'>Điều khoản dịch vụ</Link>
+              <Link onClick={() => navigate('/about-us')}>Về chúng tôi</Link>
+              <Link onClick={() => navigate('/contact-us')}>Liên hệ</Link>
+              <Link onClick={() => navigate('/privacy-policy')}>Chính sách bảo mật</Link>
+              <Link onClick={() => navigate('/term-service')}>Điều khoản dịch vụ</Link>
             </Stack>
             <HStack spacing={4}>
               <IconButton as='a' href='https://www.facebook.com' target='_blank' aria-label='Facebook' icon={<FaFacebook />} />
@@ -29,7 +31,7 @@ const Footer = () => {
         </Stack>
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
