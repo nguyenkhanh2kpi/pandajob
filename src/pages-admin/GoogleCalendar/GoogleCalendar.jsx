@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
-import { Button, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, useDisclosure, Input, Box, Image, FormControl, FormLabel, Checkbox, Text, useToast } from '@chakra-ui/react'
+import { Button, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, useDisclosure, Input, Box, Image, FormControl, FormLabel, Checkbox, Text, useToast, Link } from '@chakra-ui/react'
 import { MdVideocam } from 'react-icons/md'
 import { GoogleLogin, GoogleLogout } from 'react-google-login'
 import { interviewService } from '../../Service/interview.service'
 import { useGoogleLogin } from '@react-oauth/google'
 import { format } from 'date-fns'
+import { googleTokenManageService } from '../../Service/google.service'
 
 const client_id = '854899780211-p148qqqvv8svo8mmviv8tuf6sbmip7iq.apps.googleusercontent.com'
 export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
+  const [savedGoogleToken, setSavedGoogleToken] = useState('')
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = React.useRef()
@@ -28,7 +30,6 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
   const handleOnChangeForm = (event) => {
     const { name, value } = event.target
     setGoogleForm((prevForm) => ({ ...prevForm, [name]: value }))
-    // setGoogleForm((prevForm) => ({ ...prevForm, token: googleToken }))
   }
 
   function formatDateTime(dateTime) {
@@ -64,7 +65,7 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
         toast({
           title: 'Lên lịch calendar',
           description: 'Đã có lỗi',
-          status: 'error', 
+          status: 'error',
           duration: 5000,
           isClosable: true,
         })
@@ -73,7 +74,7 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
       toast({
         title: 'Lên lịch calendar',
         description: 'Hãy nhập đầy đủ thông tin',
-        status: 'error', 
+        status: 'error',
         duration: 5000,
         isClosable: true,
       })
@@ -95,19 +96,56 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
   const loginss = useGoogleLogin({
     clientId: client_id,
     scope: 'openid email profile https://www.googleapis.com/auth/calendar.events',
-    onSuccess: (tokenResponse) => setGoogleForm((prevForm) => ({ ...prevForm, token: tokenResponse.access_token })),
+    onSuccess: (tokenResponse) => {
+      setGoogleForm((prevForm) => ({ ...prevForm, token: tokenResponse.access_token }))
+      handleSaveGoogleToken(tokenResponse.access_token)
+    },
     onFailure: (error) => console.log('Login failed', error),
   })
 
   const handleOpen = () => {
-    loginss()
+    if (!savedGoogleToken) {
+      loginss()
+    } else {
+      setGoogleForm((prevForm) => ({ ...prevForm, token: savedGoogleToken }))
+    }
     onOpen()
+  }
+
+  // xử lý load token cũ
+  useEffect(() => {
+    googleTokenManageService
+      .getToken(accessToken)
+      .then((response) => {
+        if (!response.expired) {
+          setSavedGoogleToken(response.token)
+        }
+      })
+      .catch((er) => console.log(er))
+  }, [])
+
+  const handleSaveGoogleToken = (googleToken) => {
+    googleTokenManageService
+      .saveOrUpdateToken(googleToken, accessToken)
+      .then((response) => {
+        if (response.token) {
+          setSavedGoogleToken(response.token)
+        }
+        toast({
+          title: 'Google Token',
+          description: 'Đã lưu lại phiên đăng nhập google',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        })
+      })
+      .catch((er) => console.log(er))
   }
 
   return (
     <>
-      <Button ml={500} fontFamily={'Roboto'} fontWeight={400} w={'30%'} leftIcon={<MdVideocam />} colorScheme='teal' variant='solid' onClick={handleOpen}>
-        Lên lịch phỏng vấn
+      <Button mr={10} fontFamily={'Roboto'} leftIcon={<MdVideocam />} color='white' backgroundColor='rgb(3, 201, 215)' onClick={handleOpen}>
+        <Link>Lên lịch với ứng viên</Link>
       </Button>
       <Drawer size={'lg'} isOpen={isOpen} placement='right' onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />
@@ -146,7 +184,7 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
             <Button variant='outline' mr={3} onClick={onClose}>
               Thoát
             </Button>
-            <Button onClick={handleSendCalendar} colorScheme='blue'>
+            <Button onClick={handleSendCalendar} color='white' backgroundColor='rgb(3, 201, 215)'>
               Lưu
             </Button>
           </DrawerFooter>

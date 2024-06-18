@@ -46,12 +46,15 @@ import { SearchCandidate } from '../pages-admin/SearchCandidate/SearchCandidate'
 import { EditCodeTest } from '../pages-admin/CodeTestEdit/EditCodeTest'
 import { EditEssayTest } from '../pages-admin/Screening/EditeEssayTest'
 import { CodeTestResultMain } from '../pages-admin/TestResult/CodeTestResult/CodeTestResultMain'
+import { MainReccerDashBoard } from '../pages-admin/DashBoard/AdminDashBoard/MainReccerDashBoard'
+import { MainEssayTestResult } from '../pages-admin/TestResult/EssayTestResult/MainEssayTestResult'
 
-const AllRoutesAd = () => {
+const AllRoutesAd = ({ role }) => {
   return (
     <Routes>
       {/* dashboard  */}
       <Route path='/userInfo/' element={<UserInfo />} />
+      <Route path='/reccer-dash-board' element={<MainReccerDashBoard />} />
       <Route path='/userInfo1/' element={<UserInfo1 />} />
       <Route path='/allJob_Recruiter/jobDetail_Recruiter/:id' element={<JobDetailRecruiter />} />
       <Route path='/allJob_Recruiter/' element={<AllJob />} />
@@ -59,13 +62,15 @@ const AllRoutesAd = () => {
       <Route path='/list-job/' element={<ListJob />} />
 
       <Route path='/user-account/' element={<Customers />} />
-
-      <Route path='/' element={<Ecommerce />} />
+      <Route path='/' element={role === 'RECRUITER' ? <MainReccerDashBoard /> : <></>} />
       <Route path='/AdLogout' element={<AdLogout />} />
-
       <Route path='/ecommerce' element={<Ecommerce />} />
-      <Route path='/roomAdd' element={<RoomAdd />} />
+
+      {/* quản lý phòng */}
       <Route path='/roomList' element={<RoomList />} />
+      <Route path='/roomList/roomAdd' element={<RoomAdd />} />
+      <Route path='/roomList/addCandidate/:id/:idRoom' element={<RoomEditInfomation />} />
+
       <Route path='/roomListInterviewer' element={<RoomListInterviewer />} />
       <Route path='/RoomDetailInterviewer/:id/:idRoom' element={<RoomDetail />} />
       <Route path='/candidateInfo/:id' element={<CandidateInfo />} />
@@ -105,9 +110,11 @@ const AllRoutesAd = () => {
       <Route path='/question/edit/:id' element={<EditQuestion />} />
       <Route path='/interview' element={<Interview />} />
       {/* khanh */}
-      <Route path='/addCandidate/:id/:idRoom' element={<RoomEditInfomation />} />
+
       <Route path='/calendar-admin' element={<AdminCalendar />} />
+
       <Route path='/mark-candidate/:roomId' element={<MarkCandidate />} />
+
       <Route path='/interviewer-list-room' element={<InterviewerListRoom />} />
       <Route path='/my-company' element={<MyCompany />} />
       <Route path='/my-company/:tab' element={<MyCompany />} />
@@ -121,7 +128,11 @@ const AllRoutesAd = () => {
       <Route path='/process/item/:jobId' element={<ProcessItem />} />
       <Route path='/process/item/:jobId/:tab' element={<ProcessItem />} />
       <Route path='/process/edit-code-test/:testId' element={<EditCodeTest />} />
+
+      {/* result test */}
       <Route path='/process/code-test/result/:testId' element={<CodeTestResultMain />} />
+      <Route path='/process/view-essay-result/:testId' element={<MainEssayTestResult />} />
+
       <Route path='/process/edit-essay-test/:testId' element={<EditEssayTest />} />
       <Route path='/process/step/screening-resume/:jobId' element={<SceningProcess />} />
       <Route path='/process/screening/:jobId' element={<Screening />} />

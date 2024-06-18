@@ -6,7 +6,7 @@ export const ContactUs = () => {
     window.scrollTo(0, 0)
   }, [])
   return (
-    <HStack alignItems='flex-start' justifyContent='center' minH='1000px' bgColor='#f0f4f5' w='100%' p={5}>
+    <HStack alignItems='flex-start' justifyContent='center' minH='1000px' bgColor='white' w='100%' p={5}>
       <Box fontFamily='Roboto' w='80%' mt='60px' p={5}>
         <VStack spacing={8} align='stretch'>
           {/* Header Section */}

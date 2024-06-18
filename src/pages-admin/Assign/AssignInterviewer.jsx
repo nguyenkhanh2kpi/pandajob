@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton } from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton, Flex, Card, CardHeader, Heading, useToast } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react'
 import { Box, Badge, WrapItem, Text, Button, VStack, Spacer, Input } from '@chakra-ui/react'
 import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react'
 import { Link } from '@chakra-ui/react'
 import { AtSignIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 import { interviewService } from '../../Service/interview.service'
-import { ToastContainer, toast } from 'react-toastify'
 import { interviewerService } from '../../Service/interviewer.service'
 
 export const AssignInterviewer = ({ roomId }) => {
+  const toast = useToast()
   const [interviewer, setInterviewer] = useState([])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
@@ -25,13 +25,31 @@ export const AssignInterviewer = ({ roomId }) => {
       .interviewerAssign(accessToken, form)
       .then((res) => {
         if (res.message != 'Add success!') {
-          toast.info(res.message)
+          toast({
+            title: 'Người phỏng vấn',
+            description: res.message,
+            status: 'info',
+            duration: 3000,
+            isClosable: true,
+          })
         } else {
-          toast.success(res.message)
+          toast({
+            title: 'Người phỏng vấn',
+            description: res.message,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+          })
         }
       })
       .catch((er) => {
-        toast.error('something went wrong')
+        toast({
+          title: 'Người phỏng vấn',
+          description: 'Đã có lỗi xảy ra',
+          status: 'eror',
+          duration: 3000,
+          isClosable: true,
+        })
       })
   }
 
@@ -51,45 +69,46 @@ export const AssignInterviewer = ({ roomId }) => {
 
   return (
     <>
-      <Button size='xs' leftIcon={<AtSignIcon />} colorScheme='teal' variant='solid' onClick={onOpen}>
-        Đăng kí người phỏng vấn
+      <Button size='xs' leftIcon={<AtSignIcon />} color='white' backgroundColor='rgb(3, 201, 215)' onClick={onOpen}>
+        <Link>Đăng kí người phỏng vấn</Link>
       </Button>
-      <AlertDialog size={'2xl'} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
-        <AlertDialogOverlay>
-          <AlertDialogContent fontFamily={'Roboto'} fontWeight={400}>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Đăng kí người phỏng vấn
-            </AlertDialogHeader>
-            <AlertDialogBody maxW={600} overflow={'auto'}>
-              {interviewer.map((interviewer) => (
-                <Box w={550} boxShadow={'lg'} borderRadius='lg' overflow='hidden' m={2}>
-                  <WrapItem m={2} alignItems='center'>
-                    <Avatar name={interviewer.fullName} src={interviewer.avatar} />
-                    <VStack>
-                      <Text m={2}>{truncatedEmail(interviewer.email)}</Text>
-                      <Text justifyContent={'flex-start'} m={2}>
-                        {interviewer.fullName}
-                      </Text>
-                    </VStack>
 
-                    <Spacer />
-                    <VStack justifyContent='flex-start'>
-                      <Button onClick={() => handleAssignInterviewer(interviewer.email)} backgroundColor='green' p={1} h={'100%'} colorScheme='teal' size='xs'>
-                        Đăng kí
+      {isOpen && (
+        <Box leastDestructiveRef={cancelRef} position='fixed' top='0' left='0' width='100vw' height='100vh' bg='rgba(0, 0, 0, 0.6)' display='flex' alignItems='center' justifyContent='center' zIndex='1000'>
+          <Box bg='white' p={6} borderRadius='md' boxShadow='md' w={'600px'}>
+            <Text fontSize='lg' fontWeight='bold' mb={4}>
+              Áp dụng TOP VIP
+            </Text>
+            {interviewer.map((interviewer) => (
+              <>
+                <Card w={'100%'}>
+                  <CardHeader>
+                    <Flex spacing='4'>
+                      <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                        <Avatar name={interviewer.fullName} src={interviewer.avatar} />
+                        <Box>
+                          <Heading fontFamily={'Roboto'} size='sm'>
+                            {truncatedEmail(interviewer.email)}
+                          </Heading>
+                          <Text> {interviewer.fullName}</Text>
+                        </Box>
+                      </Flex>
+                      <Button onClick={() => handleAssignInterviewer(interviewer.email)} colorScheme='teal'>
+                        Phân công
                       </Button>
-                    </VStack>
-                  </WrapItem>
-                </Box>
-              ))}
-            </AlertDialogBody>
-            <AlertDialogFooter>
+                    </Flex>
+                  </CardHeader>
+                </Card>
+              </>
+            ))}
+            <Flex mt={2} justifyContent='flex-end'>
               <Button ref={cancelRef} onClick={onClose}>
-                Cancel
+                Hủy
               </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+            </Flex>
+          </Box>
+        </Box>
+      )}
     </>
   )
 }

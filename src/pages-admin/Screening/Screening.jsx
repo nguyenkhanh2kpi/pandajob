@@ -40,6 +40,7 @@ import {
   MenuItem,
   MenuButton,
   CardFooter,
+  SimpleGrid,
 } from '@chakra-ui/react'
 import { loadJob } from '../../redux/Job-posting/Action'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -91,16 +92,16 @@ const Screening = () => {
           </BreadcrumbItem>
         </Breadcrumb>
       </HStack>
-      <HStack mb={3}>
+      <HStack pr={'30px'} w={'100%'} justifyContent={'flex-end'} mb={3}>
         {job ? <AddTestForm jobId={job.id} load={load} setLoad={setLoad} /> : <></>}
         {job ? <AddEssayTest jobId={job.id} load={load} setLoad={setLoad} /> : <></>}
         {job ? <AddNewCodeTest jobId={job.id} load={load} setLoad={setLoad} /> : <></>}
       </HStack>
 
       {job ? (
-        <>
+        <SimpleGrid w={'95%'} m={30} columns={{ base: 1, md: 2 }} spacing={6}>
           <TestItemByJob jobId={job.id} load={load} setLoad={setLoad} />
-        </>
+        </SimpleGrid>
       ) : (
         <></>
       )}
@@ -128,114 +129,83 @@ const TestItem = ({ test, jobId, load, setLoad }) => {
     switch (test.type) {
       case 'ESSAY':
         return (
-          <Card w={'100%'}>
-            <CardHeader>
-              <Flex spacing='4'>
-                <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                  <Avatar name='Question' src='https://img.icons8.com/?size=100&id=11737&format=png&color=000000' />
+          <Box p={30} bgColor={'white'} borderRadius={20} boxShadow={'md'} w={'100%'}>
+            <Flex spacing='4'>
+              <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                <Avatar name='Question' src='https://img.icons8.com/?size=100&id=11737&format=png&color=000000' />
 
-                  <Box>
-                    <Heading fontFamily={'Roboto'} size='sm'>
-                      Tên: {test.summary}
-                    </Heading>
-                    <Text>Thời gian làm bài {test.time} phút</Text>
-                  </Box>
-                </Flex>
-                <Menu>
-                  <MenuButton _hover={{ bgcolor: 'white' }} bgColor={'white'} as={Button} rightIcon={<BsThreeDotsVertical />} />
-                  <MenuList>
-                    <MenuItem onClick={() => navigate(`/process/edit-essay-test/${test.id}`)}>Chỉnh sửa</MenuItem>
-                    <MenuItem>Xóa</MenuItem>
-                  </MenuList>
-                </Menu>
+                <Box>
+                  <Heading fontFamily={'Roboto'} size='sm'>
+                    Tên: {test.summary}
+                  </Heading>
+                  <Text>Thời gian làm bài {test.time} phút</Text>
+                </Box>
               </Flex>
-            </CardHeader>
-          </Card>
+              <Menu>
+                <MenuButton _hover={{ bgcolor: 'white' }} bgColor={'white'} as={Button} rightIcon={<BsThreeDotsVertical />} />
+                <MenuList>
+                  <MenuItem onClick={() => navigate(`/process/view-essay-result/${test.id}`)}>Xem kết quả</MenuItem>
+                  <MenuItem>Xóa</MenuItem>
+                </MenuList>
+              </Menu>
+            </Flex>
+          </Box>
         )
       case 'MULTIPLE_CHOICE':
         return (
-          <Card w={'100%'}>
-            <CardHeader>
-              <Flex spacing='4'>
-                <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                  <Avatar name='Question' src='https://img.icons8.com/?size=100&id=6651&format=png&color=000000' />
+          <Box p={30} bgColor={'white'} borderRadius={20} boxShadow={'md'} w={'100%'}>
+            <Flex spacing='4'>
+              <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                <Avatar name='Question' src='https://img.icons8.com/?size=100&id=6651&format=png&color=000000' />
 
-                  <Box>
-                    <Heading fontFamily={'Roboto'} size='sm'>
-                      Tên: {test.summary}
-                    </Heading>
-                    <Text>Thời gian làm bài {test.time} phút</Text>
-                  </Box>
-                </Flex>
-                <Menu>
-                  <MenuButton _hover={{ bgcolor: 'white' }} bgColor={'white'} as={Button} rightIcon={<BsThreeDotsVertical />} />
-                  <MenuList>
-                    <MenuItem onClick={() => navigate(`/process/screening-test/${test.id}`)}>Chỉnh sửa</MenuItem>
-                    <MenuItem>Xóa</MenuItem>
-                  </MenuList>
-                </Menu>
+                <Box>
+                  <Heading fontFamily={'Roboto'} size='sm'>
+                    Tên: {test.summary}
+                  </Heading>
+                  <Text>Thời gian làm bài {test.time} phút</Text>
+                </Box>
               </Flex>
-            </CardHeader>
-          </Card>
+              <Menu>
+                <MenuButton _hover={{ bgcolor: 'white' }} bgColor={'white'} as={Button} rightIcon={<BsThreeDotsVertical />} />
+                <MenuList>
+                  <MenuItem onClick={() => navigate(`/process/screening-test/${test.id}`)}>Chỉnh sửa</MenuItem>
+                  <MenuItem>Xóa</MenuItem>
+                </MenuList>
+              </Menu>
+            </Flex>
+          </Box>
         )
       case 'CODE':
         return (
-          <Card h={'100px'} w={'100%'}>
-            <CardHeader>
-              <Flex spacing='4'>
-                <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                  <Avatar name='Question' src='https://img.icons8.com/?size=100&id=2778&format=png&color=000000' />
+          <Box p={30} bgColor={'white'} borderRadius={20} boxShadow={'md'} w={'100%'}>
+            <Flex spacing='4'>
+              <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                <Avatar name='Question' src='https://img.icons8.com/?size=100&id=2778&format=png&color=000000' />
 
-                  <Box>
-                    <Heading fontFamily={'Roboto'} size='sm'>
-                      Tên: {test.summary}
-                    </Heading>
-                    <Text>Thời gian làm bài {test.time} phút</Text>
-                  </Box>
-                </Flex>
-                <Menu>
-                  <MenuButton _hover={{ bgcolor: 'white' }} bgColor={'white'} as={Button} rightIcon={<BsThreeDotsVertical />} />
-                  <MenuList>
-                    <MenuItem onClick={() => navigate(`/process/edit-code-test/${test.id}`)}>Chỉnh sửa</MenuItem>
-                    <MenuItem onClick={() => navigate(`/process/code-test/result/${test.id}`)}>Xem kết quả test</MenuItem>
-                    <MenuItem>Xóa</MenuItem>
-                  </MenuList>
-                </Menu>
-              </Flex>
-            </CardHeader>
-          </Card>
-        )
-      default:
-        return (
-          <Card variant='outline' w='100%' border='1px solid #a0aec0'>
-            <CardHeader>
-              <Flex alignItems='center'>
-                <Avatar name='Unknown' src='https://img.icons8.com/ios-filled/100/000000/question-mark.png' />
-                <Box ml={3}>
-                  <Heading size='md'>Không xác định</Heading>
-                  <Text>{test.summary}</Text>
-                  <Text>Thời gian: {test.time} phút</Text>
+                <Box>
+                  <Heading fontFamily={'Roboto'} size='sm'>
+                    Tên: {test.summary}
+                  </Heading>
+                  <Text>Thời gian làm bài {test.time} phút</Text>
                 </Box>
               </Flex>
-            </CardHeader>
-            <CardBody>
-              <Text>Thông tin không có sẵn</Text>
-            </CardBody>
-            <CardFooter>
-              <Button onClick={() => navigate(`/process/screening-test/${test.id}`)}>Chỉnh sửa</Button>
-            </CardFooter>
-          </Card>
+              <Menu>
+                <MenuButton _hover={{ bgcolor: 'white' }} bgColor={'white'} as={Button} rightIcon={<BsThreeDotsVertical />} />
+                <MenuList>
+                  <MenuItem onClick={() => navigate(`/process/edit-code-test/${test.id}`)}>Chỉnh sửa</MenuItem>
+                  <MenuItem onClick={() => navigate(`/process/code-test/result/${test.id}`)}>Xem kết quả test</MenuItem>
+                  <MenuItem>Xóa</MenuItem>
+                </MenuList>
+              </Menu>
+            </Flex>
+          </Box>
         )
+      default:
+        return <></>
     }
   }
 
-  return (
-    <Box w={'100%'}>
-      <HStack w={'100%'} mb={5} pl={30} pr={30}>
-        {renderTestCard()}
-      </HStack>
-    </Box>
-  )
+  return <>{renderTestCard()}</>
 }
 
 const AddTestForm = ({ jobId, load, setLoad }) => {
@@ -288,8 +258,8 @@ const AddTestForm = ({ jobId, load, setLoad }) => {
 
   return (
     <>
-      <Button ml={8} color={'white'} leftIcon={<FaRegQuestionCircle />} onClick={onOpen} backgroundColor={'rgb(3, 201, 215)'} variant='solid'>
-        Bài kiểm tra trắc nghiệm
+      <Button colorScheme='green' size='sm' ml={8} variant={'outline'} leftIcon={<FaRegQuestionCircle />} onClick={onOpen}>
+        Thêm kiểm tra trắc nghiệm
       </Button>
       <Modal fontFamily={'Roboto'} size={'2xl'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

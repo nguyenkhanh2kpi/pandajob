@@ -74,26 +74,26 @@ export const SearchCandidate = () => {
       </Breadcrumb>
       <VStack mb={30} w={'100%'} minH={800} pl={30} pr={30} spacing={10}>
         <HStack alignItems={'flex-start'} w={'100%'} spacing={4}>
-          <Card w={['100%', '30%']} flexShrink={0}>
+          <Card fontSize={'sm'} w={['100%', '30%']} flexShrink={0}>
             <CardBody>
               <HStack alignItems='center' spacing={4}>
                 <Icon as={SearchIcon} boxSize={5} p={1} bgColor='#ddeff0' borderRadius='full' />
-                <Text fontWeight={'bold'} m={0} fontSize='xl'>
+                <Text fontWeight={'bold'} m={0}>
                   Tìm kiếm
                 </Text>
               </HStack>
-              <Text fontWeight={'bold'} mt={3} fontSize='lg'>
+              <Text fontWeight={'bold'} mt={3}>
                 Từ khóa
               </Text>
-              <Input placeholder='vị trí ứng tuyển' name='applicationPosition' value={query.applicationPosition} onChange={handleChange} />
-              <Input mt={2} placeholder='kinh nghiệm' name='workingExperiences' value={query.workingExperiences} onChange={handleChange} />
-              <Input mt={2} placeholder='kĩ năng' name='mainSkill' value={query.mainSkill} onChange={handleChange} />
-              <Input mt={2} placeholder='chuyên ngành học vấn' name='major' value={query.major} onChange={handleChange} />
+              <Input fontSize={'sm'} placeholder='vị trí ứng tuyển' name='applicationPosition' value={query.applicationPosition} onChange={handleChange} />
+              <Input fontSize={'sm'} mt={2} placeholder='kinh nghiệm' name='workingExperiences' value={query.workingExperiences} onChange={handleChange} />
+              <Input fontSize={'sm'} mt={2} placeholder='kĩ năng' name='mainSkill' value={query.mainSkill} onChange={handleChange} />
+              <Input fontSize={'sm'} mt={2} placeholder='chuyên ngành học vấn' name='major' value={query.major} onChange={handleChange} />
 
-              <Text fontWeight={'bold'} mt={3} fontSize='lg'>
+              <Text fontWeight={'bold'} mt={3}>
                 Địa điểm
               </Text>
-              <Select value={query.city} name='city' onChange={handleChange} w={'100%'} defaultValue='all'>
+              <Select fontSize={'sm'} value={query.city} name='city' onChange={handleChange} w={'100%'} defaultValue='all'>
                 <option value=''>Địa điểm</option>
                 {province.map((p) => (
                   <option key={p.id} value={p.name}>
@@ -101,38 +101,44 @@ export const SearchCandidate = () => {
                   </option>
                 ))}
               </Select>
-              <Text fontWeight={'bold'} mt={3} fontSize='lg'>
+              <Text fontWeight={'bold'} mt={3}>
                 Giới tính
               </Text>
               <RadioGroup onChange={handleChangeGender} value={query.gender} name='gender'>
                 <Stack direction='row'>
-                  <Radio value=''>Tất cả</Radio>
-                  <Radio value='MALE'>Nam</Radio>
-                  <Radio value='FEMALE'>Nữ</Radio>
+                  <Radio fontSize={'sm'} value=''>
+                    Tất cả
+                  </Radio>
+                  <Radio fontSize={'sm'} value='MALE'>
+                    Nam
+                  </Radio>
+                  <Radio fontSize={'sm'} value='FEMALE'>
+                    Nữ
+                  </Radio>
                 </Stack>
               </RadioGroup>
-              <Text fontWeight={'bold'} mt={3} fontSize='lg'>
+              <Text fontWeight={'bold'} mt={3}>
                 Năm sinh
               </Text>
               <HStack>
-                <Input type='number' />
-                <Input type='number' />
+                <Input fontSize={'sm'} type='number' />
+                <Input fontSize={'sm'} type='number' />
               </HStack>
-              <Text fontWeight={'bold'} mt={3} fontSize='lg'>
+              <Text fontWeight={'bold'} mt={3}>
                 Trình độ học vấn
               </Text>
               <VStack alignItems={'flex-start'}>
-                <Checkbox>Đại học</Checkbox>
+                <Checkbox >Đại học</Checkbox>
                 <Checkbox>Cao đẳng</Checkbox>
                 <Checkbox>Trung cấp</Checkbox>
                 <Checkbox>Sau đại học(thạc sĩ, tiến sĩ)</Checkbox>
                 <Checkbox>Trung tâm đào tạo</Checkbox>
                 <Checkbox>Du học</Checkbox>
               </VStack>
-              <Text fontWeight={'bold'} mt={3} fontSize='lg'>
+              <Text fontWeight={'bold'} mt={3}>
                 Trường học
               </Text>
-              <Input name='school' value={query.school} onChange={handleChange} type='text' />
+              <Input fontSize={'sm'} name='school' value={query.school} onChange={handleChange} type='text' />
               <Button onClick={handleSearch} w={'100%'} mt={4} bgColor={'#2cccc7'} color={'white'} size='md'>
                 Tìm
               </Button>
@@ -145,7 +151,7 @@ export const SearchCandidate = () => {
               <CardBody>
                 <HStack mb={5} alignItems='center' spacing={4}>
                   <Icon as={AiOutlineEye} boxSize={5} p={1} bgColor='#ddeff0' borderRadius='full' />
-                  <Text fontWeight={'bold'} m={0} fontSize='xl'>
+                  <Text fontWeight={'bold'} m={0} fontSize='sm'>
                     Tìm thấy {searchResume.length} ứng viên
                   </Text>
                 </HStack>
@@ -194,7 +200,7 @@ function Experience({ data }) {
   return (
     <HStack alignItems={'flex-start'} w={'100%'}>
       <VStack alignItems={'flex-start'} w={'30%'}>
-        <Text w={'100%'} fontWeight={'bold'} fontSize='lg'>
+        <Text w={'100%'} fontWeight={'bold'}>
           {data.fullName}
         </Text>
         <List spacing={3}>
@@ -220,9 +226,7 @@ function Experience({ data }) {
         <Box w={'100%'} overflow='hidden' maxHeight={isExpanded ? 'none' : '235px'}>
           <HStack w={'100%'} alignItems='flex-start'>
             <Icon mt={1.5} as={BiBriefcase} />
-            <Text fontWeight='bold' fontSize='lg'>
-              Kinh nghiệm:
-            </Text>
+            <Text fontWeight='bold'>Kinh nghiệm:</Text>
           </HStack>
           {data.workingExperiences.map((ex, index) => (
             <HStack key={index} w={'100%'} alignItems={'flex-start'}>
@@ -234,9 +238,7 @@ function Experience({ data }) {
 
           <HStack w={'100%'} alignItems='flex-start'>
             <Icon mt={1.5} as={FaGraduationCap} />
-            <Text fontWeight='bold' fontSize='lg'>
-              Học vấn:
-            </Text>
+            <Text fontWeight='bold'>Học vấn:</Text>
           </HStack>
           <HStack w={'100%'} alignItems={'flex-start'}>
             <Text>
@@ -246,9 +248,7 @@ function Experience({ data }) {
 
           <HStack w={'100%'} alignItems='flex-start'>
             <Icon mt={1.5} as={BiBrain} />
-            <Text fontWeight='bold' fontSize='lg'>
-              Kĩ năng:
-            </Text>
+            <Text fontWeight='bold'>Kĩ năng:</Text>
           </HStack>
           <VStack w={'100%'} alignItems={'flex-start'}>
             <Text>Kĩ năng chính: {data.mainSkill}</Text>
@@ -257,9 +257,7 @@ function Experience({ data }) {
 
           <HStack w={'100%'} alignItems='flex-start'>
             <Icon mt={1.5} as={BiTrophy} />
-            <Text fontWeight='bold' fontSize='lg'>
-              Giải thưởng - Hoạt động khác:
-            </Text>
+            <Text fontWeight='bold'>Giải thưởng - Hoạt động khác:</Text>
           </HStack>
           <VStack w={'100%'} alignItems={'flex-start'}>
             <Text>Giải thưởng: {data.others}</Text>
@@ -267,9 +265,7 @@ function Experience({ data }) {
 
           <HStack w={'100%'} alignItems='flex-start'>
             <Icon mt={1.5} as={BiFolder} />
-            <Text fontWeight='bold' fontSize='lg'>
-              Dự án:
-            </Text>
+            <Text fontWeight='bold'>Dự án:</Text>
           </HStack>
           {data.workingProjects.map((pj, index) => (
             <HStack key={index} w={'100%'} alignItems={'flex-start'}>

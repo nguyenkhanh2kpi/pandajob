@@ -141,7 +141,9 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
             <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
               <Avatar src={candidate.avatar} />
               <Box>
-                <Heading size='sm'>{candidate.fullName}</Heading>
+                <Heading fontFamily={'Roboto'} size='sm'>
+                  {candidate.fullName}
+                </Heading>
                 <Text>{candidate.view ? <Badge colorScheme='green'>Đã xem</Badge> : <Badge>Chưa xem</Badge>}</Text>
               </Box>
             </Flex>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, CardFooter, CardHeader, Divider, Flex, Icon, IconButton, List, ListIcon, ListItem, Menu, MenuButton, MenuItem, MenuList, Skeleton, Stack, useToast } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, CardFooter, CardHeader, Divider, Flex, FormControl, Icon, IconButton, List, ListIcon, ListItem, Menu, MenuButton, MenuItem, MenuList, Skeleton, Stack, useToast } from '@chakra-ui/react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Heading, HStack, SlideFade, VStack, Image, Text, Button, Wrap, WrapItem, Avatar, FormLabel, Input, Select } from '@chakra-ui/react'
 import { AssignInterviewer } from '../Assign/AssignInterviewer'
@@ -166,7 +166,6 @@ export const RoomEditInfomation = () => {
           </Breadcrumb>
           <VStack pl={30} pr={30} spacing={10}>
             <Card w={'100%'} direction={{ base: 'column', sm: 'row' }} overflow='hidden' variant='outline'>
-              <Image objectFit='cover' maxW={{ base: '100%', sm: '200px' }} src='https://firebasestorage.googleapis.com/v0/b/quanlytuyendung-4fb2c.appspot.com/o/1716283312536__87023a25-c40b-4cfc-8280-9b752524a5ba.jpg?alt=media' alt='Room' />
               <Stack>
                 <CardBody>
                   <List spacing={3}>
@@ -263,57 +262,78 @@ export const RoomEditInfomation = () => {
               </Box>
             </Box>
 
-            <Box mb={10} p={4} borderRadius='lg' w={'100%'} backgroundColor={'#FFFFFF'}>
-              <HStack>
-                <Icon as={AiOutlineSetting} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                <Text m={0} fontSize='2xl'>
-                  Setting
-                </Text>
+            <Box mb={'200px'} p={4} borderRadius='lg' w={'100%'} backgroundColor={'#FFFFFF'}>
+              <HStack justifyContent={'space-between'} w={'100%'}>
+                <HStack>
+                  <Icon as={AiOutlineSetting} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                  <Text m={0} fontSize='2xl'>
+                    Cài đặt
+                  </Text>
+                </HStack>
+
                 <GoogleCalendar startDate={room.startDate} endDate={room.endDate} listEmail={listAttendee} roomId={params.idRoom} />
               </HStack>
-              <Divider />
-              <VStack m={10} justifyContent={'flex-start'} spacing={10}>
+
+              <VStack p={10} mt={10} justifyContent={'flex-start'} spacing={4}>
                 <HStack w={'100%'}>
-                  <FormLabel w={'20%'}>Tên</FormLabel>
-                  <Input onChange={handleOnChangeForm} name='roomName' backgroundColor={'#FFFFFF'} w={'60%'} placeholder='Room name' value={room.roomName} />
+                  <VStack w={'50%'}>
+                    <FormLabel ml={5} w={'100%'}>
+                      Tên
+                    </FormLabel>
+                    <Input onChange={handleOnChangeForm} name='roomName' backgroundColor={'#FFFFFF'} w={'100%'} placeholder='Room name' value={room.roomName} />
+                  </VStack>
+                  <VStack w={'50%'}>
+                    <FormLabel ml={5} w={'100%'}>
+                      Trạng thái
+                    </FormLabel>
+                    <Select name='status' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} size='md' value={room.status}>
+                      <option value='Created'>Created</option>
+                      <option value='Processing'>Processing</option>
+                      <option value='Ended'>Ended</option>
+                    </Select>
+                  </VStack>
                 </HStack>
-                {/* <HStack w={'100%'}>
-                  <FormLabel w={'20%'}>Kĩ năng</FormLabel>
-                  <Input name='roomSkill' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'60%'} placeholder='Room skill' value={room.roomSkill} />
-                </HStack> */}
+
                 <HStack w={'100%'}>
-                  <FormLabel w={'20%'}>Trạng thái</FormLabel>
-                  <Select name='status' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'60%'} size='md' value={room.status}>
-                    <option value='Created'>Created</option>
-                    <option value='Processing'>Processing</option>
-                    <option value='Ended'>Ended</option>
-                  </Select>
+                  <VStack w={'50%'}>
+                    <FormLabel ml={5} w={'100%'}>
+                      Thời gian
+                    </FormLabel>
+                    <HStack w='100%'>
+                      <Input onChange={handleOnChangeForm} name='startDate' backgroundColor={'#FFFFFF'} w={'50%'} placeholder='Room description' type='datetime-local' defaultValue={room.startDate} />
+                      <Text>To</Text>
+                      <Input onChange={handleOnChangeForm} name='endDate' backgroundColor={'#FFFFFF'} w={'50%'} placeholder='Room description' type='datetime-local' defaultValue={room.endDate} />
+                    </HStack>
+                  </VStack>
+                  <VStack w={'50%'}>
+                    <FormLabel ml={5} w={'100%'}>
+                      Mô tả
+                    </FormLabel>
+                    <Input name='roomDescription' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} placeholder='Room description' value={room.roomDescription} />
+                  </VStack>
                 </HStack>
+
                 <HStack w={'100%'}>
-                  <FormLabel w={'20%'}>Mô tả</FormLabel>
-                  <Input name='roomDescription' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'60%'} placeholder='Room description' value={room.roomDescription} />
+                  <VStack w={'50%'}>
+                    <FormLabel ml={5} w={'100%'}>
+                      Link
+                    </FormLabel>
+
+                    <Input name='link' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} placeholder='link' type='link' value={room.link} />
+                  </VStack>
                 </HStack>
-                <HStack w={'100%'}>
-                  <FormLabel w={'20%'}>Thời gian</FormLabel>
-                  <HStack w='60%'>
-                    <Input onChange={handleOnChangeForm} name='startDate' backgroundColor={'#FFFFFF'} w={'50%'} placeholder='Room description' type='datetime-local' defaultValue={room.startDate} />
-                    <Text>To</Text>
-                    <Input onChange={handleOnChangeForm} name='endDate' backgroundColor={'#FFFFFF'} w={'50%'} placeholder='Room description' type='datetime-local' defaultValue={room.endDate} />
+                <HStack w={'100%'} justifyContent={'space-between'}>
+                  <Box></Box>
+                  <HStack>
+                    <Button onClick={() => navigate('/roomList')} w={40} colorScheme='gray'>
+                      Thoát
+                    </Button>
+                    <Button w={40} color='white' backgroundColor='rgb(3, 201, 215)' onClick={handleUpdateRoom}>
+                      Lưu
+                    </Button>
                   </HStack>
                 </HStack>
-                <HStack w={'100%'}>
-                  <FormLabel w={'20%'}>Link</FormLabel>
-                  <Input name='link' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'60%'} placeholder='link' type='link' value={room.link} />
-                </HStack>
               </VStack>
-              <HStack w={'100%'} justifyContent={'space-evenly'}>
-                <Button onClick={() => navigate('/roomList')} w={40} colorScheme='gray' size='lg'>
-                  Thoát
-                </Button>
-                <Button w={40} colorScheme='teal' size='lg' onClick={handleUpdateRoom}>
-                  Lưu
-                </Button>
-              </HStack>
             </Box>
           </VStack>
         </Box>

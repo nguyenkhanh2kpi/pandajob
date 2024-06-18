@@ -10,8 +10,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hostName } from '../../global'
 import { locationService } from '../../Service/location.service'
 import { jobService } from '../../Service/job.service'
-import { AiOutlineEye, AiOutlineFolderOpen, AiOutlineInfoCircle } from 'react-icons/ai'
+import { AiOutlineEye, AiOutlineFire, AiOutlineFolderOpen, AiOutlineInfoCircle } from 'react-icons/ai'
 import ConfirmVipDialog from './ConfirmVipDialog'
+import JobStateComponent from './JobStateComponent'
 export const State = {
   CREATE: 'Tạo',
   ON: 'Mở nhận CV',
@@ -51,6 +52,8 @@ function JobDetailRecruiter() {
   const [industry2, setIndustry2] = useState(data.industry2)
 
   const [province, setProvince] = useState([])
+  const [state, setState] = useState(data.state)
+
   useEffect(() => {
     locationService
       .getAllProvince()
@@ -166,10 +169,16 @@ function JobDetailRecruiter() {
 
       console.log(config)
 
-      axios
+      await axios
         .request(config)
         .then((response) => {
-          console.log('haha')
+          toast({
+            title: 'Cập nhật công việc',
+            description: response.data.message,
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+          })
         })
         .catch((error) => {
           console.log(error)
@@ -178,16 +187,6 @@ function JobDetailRecruiter() {
           })
         })
 
-      // toast.success('Update Job Successfuly', {
-      //   position: 'top-center',
-      // })
-      toast({
-        title: 'Update Job Successfuly',
-        description: "We've created your account for you.",
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })
       setTimeout(() => {
         navigate('/allJob_Recruiter')
       }, 2000)
@@ -235,163 +234,158 @@ function JobDetailRecruiter() {
           </Breadcrumb>
 
           {/* hien thi */}
-          <Box pl={30} pr={30} w={'100%'} mb={5}>
-            <Card>
-              <CardBody>
-                <FormControl>
-                  <HStack alignItems='center' spacing={4}>
-                    <Icon as={AiOutlineEye} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                    <Text m={0} fontSize='2xl'>
-                      Hiển thị
-                    </Text>
-                  </HStack>
-                  <HStack mt={3}>
-                    <FormLabel w={'15%'}>Trạng thái</FormLabel>
-                    <Select w={'35%'} variant='filled'>
-                      {Object.values(State).map((state) => (
-                        <option key={state} value={state}>
-                          {state}
-                        </option>
-                      ))}
-                    </Select>
-                    <FormLabel w={'15%'}>Top vip</FormLabel>
-                    <ConfirmVipDialog job={data} onConfirm={handleApplyVip} />
-                  </HStack>
-                </FormControl>
-              </CardBody>
-            </Card>
-          </Box>
-          {/* ngành nghề */}
-          <Box pl={30} pr={30} w={'100%'} mb={5}>
-            <Card>
-              <CardBody>
-                <FormControl>
-                  <HStack alignItems='center' spacing={4}>
-                    <Icon as={AiOutlineFolderOpen} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                    <Text m={0} fontSize='2xl'>
-                      Ngành nghề
-                    </Text>
-                  </HStack>
-                  <HStack mt={3}>
-                    <FormLabel w={'15%'}>Ngành nghề chính</FormLabel>
-                    <Select value={industry != null ? industry : data.industry} w={'35%'} placeholder='Chọn ngành nghề' onChange={(e) => setIndustry(e.target.value)}>
-                      {industries.map((industry, index) => (
-                        <option key={index} value={industry}>
-                          {industry}
-                        </option>
-                      ))}
-                    </Select>
-                    <FormLabel w={'15%'}>Ngành nghề phụ</FormLabel>
-                    <Select value={industry2 != null ? industry2 : data.industry2} w={'35%'} placeholder='Chọn ngành nghề' onChange={(e) => setIndustry2(e.target.value)}>
-                      {industries.map((industry, index) => (
-                        <option key={index} value={industry}>
-                          {industry}
-                        </option>
-                      ))}
-                    </Select>
-                  </HStack>
-                </FormControl>
-              </CardBody>
-            </Card>
-          </Box>
+          <Box fontSize={'sm'} pl={30} pr={30} w={'100%'} mb={5}>
+            <Box p='30px' bgColor={'white'} borderRadius={20} boxShadow={'md'} mx={'100px'}>
+              <FormControl>
+                <HStack alignItems='center' spacing={4}>
+                  <Icon as={AiOutlineEye} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                  <Text m={0} fontWeight={'bold'}>
+                    Hiển thị
+                  </Text>
+                </HStack>
+                <HStack mt={3}>
+                  <FormLabel w={'15%'}>Trạng thái</FormLabel>
+                  <JobStateComponent job={data} />
+                  <FormLabel w={'15%'}>Top vip</FormLabel>
+                  <ConfirmVipDialog job={data} onConfirm={handleApplyVip} />
+                </HStack>
+              </FormControl>
 
-          <VStack pl={30} pr={30} spacing={3}>
-            <Box w={'100%'} mb={10}>
-              <Card>
-                <CardBody>
-                  <FormControl>
-                    <HStack alignItems='center' spacing={4}>
-                      <Icon as={AiOutlineInfoCircle} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                      <Text m={0} fontSize='2xl'>
-                        Thông tin
-                      </Text>
-                    </HStack>
-                    <HStack mt={3}>
-                      <FormLabel w={'15%'}>Tên công việc</FormLabel>
-                      <Input w={'35%'} type='text' value={name != null ? name : data.name} onChange={(e) => setName(e.target.value)} name='name' id='Name' />
-                      <FormLabel w={'15%'}>Địa chỉ làm việc</FormLabel>
-                      <Input w={'35%'} type='text' value={detailLocation != null ? detailLocation : data.detailLocation} onChange={(e) => setDetailLocation(e.target.value)} name='position' id='position' />
-                    </HStack>
+              <FormControl>
+                <HStack alignItems='center' spacing={4}>
+                  <Icon as={AiOutlineFolderOpen} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                  <Text m={0} fontWeight={'bold'}>
+                    Ngành nghề
+                  </Text>
+                </HStack>
+                <HStack mt={3}>
+                  <FormLabel w={'15%'}>Ngành nghề chính</FormLabel>
+                  <Select value={industry != null ? industry : data.industry} w={'35%'} placeholder='Chọn ngành nghề' onChange={(e) => setIndustry(e.target.value)}>
+                    {industries.map((industry, index) => (
+                      <option key={index} value={industry}>
+                        {industry}
+                      </option>
+                    ))}
+                  </Select>
+                  <FormLabel w={'15%'}>Ngành nghề phụ</FormLabel>
+                  <Select value={industry2 != null ? industry2 : data.industry2} w={'35%'} placeholder='Chọn ngành nghề' onChange={(e) => setIndustry2(e.target.value)}>
+                    {industries.map((industry, index) => (
+                      <option key={index} value={industry}>
+                        {industry}
+                      </option>
+                    ))}
+                  </Select>
+                </HStack>
+              </FormControl>
 
-                    <HStack mt={3}>
-                      <FormLabel w={'15%'}>Lương</FormLabel>
-                      <Select w={'35%'} onChange={(e) => setSalary(e.target.value)} value={salary != null ? salary : data.salary}>
-                        <option value='all'>Mức lương</option>
-                        <option value='Dưới 10 triệu'>Dưới 10 triệu</option>
-                        <option value='10 -15 triệu'>10 -15 triệu</option>
-                        <option value='15 -20 triệu'>15 -20 triệu</option>
-                        <option value='20 -25 triệu'>20 -25 triệu</option>
-                        <option value='25 -30 triệu'>25 -30 triệu</option>
-                        <option value='30 -50 triệu'>30 -50 triệu</option>
-                        <option value='trên 50 triệu'>trên 50 triệu</option>
-                        <option value='thỏa thuận'>thỏa thuận</option>
-                      </Select>
-                      <FormLabel w={'15%'}>Hình thức làm việc</FormLabel>
-                      <Input w={'35%'} type='text' onChange={(e) => setWorkingForm(e.target.value)} name='workingForm' id='workingForm' value={workingForm != null ? workingForm : data.workingForm} />
-                    </HStack>
+              <FormControl>
+                <HStack alignItems='center' spacing={4}>
+                  <Icon as={AiOutlineInfoCircle} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                  <Text m={0} fontWeight={'bold'}>
+                    Thông tin
+                  </Text>
+                </HStack>
+                <HStack mt={3}>
+                  <FormLabel w={'15%'}>Tên công việc</FormLabel>
+                  <Input w={'35%'} type='text' value={name != null ? name : data.name} onChange={(e) => setName(e.target.value)} name='name' id='Name' />
+                  <FormLabel w={'15%'}>Địa chỉ làm việc</FormLabel>
+                  <Input w={'35%'} type='text' value={detailLocation != null ? detailLocation : data.detailLocation} onChange={(e) => setDetailLocation(e.target.value)} name='position' id='position' />
+                </HStack>
 
-                    <HStack mt={3}>
-                      <FormLabel w={'15%'}>Địa chỉ</FormLabel>
-                      <Select w={'35%'} value={location != null ? location : data.location} onChange={(e) => setLocation(e.target.value)}>
-                        <option value='all'>Địa điểm</option>
-                        {province.map((p) => (
-                          <option key={p.id} value={p.name}>
-                            {p.name}
-                          </option>
-                        ))}
-                      </Select>
-                      <FormLabel w={'15%'}>Ngôn ngữ</FormLabel>
-                      <Input value={language != null ? language : data.language} w={'35%'} type='text' onChange={(e) => setLanguage(e.target.value)} name='language' id='language' />
-                    </HStack>
+                <HStack mt={3}>
+                  <FormLabel w={'15%'}>Lương</FormLabel>
+                  <Select w={'35%'} onChange={(e) => setSalary(e.target.value)} value={salary != null ? salary : data.salary}>
+                    <option value='all'>Mức lương</option>
+                    <option value='Dưới 10 triệu'>Dưới 10 triệu</option>
+                    <option value='10 -15 triệu'>10 -15 triệu</option>
+                    <option value='15 -20 triệu'>15 -20 triệu</option>
+                    <option value='20 -25 triệu'>20 -25 triệu</option>
+                    <option value='25 -30 triệu'>25 -30 triệu</option>
+                    <option value='30 -50 triệu'>30 -50 triệu</option>
+                    <option value='trên 50 triệu'>trên 50 triệu</option>
+                    <option value='thỏa thuận'>thỏa thuận</option>
+                  </Select>
+                  <FormLabel w={'15%'}>Hình thức làm việc</FormLabel>
+                  <Input w={'35%'} type='text' onChange={(e) => setWorkingForm(e.target.value)} name='workingForm' id='workingForm' value={workingForm != null ? workingForm : data.workingForm} />
+                </HStack>
 
-                    <HStack mt={3}>
-                      <FormLabel w={'15%'}>Giới tính</FormLabel>
-                      <Select w={'35%'} onChange={(e) => setSex(e.target.value)} value={sex != null ? sex : data.sex}>
-                        <option value='Nam'>Nam</option>
-                        <option value='Nữ'>Nữ</option>
-                        <option value='Không yêu cầu'>Không yêu cầu</option>
-                      </Select>
-                      <FormLabel w={'15%'}>Số lượng tuyển</FormLabel>
-                      <Input value={number != null ? number : data.number} w={'35%'} onChange={(e) => setNumber(e.target.value)} type='text' name='number' id='number' />
-                    </HStack>
+                <HStack mt={3}>
+                  <FormLabel w={'15%'}>Địa điểm</FormLabel>
+                  <Select w={'35%'} value={location != null ? location : data.location} onChange={(e) => setLocation(e.target.value)}>
+                    <option value='all'>Địa điểm</option>
+                    {province.map((p) => (
+                      <option key={p.id} value={p.name}>
+                        {p.name}
+                      </option>
+                    ))}
+                  </Select>
+                  <FormLabel w={'15%'}>Ngôn ngữ</FormLabel>
+                  <Input value={language != null ? language : data.language} w={'35%'} type='text' onChange={(e) => setLanguage(e.target.value)} name='language' id='language' />
+                </HStack>
 
-                    <HStack mt={3}>
-                      <FormLabel w={'15%'}>Chức vụ</FormLabel>
-                      <Input w={'35%'} value={position != null ? position : data.position} onChange={(e) => setPosition(e.target.value)} type='text' name='detailLocation' id='detailLocation' />
-                      <FormLabel w={'15%'}>Kinh nghiệm</FormLabel>
-                      <Select w={'35%'} onChange={(e) => setExperience(e.target.value)} value={experience != null ? experience : data.experience}>
-                        <option value='all'>Kinh nghiệm</option>
-                        <option value='chưa có'>chưa có</option>
-                        <option value='dưới 1 năm'>dưới 1 năm</option>
-                        <option value='1 năm'>1 năm</option>
-                        <option value='2 năm'>2 năm</option>
-                        <option value='3 năm'>3 năm</option>
-                        <option value='4 năm'>4 năm</option>
-                        <option value='5 năm'>5 năm</option>
-                        <option value='trên 5 năm'>trên 5 năm</option>
-                      </Select>
-                    </HStack>
+                <HStack mt={3}>
+                  <FormLabel w={'15%'}>Giới tính</FormLabel>
+                  <Select w={'35%'} onChange={(e) => setSex(e.target.value)} value={sex != null ? sex : data.sex}>
+                    <option value='Nam'>Nam</option>
+                    <option value='Nữ'>Nữ</option>
+                    <option value='Không yêu cầu'>Không yêu cầu</option>
+                  </Select>
+                  <FormLabel w={'15%'}>Số lượng tuyển</FormLabel>
+                  <Input value={number != null ? number : data.number} w={'35%'} onChange={(e) => setNumber(e.target.value)} type='text' name='number' id='number' />
+                </HStack>
 
-                    <FormLabel>Mô tả</FormLabel>
-                    <Textarea height={200} value={detailJob != null ? detailJob : data.detailJob} onChange={(e) => setDetailJob(e.target.value)} type='text' name='detailJob' id='detailJob' />
+                <HStack mt={3}>
+                  <FormLabel w={'15%'}>Chức vụ</FormLabel>
+                  <Input w={'35%'} value={position != null ? position : data.position} onChange={(e) => setPosition(e.target.value)} type='text' name='detailLocation' id='detailLocation' />
+                  <FormLabel w={'15%'}>Kinh nghiệm</FormLabel>
+                  <Select w={'35%'} onChange={(e) => setExperience(e.target.value)} value={experience != null ? experience : data.experience}>
+                    <option value='all'>Kinh nghiệm</option>
+                    <option value='chưa có'>chưa có</option>
+                    <option value='dưới 1 năm'>dưới 1 năm</option>
+                    <option value='1 năm'>1 năm</option>
+                    <option value='2 năm'>2 năm</option>
+                    <option value='3 năm'>3 năm</option>
+                    <option value='4 năm'>4 năm</option>
+                    <option value='5 năm'>5 năm</option>
+                    <option value='trên 5 năm'>trên 5 năm</option>
+                  </Select>
+                </HStack>
 
-                    <FormLabel>Yêu cầu</FormLabel>
-                    <Textarea height={200} value={requirements != null ? requirements : data.requirements} onChange={(e) => setRequirements(e.target.value)} type='text' name='requirements' id='requirements' />
+                <FormLabel>Mô tả</FormLabel>
+                <Textarea height={200} value={detailJob != null ? detailJob : data.detailJob} onChange={(e) => setDetailJob(e.target.value)} type='text' name='detailJob' id='detailJob' />
 
-                    <FormLabel>Quyền lợi</FormLabel>
-                    <Textarea height={200} value={interest != null ? interest : data.interest} onChange={(e) => setInterest(e.target.value)} type='text' name='interest' id='interest' />
+                <FormLabel>Yêu cầu</FormLabel>
+                <Textarea height={200} value={requirements != null ? requirements : data.requirements} onChange={(e) => setRequirements(e.target.value)} type='text' name='requirements' id='requirements' />
 
-                    <FormLabel>Hình ảnh</FormLabel>
-                    <Image style={{ padding: '5px', width: '200px' }} src={`${data.image}`} />
-                    <Input type='file' onChange={(e) => setTestImage(e.target.files[0])} name='avatar' id='avatar' />
-                  </FormControl>
-                </CardBody>
-              </Card>
+                <FormLabel>Quyền lợi</FormLabel>
+                <Textarea height={200} value={interest != null ? interest : data.interest} onChange={(e) => setInterest(e.target.value)} type='text' name='interest' id='interest' />
+
+                <FormLabel>Hình ảnh</FormLabel>
+                <Image style={{ padding: '5px', width: '200px' }} src={`${data.image}`} />
+                <Input type='file' onChange={(e) => setTestImage(e.target.files[0])} name='avatar' id='avatar' />
+              </FormControl>
+
+              <FormControl mt={5}>
+                <HStack alignItems='center' spacing={4}>
+                  <Icon as={AiOutlineFire} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                  <Text m={0} fontWeight={'bold'}>
+                    Bổ sung
+                  </Text>
+                </HStack>
+                <HStack mt={3}>
+                  <FormLabel w={'15%'}>Bài test sàng lọc</FormLabel>
+                  <Select disabled w={'35%'} defaultValue={data.requireTest}>
+                    <option value={true}>Áp dụng</option>
+                    <option value={false}>Không áp dụng</option>
+                  </Select>
+                </HStack>
+              </FormControl>
             </Box>
-          </VStack>
+          </Box>
 
           <HStack justifyContent={'space-between'} pl={30} pr={30} w={'100%'} mb={5}>
-            <Button w={300} color={'white'} onClick={onOpen} bgColor={'#2cccc7'}>
+            <Box></Box>
+            <Button borderRadius={10} mr={'100px'} w={300} color={'white'} onClick={onOpen} backgroundColor='rgb(3, 201, 215)'>
               Lưu
             </Button>
           </HStack>

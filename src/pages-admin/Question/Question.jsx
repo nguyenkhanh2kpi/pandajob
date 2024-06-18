@@ -153,7 +153,7 @@ export const Question = () => {
 
   // panigate
   const [currentPage, setCurrentPage] = useState(0)
-  const itemsPerPage = 6
+  const itemsPerPage = 7
   const pageCount = Math.ceil(filteredQuestions.length / itemsPerPage)
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected)
@@ -228,6 +228,142 @@ export const Question = () => {
             </BreadcrumbItem>
           </Breadcrumb>
           <VStack mb={10} pl={30} pr={30} spacing={3}>
+            <Card w={'100%'}>
+              <CardBody>
+                <HStack mb={3} alignItems='center' spacing={4}>
+                  <Icon as={AiOutlineEdit} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                  <Text m={0} fontSize='2xl'>
+                    Câu hỏi
+                  </Text>
+                </HStack>
+                <VStack w={'100%'} alignItems={'flex-start'}>
+                  <HStack w={'100%'} spacing={5}>
+                    <Select
+                      w={'25%'}
+                      onChange={(event) => {
+                        const selectedValue = parseInt(event.target.value, 10)
+                        setFilter((filter) => ({
+                          ...filter,
+                          fieldId: selectedValue,
+                        }))
+                      }}
+                      value={filter.fieldId}>
+                      {dropdownField.map((option) => (
+                        <option key={option.id} value={option.id}>
+                          {option.field}
+                        </option>
+                      ))}
+                    </Select>
+
+                    <Select
+                      w={'25%'}
+                      onChange={(event) => {
+                        const selectedValue = parseInt(event.target.value, 10)
+                        setFilter((filter) => ({
+                          ...filter,
+                          skillId: selectedValue,
+                        }))
+                      }}
+                      value={filter.skillId}>
+                      {dropdownSkill(skills).map((option) => (
+                        <option key={option.id} value={option.id}>
+                          {option.field}
+                        </option>
+                      ))}
+                    </Select>
+
+                    <Select
+                      w={'25%'}
+                      onChange={(event) => {
+                        const selectedValue = parseInt(event.target.value, 10)
+                        setFilter((filter) => ({
+                          ...filter,
+                          positionId: selectedValue,
+                        }))
+                      }}
+                      value={filter.positionId}>
+                      {dropdownPosition(positions).map((option) => (
+                        <option key={option.id} value={option.id}>
+                          {option.field}
+                        </option>
+                      ))}
+                    </Select>
+
+                    <Button w={'25%'} onClick={() => navigate('/question/add')} leftIcon={<AddIcon />} bgColor={'#2cccc7'} color={'white'} variant='solid'>
+                      Thêm câu hỏi
+                    </Button>
+                  </HStack>
+                  <Accordion minHeight={450} w={'100%'} allowToggle>
+                    {displayItems.map((item) => (
+                      <AccordionItem key={item.id}>
+                        <h2>
+                          <AccordionButton>
+                            <Box as='span' flex='1' textAlign='left'>
+                              <HStack>
+                                <Text fontWeight={'bold'}>{item.question}</Text>
+                                <IconButton color='#e06cae' backgroundColor='#f7f7f7' aria-label='Search database' icon={<EditIcon />} onClick={() => navigate(`/question/edit/${item.id}`)} />
+                              </HStack>
+                            </Box>
+                            <AccordionIcon />
+                          </AccordionButton>
+                        </h2>
+                        <AccordionPanel pb={4}>
+                          <List spacing={3}>
+                            <ListItem>
+                              <ListIcon as={MdCheckCircle} color='green.500' />
+                              Creator: {item.creatorName}
+                            </ListItem>
+                            <ListItem>
+                              <ListIcon as={MdCheckCircle} color='green.500' />
+                              Answer: {item.answer}
+                            </ListItem>
+                            <ListItem>
+                              <ListIcon as={MdCheckCircle} color='green.500' />
+                              Field: {item.fieldEnum}
+                            </ListItem>
+                            // Đoạn mã trong phần hiển thị các kỹ năng và vị trí:
+                            <ListItem>
+                              <ListIcon as={MdCheckCircle} color='green.500' />
+                              Skill:{' '}
+                              {item.skillIds.map((id) => {
+                                const skill = skills.find((s) => s.id === id)
+                                return skill ? `${skill.skillName}, ` : ''
+                              })}
+                            </ListItem>
+                            <ListItem>
+                              <ListIcon as={MdCheckCircle} color='green.500' />
+                              Position:{' '}
+                              {item.positionIds.map((id) => {
+                                const position = positions.find((p) => p.id === id)
+                                return position ? `${position.positionName}, ` : ''
+                              })}
+                            </ListItem>
+                          </List>
+                        </AccordionPanel>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                  <ReactPaginate
+                    className='question-panigate'
+                    pageCount={pageCount}
+                    onPageChange={handlePageChange}
+                    previousLabel='<'
+                    nextLabel='>'
+                    breakLabel='...'
+                    breakClassName='page-item'
+                    breakLinkClassName='page-link'
+                    containerClassName='pagination'
+                    pageClassName='page-item'
+                    pageLinkClassName='page-link'
+                    previousClassName='page-item'
+                    previousLinkClassName='page-link'
+                    nextClassName='page-item'
+                    nextLinkClassName='page-link'
+                    activeClassName='active'
+                  />
+                </VStack>
+              </CardBody>
+            </Card>
             <Card w={'100%'}>
               <CardBody>
                 <HStack mb={3} alignItems='center' spacing={4}>
@@ -323,261 +459,8 @@ export const Question = () => {
                 </Tabs>
               </CardBody>
             </Card>
-            <Card w={'100%'}>
-              <CardBody>
-                <HStack mb={3} alignItems='center' spacing={4}>
-                  <Icon as={AiOutlineEdit} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                  <Text m={0} fontSize='2xl'>
-                    Câu hỏi
-                  </Text>
-                </HStack>
-                <VStack w={'100%'} alignItems={'flex-start'}>
-                  <HStack w={'100%'} spacing={5}>
-                    <Select
-                      w={'25%'}
-                      onChange={(event) => {
-                        const selectedValue = parseInt(event.target.value, 10)
-                        setFilter((filter) => ({
-                          ...filter,
-                          fieldId: selectedValue,
-                        }))
-                      }}
-                      value={filter.fieldId}>
-                      {dropdownField.map((option) => (
-                        <option key={option.id} value={option.id}>
-                          {option.field}
-                        </option>
-                      ))}
-                    </Select>
-
-                    <Select
-                      w={'25%'}
-                      onChange={(event) => {
-                        const selectedValue = parseInt(event.target.value, 10)
-                        setFilter((filter) => ({
-                          ...filter,
-                          skillId: selectedValue,
-                        }))
-                      }}
-                      value={filter.skillId}>
-                      {dropdownSkill(skills).map((option) => (
-                        <option key={option.id} value={option.id}>
-                          {option.field}
-                        </option>
-                      ))}
-                    </Select>
-
-                    <Select
-                      w={'25%'}
-                      onChange={(event) => {
-                        const selectedValue = parseInt(event.target.value, 10)
-                        setFilter((filter) => ({
-                          ...filter,
-                          positionId: selectedValue,
-                        }))
-                      }}
-                      value={filter.positionId}>
-                      {dropdownPosition(positions).map((option) => (
-                        <option key={option.id} value={option.id}>
-                          {option.field}
-                        </option>
-                      ))}
-                    </Select>
-
-                    <Button w={'25%'} onClick={() => navigate('/question/add')} leftIcon={<AddIcon />} bgColor={'#2cccc7'} color={'white'} variant='solid'>
-                      Thêm câu hỏi
-                    </Button>
-                  </HStack>
-                  <Accordion minHeight={450} w={'100%'} allowToggle>
-                    {displayItems.map((item) => (
-                      <AccordionItem key={item.id}>
-                        <h2>
-                          <AccordionButton>
-                            <Box as='span' flex='1' textAlign='left'>
-                              <HStack>
-                                <Text fontWeight={'bold'}>{item.question}</Text>
-                                <IconButton color='#e06cae' backgroundColor='#f7f7f7' aria-label='Search database' icon={<EditIcon />} onClick={() => navigate(`/question/edit/${item.id}`)} />
-                              </HStack>
-                            </Box>
-                            <AccordionIcon />
-                          </AccordionButton>
-                        </h2>
-                        <AccordionPanel pb={4}>
-                          <List spacing={3}>
-                            <ListItem>
-                              <ListIcon as={MdCheckCircle} color='green.500' />
-                              Creator: {item.creatorName}
-                            </ListItem>
-                            <ListItem>
-                              <ListIcon as={MdCheckCircle} color='green.500' />
-                              Answer: {item.answer}
-                            </ListItem>
-                            <ListItem>
-                              <ListIcon as={MdCheckCircle} color='green.500' />
-                              Field: {item.fieldEnum}
-                            </ListItem>
-                            {/* <ListItem>
-                              <ListIcon as={MdCheckCircle} color='green.500' />
-                              Skill:{' '}
-                              {item.skillIds.map((id) => {
-                                return `${skills.find((s) => s.id === id).skillName}, `
-                              })}
-                            </ListItem>
-                            <ListItem>
-                              <ListIcon as={MdCheckCircle} color='green.500' />
-                              Position:{' '}
-                              {item.positionIds.map((id) => {
-                                return `${positions.find((s) => s.id === id).positionName}, `
-                              })}
-                            </ListItem> */}
-                            // Đoạn mã trong phần hiển thị các kỹ năng và vị trí:
-                            <ListItem>
-                              <ListIcon as={MdCheckCircle} color='green.500' />
-                              Skill:{' '}
-                              {item.skillIds.map((id) => {
-                                const skill = skills.find((s) => s.id === id)
-                                return skill ? `${skill.skillName}, ` : ''
-                              })}
-                            </ListItem>
-                            <ListItem>
-                              <ListIcon as={MdCheckCircle} color='green.500' />
-                              Position:{' '}
-                              {item.positionIds.map((id) => {
-                                const position = positions.find((p) => p.id === id)
-                                return position ? `${position.positionName}, ` : ''
-                              })}
-                            </ListItem>
-                          </List>
-                        </AccordionPanel>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                  <ReactPaginate
-                    className='question-panigate'
-                    pageCount={pageCount}
-                    onPageChange={handlePageChange}
-                    previousLabel='<'
-                    nextLabel='>'
-                    breakLabel='...'
-                    breakClassName='page-item'
-                    breakLinkClassName='page-link'
-                    containerClassName='pagination'
-                    pageClassName='page-item'
-                    pageLinkClassName='page-link'
-                    previousClassName='page-item'
-                    previousLinkClassName='page-link'
-                    nextClassName='page-item'
-                    nextLinkClassName='page-link'
-                    activeClassName='active'
-                  />
-                </VStack>
-              </CardBody>
-            </Card>
           </VStack>
         </Box>
-
-        {/* <div style={{ fontFamily: 'Roboto' }} className='m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl'>
-          <Header title='Question' />
-          <IconButton color='#03C9D7' backgroundColor='#f7f7f7' aria-label='Search database' icon={<AddIcon />} onClick={() => navigate('/question/add')} />
-
-          <div className='flex flex-col md:flex-row justify-between items-center gap-4'>
-            <div className='flex items-center gap-2'>
-              <p className='text-xl font-semibold'>Filter</p>
-            </div>
-            <div className='flex items-center gap-2'>
-              <p>Field:</p>
-              <DropDown
-                value={filter.fieldId}
-                name='field'
-                list={dropdownField}
-                onChange={(selectedValue) =>
-                  setFilter((filter) => ({
-                    ...filter,
-                    fieldId: selectedValue,
-                  }))
-                }
-              />
-            </div>
-            <div className='flex items-center gap-2'>
-              <p>Skill:</p>
-              <DropDown
-                value={filter.skillId}
-                name='skill'
-                list={dropdownSkill(skills)}
-                onChange={(selectedValue) =>
-                  setFilter((filter) => ({
-                    ...filter,
-                    skillId: selectedValue,
-                  }))
-                }
-              />
-            </div>
-            <div className='flex items-center gap-2'>
-              <p>Position:</p>
-              <DropDown
-                value={filter.positionId}
-                name='position'
-                list={dropdownPosition(positions)}
-                onChange={(selectedValue) =>
-                  setFilter((filter) => ({
-                    ...filter,
-                    positionId: selectedValue,
-                  }))
-                }
-              />
-            </div>
-          </div>
-
-          <Stack w={'100%'}>
-            <ReactPaginate
-              className='question-panigate'
-              pageCount={pageCount}
-              onPageChange={handlePageChange}
-              previousLabel='<'
-              nextLabel='>'
-              breakLabel='...'
-              breakClassName='page-item'
-              breakLinkClassName='page-link'
-              containerClassName='pagination'
-              pageClassName='page-item'
-              pageLinkClassName='page-link'
-              previousClassName='page-item'
-              previousLinkClassName='page-link'
-              nextClassName='page-item'
-              nextLinkClassName='page-link'
-              activeClassName='active'
-            />
-          </Stack>
-
-          <List spacing={3}>
-            {displayItems.map((item) => (
-              <ListItem key={item.id}>
-                <ListIcon as={MdCheckCircle} color='green.500' />
-                <Box>
-                  <Text fontSize='lg' fontWeight='bold'>
-                    {item.question}
-                  </Text>
-                  <Text>Creator: {item.creatorName}</Text>
-                  <Text>Field: {item.fieldEnum}</Text>
-                  <Text>Answer: {item.answer}</Text>
-                  <Text>
-                    Skill:{' '}
-                    {item.skillIds.map((id) => {
-                      return `${skills.find((s) => s.id === id).skillName}, `
-                    })}
-                  </Text>
-                  <Text>
-                    Position:{' '}
-                    {item.positionIds.map((id) => {
-                      return `${positions.find((s) => s.id === id).positionName}, `
-                    })}
-                  </Text>
-                  <IconButton color='#e06cae' backgroundColor='#f7f7f7' aria-label='Search database' icon={<EditIcon />} onClick={() => navigate(`/question/edit/${item.id}`)} />
-                </Box>
-              </ListItem>
-            ))}
-          </List>
-        </div> */}
       </>
     )
 }

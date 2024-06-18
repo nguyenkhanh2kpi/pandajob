@@ -1,4 +1,4 @@
-import { Box, Button, Container, Flex, HStack, Heading, Icon, Image, Input, Select, SlideFade, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Container, Flex, HStack, Heading, Icon, Image, Input, Link, Select, SlideFade, Text, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import JobButton from './JobButton'
 import 'swiper/css'
@@ -18,6 +18,7 @@ import ListCompany from './ListCompany'
 import { Notification } from '../../Components-admin'
 import { AiOutlineUser } from 'react-icons/ai'
 import Tour from 'reactour'
+import AboutUsHomePage from './AboutUsHomePage'
 
 const HomePage = () => {
   const navigate = useNavigate()
@@ -85,18 +86,11 @@ const HomePage = () => {
   }
 
   return (
-    <VStack w={'100%'} bgColor={'#f0f4f5'} fontFamily={'Roboto'} mt={'72px'}>
-      <VStack pb={10} bgGradient='linear(to-b, #8ad4d4, #f0f4f5)' w={'100%'} overflow='hidden' align={'center'}>
-        <Container mt={10} h={'80px'} maxW={'100%'}>
-          <Heading color={'white'} fontFamily={'Roboto'} textAlign={'center'} fontWeight={'700'} fontSize={'35px'} lineHeight={'50px'} mb={'3px'}>
-            Tìm việc làm nhanh 24h, việc làm mới nhất.
-          </Heading>
-        </Container>
-        <Button onClick={toggleTour}>Bắt đầu hướng dẫn</Button>
-
-        {/* Tour */}
+    <VStack spacing={0} w={'100%'} bgColor={'#f0f4f5'} fontFamily={'Roboto'} mt={'72px'}>
+      <VStack pb={1} bgGradient='linear(to-b, #8ad4d4, #f0f4f5)' w={'100%'} overflow='hidden' align={'center'}>
+        <SliderBanner />
         <Tour steps={steps} isOpen={isTourOpen} onRequestClose={toggleTour} rounded={10} accentColor='#457eff' />
-        <Container h={'70px'} maxW={'100%'}>
+        <Container mt={10} h={'70px'} maxW={'100%'}>
           <Flex className='search-bar' boxShadow='base' p='6' rounded='md' bg='white' w={'80%'} h={'100%'} m={'auto'} borderRadius={'50px'} pl={'24px'} pr={'9px'} py={'9px'}>
             <Box w={'28px'} display={'flex'} alignItems={'center'}>
               <Image mr={'8px'} w={'20px'} h={'20px'} src='https://static.naukimg.com/s/7/103/i/search.9ec0e1ac.svg' />
@@ -140,24 +134,25 @@ const HomePage = () => {
                 <option value='thỏa thuận'>thỏa thuận</option>
               </Select>
             </Box>
-            <Button fontFamily={'Roboto'} onClick={handleSearch} color={'white'} fontWeight={'600'} fontSize={'19px'} bgColor={'#457eff'} borderRadius={'50px'} h={'48px'} w={'120px'} px={'28px'} py={'11px'}>
-              Tìm
+            <Button fontFamily={'Roboto'} onClick={handleSearch} backgroundColor='rgb(3, 201, 215)' color={'white'} fontWeight={'600'} fontSize={'19px'} borderRadius={'50px'} h={'48px'} w={'120px'} px={'28px'} py={'11px'}>
+              <Link>Tìm</Link>
             </Button>
           </Flex>
         </Container>
-        <SliderBanner  />
       </VStack>
       <VStack mb={100} minH={1000} align={'flex-start'} w={'80vw'}>
-        <VStack bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' boxShadow='md' align={'flex-start'}>
+        <VStack w={'100%'} align={'flex-start'}>
           <NewJob />
         </VStack>
-        <VStack bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' boxShadow='md' align={'flex-start'}>
+        <VStack w={'100%'} align={'flex-start'}>
+          <AboutUsHomePage />
+        </VStack>
+        <VStack w={'100%'} align={'flex-start'}>
           <FeatureCompony />
         </VStack>
-        <VStack bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' boxShadow='md' align={'flex-start'}>
+        <VStack w={'100%'} align={'flex-start'}>
           <ListIndustry />
         </VStack>
-        <VStack bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' boxShadow='md' align={'flex-start'}></VStack>
       </VStack>
     </VStack>
   )

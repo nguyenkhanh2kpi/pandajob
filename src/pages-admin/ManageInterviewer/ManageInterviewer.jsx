@@ -126,36 +126,6 @@ export const ManageInterviewer = () => {
                   </CardHeader>
                 </Card>
               ))}
-              {/* 
-              {hrs.map((hr) => (
-                <Box w='100%'>
-                  <Card>
-                    <CardBody>
-                      <HStack justifyContent={'space-between'}>
-                        <HStack spacing={5}>
-                          <Avatar size='xl' name={hr.fullName ? hr.fullName : hr.email} src={hr.avatar} />
-                          <VStack>
-                            <Text w='100%' fontWeight={'black'}>
-                              Full Name: {hr.fullName}
-                            </Text>
-                            <Text w='100%'>Email: {hr.email}</Text>
-                          </VStack>
-                        </HStack>
-
-                        {hr.status === 'INPROCESS' ? (
-                          <Button onClick={() => handleAddBlackList(hr.id)} color={'white'} backgroundColor={'#30f0b6'}>
-                            ACTIVE
-                          </Button>
-                        ) : (
-                          <Button onClick={() => handleRemoveBlackList(hr.id)} color={'white'} backgroundColor={'#fa236e'}>
-                            DISABLE
-                          </Button>
-                        )}
-                      </HStack>
-                    </CardBody>
-                  </Card>
-                </Box>
-              ))} */}
             </VStack>
           </Box>
         </VStack>

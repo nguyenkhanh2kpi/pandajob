@@ -3,6 +3,7 @@ import { CometChatConversations, ConversationsStyle, MessagesStyle, TitleAlignme
 import React, { useRef, useState } from 'react'
 import { AiOutlineBell, AiOutlineMessage } from 'react-icons/ai'
 import ChatWindow from '../../pages-admin/MessageAdmin/ChatWindow'
+import { ChatWindowAdmin } from '../../Components-admin/ChatWindowAdmin/ChatWindowAdmin'
 
 const conversationsStyle = new ConversationsStyle({
   width: '100%',
@@ -49,17 +50,15 @@ export const NotifyMessage = () => {
   const popoverPosition = showPopover ? calculatePopoverPosition() : null
 
   //   chat
+  const [uid, setUid] = useState('')
   const [isChatOpen, setIsChatOpen] = useState(false)
   const toggleChatWindow = () => {
     setIsChatOpen(!isChatOpen)
   }
-  const handleOnItemClick = (item) => {
+  const handleOnItemClick = async (item) => {
+    await setUid(item.conversationWith.uid)
     setIsChatOpen(!isChatOpen)
     setShowPopover(!showPopover)
-    console.log(item.conversationWith.uid)
-    // CometChat.getUser(item.conversationWith.uid).then((user) => {
-    //   setChatUser(user)
-    // })
   }
   return (
     <>
@@ -84,13 +83,13 @@ export const NotifyMessage = () => {
         )}
         <AiOutlineMessage />
       </button>
-      {isChatOpen ? <ChatWindow onClose={toggleChatWindow} email={'reccer1@gmail.com'} /> : <></>}
+      {isChatOpen ? <ChatWindowAdmin onClose={toggleChatWindow} uid={uid} /> : <></>}
       {showPopover && (
         <div style={{ position: 'absolute', left: popoverPosition.left, top: popoverPosition.top }}>
           <Box fontFamily={'Roboto'} p={1} maxH={600} bgColor={'white'} w={400} boxShadow={'lg'} borderRadius={10} borderWidth={1}>
             <VStack w={'100%'}>
               <HStack w={'100%'} justifyContent={'space-between'}>
-                <CometChatConversations onItemClick={handleOnItemClick} listItemStyle={listItemStyle} avatarStyle={avatarStyle} title='Tin nhắn' titleAlignment={TitleAlignment.center} conversationsStyle={conversationsStyle} />
+                <CometChatConversations onItemClick={handleOnItemClick} listItemStyle={listItemStyle} avatarStyle={avatarStyle} title='' titleAlignment={TitleAlignment.center} conversationsStyle={conversationsStyle} />
               </HStack>
               <VStack spacing={0} m={0} w={'100%'} maxH={500} overflowY={'auto'}></VStack>
             </VStack>

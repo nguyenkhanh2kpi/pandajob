@@ -92,8 +92,8 @@ export const AddEssayTest = ({ jobId, load, setLoad }) => {
 
   return (
     <>
-      <Button onClick={handleOpen} color={'white'} leftIcon={<FaPencilAlt />} backgroundColor={'rgb(3, 201, 215)'} variant='solid'>
-        Bài kiểm tra tự luận
+      <Button onClick={handleOpen} leftIcon={<FaPencilAlt />} colorScheme='green' size='sm' variant='outline'>
+        Thêm bài test tự luận
       </Button>
       <Overlay isOpen={isOpen} onClose={handleClose}>
         <Box fontFamily={'Roboto'} p={5} w={800} h={650} bgColor={'white'} borderRadius={10}>

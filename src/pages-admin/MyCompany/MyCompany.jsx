@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom'
 export const MyCompany = () => {
   const [company, setCompany] = useState()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
-  const params = useParams();
+  const params = useParams()
 
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -79,18 +79,9 @@ export const MyCompany = () => {
 
   if (company === undefined) {
     return (
-      <>
-        <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
-          <VStack spacing={3}>
-            <Box p={'20%'} borderRadius={20} backgroundColor={'#FFFFFF'} w={'100%'} mb={10}>
-              <Skeleton>
-                <div>contents wrapped</div>
-                <div>won't be visible</div>
-              </Skeleton>
-            </Box>
-          </VStack>
-        </Box>
-      </>
+      <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
+        <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+      </HStack>
     )
   } else
     return (
@@ -110,7 +101,6 @@ export const MyCompany = () => {
                   <Tabs defaultIndex={params.tab ? params.tab : 0} position='relative' variant='unstyled'>
                     <TabList fontWeight={'bold'}>
                       <Tab>Thông tin cơ bản</Tab>
-                      <Tab>Thông tin cá nhân</Tab>
                       <Tab>Đội ngủ tuyển dụng</Tab>
                       <Tab>Lịch sử giao dịch</Tab>
                       <Tab>Lịch sử hoạt động</Tab>
@@ -118,12 +108,7 @@ export const MyCompany = () => {
                     <TabIndicator mt='-1.5px' height='2px' bg='blue.500' borderRadius='1px' />
                     <TabPanels>
                       <TabPanel>
-                        <Box>
-                          <FormControl>
-                            <FormLabel>Ảnh đại diện</FormLabel>
-                            {loading ? <Spinner size='xl' /> : <Img w={200} alt='Choose img' borderRadius={20} src={company.avatar} onClick={openFileUpload} />}
-                            <input id='file-upload' type='file' accept='image/*' onChange={handleFileChange} style={{ display: 'none' }} />
-                          </FormControl>
+                        <Box borderWidth={1} borderRadius={10} p={10}>
                           <HStack mt={3}>
                             <FormControl>
                               <FormLabel>Tên công ty</FormLabel>
@@ -146,22 +131,26 @@ export const MyCompany = () => {
                             <FormLabel>Thông tin chi tiết</FormLabel>
                             <Textarea onChange={handleOnChangeForm} name='info' value={company.info} placeholder='info' />
                           </FormControl>
+                          <FormControl>
+                            <FormLabel>Ảnh đại diện</FormLabel>
+                            {loading ? <Spinner size='xl' /> : <Img w={200} alt='Choose img' borderRadius={20} src={company.avatar} onClick={openFileUpload} />}
+                            <input id='file-upload' type='file' accept='image/*' onChange={handleFileChange} style={{ display: 'none' }} />
+                          </FormControl>
+                          <HStack w={'100%'} justifyContent={'space-between'}>
+                            <Box></Box>
 
-                          <Button mt={5} w={'20%'} onClick={handeUpdateCompany} color={'#ffffff'} backgroundColor='rgb(3, 201, 215)'>
-                            {uploading ? <Spinner /> : 'Save'}
-                          </Button>
+                            <Button mt={5} right={0} w={'20%'} onClick={handeUpdateCompany} color={'#ffffff'} backgroundColor='rgb(3, 201, 215)'>
+                              {uploading ? <Spinner /> : 'Lưu'}
+                            </Button>
+                          </HStack>
                         </Box>
-                      </TabPanel>
-                      <TabPanel>
-                        <UserInfoAdmin />
                       </TabPanel>
 
                       <TabPanel>
                         <ManageInterviewer />
                       </TabPanel>
                       <TabPanel>
-                        {/* ls giao dich */}
-                        <TransactionHistory/>
+                        <TransactionHistory />
                       </TabPanel>
                       <TabPanel>
                         <p>threqqe!</p>

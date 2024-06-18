@@ -46,40 +46,18 @@ const MessageAdmin = () => {
   }
 
   return (
-    <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
-      {/* <Breadcrumb pt={30}>
-        <BreadcrumbItem>
-          <BreadcrumbLink href='#'>Tin nhắn</BreadcrumbLink>
-        </BreadcrumbItem>
-      </Breadcrumb> */}
-      <VStack pt={30} h={800} pl={30} pr={30} spacing={10}>
-        <Card h={600} w={'100%'} direction={{ base: 'column', sm: 'row' }} overflow='hidden' variant='outline'>
-          <HStack w={'100%'}>
-            <Box h={'100%'} w={'30%'}>
-              <CometChatConversations onItemClick={handleOnItemClick} listItemStyle={listItemStyle} avatarStyle={avatarStyle} title='Tin nhắn' titleAlignment={TitleAlignment.center} conversationsStyle={conversationsStyle} />
-            </Box>
-            <Box w={'70%'} h={'100%'}>
-              {chatUser && <CometChatMessages messagesStyle={messagesStyle} user={chatUser} />}
-            </Box>
-          </HStack>
-        </Card>
+    <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'white'} overflow='hidden'>
+      <VStack h={600} spacing={10}>
+        <HStack h={600} w={'100%'}>
+          <Box h={'100%'} w={'30%'}>
+            <CometChatConversations onItemClick={handleOnItemClick} listItemStyle={listItemStyle} avatarStyle={avatarStyle} title='' titleAlignment={TitleAlignment.center} conversationsStyle={conversationsStyle} />
+          </Box>
+          <Box w={'70%'} h={'100%'}>
+            {chatUser && <CometChatMessages messagesStyle={messagesStyle} user={chatUser} />}
+          </Box>
+        </HStack>
       </VStack>
     </Box>
-
-    // <Box mb={20} mt={120} fontFamily={'Roboto'}>
-    //   <Box h={600} display='flex' justifyContent='space-evenly'>
-    //     <Box overflow={'hidden'} borderRadius={20} borderWidth={1} h={600} display='flex' w='75%' boxShadow={'lg'}>
-    //       <HStack w={'100%'}>
-    //         <Box h={'100%'} w={'30%'}>
-    //           <CometChatConversations onItemClick={handleOnItemClick} listItemStyle={listItemStyle} avatarStyle={avatarStyle} title='Messages' titleAlignment={TitleAlignment.center} conversationsStyle={conversationsStyle} />
-    //         </Box>
-    //         <Box w={'70%'} h={'100%'}>
-    //           {chatUser && <CometChatMessages messagesStyle={messagesStyle} user={chatUser} />}
-    //         </Box>
-    //       </HStack>
-    //     </Box>
-    //   </Box>
-    // </Box>
   )
 }
 

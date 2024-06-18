@@ -616,9 +616,39 @@ export const reccerLink = [
         icon: <BiBuilding />,
       },
       {
-        title: 'Đăng tuyển dụng',
+        title: 'Quản lý bài đăng',
         name: 'allJob_Recruiter',
         icon: <BiBriefcase />,
+      },
+      {
+        title: 'Quản lý ứng tuyển',
+        name: 'process',
+        icon: <BiGitCommit />,
+      },
+      {
+        name: 'roomList',
+        title: 'Quản lý phòng',
+        icon: <BiVideo />,
+      },
+      {
+        title: 'Quản lý câu hỏi',
+        name: 'question',
+        icon: <FiBookOpen />,
+      },
+      {
+        title: 'Phỏng vấn ứng viên',
+        name: 'interviewer-list-room',
+        icon: <BiVideo />,
+      },
+      {
+        title: 'Quản lý sự kiện',
+        name: 'event',
+        icon: <BiNews />,
+      },
+      {
+        title: 'Xem kết quả',
+        name: 'result',
+        icon: <BsPeople />,
       },
       {
         title: 'Tìm kiếm ứng viên',
@@ -626,39 +656,9 @@ export const reccerLink = [
         icon: <SearchIcon />,
       },
       {
-        title: 'Tiến trình',
-        name: 'process',
-        icon: <BiGitCommit />,
-      },
-      {
-        name: 'roomList',
-        title: 'Phòng phỏng vấn',
-        icon: <BiVideo />,
-      },
-      {
-        title: 'Question',
-        name: 'question',
-        icon: <FiBookOpen />,
-      },
-      {
-        title: 'Phỏng vấn',
-        name: 'interviewer-list-room',
-        icon: <BiVideo />,
-      },
-      {
-        title: 'Sự kiện',
-        name: 'event',
-        icon: <BiNews />,
-      },
-      {
         title: 'Lịch',
         name: 'calendar-admin',
         icon: <BiCalendarCheck />,
-      },
-      {
-        title: 'Kết quả phỏng vấn',
-        name: 'result',
-        icon: <BsPeople />,
       },
       {
         title: 'Dịch vụ VIP',

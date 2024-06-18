@@ -176,8 +176,8 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate, load, setLo
 
   return (
     <>
-      <Button size='xs' leftIcon={<AtSignIcon />} colorScheme='teal' variant='solid' onClick={onOpen}>
-        Đăng kí ứng viên
+      <Button size='xs' leftIcon={<AtSignIcon />} color='white' backgroundColor='rgb(3, 201, 215)' onClick={onOpen}>
+        <Link>Đăng kí ứng viên</Link>
       </Button>
 
       {isOpen && (

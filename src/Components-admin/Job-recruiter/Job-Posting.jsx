@@ -50,6 +50,7 @@ import { locationService } from '../../Service/location.service.js'
 import { DragHandleIcon, InfoIcon, SmallAddIcon } from '@chakra-ui/icons'
 import { AiOutlineEdit, AiOutlineFire, AiOutlineFolderOpen, AiOutlineInfoCircle } from 'react-icons/ai'
 const JobPosting = () => {
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(loadJob())
@@ -83,6 +84,8 @@ const JobPosting = () => {
   const [industry, setIndustry] = useState('')
   const [industry2, setIndustry2] = useState('')
 
+  const [requireTest, setRequireTest] = useState(false)
+
   const handleUpload = (e) => {
     const storageRef = ref(storage, `/files/${e.target.files[0].name + v4()}`)
     uploadBytes(storageRef, e.target.files[0]).then((data) => {
@@ -95,71 +98,88 @@ const JobPosting = () => {
   }
 
   const HandleSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault()
     if (name === '') {
-      toast.error('name is required!', {
+      toast.error('Yêu cầu nhập tên!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (industry === '') {
-      toast.error('industry is required!', {
+      toast.error('Hãy chọn ngành nghề!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (industry2 === '') {
-      toast.error('industry2 is required!', {
+      toast.error('Chọn ngành nghề phụ!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (position === '') {
-      toast.error('position is required!', {
+      toast.error('Cần nhập vị trí tuyển dụng!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (salary === '') {
-      toast.error('salary is required!', {
+      toast.error('Yêu cầu chọn mức lương!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (workingForm === '') {
-      toast.error('workingForm is required!', {
+      toast.error('Chưa chọn hình thức làm việc!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (location === '') {
-      toast.error('location is required!', {
+      toast.error('Yêu cầu nhập địa điểm!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (language === '') {
-      toast.error('language is required!', {
+      toast.error('Hãy nhập yêu cầu ngôn ngữ!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (sex === '') {
-      toast.error('sex is required!', {
+      toast.error('Yêu cầu nhập giới tính!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (number === '') {
-      toast.error('number is required!', {
+      toast.error('Hãy nhập số người tuyển dụng!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (detailLocation === '') {
-      toast.error('detailLocation is required!', {
+      toast.error('Nhập địa điểm làm việc chi tiết!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (experience === '') {
-      toast.error('experience is required!', {
+      toast.error('Nhập yêu cầu kinh nghiệm!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (detailJob === '') {
-      toast.error('detailJob is required!', {
+      toast.error('Yêu cầu nhập mô tả chi tiết về công việc!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (requirements === '') {
-      toast.error('requirements is required!', {
+      toast.error('Nhập yêu cầu công việc!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (interest === '') {
-      toast.error('interest is required!', {
+      toast.error('Nhập phúc lợi nhân viên!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else if (image === null) {
       toast.error('image is required!', {
         position: 'top-center',
       })
+      setLoading(false)
     } else {
       try {
         const formData = new FormData()
@@ -188,6 +208,7 @@ const JobPosting = () => {
           industry,
           industry2,
           image: imageData,
+          requireTest,
         })
 
         let config = {
@@ -201,23 +222,28 @@ const JobPosting = () => {
           data: data,
         }
 
-        axios
+        await axios
           .request(config)
           .then((response) => {
-            console.log('ok')
+            toast.info(response.data.message, {
+              position: 'top-center',
+            })
+            setLoading(false)
           })
           .catch((error) => {
             console.log(error)
-            toast.error('Upload Job Failed', {
+            toast.error('Đã có lỗi xảy ra', {
               position: 'top-center',
             })
+            setLoading(false)
           })
-
-        toast.success('Upload Job Successfuly', {
+        // .finally(() => navigate('/allJob_Recruiter'))
+      } catch (error) {
+        toast.error('Đã có lỗi xảy ra', {
           position: 'top-center',
         })
-        window.location.replace(`/job-posting`)
-      } catch (error) {}
+        setLoading(false)
+      }
     }
   }
 
@@ -261,192 +287,173 @@ const JobPosting = () => {
 
         {/* tiêu đề */}
         <Box pl={30} pr={30} w={'100%'} mb={5}>
-          <Card>
-            <CardBody>
-              <FormControl>
-                <HStack alignItems='center' spacing={4}>
-                  <Icon as={AiOutlineEdit} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                  <Text m={0} fontSize='2xl'>
-                    Tiêu đề tuyển dụng
-                  </Text>
-                </HStack>
-                <Input mt={5} w={'50%'} type='text' onChange={(e) => setName(e.target.value)} name='name' id='Name' />
-              </FormControl>
-            </CardBody>
-          </Card>
-        </Box>
+          <Box mx={'100px'} p='30px' fontSize={'sm'} bgColor={'white'} borderRadius={20} boxShadow={'md'}>
+            <FormControl>
+              <HStack alignItems='center' spacing={4}>
+                <Icon as={AiOutlineEdit} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                <Text fontWeight={'bold'} m={0}>
+                  Tiêu đề tuyển dụng
+                </Text>
+              </HStack>
+              <Input mt={5} w={'50%'} type='text' onChange={(e) => setName(e.target.value)} name='name' id='Name' />
+            </FormControl>
 
-        {/* ngành nghề */}
-        <Box pl={30} pr={30} w={'100%'} mb={5}>
-          <Card>
-            <CardBody>
-              <FormControl>
-                <HStack alignItems='center' spacing={4}>
-                  <Icon as={AiOutlineFolderOpen} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                  <Text m={0} fontSize='2xl'>
-                    Ngành nghề
-                  </Text>
-                </HStack>
-                <HStack mt={3}>
-                  <FormLabel w={'15%'}>Ngành nghề chính</FormLabel>
-                  <Select w={'35%'} placeholder='Chọn ngành nghề' value={industry} onChange={(e) => setIndustry(e.target.value)}>
-                    {industries.map((industry, index) => (
-                      <option key={index} value={industry}>
-                        {industry}
-                      </option>
-                    ))}
-                  </Select>
-                  <FormLabel w={'15%'}>Ngành nghề phụ</FormLabel>
-                  <Select w={'35%'} placeholder='Chọn ngành nghề' value={industry2} onChange={(e) => setIndustry2(e.target.value)}>
-                    {industries.map((industry, index) => (
-                      <option key={index} value={industry}>
-                        {industry}
-                      </option>
-                    ))}
-                  </Select>
-                </HStack>
-              </FormControl>
-            </CardBody>
-          </Card>
-        </Box>
-        {/* thoong tin chung */}
-        <Box pl={30} pr={30} w={'100%'} mb={5}>
-          <Card>
-            <CardBody>
-              <FormControl>
-                <HStack alignItems='center' spacing={4}>
-                  <Icon as={AiOutlineInfoCircle} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                  <Text m={0} fontSize='2xl'>
-                    Thông tin chung
-                  </Text>
-                </HStack>
-                <HStack mt={3}>
-                  <FormLabel w={'15%'}>Địa chỉ làm việc</FormLabel>
-                  <Input w={'50%'} type='text' onChange={(e) => setDetailLocation(e.target.value)} name='position' id='position' />
-                </HStack>
+            <HStack w={'100%'} mt={3}>
+              <VStack w={'50%'}>
+                <FormLabel ml={3} w={'100%'}>
+                  Ngành nghề chính
+                </FormLabel>
+                <Select w={'100%'} placeholder='Chọn ngành nghề' value={industry} onChange={(e) => setIndustry(e.target.value)}>
+                  {industries.map((industry, index) => (
+                    <option key={index} value={industry}>
+                      {industry}
+                    </option>
+                  ))}
+                </Select>
+              </VStack>
+              <VStack w={'50%'}>
+                <FormLabel ml={3} w={'100%'}>
+                  Ngành nghề phụ
+                </FormLabel>
+                <Select w={'100%'} placeholder='Chọn ngành nghề' value={industry2} onChange={(e) => setIndustry2(e.target.value)}>
+                  {industries.map((industry, index) => (
+                    <option key={index} value={industry}>
+                      {industry}
+                    </option>
+                  ))}
+                </Select>
+              </VStack>
+            </HStack>
 
-                <HStack mt={3}>
-                  <FormLabel w={'15%'}>Lương</FormLabel>
-                  <Select w={'35%'} onChange={(e) => setSalary(e.target.value)} defaultValue='all'>
-                    <option value='all'>Mức lương</option>
-                    <option value='Dưới 10 triệu'>Dưới 10 triệu</option>
-                    <option value='10 -15 triệu'>10 -15 triệu</option>
-                    <option value='15 -20 triệu'>15 -20 triệu</option>
-                    <option value='20 -25 triệu'>20 -25 triệu</option>
-                    <option value='25 -30 triệu'>25 -30 triệu</option>
-                    <option value='30 -50 triệu'>30 -50 triệu</option>
-                    <option value='trên 50 triệu'>trên 50 triệu</option>
-                    <option value='thỏa thuận'>thỏa thuận</option>
-                  </Select>
-                  <FormLabel w={'15%'}>Hình thức làm việc</FormLabel>
-                  <Input w={'35%'} type='text' onChange={(e) => setWorkingForm(e.target.value)} name='workingForm' id='workingForm' />
-                </HStack>
+            <HStack w={'100%'} mt={3} spacing={10}>
+              <VStack w={'50%'}>
+                <FormLabel ml={3} mr={1} w={'100%'}>
+                  Địa chỉ làm việc
+                </FormLabel>
+                <Input w={'100%'} type='text' onChange={(e) => setDetailLocation(e.target.value)} name='position' id='position' />
+              </VStack>
+            </HStack>
 
-                <HStack mt={3}>
-                  <FormLabel w={'15%'}>Địa điểm</FormLabel>
-                  <Select w={'35%'} defaultValue='all' onChange={(e) => setLocation(e.target.value)}>
-                    <option value='all'>Địa điểm</option>
-                    {province.map((p) => (
-                      <option key={p.id} value={p.name}>
-                        {p.name}
-                      </option>
-                    ))}
-                  </Select>
-                  <FormLabel w={'15%'}>Ngôn ngữ</FormLabel>
-                  <Input w={'35%'} type='text' onChange={(e) => setLanguage(e.target.value)} name='language' id='language' />
-                </HStack>
+            <HStack w={'100%'} mt={3}>
+              <VStack w={'50%'}>
+                <FormLabel ml={3} w={'100%'}>
+                  Lương
+                </FormLabel>
+                <Select w={'100%'} onChange={(e) => setSalary(e.target.value)} defaultValue='all'>
+                  <option value='all'>Mức lương</option>
+                  <option value='Dưới 10 triệu'>Dưới 10 triệu</option>
+                  <option value='10 -15 triệu'>10 -15 triệu</option>
+                  <option value='15 -20 triệu'>15 -20 triệu</option>
+                  <option value='20 -25 triệu'>20 -25 triệu</option>
+                  <option value='25 -30 triệu'>25 -30 triệu</option>
+                  <option value='30 -50 triệu'>30 -50 triệu</option>
+                  <option value='trên 50 triệu'>trên 50 triệu</option>
+                  <option value='thỏa thuận'>thỏa thuận</option>
+                </Select>
+              </VStack>
+              <VStack w={'50%'}>
+                <FormLabel ml={3} w={'100%'}>
+                  Hình thức làm việc
+                </FormLabel>
+                <Input w={'100%'} type='text' onChange={(e) => setWorkingForm(e.target.value)} name='workingForm' id='workingForm' />
+              </VStack>
+            </HStack>
 
-                <HStack mt={3}>
-                  <FormLabel w={'15%'}>Giới tính</FormLabel>
-                  <Select w={'35%'} onChange={(e) => setSex(e.target.value)} defaultValue='NONE'>
-                    <option value='Nam'>Nam</option>
-                    <option value='Nữ'>Nữ</option>
-                    <option value='Không yêu cầu'>Không yêu cầu</option>
-                  </Select>
-                  <FormLabel w={'15%'}>Số lượng tuyển</FormLabel>
-                  <Input w={'35%'} onChange={(e) => setNumber(e.target.value)} type='text' name='number' id='number' />
-                </HStack>
+            <HStack w={'100%'} mt={3}>
+              <VStack w={'50%'}>
+                <FormLabel ml={3} w={'100%'}>
+                  Địa điểm
+                </FormLabel>
+                <Select w={'100%'} defaultValue='all' onChange={(e) => setLocation(e.target.value)}>
+                  <option value='all'>Địa điểm</option>
+                  {province.map((p) => (
+                    <option key={p.id} value={p.name}>
+                      {p.name}
+                    </option>
+                  ))}
+                </Select>
+              </VStack>
+              <VStack w={'50%'}>
+                <FormLabel ml={3} w={'100%'}>
+                  Ngôn ngữ
+                </FormLabel>
+                <Input w={'100%'} type='text' onChange={(e) => setLanguage(e.target.value)} name='language' id='language' />
+              </VStack>
+            </HStack>
 
-                <HStack mt={3}>
-                  <FormLabel w={'15%'}>Chức vụ</FormLabel>
-                  <Input w={'35%'} onChange={(e) => setPosition(e.target.value)} type='text' name='detailLocation' id='detailLocation' />
-                  <FormLabel w={'15%'}>Kinh nghiệm</FormLabel>
-                  <Select w={'35%'} onChange={(e) => setExperience(e.target.value)} defaultValue={'Chưa có'}>
-                    <option value='all'>Kinh nghiệm</option>
-                    <option value='chưa có'>chưa có</option>
-                    <option value='dưới 1 năm'>dưới 1 năm</option>
-                    <option value='1 năm'>1 năm</option>
-                    <option value='2 năm'>2 năm</option>
-                    <option value='3 năm'>3 năm</option>
-                    <option value='4 năm'>4 năm</option>
-                    <option value='5 năm'>5 năm</option>
-                    <option value='trên 5 năm'>trên 5 năm</option>
-                  </Select>
-                </HStack>
-              </FormControl>
-            </CardBody>
-          </Card>
-        </Box>
-        {/* chi tiet */}
-        <Box pl={30} pr={30} minHeight={1000} w={'100%'} mb={5}>
-          <Card>
-            <CardBody>
-              <FormControl>
-                <HStack alignItems='center' spacing={4}>
-                  <Icon as={DragHandleIcon} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                  <Text m={0} fontSize='2xl'>
-                    Thông tin chi tiết
-                  </Text>
-                </HStack>
-                <FormLabel>Mô tả</FormLabel>
-                <Textarea h={250} onChange={(e) => setDetailJob(e.target.value)} type='text' name='detailJob' id='detailJob' />
+            <HStack w={'100%'} mt={3}>
+              <VStack w={'50%'}>
+                <FormLabel ml={3} w={'100%'}>
+                  Giới tính
+                </FormLabel>
+                <Select w={'100%'} onChange={(e) => setSex(e.target.value)} defaultValue='NONE'>
+                  <option value='Nam'>Nam</option>
+                  <option value='Nữ'>Nữ</option>
+                  <option value='Không yêu cầu'>Không yêu cầu</option>
+                </Select>
+              </VStack>
+              <VStack w={'50%'}>
+                <FormLabel ml={3} w={'100%'}>
+                  Số lượng tuyển
+                </FormLabel>
+                <Input w={'100%'} onChange={(e) => setNumber(e.target.value)} type='text' name='number' id='number' />
+              </VStack>
+            </HStack>
 
-                <FormLabel>Yêu cầu</FormLabel>
-                <Textarea h={250} onChange={(e) => setRequirements(e.target.value)} type='text' name='requirements' id='requirements' />
+            <HStack w={'100%'} mt={3}>
+              <VStack w={'50%'}>
+                <FormLabel ml={3} w={'100%'}>
+                  Chức vụ/ Vị trí công việc
+                </FormLabel>{' '}
+                <Input w={'100%'} onChange={(e) => setPosition(e.target.value)} type='text' name='detailLocation' id='detailLocation' />
+              </VStack>
+              <VStack w={'50%'}>
+                <FormLabel ml={3} w={'100%'}>
+                  Kinh nghiệm
+                </FormLabel>
+                <Select w={'100%'} onChange={(e) => setExperience(e.target.value)} defaultValue={'Chưa có'}>
+                  <option value='all'>Kinh nghiệm</option>
+                  <option value='chưa có'>chưa có</option>
+                  <option value='dưới 1 năm'>dưới 1 năm</option>
+                  <option value='1 năm'>1 năm</option>
+                  <option value='2 năm'>2 năm</option>
+                  <option value='3 năm'>3 năm</option>
+                  <option value='4 năm'>4 năm</option>
+                  <option value='5 năm'>5 năm</option>
+                  <option value='trên 5 năm'>trên 5 năm</option>
+                </Select>
+              </VStack>
+            </HStack>
 
-                <FormLabel>Quyền lợi</FormLabel>
-                <Textarea h={250} onChange={(e) => setInterest(e.target.value)} type='text' name='interest' id='interest' />
+            <FormLabel>Mô tả</FormLabel>
+            <Textarea h={250} onChange={(e) => setDetailJob(e.target.value)} type='text' name='detailJob' id='detailJob' />
 
-                <FormLabel>Hình ảnh</FormLabel>
-                <Input type='file' onChange={(e) => setImage(e.target.files[0])} name='image' id='image' />
-              </FormControl>
-            </CardBody>
-          </Card>
-        </Box>
-        {/* bổ sung */}
-        <Box pl={30} pr={30} w={'100%'} mb={5}>
-          <Card>
-            <CardBody>
-              <FormControl>
-                <HStack alignItems='center' spacing={4}>
-                  <Icon as={AiOutlineFire} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                  <Text m={0} fontSize='2xl'>
-                    Bổ sung
-                  </Text>
-                </HStack>
-                <HStack mt={3}>
-                  <FormLabel w={'15%'}>Vip</FormLabel>
-                  <Select w={'35%'} placeholder='Select option'>
-                    <option value='option1'>Option 1</option>
-                    <option value='option2'>Option 2</option>
-                    <option value='option3'>Option 3</option>
-                  </Select>
-                  <FormLabel w={'15%'}>Bài test sàng lọc</FormLabel>
-                  <Select w={'35%'} placeholder='Select option'>
-                    <option value='option1'>Option 1</option>
-                    <option value='option2'>Option 2</option>
-                    <option value='option3'>Option 3</option>
-                  </Select>
-                </HStack>
-              </FormControl>
-            </CardBody>
-          </Card>
+            <FormLabel>Yêu cầu</FormLabel>
+            <Textarea h={250} onChange={(e) => setRequirements(e.target.value)} type='text' name='requirements' id='requirements' />
+
+            <FormLabel>Quyền lợi</FormLabel>
+            <Textarea h={250} onChange={(e) => setInterest(e.target.value)} type='text' name='interest' id='interest' />
+
+            <FormLabel>Hình ảnh</FormLabel>
+            <Input type='file' onChange={(e) => setImage(e.target.files[0])} name='image' id='image' />
+
+            <FormLabel w={'15%'}>Bài test sàng lọc</FormLabel>
+            <Select w={'35%'} defaultValue={requireTest} onChange={(e) => setRequireTest(e.target.value === 'true')}>
+              <option value={true}>Áp dụng</option>
+              <option value={false}>Không áp dụng</option>
+            </Select>
+          </Box>
         </Box>
 
         <HStack justifyContent={'space-between'} pl={30} pr={30} w={'100%'} mb={5}>
-          <Button w={300} color={'white'} onClick={HandleSubmit} bgColor={'#2cccc7'}>
-            Lưu
-          </Button>
+          <Box></Box>
+          {loading ? (
+            <Text mr={'100px'}>loading</Text>
+          ) : (
+            <Button mr={'100px'} w={300} color={'white'} onClick={HandleSubmit} backgroundColor='rgb(3, 201, 215)'>
+              Lưu
+            </Button>
+          )}
         </HStack>
       </Box>
     </>

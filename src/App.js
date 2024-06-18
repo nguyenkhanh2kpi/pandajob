@@ -20,6 +20,7 @@ import { cometChatService } from './Service/cometchat.service'
 import ChatWindow from './pages-admin/MessageAdmin/ChatWindow'
 import SockJS from 'sockjs-client'
 import { Client } from '@stomp/stompjs'
+import { Box } from '@chakra-ui/react'
 
 function App() {
   const data = JSON.parse(localStorage.getItem('data'))
@@ -108,36 +109,29 @@ function App() {
       return (
         <BrowserRouter>
           <Provider store={store}>
-            <div className='flex relative dark:bg-main-dark-bg'>
-              <div className='fixed right-4 bottom-4' style={{ zIndex: '1000' }}>
-                {/* <TooltipComponent content='Settings' position='Top'>
-                  <button type='button' onClick={() => setThemeSettings(true)} style={{ background: currentColor, borderRadius: '50%' }} className='text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray'>
-                    <FiSettings />
-                  </button>
-                </TooltipComponent> */}
-
-                {isChatOpen ? <ChatWindow onClose={toggleChatWindow} email={sendToMe.sender.uid} /> : <></>}
-              </div>
+            <Box className='flex relative dark:bg-main-dark-bg'>
+              <Box className='fixed right-4 bottom-4' zIndex='1000'>
+                {isChatOpen && <ChatWindow onClose={toggleChatWindow} email={sendToMe.sender.uid} />}
+              </Box>
               {activeMenu ? (
-                <div className='w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white '>
+                <Box className='w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white'>
                   <Sidebar />
-                </div>
+                </Box>
               ) : (
-                <div className='w-0 dark:bg-secondary-dark-bg'>
+                <Box className='w-0 dark:bg-secondary-dark-bg'>
                   <Sidebar />
-                </div>
+                </Box>
               )}
-              <div className={activeMenu ? 'dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full  ' : 'bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 '}>
-                <div className='fixed md:static bg-main-bg dark:bg-main-dark-bg w-full '>
+              <Box className={activeMenu ? 'dark:bg-main-dark-bg bg-main-bg min-h-screen md:ml-72 w-full' : 'bg-main-bg dark:bg-main-dark-bg w-full min-h-screen flex-2'}>
+                <Box bgColor={'white'} className='fixed md:static bg-main-bg dark:bg-main-dark-bg w-full'>
                   <Navbar />
-                </div>
-                <div>
-                  {/* {themeSettings && <ThemeSettings />} */}
-                  <AllRoutesAd />
-                </div>
-                <FooterAdmin />
-              </div>
-            </div>
+                </Box>
+                <Box>
+                  <AllRoutesAd role={data.data.role} />
+                </Box>
+                {/* <ConditionalFooterAdmin /> */}
+              </Box>
+            </Box>
           </Provider>
         </BrowserRouter>
       )
@@ -165,8 +159,14 @@ const ConditionalNavbar = () => {
 
 const ConditionalFooter = () => {
   const location = useLocation()
-  const isLoginPage = location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/resetPassword'
+  const isLoginPage = location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/resetPassword' || location.pathname === '/messages'
   return !isLoginPage && <Footer />
+}
+
+const ConditionalFooterAdmin = () => {
+  const location = useLocation()
+  const isLoginPage = location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/resetPassword' || location.pathname === '/messages'
+  return !isLoginPage && <FooterAdmin />
 }
 
 export default App

@@ -35,18 +35,6 @@ const messagesStyle = new MessagesStyle({
   messageTextFont: 'sans-serif',
 })
 
-// const COMETCHAT_CONSTANTS = {
-//   APP_ID: '25621446d429b454',
-//   REGION: 'us',
-//   AUTH_KEY: '1de6a118d4d1a49b1ffb70d9b76a274fc9a330c9',
-// }
-// const UIKitSettings = new UIKitSettingsBuilder().setAppId(COMETCHAT_CONSTANTS.APP_ID).setRegion(COMETCHAT_CONSTANTS.REGION).setAuthKey(COMETCHAT_CONSTANTS.AUTH_KEY).subscribePresenceForFriends().build()
-// CometChatUIKit.init(UIKitSettings)
-//   .then(() => {
-//     console.log('Initialization completed successfully')
-//   })
-//   .catch((er) => console.log(er))
-
 const Message = () => {
   const data = JSON.parse(localStorage.getItem('data'))
   const [chatUser, setChatUser] = useState('')
@@ -57,49 +45,22 @@ const Message = () => {
     })
   }
 
-  // const handleAddNewUser = (uid, username, avatar, email, phone) => {
-  //   cometChatService
-  //     .createNewUser(uid, username, avatar, email, phone)
-  //     .then((reponse) => console.log('userBNN', reponse))
-  //     .catch((er) => console.log(er))
-  // }
-
-  // useEffect(() => {
-  //   CometChatUIKit.getLoggedinUser().then((user) => {
-  //     if (!user) {
-  //       CometChatUIKit.login(data.data.email.split('@')[0])
-  //         .then((user) => {
-  //           console.log('Login cometchat Successful:', { user })
-  //         })
-  //         .catch((er) => {
-  //           if (er.code === 'ERR_UID_NOT_FOUND') {
-  //             handleAddNewUser(data.data.email, data.data.username, data.data.userInfo.avatar, data.data.email, data.data.userInfo.phone ? data.data.userInfo.phone : '0123456789')
-  //           } else {
-  //             console.log('comoetnchat', er)
-  //           }
-  //         })
-  //     } else {
-  //     }
-  //   })
-  // }, [])
-
   return (
     <VStack bgColor={'#f0f4f5'} fontFamily={'Roboto'}>
       <SlideFade offsetY={20}>
-        <Heading size={'lg'} m={'6'} mt={24}></Heading>
+        <Heading size={'lg'} m={'6'} mt={'65px'}></Heading>
       </SlideFade>
-      <HStack h={1000} align={'flex-start'} w={'80vw'}>
-        <VStack h={600} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
-          <HStack h={600} alignItems={'flex-start'} w={'100%'}>
-            <Box h={'100%'} w={'30%'}>
-              <CometChatConversations onItemClick={handleOnItemClick} listItemStyle={listItemStyle} avatarStyle={avatarStyle} title='Tin nhắn' titleAlignment={TitleAlignment.center} conversationsStyle={conversationsStyle} />
-            </Box>
-            <Box w={'70%'} h={'100%'}>
-              {chatUser && <CometChatMessages messagesStyle={messagesStyle} user={chatUser} />}
-            </Box>
-          </HStack>
-        </VStack>
-      </HStack>
+
+      <VStack h={600} bgColor={'white'} w={'100%'} overflow='hidden' align={'flex-start'}>
+        <HStack h={600} alignItems={'flex-start'} w={'100%'}>
+          <Box h={'100%'} w={'30%'}>
+            <CometChatConversations onItemClick={handleOnItemClick} listItemStyle={listItemStyle} avatarStyle={avatarStyle} title='' titleAlignment={TitleAlignment.center} conversationsStyle={conversationsStyle} />
+          </Box>
+          <Box w={'70%'} h={'100%'}>
+            {chatUser && <CometChatMessages messagesStyle={messagesStyle} user={chatUser} />}
+          </Box>
+        </HStack>
+      </VStack>
     </VStack>
   )
 }

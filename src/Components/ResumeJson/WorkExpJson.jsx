@@ -46,11 +46,11 @@ export const ResumeJsonWorkExp = ({ workExp, index, onWorkExpChange, handleAdd, 
       </HStack>
 
       <HStack w={'40%'}>
-        <Button onClick={() => handleDelete(index)} color={'white'} backgroundColor={'#94a6a6'} mt={2}>
+        <Button variant='outline' onClick={() => handleDelete(index)} color={'white'} backgroundColor={'#94a6a6'} mt={2}>
           -
         </Button>
 
-        <Button onClick={handleAdd} color={'white'} backgroundColor={'#8ebfb4'} ml={2} mt={2}>
+        <Button variant='outline' onClick={handleAdd} color={'white'} backgroundColor={'#8ebfb4'} ml={2} mt={2}>
           +
         </Button>
       </HStack>

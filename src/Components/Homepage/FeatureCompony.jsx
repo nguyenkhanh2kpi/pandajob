@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Text, Image, Heading, Button, HStack, Icon, VStack } from '@chakra-ui/react'
+import { Box, Container, Flex, Text, Image, Heading, Button, HStack, Icon, VStack, Link, Card, Stack, CardBody, CardFooter, Avatar } from '@chakra-ui/react'
 import { ChevronRightIcon, StarIcon } from '@chakra-ui/icons'
 
 import React, { useEffect, useState } from 'react'
@@ -21,91 +21,34 @@ const FeatureCompony = () => {
       .catch((er) => console.log(er.message))
   }, [])
   return (
-    <VStack fontFamily={'Roboto'} w={'100%'}>
-      <Box borderRadius={10} overflow={'hidden'} position='relative' w={'100%'} bgColor={'white'}>
-        <HStack alignItems='center' spacing={4} p={4}>
-          <Icon as={AiOutlineAlert} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-          <Text fontWeight={'bold'} m={0} fontSize='2xl'>
-            Công ty
-          </Text>
+    <VStack p={5} fontFamily={'Roboto'} w={'100%'}>
+      <Box overflow={'hidden'} position='relative' w={'100%'} borderRadius={8}>
+        <HStack w={'100%'} justifyContent={'space-between'}>
+          <HStack alignItems='center' spacing={4}>
+            <Icon as={AiOutlineAlert} boxSize={7} p={1} borderRadius='full' />
+            <Text fontWeight={'bold'} m={0}>
+              Công ty
+            </Text>
+          </HStack>
+          <Link>Xem tất cả</Link>
         </HStack>
 
-        <Box className='container justify-conten-center '>
-          <Swiper
-            freeMode={true}
-            grabCursor={true}
-            modules={[FreeMode]}
-            className='mySwiper'
-            slidesPerView={4}
-            spaceBetween={30}
-            breakpoints={{
-              0: {
-                slidesPerView: 1,
-                spaceBetween: 10,
-              },
-              480: {
-                slidesPerView: 2,
-                spaceBetween: 10,
-              },
-              768: {
-                slidesPerView: 3,
-                spaceBetween: 10,
-              },
-              1024: {
-                slidesPerView: 4,
-                spaceBetween: 10,
-              },
-              1280: {
-                slidesPerView: 4,
-                spaceBetween: 10,
-              },
-            }}>
-            {companies
-              .map((company) => (
-                <SwiperSlide key={company.id}>
-                  <div>
-                    <Box
-                      _hover={{
-                        boxShadow: 'xl',
-                        transition: 'all 0.2s ease-in-out',
-                        transform: 'translate(2px, -5px)',
-                      }}
-                      onClick={() => navigate(`/companies/${company.id}`)}
-                      maxW='sm'
-                      borderWidth='1px'
-                      borderRadius={5}
-                      mt={5}
-                      overflow='hidden'
-                      fontFamily={'Roboto'}>
-                      <Image h={146} w={310} src={company.avatar} fallbackSrc='https://static.tintuc.com.vn/images/ver3/2020/02/06/1580924892844-screenshot-135.png' />
-
-                      <Box p='6'>
-                        <Box mt={2} display='flex' alignItems='baseline'>
-                          <Box color='gray.500' fontWeight='semibold' letterSpacing='wide' fontSize='xs' textTransform='uppercase'>
-                            {company.website}
-                          </Box>
-                        </Box>
-
-                        <Box mt={2} fontWeight='semibold' as='h4' lineHeight='tight' noOfLines={1}>
-                          {company.name}
-                        </Box>
-
-                        <Box mt={2}>
-                          {company.phone}
-                          <Box as='span' color='gray.600' fontSize='sm'></Box>
-                        </Box>
-                      </Box>
-                    </Box>
-                  </div>
-                </SwiperSlide>
-              ))
-              .slice(-10)}
+        <Box>
+          <Swiper slidesPerView={3} spaceBetween={30} freeMode={true} modules={[FreeMode]} className='mySwiper'>
+            {companies.map((company, index) => (
+              <SwiperSlide key={index}>
+                <Card onClick={() => navigate(`/companies/${company.id}`)} h={'100%'} direction={{ base: 'column', sm: 'row' }} overflow='hidden' variant='outline'>
+                  <Avatar m={3} size='xl' name={company.name} src={company.avatar} />
+                  <Stack>
+                    <CardBody>
+                      <Text noOfLines={1} fontWeight={'bold'}>{company.name}</Text>
+                      <Text>{company.website}</Text>
+                    </CardBody>
+                  </Stack>
+                </Card>
+              </SwiperSlide>
+            ))}
           </Swiper>
-          <Container textAlign='center' mt={3} mb={5}>
-            <Button fontFamily={'Roboto'} onClick={() => navigate('/companies')} border='1px solid teal' p={7} borderRadius={20} bg='white' color='teal' fontWeight='bold'>
-              Xem tất cả
-            </Button>
-          </Container>
         </Box>
       </Box>
     </VStack>

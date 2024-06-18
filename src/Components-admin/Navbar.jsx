@@ -6,9 +6,9 @@ import { RiNotification3Line } from 'react-icons/ri'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { TooltipComponent } from '@syncfusion/ej2-react-popups'
 
-import { Cart, Chat, Notification, UserProfile } from '.'
+import { Cart, Chat, UserProfile } from '.'
 import { useStateContext } from '../contexts/ContextProvider'
-import { Avatar, Box, HStack, Link, Menu, MenuButton, MenuItem, MenuList, Text, WrapItem, Button, IconButton, Icon } from '@chakra-ui/react'
+import { Avatar, Box, HStack, Link, Menu, MenuButton, MenuItem, MenuList, Text, WrapItem, Button, IconButton, Icon, Flex } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { RiVipCrown2Line } from 'react-icons/ri'
 import { ChevronDownIcon } from '@chakra-ui/icons'
@@ -16,6 +16,11 @@ import { CiLogout } from 'react-icons/ci'
 import { CometChatUIKit } from '@cometchat/chat-uikit-react'
 import { webHost } from '../global'
 import { BiMessage } from 'react-icons/bi'
+import { NotifyMessage } from '../Components/Navbar/NotifyMessage'
+import Notification from '../Components/Navbar/Notification'
+import { NotificationAdmin } from './NotificationAdmin'
+import { NotificationMessageAdmin } from './NotificationMessageAdmin'
+import { FaRegUser } from 'react-icons/fa'
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position='BottomCenter'>
@@ -67,43 +72,37 @@ const Navbar = () => {
   }
 
   return (
-    <div className='flex justify-between p-2 md:ml-6 md:mr-6 relative'>
+    <Flex justifyContent='space-between' p={2} mx={{ base: 0, md: 6 }} position='relative'>
       <NavButton title='Menu' customFunc={handleActiveMenu} color={currentColor} icon={<AiOutlineMenu />} />
-      <div className='flex'>
-        {/* <NavButton title='Cart' customFunc={() => navigate('/vip/my-bills')} color={currentColor} icon={<FiShoppingCart />} /> */}
-        <NavButton title='Chat' dotColor='#03C9D7' customFunc={() => handleClick('chat')} icon={<BsChatLeft />} />
-        <NavButton title='Notification' dotColor='rgb(254, 201, 15)' customFunc={() => handleClick('notification')} icon={<RiNotification3Line />} />
-        <HStack>
-          <Menu>
-            <MenuButton bgColor={'white'} as={Button} rightIcon={<ChevronDownIcon />}>
-              <WrapItem>
-                <HStack spacing='2'>
-                  <Avatar name={data.data.username} src={data.data.userInfo.avatar} size='sm' />
-                  <Text mt={3}>{data.data.username}</Text>
-                </HStack>
-              </WrapItem>
-            </MenuButton>
-            <MenuList>
-              <MenuItem onClick={() => navigate('/userInfo')}>Thông tin cá nhân</MenuItem>
-              <MenuItem onClick={() => navigate('/userInfo1')}>Thông tin cá nhân 1</MenuItem>
-              <MenuItem onClick={() => navigate(data?.access_token ? '/messages' : '/login')}>
-                <Icon as={BiMessage} mr={1} />
-                Tin nhắn
-              </MenuItem>
-              <MenuItem onClick={() => handleLogout()}>
-                <Icon as={CiLogout} mr={1} />
-                Đăng xuất
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        </HStack>
-
-        {isClicked.cart && <Cart />}
-        {isClicked.chat && <Chat />}
-        {isClicked.notification && <Notification />}
-        {isClicked.userProfile && <UserProfile />}
-      </div>
-    </div>
+      <HStack spacing={4}>
+        <NotificationMessageAdmin />
+        <NotificationAdmin />
+        <Menu>
+          <MenuButton as={Button} bgColor='white' rightIcon={<ChevronDownIcon />}>
+            <WrapItem>
+              <HStack spacing={2}>
+                <Avatar name={data.data.username} src={data.data.userInfo.avatar} size='sm' />
+                <Text mt={2}>{data.data.username}</Text>
+              </HStack>
+            </WrapItem>
+          </MenuButton>
+          <MenuList>
+            <MenuItem onClick={() => navigate('/userInfo1')}>
+              <Icon as={FaRegUser} mr={1} />
+              Thông tin cá nhân
+            </MenuItem>
+            <MenuItem onClick={() => navigate(data?.access_token ? '/messages' : '/login')}>
+              <Icon as={BiMessage} mr={1} />
+              Tin nhắn
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>
+              <Icon as={CiLogout} mr={1} />
+              Đăng xuất
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </HStack>
+    </Flex>
   )
 }
 

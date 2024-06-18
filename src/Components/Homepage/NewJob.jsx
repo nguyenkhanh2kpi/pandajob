@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Card, CardBody, CardFooter, Center, Grid, GridItem, HStack, Heading, Icon, Image, Skeleton, Stack, Tag, Text, Tooltip, VStack } from '@chakra-ui/react'
+import { Badge, Box, Button, Card, CardBody, CardFooter, Center, Grid, GridItem, HStack, Heading, Icon, Image, Link, Skeleton, Stack, Tag, Text, Tooltip, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { AiOutlineAlert, AiOutlineFolderOpen } from 'react-icons/ai'
 import { dataService } from '../../Service/data.service'
@@ -36,21 +36,20 @@ export default function NewJob() {
       <Box w={'100%'}>
         <HStack w={'100%'} justifyContent={'space-between'}>
           <HStack alignItems='center' spacing={4}>
-            <Icon as={AiOutlineAlert} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-            <Text fontWeight={'bold'} m={0} fontSize={['xl', '2xl']}>
+            <Icon as={AiOutlineAlert} boxSize={7} p={1} borderRadius='full' />
+            <Text fontWeight={'bold'} m={0}>
               Công việc gợi ý
             </Text>
           </HStack>
-          <Button variant={'outline'} onClick={() => navigate('/jobpage')} colorScheme='blue'>
-            Xem tất cả
-          </Button>
+
+          <Link onClick={() => navigate('/jobpage')}>Xem tất cả</Link>
         </HStack>
 
-        <Grid w={'100%'} mt={5} templateColumns={['repeat(1, 1fr)', 'repeat(3, 1fr)']} gap={6}>
+        <Grid w={'100%'} templateColumns={['repeat(1, 1fr)', 'repeat(3, 1fr)']} gap={6}>
           {filterJob.length > 0 ? (
             <>
               {filterJob.map((job) => (
-                <JobItemInList job={job} wishLists={[]} handleLike={() =>{}} />
+                <JobItemInList job={job} wishLists={[]} handleLike={() => {}} />
               ))}
             </>
           ) : (

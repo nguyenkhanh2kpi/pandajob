@@ -35,6 +35,22 @@ const putVipJob = async (token, jobId) => {
   }
 }
 
+const putJobState = async (token, jobId, newState) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const response = await axios.put(`${hostName}/job-posting/${jobId}/state`, { state: newState }, config)
+    return response.data
+  } catch (error) {
+    console.error('Failed to update job state:', error)
+    throw error
+  }
+}
+
 const getMyJob = async (accessToken) => {
   try {
     const config = {
@@ -55,4 +71,5 @@ export const jobService = {
   getAllJob,
   putVipJob,
   getMyJob,
+  putJobState,
 }

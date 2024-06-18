@@ -42,7 +42,6 @@ export const loadRoom=()=>async (dispatch)=>{
            
       
         } catch (error) {
-            // console.log("in the logi func catch");
             console.log("sai roi ");
             dispatch({type: ROOM_ERROR,payload : error.message});
         }

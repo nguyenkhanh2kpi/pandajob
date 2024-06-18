@@ -6,12 +6,12 @@ export const PrivacyPolicy = () => {
     window.scrollTo(0, 0)
   }, [])
   return (
-    <HStack alignItems='flex-start' justifyContent='center' minH='1000px' bgColor='#f0f4f5' w='100%' p={5}>
+    <HStack alignItems='flex-start' justifyContent='center' minH='1000px' bgColor='white' w='100%' p={5}>
       <Box fontFamily='Roboto' w='80%' mt='60px' p={5}>
         <VStack spacing={8} align='stretch'>
           {/* Header Section */}
           <VStack spacing={4} align='center' textAlign='center'>
-            <Heading fontFamily='Roboto' as='h1' size='2xl'>
+            <Heading fontFamily='Roboto' as='h1' size='md'>
               Chính sách bảo mật
             </Heading>
             <Text fontSize='lg' color='gray.600'>
@@ -21,28 +21,28 @@ export const PrivacyPolicy = () => {
 
           {/* Privacy Policy Content */}
           <VStack align='start' spacing={4}>
-            <Heading fontFamily='Roboto' as='h2' size='lg'>
+            <Heading fontFamily='Roboto' as='h2' size='md'>
               Thu thập thông tin
             </Heading>
             <Text fontSize='md' color='gray.700'>
               Chúng tôi thu thập thông tin cá nhân của bạn khi bạn đăng ký tài khoản, điền vào biểu mẫu, hoặc tương tác với các dịch vụ của chúng tôi. Các thông tin có thể bao gồm tên, email, số điện thoại, và thông tin liên quan khác.
             </Text>
 
-            <Heading fontFamily='Roboto' as='h2' size='lg'>
+            <Heading fontFamily='Roboto' as='h2' size='md'>
               Sử dụng thông tin
             </Heading>
             <Text fontSize='md' color='gray.700'>
               Thông tin của bạn được sử dụng để cung cấp và cải thiện dịch vụ, xử lý yêu cầu của bạn, và cung cấp hỗ trợ khách hàng. Chúng tôi cũng có thể sử dụng thông tin để liên hệ với bạn về các bản cập nhật và các tin tức liên quan đến dịch vụ.
             </Text>
 
-            <Heading fontFamily='Roboto' as='h2' size='lg'>
+            <Heading fontFamily='Roboto' as='h2' size='md'>
               Bảo mật thông tin
             </Heading>
             <Text fontSize='md' color='gray.700'>
               Chúng tôi sử dụng các biện pháp bảo mật hợp lý để bảo vệ thông tin cá nhân của bạn khỏi mất mát, truy cập trái phép, hoặc tiết lộ không mong muốn. Tuy nhiên, chúng tôi không thể đảm bảo an ninh hoàn toàn cho dữ liệu bạn cung cấp qua internet.
             </Text>
 
-            <Heading fontFamily='Roboto' as='h2' size='lg'>
+            <Heading fontFamily='Roboto' as='h2' size='md'>
               Quyền của bạn
             </Heading>
             <Text fontSize='md' color='gray.700'>

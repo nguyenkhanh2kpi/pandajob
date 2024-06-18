@@ -1,4 +1,4 @@
-import { Box, Button, Flex, HStack, Icon, Stack, Text, VStack, Wrap, WrapItem } from '@chakra-ui/react'
+import { Box, Button, Flex, HStack, Icon, Stack, Tag, Text, VStack, Wrap, WrapItem } from '@chakra-ui/react'
 import React from 'react'
 import { AiOutlineAlert, AiOutlineGithub, AiFillBank, AiFillApple, AiFillCodeSandboxCircle, AiFillCrown, AiFillExperiment, AiFillFileText, AiFillFire, AiFillGift, AiFillHome, AiFillSafetyCertificate } from 'react-icons/ai'
 
@@ -46,20 +46,18 @@ const industries = [
 ]
 export default function ListIndustry() {
   return (
-    <VStack fontFamily={'Roboto'} w={'100%'}>
-      <Box borderRadius={10} overflow={'hidden'} position='relative' w={'100%'} bgColor={'white'}>
-        <HStack alignItems='center' spacing={4} p={4}>
-          <Icon as={AiOutlineAlert} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-          <Text fontWeight={'bold'} m={0} fontSize='2xl'>
+    <VStack p={5} fontFamily={'Roboto'} w={'100%'}>
+      <Box overflow={'hidden'} position='relative' w={'100%'}>
+        <HStack alignItems='center' spacing={4}>
+          <Icon as={AiOutlineAlert} boxSize={7} p={1} borderRadius='full' />
+          <Text fontWeight={'bold'} m={0}>
             Ngành nghề
           </Text>
         </HStack>
-        <Wrap spacing={4} p={4}>
+        <Wrap spacing={4}>
           {industries.map((industry, index) => (
             <WrapItem key={index}>
-              <Button leftIcon={<Icon as={industry.icon} />} colorScheme={industry.color} variant='solid'>
-                {industry.name}
-              </Button>
+              <Tag colorScheme='blue'>{industry.name}</Tag>
             </WrapItem>
           ))}
         </Wrap>

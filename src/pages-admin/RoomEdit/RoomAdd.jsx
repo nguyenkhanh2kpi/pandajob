@@ -7,7 +7,7 @@ import './style3.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { loadJob } from '../../redux/Job-posting/Action'
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, FormControl, FormLabel, HStack, Heading, Image, Input, Select, Text, VStack } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, FormControl, FormLabel, HStack, Heading, Image, Input, Link, Select, Text, VStack } from '@chakra-ui/react'
 import { hostName } from '../../global'
 const meetLinkPattern = /^https:\/\/meet\.google\.com\/[a-zA-Z0-9-]+$/
 const RoomAdd = () => {
@@ -166,10 +166,12 @@ const RoomAdd = () => {
                 <FormLabel htmlFor='position'>Meet Link</FormLabel>
                 <Input w={450} type='text' onChange={(e) => setLinkmeet(e.target.value)} name='position' id='position' />
               </FormControl>
-
-              <Button w={200} mt={30} color='white' mb={10} backgroundColor='rgb(3, 201, 215)' type='submit' onClick={handleSubmit}>
-                Thêm
-              </Button>
+              <HStack w={'82%'} justifyContent={'space-between'}>
+                <Box></Box>
+                <Button w={200} mt={30} color='white' mb={10} backgroundColor='rgb(3, 201, 215)' type='submit' onClick={handleSubmit}>
+                  <Link>Lưu</Link>
+                </Button>
+              </HStack>
 
               <ToastContainer />
             </Box>

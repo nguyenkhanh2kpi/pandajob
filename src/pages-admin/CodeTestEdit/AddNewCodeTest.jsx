@@ -83,7 +83,7 @@ export const AddNewCodeTest = ({ jobId, load, setLoad }) => {
   }
   return (
     <>
-      <Button onClick={handleOpen} color={'white'} leftIcon={<FaCode />} backgroundColor={'rgb(3, 201, 215)'} variant='solid'>
+      <Button onClick={handleOpen} leftIcon={<FaCode />} colorScheme='green' size='sm' variant='outline'>
         Kiểm tra code(dành cho ngành IT)
       </Button>
       <OverlayComponent isOpen={isOpen} onClose={handleClose}>

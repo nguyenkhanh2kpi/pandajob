@@ -17,71 +17,56 @@ import { MdSettings } from 'react-icons/md'
 const RoomList = () => {
   const navigate = useNavigate()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
-  const submitHandler = async (e) => {
-    e.preventDefault()
-    const id = e.currentTarget.getAttribute('data-value')
-    try {
-      let data = ''
-      let config = {
-        method: 'delete',
-        maxBodyLength: Infinity,
-        url: `${hostName}/job-posting/${id}`,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        data: data,
-      }
+  // const submitHandler = async (e) => {
+  //   e.preventDefault()
+  //   const id = e.currentTarget.getAttribute('data-value')
+  //   try {
+  //     let data = ''
+  //     let config = {
+  //       method: 'delete',
+  //       maxBodyLength: Infinity,
+  //       url: `${hostName}/job-posting/${id}`,
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //       data: data,
+  //     }
 
-      axios
-        .request(config)
-        .then((response) => {})
-        .catch((error) => {
-          console.log(error)
-          toast.error('Delete Failed', {
-            position: 'top-center',
-          })
-        })
+  //     axios
+  //       .request(config)
+  //       .then((response) => {})
+  //       .catch((error) => {
+  //         console.log(error)
+  //         toast.error('Delete Failed', {
+  //           position: 'top-center',
+  //         })
+  //       })
 
-      toast.success('Delete Successfully', {
-        position: 'top-center',
-      })
-      navigate('/allJob_Recruiter')
-    } catch (error) {}
-  }
+  //     toast.success('Delete Successfully', {
+  //       position: 'top-center',
+  //     })
+  //     navigate('/allJob_Recruiter')
+  //   } catch (error) {}
+  // }
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(loadRoom())
   }, [])
 
-  const format = (endDateString) => {
-    const endDate = new Date(endDateString)
-
-    if (isNaN(endDate)) {
-      return 'Invalid date'
-    }
-
-    const formattedEndDate = endDate.toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-    })
-
-    return formattedEndDate
-  }
   const roomList = useSelector((store) => store.room.data)
 
   const roomdatas = roomList.map((job) => {
     return (
       <Card mb={5}>
         <CardBody>
-          <HStack>
-            <Text fontSize='20px'>
+          <HStack justifyContent={'space-between'}>
+            <Text m={0} p={0} fontWeight={'bold'}>
               {job.roomName} - {job.jobName}
             </Text>
+            <Button onClick={() => navigate(`/roomList/addCandidate/${job.jobPostId}/${job.id}`)} rightIcon={<MdSettings />} colorScheme='gray' variant='outline'>
+              Chỉnh sửa
+            </Button>
           </HStack>
 
           <List spacing={3}>
@@ -104,11 +89,7 @@ const RoomList = () => {
               </AvatarGroup>
             </ListItem>
             <ListItem>
-              <HStack>
-                <Button onClick={() => navigate(`/addCandidate/${job.jobPostId}/${job.id}`)} rightIcon={<MdSettings />} colorScheme='gray' variant='outline'>
-                  Chỉnh sửa
-                </Button>
-              </HStack>
+              <HStack></HStack>
             </ListItem>
           </List>
 
@@ -128,7 +109,7 @@ const RoomList = () => {
             </BreadcrumbItem>
           </Breadcrumb>
           <Button mr={30} color='white' backgroundColor='rgb(3, 201, 215)'>
-            <Link to={`/roomAdd`}> + Thêm phòng họp</Link>
+            <Link to={`/roomList/roomAdd`}> + Thêm phòng họp</Link>
           </Button>
         </HStack>
         <VStack pl={30} pr={30} spacing={3}>
