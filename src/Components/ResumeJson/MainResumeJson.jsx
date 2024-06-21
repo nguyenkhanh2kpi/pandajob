@@ -422,7 +422,7 @@ function FixButton({ name, value, handleSave }) {
         <Button onClick={handleSave} w={'100%'} bgColor={'#96d7e7'} color={'#317282'}>
           Lưu thông tin
         </Button>
-        <Button onClick={() => navigate('/cv-build-theme')} w={'100%'} bgColor={'#96d7e7'} color={'#317282'}>
+        <Button name='generatePdfBtn' onClick={() => navigate('/cv-build-theme')} w={'100%'} bgColor={'#96d7e7'} color={'#317282'}>
           Tạo PDF
         </Button>
       </VStack>

@@ -1,16 +1,13 @@
-import { Box, Center, Grid, HStack, Heading, Spinner, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Center, Flex, Grid, HStack, Heading, Image, Spinner, Text, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { favoriteService } from '../../Service/favorite.service'
 import { JobItemInWishList } from './JobItemInList'
+import { resumeService } from '../../Service/resume.service'
+import { useNavigate } from 'react-router-dom'
 
 export const FavoriteJobs = () => {
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
-  const recommendedJobs = [
-    // Dummy recommended jobs data
-    { id: 3, name: 'Job 3' },
-    { id: 4, name: 'Job 4' },
-    // Add more recommended jobs as needed
-  ]
+  const [recommendedJobs, setRecommendedJobs] = useState([])
 
   const [wishLists, setWhishList] = useState(null)
   const handleLike = (jobId) => {
@@ -25,6 +22,14 @@ export const FavoriteJobs = () => {
       .then((response) => setWhishList(response.data))
       .catch((er) => console.log(er))
   }, [])
+
+  useEffect(() => {
+    resumeService
+      .findRelatedResumeByUser(accessToken)
+      .then((response) => setRecommendedJobs(response.data))
+      .catch((er) => console.log(er))
+  }, [])
+
   if (!wishLists) {
     return (
       <HStack minH={800} w='100%' justifyContent='center' alignItems='center'>
@@ -52,11 +57,31 @@ export const FavoriteJobs = () => {
                 Bạn có thể quan tâm
               </Heading>
               {recommendedJobs.map((job) => (
-                <div key={job.id}>{job.name}</div>
+                <JobItemRecommed key={job.id} job={job} />
               ))}
             </Box>
           </Grid>
         </Box>
       </HStack>
     )
+}
+
+const JobItemRecommed = ({ job }) => {
+  const navigate = useNavigate()
+  const { name, position, language, location, salary, number, workingForm, sex, experience, detailLocation, image } = job
+  return (
+    <Box onClick={() => navigate(`/jobDetail/${job.id}`)} borderWidth='1px' borderRadius='lg' overflow='hidden' mb={4}>
+      <Flex>
+        <Box p={4} flex='1'>
+          <Text m={0} p={0} fontWeight='bold'>
+            {name}
+          </Text>
+          <Text m={0} p={0} color='gray.500'>
+            <strong>Địa chỉ chi tiết: </strong>
+            {detailLocation}
+          </Text>
+        </Box>
+      </Flex>
+    </Box>
+  )
 }

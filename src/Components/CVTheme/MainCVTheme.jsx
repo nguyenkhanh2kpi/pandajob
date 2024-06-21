@@ -71,7 +71,7 @@ const MenuCVTheme = ({ handleExport, setIsTheme1 }) => {
           )}
         </Stack>
 
-        <Button onClick={handleExport} colorScheme='teal' width={'150px'}>
+        <Button name='ExportBtn' onClick={handleExport} colorScheme='teal' width={'150px'}>
           Xuất file
         </Button>
       </HStack>

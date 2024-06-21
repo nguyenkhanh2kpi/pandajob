@@ -16,6 +16,21 @@ const googleLogin = async (form) => {
   }
 }
 
+const login = async (form) => {
+  try {
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+    const res = await axios.post(`${API_URL}}/auth/login`, form, config)
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export const authService = {
-    googleLogin,
+  googleLogin,
+  login,
 }

@@ -2,9 +2,6 @@ import { Box, Grid, HStack, Heading, Text, VStack, Image } from '@chakra-ui/reac
 import React, { useEffect, useState } from 'react'
 
 export const AboutUs = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
   return (
     <HStack alignItems='flex-start' justifyContent='center' minH='1000px' bgColor='white' w='100%' p={5}>
       <Box fontFamily='Roboto' w='80%' mt='60px' p={5}>

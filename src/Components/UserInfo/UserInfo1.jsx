@@ -169,7 +169,7 @@ const UserInfo1 = () => {
               </HStack>
 
               <HStack w={'100%'} justifyContent='flex-end' p={2}>
-                <Button w={200} colorScheme='blue' onClick={SubmitHandler} m={2}>
+                <Button name='saveUserInfoBtn' w={200} colorScheme='blue' onClick={SubmitHandler} m={2}>
                   Lưu
                 </Button>
               </HStack>

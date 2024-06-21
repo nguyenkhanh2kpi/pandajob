@@ -22,7 +22,7 @@ export const JobItemInList = ({ job, wishLists, handleLike }) => {
       <Image onClick={() => navigate(`/jobDetail/${job.id}`)} src={job.image} alt={job.name} boxSize='80px' objectFit='cover' borderRadius='md' flexShrink={0} marginRight={3} />
       <VStack align='start' spacing={2} flex={1} overflow='hidden'>
         <Tooltip label={job.name} hasArrow>
-          <Text onClick={() => navigate(`/jobDetail/${job.id}`)} m={0} p={0} fontSize='md' fontWeight='bold' isTruncated w={'190px'} whiteSpace='nowrap'>
+          <Text name={job.id} onClick={() => navigate(`/jobDetail/${job.id}`)} m={0} p={0} fontSize='md' fontWeight='bold' isTruncated w={'190px'} whiteSpace='nowrap'>
             {job.name}
           </Text>
         </Tooltip>

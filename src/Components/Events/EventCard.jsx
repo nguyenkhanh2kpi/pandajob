@@ -43,7 +43,7 @@ export const EventCard = ({ id, title, article, time, author, image, content, st
           <Box noOfLines={1}>{article}</Box>
 
           <Box display='flex' mt='2' alignItems='center'>
-            <Button borderRadius={20} size={'sm'} rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant='outline' onClick={() => navigate('/event/' + id)} w='200px'>
+            <Button name={id} borderRadius={20} size={'sm'} rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant='outline' onClick={() => navigate('/event/' + id)} w='200px'>
               Xem thêm
             </Button>
             <IconButton value={id} aria-label='Search database' icon={<CopyIcon />} marginLeft='auto' onClick={copyToClipboard} />

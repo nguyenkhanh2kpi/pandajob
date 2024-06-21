@@ -143,7 +143,6 @@ const postResumeProject = async (token, form) => {
   }
 }
 
-
 const findRelatedResume = async (form) => {
   try {
     const config = {
@@ -158,6 +157,20 @@ const findRelatedResume = async (form) => {
   }
 }
 
+const findRelatedResumeByUser = async (accessToken) => {
+  try {
+    let config = { headers: { Authorization: `Bearer ${accessToken}` } }
+    const res = await axios.get(`${API_URL}/find-related`, config)
+    return res.data
+  } catch (error) {
+    const axiosError = error
+    if (axiosError && axiosError.response && axiosError.response.status === 403) {
+      throw new Error('no_permistion')
+    } else {
+      throw error
+    }
+  }
+}
 
 export const resumeService = {
   getMyResume,
@@ -167,5 +180,6 @@ export const resumeService = {
   deleteResumeWorkEx,
   deleteResumeWorkProject,
   putResume,
-  findRelatedResume
+  findRelatedResume,
+  findRelatedResumeByUser,
 }

@@ -120,7 +120,7 @@ const JobGrid = ({ displayItems, provinces, industries }) => {
     <>
       <Box w={'85%'} mt={50} p={5}>
         <Flex p={5} direction={{ base: 'column', md: 'row' }} align='center' justify='space-between' wrap='wrap'>
-          <Input bgColor={'white'} placeholder='Tìm kiếm công việc' size='md' mb={{ base: 2, md: 0 }} value={search} onChange={(e) => setSearch(e.target.value)} icon={<MdSearch />} flex='1 1 200px' mr={{ base: 0, md: 3 }} />
+          <Input name='search_text' bgColor={'white'} placeholder='Tìm kiếm công việc' size='md' mb={{ base: 2, md: 0 }} value={search} onChange={(e) => setSearch(e.target.value)} icon={<MdSearch />} flex='1 1 200px' mr={{ base: 0, md: 3 }} />
           <Select bgColor={'white'} placeholder='Địa điểm' size='md' mb={{ base: 2, md: 0 }} value={province} onChange={(e) => setProvince(e.target.value)} flex='1 1 150px' mr={{ base: 0, md: 3 }}>
             {provinces?.map((loc) => (
               <option key={loc} value={loc}>
@@ -157,7 +157,7 @@ const JobGrid = ({ displayItems, provinces, industries }) => {
               </option>
             ))}
           </Select>
-          <IconButton ml={1} bgColor={'white'} onClick={handleSearch} icon={<SearchIcon />} />
+          <IconButton name='searchBtn' ml={1} bgColor={'white'} onClick={handleSearch} icon={<SearchIcon />} />
         </Flex>
         <HStack pl={5} pr={5} justifyContent={'space-between'}>
           <Text>
@@ -167,7 +167,7 @@ const JobGrid = ({ displayItems, provinces, industries }) => {
 
         <SimpleGrid w={'100%'} columns={{ sm: 1, md: 2, lg: 3 }} spacing={5} pl={5} pr={5}>
           {currentPageItems.map((job) => (
-            <JobItemInList job={job} wishLists={wishLists} handleLike={handleLike} />
+            <JobItemInList key={job.id} job={job} wishLists={wishLists} handleLike={handleLike} />
           ))}
         </SimpleGrid>
         <Center mt={20}>

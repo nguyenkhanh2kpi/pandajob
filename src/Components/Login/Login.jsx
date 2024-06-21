@@ -66,8 +66,8 @@ function Login() {
           })
           localStorage.setItem('data', JSON.stringify(data))
           localStorage.setItem('avatar', JSON.stringify(data.data.userInfo.avatar))
-          const expirationTime = new Date(Date.now() + 86400  * 1000); 
-          localStorage.setItem('tokenExpiration', expirationTime.getTime());
+          const expirationTime = new Date(Date.now() + 86400 * 1000)
+          localStorage.setItem('tokenExpiration', expirationTime.getTime())
           setLoading(true)
           window.location.replace(`${webHost}`)
         } else {
@@ -143,12 +143,12 @@ function Login() {
 
             <FormControl mt={8}>
               <FormLabel>Email</FormLabel>
-              <Input type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+              <Input name='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
             </FormControl>
             <FormControl>
               <FormLabel>Mật khẩu</FormLabel>
               <InputGroup mb={10} size='md'>
-                <Input value={password} onChange={(e) => setPassword(e.target.value)} name='password' id='password' pr='4.5rem' type={passShow ? 'text' : 'password'} placeholder='Enter password' />
+                <Input value={password} onChange={(e) => setPassword(e.target.value)} name='password' id='password' pr='4.5rem' type={passShow ? 'text' : 'password'} />
                 <InputRightElement width='4.5rem'>
                   <Button h='1.75rem' size='sm' onClick={() => setPassShow(!passShow)}>
                     {!passShow ? <IoEyeOutline /> : <IoEyeOffOutline />}
@@ -158,7 +158,7 @@ function Login() {
             </FormControl>
 
             <VStack w={'100%'}>
-              <Button w={'100%'} colorScheme='blue' onClick={submitHandler}>
+              <Button name='dangNhapbtn' w={'100%'} colorScheme='blue' onClick={submitHandler}>
                 {loading ? (
                   <>
                     <Spinner />

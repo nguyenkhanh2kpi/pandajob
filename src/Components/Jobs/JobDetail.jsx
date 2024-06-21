@@ -397,7 +397,7 @@ const AlertDialogExample = ({ data, user, jobId }) => {
 
   return (
     <>
-      <Button fontFamily={'Roboto'} w='100%' onClick={onOpen} value={data.id}>
+      <Button name='applyBtn' fontFamily={'Roboto'} w='100%' onClick={onOpen} value={data.id}>
         Ứng tuyển
       </Button>
 
@@ -454,7 +454,7 @@ const AlertDialogExample = ({ data, user, jobId }) => {
                   Xác nhận
                 </Button>
               ) : (
-                <Button colorScheme='teal' onClick={handleConfirm} ml={3}>
+                <Button name='confirmApplyBtn' colorScheme='teal' onClick={handleConfirm} ml={3}>
                   Xác nhận
                 </Button>
               )}

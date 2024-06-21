@@ -71,17 +71,16 @@ const Navbar1 = () => {
             <Link to='/'>
               <Image h={'72px'} w={'90%'} src={pandalogo} alt='Logo' alignItems={'center'} cursor={'pointer'} />
             </Link>
-            {/* <Heading onClick={() => navigate('/')} fontStyle={'italic'} fontFamily={'Roboto'}>
-              Panda
-            </Heading> */}
           </Box>
           <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu>
-              <MenuButton bgColor={'white'} as={Button}>
+              <MenuButton name='jobBtn' bgColor={'white'} as={Button}>
                 Việc làm
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={() => navigate('/jobpage')}>Tìm việc làm</MenuItem>
+                <MenuItem name='findJobBtn' onClick={() => navigate('/jobpage')}>
+                  Tìm việc làm
+                </MenuItem>
                 <MenuItem onClick={() => navigate(data?.access_token ? '/jobpage/favorite' : '/login')}>Việc làm yêu thích</MenuItem>
                 <MenuItem onClick={() => navigate(data?.access_token ? '/jobpage/applied' : '/login')}>Đã ứng tuyển</MenuItem>
                 <MenuItem onClick={() => navigate(data?.access_token ? '/test' : '/login')}>Kiểm tra sàng lọc</MenuItem>
@@ -99,7 +98,7 @@ const Navbar1 = () => {
 
           <Box h={'100%'} display={'flex'} w={'33.3%'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu>
-              <MenuButton onClick={() => navigate('/events')} bgColor={'white'} as={Button}>
+              <MenuButton name='eventBtn' onClick={() => navigate('/events')} bgColor={'white'} as={Button}>
                 Sự kiện
               </MenuButton>
             </Menu>
@@ -107,11 +106,11 @@ const Navbar1 = () => {
 
           <Box h={'100%'} display={'flex'} w={'auto'} alignItems={'center'} justifyContent={'center'} fontWeight={'500'} lineHeight={'20px'} color={'#445578'} cursor={'pointer'}>
             <Menu>
-              <MenuButton bgColor={'white'} as={Button}>
+              <MenuButton name='cvBtn' bgColor={'white'} as={Button}>
                 CV
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={() => navigate(data?.access_token ? '/resume-build' : '/login')}>Tạo CV</MenuItem>
+                <MenuItem name='buildCvBtn' onClick={() => navigate(data?.access_token ? '/resume-build' : '/login')}>Tạo CV</MenuItem>
                 <MenuItem onClick={() => navigate(data?.access_token ? '/my-cv' : '/login')}>CV của tôi</MenuItem>
               </MenuList>
             </Menu>
@@ -139,7 +138,7 @@ const Navbar1 = () => {
               <NotifyMessage />
               <Notification />
               <Menu>
-                <MenuButton bgColor={'white'} as={Button} rightIcon={<ChevronDownIcon />}>
+                <MenuButton name='menuBtn' bgColor={'white'} as={Button} rightIcon={<ChevronDownIcon />}>
                   <WrapItem>
                     <HStack spacing='2'>
                       <Avatar name={data.data.username} src={data.data.userInfo.avatar} size='sm' />
@@ -148,7 +147,7 @@ const Navbar1 = () => {
                   </WrapItem>
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={() => navigate('/userInfo1')}>
+                  <MenuItem name='userInfoBtn' onClick={() => navigate('/userInfo1')}>
                     <Icon as={FaRegUser} mr={1} />
                     Thông tin cá nhân
                   </MenuItem>
@@ -160,7 +159,7 @@ const Navbar1 = () => {
                     <Icon as={BiMessage} mr={1} />
                     Tin nhắn
                   </MenuItem>
-                  <MenuItem onClick={() => handleLogout()}>
+                  <MenuItem name='logoutBtn' onClick={() => handleLogout()}>
                     <Icon as={CiLogout} mr={1} />
                     Đăng xuất
                   </MenuItem>
@@ -169,8 +168,8 @@ const Navbar1 = () => {
             </HStack>
           ) : (
             <HStack>
-              <Button border={'1px'} borderColor={'#457eff'} borderRadius={'50px'} color={'#457eff'} bg={'white'} h={'40px'} fontWeight={'600'}>
-                <Link to='/login'>Đăng nhập</Link>
+              <Button name='loginbtn' onClick={() => navigate('/login')} border={'1px'} borderColor={'#457eff'} borderRadius={'50px'} color={'#457eff'} bg={'white'} h={'40px'} fontWeight={'600'}>
+                Đăng nhập
               </Button>
               <Button ml={2} border={'none'} borderRadius={'50px'} color={'white'} borderColor={'#ff7555'} bgColor={'#ff7555'} w={'100px'}>
                 <Link to='/signup'>Đăng kí</Link>
