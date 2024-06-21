@@ -8,7 +8,7 @@ import { AtSignIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 import { interviewService } from '../../Service/interview.service'
 import { interviewerService } from '../../Service/interviewer.service'
 
-export const AssignInterviewer = ({ roomId }) => {
+export const AssignInterviewer = ({ roomId, load, setLoad }) => {
   const toast = useToast()
   const [interviewer, setInterviewer] = useState([])
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -51,6 +51,7 @@ export const AssignInterviewer = ({ roomId }) => {
           isClosable: true,
         })
       })
+      .finally(() => setLoad(!load))
   }
 
   const truncatedEmail = (email) => {

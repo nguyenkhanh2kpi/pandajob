@@ -47,7 +47,7 @@ import { storage } from '../../firebase.js'
 import { v4 } from 'uuid'
 import { hostName } from '../../global.js'
 import { locationService } from '../../Service/location.service.js'
-import { DragHandleIcon, InfoIcon, SmallAddIcon } from '@chakra-ui/icons'
+import { ChevronRightIcon, DragHandleIcon, InfoIcon, SmallAddIcon } from '@chakra-ui/icons'
 import { AiOutlineEdit, AiOutlineFire, AiOutlineFolderOpen, AiOutlineInfoCircle } from 'react-icons/ai'
 const JobPosting = () => {
   const [loading, setLoading] = useState(false)
@@ -274,9 +274,9 @@ const JobPosting = () => {
 
   return (
     <>
-      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'}>
         <ToastContainer />
-        <Breadcrumb pt={30}>
+        <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
           <BreadcrumbItem>
             <BreadcrumbLink href='/allJob_Recruiter'>Công việc của tôi</BreadcrumbLink>
           </BreadcrumbItem>

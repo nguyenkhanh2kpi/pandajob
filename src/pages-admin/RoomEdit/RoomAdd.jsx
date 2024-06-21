@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import { loadJob } from '../../redux/Job-posting/Action'
 import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, FormControl, FormLabel, HStack, Heading, Image, Input, Link, Select, Text, VStack } from '@chakra-ui/react'
 import { hostName } from '../../global'
+import { ChevronRightIcon } from '@chakra-ui/icons'
 const meetLinkPattern = /^https:\/\/meet\.google\.com\/[a-zA-Z0-9-]+$/
 const RoomAdd = () => {
   const userId = JSON.parse(localStorage.getItem('data')).data.userInfo.id
@@ -49,11 +50,13 @@ const RoomAdd = () => {
       toast.error('end Date is required!', {
         position: 'top-center',
       })
-    } else if (!meetLinkPattern.test(linkmeet)) {
-      toast.error('link không hợp lệ!', {
-        position: 'top-center',
-      })
-    } else if (startDate >= endDate) {
+    } 
+    // else if (!meetLinkPattern.test(linkmeet)) {
+    //   toast.error('link không hợp lệ!', {
+    //     position: 'top-center',
+    //   })
+    // } 
+    else if (startDate >= endDate) {
       toast.error('Start date should be before the end date', {
         position: 'top-center',
       })
@@ -95,14 +98,14 @@ const RoomAdd = () => {
         toast.success('Upload Room Successfuly', {
           position: 'top-center',
         })
-        navigate('/')
+        navigate('/roomList')
       } catch (error) {}
     }
   }
 
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily='Roboto' fontWeight={400} backgroundColor='#e9f3f5'>
-      <Breadcrumb pt={30}>
+    <Box minHeight={2000} overflow='auto' fontFamily='Roboto' fontWeight={400} backgroundColor='#f5f9fa'>
+      <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
         <BreadcrumbItem>
           <BreadcrumbLink href='/roomList'>Phòng họp</BreadcrumbLink>
         </BreadcrumbItem>
@@ -110,75 +113,53 @@ const RoomAdd = () => {
           <BreadcrumbLink href='#'>Thêm phòng họp</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <VStack ml={30} mr={30} spacing={3}>
-        <Box overflow='auto' p={10} borderRadius={5} backgroundColor='#FFFFFF' w='100%' mb={10}>
-          <HStack alignItems={'self-start'}>
-            <Box w={'50%'}>
-              <FormControl>
-                <FormLabel htmlFor='name'>Công việc</FormLabel>
-                <Select
-                  w={450}
-                  borderColor='#8292b4'
-                  placeholder='Tên công việc'
-                  backgroundColor='#ffffff'
-                  mt='10px'
-                  mb='10px'
-                  onChange={(e) => {
-                    setJObName(e.target.value)
-                  }}>
-                  {data
-                    .filter((job) => job.status === true && job.user_id === userId)
-                    .map((i) => {
-                      return (
-                        <option key={i.id} value={i.id}>
-                          {i.name}
-                        </option>
-                      )
-                    })}
-                </Select>
-              </FormControl>
+      <VStack align={'flex-start'} ml={30} mr={30} spacing={3}>
+        <Box bgColor={'white'} w={'50%'} p={'30px'} boxShadow={'md'} borderRadius={20}>
+          <FormLabel htmlFor='name'>Công việc</FormLabel>
+          <Select
+            borderColor='#8292b4'
+            placeholder='Tên công việc'
+            backgroundColor='#ffffff'
+            mt='10px'
+            mb='10px'
+            onChange={(e) => {
+              setJObName(e.target.value)
+            }}>
+            {data
+              .filter((job) => job.status === true && job.user_id === userId)
+              .map((i) => {
+                return (
+                  <option key={i.id} value={i.id}>
+                    {i.name}
+                  </option>
+                )
+              })}
+          </Select>
 
-              <FormControl>
-                <FormLabel htmlFor='position'>Meeting name</FormLabel>
-                <Input w={450} type='text' onChange={(e) => setRoomName(e.target.value)} name='position' id='position' />
-              </FormControl>
-              {/* 
-              <FormControl>
-                <FormLabel htmlFor='position'>Kĩ năng</FormLabel>
-                <Input w={450} type='text' onChange={(e) => setRoomSkill(e.target.value)} name='position' id='position' />
-              </FormControl> */}
+          <FormLabel htmlFor='position'>Meeting name</FormLabel>
+          <Input type='text' onChange={(e) => setRoomName(e.target.value)} name='position' id='position' />
 
-              <FormControl>
-                <FormLabel htmlFor='position'>Mô tả</FormLabel>
-                <Input w={450} type='text' onChange={(e) => setRoomDescription(e.target.value)} name='position' id='position' />
-              </FormControl>
+          <FormLabel htmlFor='position'>Mô tả</FormLabel>
+          <Input type='text' onChange={(e) => setRoomDescription(e.target.value)} name='position' id='position' />
 
-              <FormControl>
-                <FormLabel htmlFor='position'>Thời gian</FormLabel>
-                <HStack w={'100%'}>
-                  <Input onChange={(e) => setStartDate(e.target.value)} name='startDate' backgroundColor='#FFFFFF' placeholder='Room description' type='datetime-local' w={209} />
-                  <Text> {'  '}to </Text>
-                  <Input onChange={(e) => setEndDate(e.target.value)} name='endDate' backgroundColor='#FFFFFF' placeholder='Room description' type='datetime-local' w={209} />
-                </HStack>
-              </FormControl>
-
-              <FormControl>
-                <FormLabel htmlFor='position'>Meet Link</FormLabel>
-                <Input w={450} type='text' onChange={(e) => setLinkmeet(e.target.value)} name='position' id='position' />
-              </FormControl>
-              <HStack w={'82%'} justifyContent={'space-between'}>
-                <Box></Box>
-                <Button w={200} mt={30} color='white' mb={10} backgroundColor='rgb(3, 201, 215)' type='submit' onClick={handleSubmit}>
-                  <Link>Lưu</Link>
-                </Button>
-              </HStack>
-
-              <ToastContainer />
-            </Box>
-            <Box w={'50%'} mt={100}>
-              <Image borderRadius={20} h={'100%'} src='https://assets-global.website-files.com/6242f480c281185091f94d52/6262c3161abdd90a938e8a77_625837e19d80bd0780a0a18c_interveiw.jpeg' />
-            </Box>
+          <FormLabel htmlFor='position'>Thời gian</FormLabel>
+          <HStack>
+            <Input onChange={(e) => setStartDate(e.target.value)} name='startDate' backgroundColor='#FFFFFF' type='datetime-local' />
+            <Text> {'  '}to </Text>
+            <Input onChange={(e) => setEndDate(e.target.value)} name='endDate' backgroundColor='#FFFFFF' type='datetime-local' />
           </HStack>
+
+          <FormLabel hidden htmlFor='position'>Meet Link</FormLabel>
+          <Input hidden type='text' onChange={(e) => setLinkmeet(e.target.value)} name='position' id='position' />
+
+          <HStack justifyContent={'space-between'}>
+            <Box></Box>
+            <Button w={200} mt={30} color='white' mb={10} backgroundColor='rgb(3, 201, 215)' type='submit' onClick={handleSubmit}>
+              <Link>Lưu</Link>
+            </Button>
+          </HStack>
+
+          <ToastContainer />
         </Box>
       </VStack>
     </Box>

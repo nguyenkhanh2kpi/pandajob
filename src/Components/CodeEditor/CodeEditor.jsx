@@ -24,13 +24,11 @@ export const CodeEditor = () => {
       </SlideFade>
 
       <HStack h={1000} align={'flex-start'} w={'80vw'}>
-        <HStack w={'100%'}>
-          <Box bgColor={'white'} w={'50%'}>
-            <CodeLanguageEditor language={language} onSelect={onSelect} />
-            <Editor onMount={onMount} onChange={(value) => setvalue(value)} height='90vh' language={language} defaultValue={CODE_SNIPPETS[language]} value={value} />
-          </Box>
-          <Output editorRef={editorRef} language={language} />
-        </HStack>
+        <Box bgColor={'white'} h={500} w={'100%'} overflow={'hidden'}>
+          <CodeLanguageEditor language={language} onSelect={onSelect} />
+          <Editor onMount={onMount} onChange={(value) => setvalue(value)} height='90vh' language={language} defaultValue={CODE_SNIPPETS[language]} value={value} />
+        </Box>
+        <Output editorRef={editorRef} language={language} />
       </HStack>
     </VStack>
   )

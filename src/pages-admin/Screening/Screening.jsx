@@ -52,7 +52,7 @@ import { testService } from '../../Service/test.service'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { ToastContainer, toast } from 'react-toastify'
 import { jobService } from '../../Service/job.service'
-import { EmailIcon } from '@chakra-ui/icons'
+import { ChevronRightIcon, EmailIcon } from '@chakra-ui/icons'
 import { FaCode, FaPencilAlt, FaRegQuestionCircle } from 'react-icons/fa'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { bgcolor } from '@mui/system'
@@ -78,9 +78,9 @@ const Screening = () => {
   }, [load])
 
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+    <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'}>
       <HStack justifyContent={'space-between'} w={'100%'}>
-        <Breadcrumb pt={30}>
+        <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
           <BreadcrumbItem>
             <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
           </BreadcrumbItem>
@@ -92,7 +92,7 @@ const Screening = () => {
           </BreadcrumbItem>
         </Breadcrumb>
       </HStack>
-      <HStack pr={'30px'} w={'100%'} justifyContent={'flex-end'} mb={3}>
+      <HStack pr={'30px'} w={'100%'} justifyContent={'flex-start'} mb={3}>
         {job ? <AddTestForm jobId={job.id} load={load} setLoad={setLoad} /> : <></>}
         {job ? <AddEssayTest jobId={job.id} load={load} setLoad={setLoad} /> : <></>}
         {job ? <AddNewCodeTest jobId={job.id} load={load} setLoad={setLoad} /> : <></>}
@@ -120,7 +120,7 @@ const TestItemByJob = ({ jobId, load, setLoad }) => {
       .then((response) => SetTests(response))
       .catch((er) => console.log(er))
   }, [load])
-  return <>{tests.length > 0 ? tests.map((test) => <TestItem test={test} jobId={jobId} load={load} setLoad={setLoad} />) : <></>}</>
+  return <>{tests.length > 0 ? tests.map((test) => <TestItem test={test} jobId={jobId} load={load} setLoad={setLoad} />) : <Text>Không tìm thấy bài test nào</Text>}</>
 }
 
 const TestItem = ({ test, jobId, load, setLoad }) => {
@@ -169,6 +169,7 @@ const TestItem = ({ test, jobId, load, setLoad }) => {
                 <MenuButton _hover={{ bgcolor: 'white' }} bgColor={'white'} as={Button} rightIcon={<BsThreeDotsVertical />} />
                 <MenuList>
                   <MenuItem onClick={() => navigate(`/process/screening-test/${test.id}`)}>Chỉnh sửa</MenuItem>
+                  <MenuItem onClick={() => navigate(`/process/view-mul-test-result/${test.id}`)}>Xem kết quả</MenuItem>
                   <MenuItem>Xóa</MenuItem>
                 </MenuList>
               </Menu>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Button, FormControl, FormLabel, HStack, Input } from '@chakra-ui/react'
 
-export const ResumeJsonSkill = ({ skill, index, onSkillChange, handleAdd, handleDelete }) => {
+export const ResumeJsonSkill = ({ skill, index, onSkillChange, handleAdd, handleDelete, canDelete }) => {
   const handleOnChange = (e) => {
     const { name, value } = e.target
     onSkillChange(index, name, value)
@@ -19,9 +19,11 @@ export const ResumeJsonSkill = ({ skill, index, onSkillChange, handleAdd, handle
           <Input name='description' placeholder='' value={skill.description} onChange={handleOnChange} />
         </FormControl>
         <HStack mt={8} w={'40%'}>
-          <Button onClick={() => handleDelete(index)} color={'white'} backgroundColor={'#94a6a6'}>
-            -
-          </Button>
+          {canDelete && (
+            <Button onClick={() => handleDelete(index)} color={'white'} backgroundColor={'#94a6a6'}>
+              -
+            </Button>
+          )}
           <Button onClick={handleAdd} color={'white'} backgroundColor={'#8ebfb4'} ml={2}>
             +
           </Button>

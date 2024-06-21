@@ -8,7 +8,7 @@ import { links, interviewerLink, reccerLink } from '../data/dummy'
 import { useStateContext } from '../contexts/ContextProvider'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { Box, Image, Text } from '@chakra-ui/react'
+import { Box, Flex, Icon, Image, Text } from '@chakra-ui/react'
 import pandalogo from '../Components/assets/pandalogo.jpg'
 
 const Sidebar = () => {
@@ -42,16 +42,19 @@ const Sidebar = () => {
     <Box fontFamily={'Roboto'} fontWeight={'bold'} className='ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10'>
       {activeMenu && (
         <>
-          <div className='flex justify-between items-center'>
-            <Link to='/' onClick={handleCloseSideBar}>
-              <Image h={'72px'} w={'90%'} src={pandalogo} alt='Logo' alignItems={'center'} cursor={'pointer'} />
-            </Link>
+          {/* <div className='flex justify-between items-center'>
+
             <TooltipComponent content='Menu' position='BottomCenter'>
               <button type='button' onClick={() => setActiveMenu(!activeMenu)} style={{ color: currentColor }} className='text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden'>
                 <MdOutlineCancel />
               </button>
             </TooltipComponent>
-          </div>
+          </div> */}
+          <Flex justifyContent='space-between' alignItems='center'>
+            <Link to='/' onClick={handleCloseSideBar}>
+              <Image h={'72px'} w={'90%'} src={pandalogo} alt='Logo' alignItems={'center'} cursor={'pointer'} />
+            </Link>
+          </Flex>
 
           {linksRole.map((item) => (
             <div key={item.title}>
@@ -65,7 +68,9 @@ const Sidebar = () => {
                   })}
                   className={({ isActive }) => (isActive ? activeLink : normalLink)}>
                   {link.icon}
-                  <span className='capitalize '>{link.title}</span>
+                  <Text m={0} p={0}>
+                    {link.title}
+                  </Text>
                 </NavLink>
               ))}
             </div>

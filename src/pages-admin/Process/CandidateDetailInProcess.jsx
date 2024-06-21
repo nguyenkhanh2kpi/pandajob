@@ -85,6 +85,7 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
       })
       .catch((er) => console.log(er))
   }
+  
   useEffect(() => {
     cvService
       .getCVById(accessToken, candidate.cvId)
@@ -105,11 +106,9 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
   }
   useEffect(() => {
     const checkedLabelIds = Object.keys(checkedLabels).filter((labelId) => checkedLabels[labelId])
-    if (checkedLabelIds.length > 0 && labels.length > 0) {
-      console.log('checked lanle', JSON.stringify(checkedLabels))
+    if (checkedLabelIds.length >= 0 && labels.length > 0) {
       cvService
         .updateLabel(accessToken, candidate.cvId, JSON.stringify(checkedLabels))
-        .then((response) => console.log('chel', response))
         .catch((er) => console.log(er))
     }
   }, [checkedLabels])

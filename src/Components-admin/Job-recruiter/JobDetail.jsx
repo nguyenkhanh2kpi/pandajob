@@ -13,6 +13,7 @@ import { jobService } from '../../Service/job.service'
 import { AiOutlineEye, AiOutlineFire, AiOutlineFolderOpen, AiOutlineInfoCircle } from 'react-icons/ai'
 import ConfirmVipDialog from './ConfirmVipDialog'
 import JobStateComponent from './JobStateComponent'
+import { ChevronRightIcon } from '@chakra-ui/icons'
 export const State = {
   CREATE: 'Tạo',
   ON: 'Mở nhận CV',
@@ -223,8 +224,8 @@ function JobDetailRecruiter() {
   if (data != null)
     return (
       <>
-        <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
-          <Breadcrumb pt={30}>
+        <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'}>
+          <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='/allJob_Recruiter'>Công việc của tôi</BreadcrumbLink>
             </BreadcrumbItem>

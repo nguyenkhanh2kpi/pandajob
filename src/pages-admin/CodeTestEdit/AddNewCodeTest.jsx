@@ -87,7 +87,7 @@ export const AddNewCodeTest = ({ jobId, load, setLoad }) => {
         Kiểm tra code(dành cho ngành IT)
       </Button>
       <OverlayComponent isOpen={isOpen} onClose={handleClose}>
-        <Box minH={200} overflow={'auto'} fontFamily={'Roboto'} p={5} bgColor={'white'} borderRadius={10}>
+        <Box minH={200} overflow={'auto'} fontFamily={'Roboto'} p={10} bgColor={'white'} borderRadius={20}>
           <Heading size={'md'} fontFamily={'Roboto'}>
             Coding test(dành cho ngành IT)
           </Heading>

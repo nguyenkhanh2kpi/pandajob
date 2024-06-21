@@ -57,7 +57,7 @@ import { AiOutlinePlayCircle } from 'react-icons/ai'
 import { jobService } from '../../Service/job.service'
 import { locationService } from '../../Service/location.service'
 import { Stack } from 'react-bootstrap'
-import { CheckIcon, EmailIcon, PhoneIcon, Search2Icon, SearchIcon, StarIcon, ViewIcon } from '@chakra-ui/icons'
+import { CheckIcon, ChevronRightIcon, EmailIcon, PhoneIcon, Search2Icon, SearchIcon, StarIcon, ViewIcon } from '@chakra-ui/icons'
 import { CandidateDetailInProces } from './CandidateDetailInProcess'
 import { ManageLabel } from './ManageLabel'
 import { labelService } from '../../Service/label.service'
@@ -77,7 +77,7 @@ export const ProcessItem = () => {
 
   return (
     <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
-      <Breadcrumb pt={30}>
+      <Breadcrumb pt={30} separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'}>
         <BreadcrumbItem>
           <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
         </BreadcrumbItem>

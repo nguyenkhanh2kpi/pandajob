@@ -27,23 +27,21 @@ const CompanyProfile = () => {
           <SlideFade in={true} offsetY={20}>
             <Heading size={'lg'} mt={24}></Heading>
           </SlideFade>
-          <HStack align={'flex-start'} w={'80%'}>
-            <Box maxW='100%' borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'} w={'100vw'} m={2} backgroundColor={'#FFFFFF'}>
+          <HStack align={'flex-start'} w={'70vw'}>
+            <Box borderRadius={20} overflow='hidden' boxShadow='md' align={'flex-start'} w={'100vw'} backgroundColor={'#FFFFFF'}>
               <Image src={company.avatar} alt={company.name} width='100%' height='200px' objectFit='cover' />
-
               <Box p={4}>
-                <Text fontWeight='bold' fontSize='lg' mt='2'>
+                <Text m={0} p={0} fontWeight='bold' mt='2'>
                   {company.name}
                 </Text>
-
-                <Flex w={'60%'} p={2}>
-                  <Text flex='1'>
+                <Flex w={'60%'}>
+                  <Text m={0} p={0} flex='1'>
                     <Link href={company.website} isExternal color='blue.500'>
                       <IconButton m={2} aria-label='Search database' icon={<SearchIcon />} />
                       {company.website}
                     </Link>
                   </Text>
-                  <Text>
+                  <Text m={0} p={0}>
                     <IconButton aria-label='Send email' m={2} icon={<EmailIcon />} />
                     {company.phone}
                   </Text>
@@ -52,15 +50,15 @@ const CompanyProfile = () => {
             </Box>
           </HStack>
 
-          <HStack m={5} align={'flex-start'} w={'70vw'} p={5}>
-            <VStack w={'70%'} pr={3} spacing={12}>
-              <Box bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+          <HStack mb={100} align={'flex-start'} w={'70vw'}>
+            <VStack w={'70%'} pr={3}>
+              <Box bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius={20} overflow='hidden' boxShadow='md' align={'flex-start'}>
                 <FormLabel fontWeight={'bold'} fontSize={18} w={'100%'} p={4}>
                   Thông tin cơ bản
                 </FormLabel>
                 <Text p={4}>{company.info}</Text>
               </Box>
-              <Box bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+              <Box bgColor={'white'} w={'100%'} borderRadius={20} overflow='hidden' boxShadow='md' align={'flex-start'}>
                 <FormLabel fontWeight={'bold'} fontSize={18} w={'100%'} p={4}>
                   Công việc
                 </FormLabel>
@@ -70,7 +68,7 @@ const CompanyProfile = () => {
               </Box>
             </VStack>
 
-            <Box bgColor={'white'} w={'30%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
+            <Box bgColor={'white'} w={'30%'} borderRadius={20} overflow='hidden' boxShadow='md' align={'flex-start'}>
               <FormLabel fontWeight={'bold'} fontSize={18} w={'100%'} p={4}>
                 Thông tin liên hệ
               </FormLabel>

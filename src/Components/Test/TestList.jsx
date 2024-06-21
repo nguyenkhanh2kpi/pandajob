@@ -82,43 +82,31 @@ const TestItem = ({ test }) => {
   }
 
   return (
-    <Box
-      backgroundColor='#ffffff'
-      maxW='sm'
-      borderRadius='lg'
-      overflow='hidden'
-      fontFamily={'Roboto'}
-      _hover={{
-        boxShadow: 'xl',
-        transition: 'all 0.2s ease-in-out',
-        transform: 'translate(2px, -5px)',
-      }}>
-      <Box p='6' borderWidth='1px' borderRadius='lg'>
-        <HStack alignItems='center' spacing={4}>
-          <Icon as={icon} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-          <Text m={0} fontSize='2xl'>
-            {test.summary}
-          </Text>
-        </HStack>
-        {test.record ? (
-          <Button size='xs' mt={1} colorScheme='green'>
-            Đã làm
-          </Button>
-        ) : (
-          <Button size='xs' mt={1} colorScheme='red'>
-            Chưa làm
-          </Button>
-        )}
+    <Box p={10} backgroundColor='#ffffff' maxW='sm' borderRadius={10} overflow='hidden' fontFamily={'Roboto'}>
+      <HStack alignItems='center' spacing={4}>
+        <Icon as={icon} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+        <Text m={0} fontSize='2xl'>
+          {test.summary}
+        </Text>
+      </HStack>
+      {test.record ? (
+        <Button size='xs' mt={1} colorScheme='green'>
+          Đã làm
+        </Button>
+      ) : (
+        <Button size='xs' mt={1} colorScheme='red'>
+          Chưa làm
+        </Button>
+      )}
 
-        <Box noOfLines={3} mt='2'>
-          Thời gian thực hiện: {test.time} phút
-        </Box>
+      <Box noOfLines={3} mt='2'>
+        Thời gian thực hiện: {test.time} phút
+      </Box>
 
-        <Box display='flex' mt='4' alignItems='center'>
-          <Button rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant='outline' flex='1' onClick={() => handleOnTestClick(test)}>
-            Làm bài
-          </Button>
-        </Box>
+      <Box display='flex' mt='4' alignItems='center'>
+        <Button rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant='outline' flex='1' onClick={() => handleOnTestClick(test)}>
+          Làm bài
+        </Button>
       </Box>
     </Box>
   )

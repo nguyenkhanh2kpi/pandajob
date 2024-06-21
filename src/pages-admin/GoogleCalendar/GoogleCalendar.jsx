@@ -144,7 +144,7 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
 
   return (
     <>
-      <Button mr={10} fontFamily={'Roboto'} leftIcon={<MdVideocam />} color='white' backgroundColor='rgb(3, 201, 215)' onClick={handleOpen}>
+      <Button fontFamily={'Roboto'} leftIcon={<MdVideocam />} color='white' backgroundColor='rgb(3, 201, 215)' onClick={handleOpen}>
         <Link>Lên lịch với ứng viên</Link>
       </Button>
       <Drawer size={'lg'} isOpen={isOpen} placement='right' onClose={onClose} finalFocusRef={btnRef}>

@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, FormLabel, HStack, Input, Text, Textarea } from '@chakra-ui/react'
 
 // kinh nghiem lam viec
-export const ResumeJsonWorkExp = ({ workExp, index, onWorkExpChange, handleAdd, handleDelete }) => {
+export const ResumeJsonWorkExp = ({ workExp, index, onWorkExpChange, handleAdd, handleDelete, canDelete }) => {
   const handleOnChange = (e) => {
     const { name, value } = e.target
     onWorkExpChange(index, name, value)
@@ -46,9 +46,11 @@ export const ResumeJsonWorkExp = ({ workExp, index, onWorkExpChange, handleAdd, 
       </HStack>
 
       <HStack w={'40%'}>
-        <Button variant='outline' onClick={() => handleDelete(index)} color={'white'} backgroundColor={'#94a6a6'} mt={2}>
-          -
-        </Button>
+        {canDelete && (
+          <Button variant='outline' onClick={() => handleDelete(index)} color={'white'} backgroundColor={'#94a6a6'} mt={2}>
+            -
+          </Button>
+        )}
 
         <Button variant='outline' onClick={handleAdd} color={'white'} backgroundColor={'#8ebfb4'} ml={2} mt={2}>
           +

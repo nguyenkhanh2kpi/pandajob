@@ -227,7 +227,7 @@ export const MainResumeJson = () => {
           <Heading size={'lg'} m={'6'} mt={24}></Heading>
         </SlideFade>
 
-        <VStack pb={20} minH={1000} align={'flex-start'} w={'80vw'}>
+        <VStack pb={20} minH={1000} align={'flex-start'} w={'60vw'}>
           {/* mỗi phần này là 1 frame  */}
           <VStack p={10} bgColor={'white'} w={'100%'} borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='md' align={'flex-start'}>
             <HStack alignItems='center' spacing={4}>
@@ -321,7 +321,7 @@ export const MainResumeJson = () => {
             </HStack>
             <VStack alignItems={'flex-start'} w={'100%'}>
               {resumeJson.workingExperiences.map((workExp, index) => (
-                <ResumeJsonWorkExp key={index} workExp={workExp} index={index} onWorkExpChange={handleWorkExpChange} handleAdd={handleAddWorkExp} handleDelete={handleDeleteWorkExp} />
+                <ResumeJsonWorkExp key={index} workExp={workExp} index={index} onWorkExpChange={handleWorkExpChange} handleAdd={handleAddWorkExp} handleDelete={handleDeleteWorkExp} canDelete={resumeJson.workingExperiences.length > 1} />
               ))}
             </VStack>
           </VStack>
@@ -335,7 +335,7 @@ export const MainResumeJson = () => {
               </Text>
             </HStack>
             {resumeJson.education.map((education, index) => (
-              <ResumeJsonEducation key={index} education={education} index={index} onEducationChange={handleEducationChange} handleAdd={handleAddEducation} handleDelete={handleDeleteEducation} />
+              <ResumeJsonEducation key={index} education={education} index={index} onEducationChange={handleEducationChange} handleAdd={handleAddEducation} handleDelete={handleDeleteEducation} canDelete={resumeJson.education.length > 1} />
             ))}
           </VStack>
           {/* end frame education */}
@@ -348,7 +348,7 @@ export const MainResumeJson = () => {
               </Text>
             </HStack>
             {resumeJson.skills.map((skill, index) => (
-              <ResumeJsonSkill key={index} skill={skill} index={index} onSkillChange={handleSkillChange} handleAdd={handleAddSkill} handleDelete={handleDeleteSkill} />
+              <ResumeJsonSkill key={index} skill={skill} index={index} onSkillChange={handleSkillChange} handleAdd={handleAddSkill} handleDelete={handleDeleteSkill} canDelete={resumeJson.skills.length > 1} />
             ))}
           </VStack>
           {/* end frame skill */}
@@ -361,7 +361,7 @@ export const MainResumeJson = () => {
               </Text>
             </HStack>
             {resumeJson.workingProjects.map((project, index) => (
-              <ResumeJsonProject key={index} worksProject={project} index={index} onProjectChange={handleProjectChange} handleAdd={handleAddProject} handleDelete={handleDeleteProject} />
+              <ResumeJsonProject key={index} worksProject={project} index={index} onProjectChange={handleProjectChange} handleAdd={handleAddProject} handleDelete={handleDeleteProject} canDelete={resumeJson.workingProjects.length > 1} />
             ))}
           </VStack>
           {/* end frame dự án */}
@@ -374,7 +374,7 @@ export const MainResumeJson = () => {
             </HStack>
             <VStack alignItems={'flex-start'} w={'100%'}>
               {resumeJson.certificate.map((certificate, index) => (
-                <ResumeJsonCertificate key={index} certificate={certificate} index={index} onCertificateChange={handleCertificateChange} handleAdd={handleAddCertificate} handleDelete={handleDeleteCertificate} />
+                <ResumeJsonCertificate key={index} certificate={certificate} index={index} onCertificateChange={handleCertificateChange} handleAdd={handleAddCertificate} handleDelete={handleDeleteCertificate} canDelete={resumeJson.certificate.length > 1}/>
               ))}
             </VStack>
           </VStack>
@@ -388,7 +388,7 @@ export const MainResumeJson = () => {
             </HStack>
             <VStack alignItems={'flex-start'} w={'100%'}>
               {resumeJson.activate.map((activate, index) => (
-                <ResumeJsonActivate key={index} activate={activate} index={index} onActivateChange={handleActivateChange} handleAdd={handleAddActivity} handleDelete={handleDeleteActivity} />
+                <ResumeJsonActivate key={index} activate={activate} index={index} onActivateChange={handleActivateChange} handleAdd={handleAddActivity} handleDelete={handleDeleteActivity} canDelete={resumeJson.activate.length > 1}/>
               ))}
             </VStack>
           </VStack>
@@ -402,7 +402,7 @@ export const MainResumeJson = () => {
             </HStack>
             <VStack alignItems={'flex-start'} w={'100%'}>
               {resumeJson.title_award.map((award, index) => (
-                <ResumeJsonTitleAward key={index} titleAward={award} index={index} onTitleAwardChange={handleTitleAwardChange} handleAdd={handleAddAward} handleDelete={handleDeleteAward} />
+                <ResumeJsonTitleAward key={index} titleAward={award} index={index} onTitleAwardChange={handleTitleAwardChange} handleAdd={handleAddAward} handleDelete={handleDeleteAward} canDelete={resumeJson.title_award.length > 1} />
               ))}
             </VStack>
           </VStack>

@@ -91,7 +91,7 @@ export const ImportExcel = ({ testID, setLoad, load }) => {
       <Box
         backgroundColor={'#ffffff'}
         onClick={onOpen}
-        borderRadius={5}
+        borderRadius={20}
         pl={4}
         alignContent='center'
         h={50}

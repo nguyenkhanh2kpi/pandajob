@@ -9,7 +9,7 @@ export const ItemJobInCompany = ({ id, image, name, position, location, salary, 
   const navigate = useNavigate()
   return (
     <>
-      <Box key={id} maxW='100%' borderWidth='1px' borderRadius='lg' overflow='hidden' fontFamily={'Roboto'} m={4} p={2} w={'95%'}>
+      <Box key={id} borderWidth='1px' borderRadius={20} overflow='hidden' fontFamily={'Roboto'} m={4} p={2} w={'95%'}>
         <HStack w={'100%'}>
           <Box borderRadius='lg' overflow='hidden' w={'23%'} height={'100%'}>
             <Image w={'100%'} h={'100%'} src={image} alt={name} />

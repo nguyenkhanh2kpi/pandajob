@@ -40,10 +40,10 @@ export const EventCard = ({ id, title, article, time, author, image, content, st
             {title}
           </Box>
 
-          <Box noOfLines={3}>{article}</Box>
+          <Box noOfLines={1}>{article}</Box>
 
           <Box display='flex' mt='2' alignItems='center'>
-            <Button rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant='outline' onClick={() => navigate('/event/' + id)} w='200px'>
+            <Button borderRadius={20} size={'sm'} rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant='outline' onClick={() => navigate('/event/' + id)} w='200px'>
               Xem thêm
             </Button>
             <IconButton value={id} aria-label='Search database' icon={<CopyIcon />} marginLeft='auto' onClick={copyToClipboard} />

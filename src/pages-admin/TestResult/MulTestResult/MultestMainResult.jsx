@@ -1,10 +1,9 @@
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, HStack, SimpleGrid, Text, Image, Link, VStack, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, Tag, Flex, Select, Input, Avatar, Spinner } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, HStack, SimpleGrid, Text, Image, Link, VStack, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, Tag, Flex, Select, Input, Avatar, Spinner, Tab } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { testService } from '../../../Service/test.service'
-import { ViewDetailCodeEssay } from './ViewDetailCodeEssay'
 
-export const MainEssayTestResult = () => {
+export const MultestMainResult = () => {
   const params = useParams()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
   const [records, setRecords] = useState(null)
@@ -116,6 +115,12 @@ export const MainEssayTestResult = () => {
                         <Text m={0} p={0} fontWeight='bold'>
                           {record.user.fullName}
                         </Text>
+                        <Text m={0} p={0} fontWeight='bold'>
+                          Số câu đúng:{' '}
+                          <Tag fontWeight={'bold'} colorScheme='green'>
+                            {record.score}
+                          </Tag>
+                        </Text>
                         <Text fontStyle={'italic'} m={0} p={0}>
                           {record.user.email}
                         </Text>
@@ -127,7 +132,6 @@ export const MainEssayTestResult = () => {
                       <Text m={0} p={0} fontSize={'xs'} fontStyle={'italic'}>
                         Thời gian làm bài: <Tag>{record.startTime}</Tag>
                       </Text>
-                      <ViewDetailCodeEssay record={record} load={load} setLoad={setLoad} />
                     </VStack>
                   </HStack>
                 </Box>

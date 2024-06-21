@@ -8,7 +8,7 @@ import product9 from '../../data/product9.jpg'
 import { eventService } from '../../Service/event.service'
 import { ToastContainer, toast } from 'react-toastify'
 import { Link, useNavigate } from 'react-router-dom'
-import { DeleteIcon, EditIcon, SearchIcon } from '@chakra-ui/icons'
+import { ChevronRightIcon, DeleteIcon, EditIcon, SearchIcon } from '@chakra-ui/icons'
 import { Header } from '../../Components-admin'
 
 const DropDown = ({ currentMode }) => (
@@ -64,172 +64,67 @@ export const K_Event = () => {
     )
   } else if (events.length === 0) {
     return (
-      <Box fontFamily={'Roboto'} fontWeight={400} className='m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl'>
-        <Header category='App' title='Event' />
-        <Button mb={10} height='50px' color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px'>
-          <Link to='/event/add'>Add</Link>
-        </Button>
-        <Text>You don't have any event</Text>
+      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'}>
+        <HStack justifyContent={'space-between'} w={'100%'}>
+          <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
+            <BreadcrumbItem>
+              <BreadcrumbLink href='#'>Events</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+          <Button size={'sm'} mr={30} color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px'>
+            <Link to='/event/add'>+ Thêm sự kiện</Link>
+          </Button>
+        </HStack>
+        <VStack spacing={3} pl={30} pr={30}>
+          <Text>Bạn chưa có sự kiện nào</Text>
+        </VStack>
       </Box>
     )
   } else
     return (
       <>
-        <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+        <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'}>
           <HStack justifyContent={'space-between'} w={'100%'}>
-            <Breadcrumb pt={30}>
+            <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
               <BreadcrumbItem>
                 <BreadcrumbLink href='#'>Events</BreadcrumbLink>
               </BreadcrumbItem>
             </Breadcrumb>
-            <Button mr={30} color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px'>
-              <Link to='/event/add'>+ Add event</Link>
+            <Button size={'sm'} mr={30} color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px'>
+              <Link to='/event/add'>+ Thêm sự kiện</Link>
             </Button>
           </HStack>
           <VStack spacing={3} pl={30} pr={30}>
             <Box minHeight={1000} overflow='auto' w={'100%'} mb={10}>
-              <SimpleGrid maxW='100%' w='100%' spacing={4} templateColumns='repeat(auto-fill, minmax(300px, 1fr))'>
+              <SimpleGrid p={10} maxW='100%' w='100%' spacing={10} templateColumns='repeat(auto-fill, minmax(300px, 1fr))'>
                 {events
                   .filter((event) => event.status)
                   .map((event) => (
-                    <Card maxW='sm'>
-                      <CardBody>
-                        <Image src={event.image} alt={event.title} borderRadius='lg' />
-                        <Stack mt='6' spacing='3'>
-                          <Heading size='md'>{event.title}</Heading>
-                          <Text>{event.article}</Text>
-                          <Text color='blue.600' fontSize='2xl'>
-                            {formatDate(event.time)}
-                          </Text>
-                        </Stack>
-                      </CardBody>
-                      <Divider />
-                      <CardFooter>
-                        <ButtonGroup spacing='2'>
-                          <Button onClick={() => naigate(`/event/edit/${event.id}`)} variant='solid' colorScheme='blue'>
-                            Sửa
-                          </Button>
-                          <Button onClick={() => handleDelete(event.id)} variant='ghost' colorScheme='blue'>
-                            Xóa
-                          </Button>
-                        </ButtonGroup>
-                      </CardFooter>
-                    </Card>
-                  ))}
-                {events
-                  .filter((event) => event.status)
-                  .map((event) => (
-                    <Card maxW='sm'>
-                      <CardBody>
-                        <Image src={event.image} alt={event.title} borderRadius='lg' />
-                        <Stack mt='6' spacing='3'>
-                          <Heading size='md'>{event.title}</Heading>
-                          <Text>{event.article}</Text>
-                          <Text color='blue.600' fontSize='2xl'>
-                            {formatDate(event.time)}
-                          </Text>
-                        </Stack>
-                      </CardBody>
-                      <Divider />
-                      <CardFooter>
-                        <ButtonGroup spacing='2'>
-                          <Button onClick={() => naigate(`/event/edit/${event.id}`)} variant='solid' colorScheme='blue'>
-                            Sửa
-                          </Button>
-                          <Button onClick={() => handleDelete(event.id)} variant='ghost' colorScheme='blue'>
-                            Xóa
-                          </Button>
-                        </ButtonGroup>
-                      </CardFooter>
-                    </Card>
-                  ))}
-                {events
-                  .filter((event) => event.status)
-                  .map((event) => (
-                    <Card maxW='sm'>
-                      <CardBody>
-                        <Image src={event.image} alt={event.title} borderRadius='lg' />
-                        <Stack mt='6' spacing='3'>
-                          <Heading size='md'>{event.title}</Heading>
-                          <Text>{event.article}</Text>
-                          <Text color='blue.600' fontSize='2xl'>
-                            {formatDate(event.time)}
-                          </Text>
-                        </Stack>
-                      </CardBody>
-                      <Divider />
-                      <CardFooter>
-                        <ButtonGroup spacing='2'>
-                          <Button onClick={() => naigate(`/event/edit/${event.id}`)} variant='solid' colorScheme='blue'>
-                            Sửa
-                          </Button>
-                          <Button onClick={() => handleDelete(event.id)} variant='ghost' colorScheme='blue'>
-                            Xóa
-                          </Button>
-                        </ButtonGroup>
-                      </CardFooter>
-                    </Card>
-                  ))}
-                {events
-                  .filter((event) => event.status)
-                  .map((event) => (
-                    <Card maxW='sm'>
-                      <CardBody>
-                        <Image src={event.image} alt={event.title} borderRadius='lg' />
-                        <Stack mt='6' spacing='3'>
-                          <Heading size='md'>{event.title}</Heading>
-                          <Text>{event.article}</Text>
-                          <Text color='blue.600' fontSize='2xl'>
-                            {formatDate(event.time)}
-                          </Text>
-                        </Stack>
-                      </CardBody>
-                      <Divider />
-                      <CardFooter>
-                        <ButtonGroup spacing='2'>
-                          <Button onClick={() => naigate(`/event/edit/${event.id}`)} variant='solid' colorScheme='blue'>
-                            Sửa
-                          </Button>
-                          <Button onClick={() => handleDelete(event.id)} variant='ghost' colorScheme='blue'>
-                            Xóa
-                          </Button>
-                        </ButtonGroup>
-                      </CardFooter>
-                    </Card>
-                  ))}
-              </SimpleGrid>
-
-              {/* <Grid p={5} w={'100%'} templateColumns='repeat(3, 1fr)' gap={3}>
-                {events
-                  .filter((event) => event.status)
-                  .map((event) => (
-                    <GridItem w={'100%'}>
-                      <Box backgroundColor='#ffffff' borderRadius={20} p={5} boxShadow='lg' key={event.id}>
-                        <Box d='flex' justifyContent='space-between'>
-                          <Text fontSize='xl' fontWeight='semibold'>
+                    <>
+                      <Box overflow={'hidden'} bgColor={'white'} borderRadius={20} boxShadow={'md'}>
+                        <Image src={event.image} alt={event.title} />
+                        <Box p={5}>
+                          <Text noOfLines={1} fontWeight={'bold'}>
                             {event.title}
                           </Text>
-                          <IconButton color='#03C9D7' backgroundColor='#f7f7f7' aria-label='Edit' icon={<EditIcon />} />
-                        </Box>
-                        <Box mt={10}>
-                          <Image w='md' h='50' src={event.image} alt={event.title} />
-                          <Box mt={8}>
-                            <Text fontWeight='semibold' fontSize='lg'>
-                              {event.author}
+                          <HStack w={'100%'} justifyContent={'space-between'}>
+                            <Text fontStyle={'italic'} fontSize={'sm'}>
+                              {formatDate(event.time)}
                             </Text>
-                            <Text color='gray.400'>{formatDate(event.time)}</Text>
-                            <Text mt={8} fontSize='sm' color='gray.400'>
-                              {event.article}
-                            </Text>
-                            <Box mt={3}>
-                              <IconButton color='#e85f76' backgroundColor='#f7f7f7' aria-label='Delete' icon={<DeleteIcon />}  />
-                            </Box>
-                          </Box>
+                            <HStack>
+                              <Button size={'sm'} onClick={() => handleDelete(event.id)} variant='ghost'>
+                                Xóa
+                              </Button>
+                              <Button size={'sm'} onClick={() => naigate(`/event/edit/${event.id}`)}>
+                                Sửa
+                              </Button>
+                            </HStack>
+                          </HStack>
                         </Box>
                       </Box>
-                    </GridItem>
+                    </>
                   ))}
-              </Grid> */}
+              </SimpleGrid>
             </Box>
           </VStack>
         </Box>

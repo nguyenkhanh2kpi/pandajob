@@ -74,8 +74,8 @@ function JobDetail() {
     return (
       <Box mt='100px' fontFamily={'Roboto'}>
         <Box display='flex' justifyContent='space-evenly'>
-          <Box w='850px'>
-            <Box borderRadius={7} ml='50px' p='20px' boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em' color='RGBA(0, 0, 0, 0.76)'>
+          <Box w='60%'>
+            <Box bgColor={'white'} borderRadius={20} ml='50px' p='20px' boxShadow='lg'>
               <Text fontSize='20px' fontWeight='bold'>
                 {data.name}
               </Text>
@@ -138,7 +138,7 @@ function JobDetail() {
               </Box>
             </Box>
 
-            <Box borderRadius={7} mb={20} mt='30px' ml='50px' p='20px' boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em' color='RGBA(0, 0, 0, 0.76)'>
+            <Box borderRadius={20} mb={20} mt='30px' ml='50px' p='20px' boxShadow='lg'>
               <Text fontSize='20px' fontWeight='bold'>
                 Job description
               </Text>
@@ -206,9 +206,9 @@ function JobDetail() {
             </Box>
           </Box>
           <Box width='400px' height='400px'>
-            <Box borderRadius={7} p='20px' boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em'>
+            <Box borderRadius={20} p='20px' boxShadow='lg'>
               <Text fontSize='18px' mb='20px' fontWeight='bold'>
-                Genaral information
+                Thông tin cơ bản
               </Text>
               <Box mb={2}>
                 <Text fontSize='15px' fontWeight='bold'>
@@ -270,7 +270,7 @@ function JobDetail() {
               </Box>
             </Box>
 
-            <Box borderRadius={7} p='20px' mt='20px' boxShadow='rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em'>
+            <Box borderRadius={20} p='20px' mt='20px' boxShadow='lg'>
               <Text fontSize='18px' mb='20px' fontWeight='bold'>
                 Company
               </Text>

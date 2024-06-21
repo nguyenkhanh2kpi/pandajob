@@ -1,4 +1,4 @@
-import { Avatar, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Card, CardHeader, Center, Checkbox, Flex, HStack, Heading, Icon, Spinner, Tag, Text, VStack, useToast } from '@chakra-ui/react'
+import { Avatar, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Card, CardHeader, Center, Checkbox, Flex, HStack, Heading, Icon, SimpleGrid, Spinner, Tag, Text, VStack, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { testService } from '../../../Service/test.service'
@@ -8,153 +8,137 @@ import { executeCode } from '../../../Components/CodeEditor/api'
 import { VscPassFilled } from 'react-icons/vsc'
 import { MdCancel } from 'react-icons/md'
 import { IoPricetagsOutline } from 'react-icons/io5'
+import { ChevronRightIcon } from '@chakra-ui/icons'
 
 export const CodeTestResultMain = () => {
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
   const params = useParams()
-  const [records, setRecords] = useState(null)
-  const [results, setResults] = useState({})
+  const [records, setRecords] = useState([])
+  const [filterdRecords, setFilteredRecords] = useState(null)
   const [loading, setLoading] = useState(false)
-  const toast = useToast()
-  const [listRordSelected, SetListSelected] = useState([])
+  const [load, setLoad] = useState(false)
 
   useEffect(() => {
     testService
       .getAllRecordCodeByTestId(accessToken, params.testId)
       .then((response) => {
         setRecords(response.data)
-        runAllTests(response.data)
       })
       .catch((er) => console.log(er))
-  }, [accessToken, params.testId])
+  }, [accessToken, params.testId, load])
 
-  const runCode = async (language, sourceCode) => {
-    if (!sourceCode) throw new Error('Source code is required')
-    try {
-      const { run: result } = await executeCode(language, sourceCode)
+  // filter
+  const [filter, setFilter] = useState('all')
+  const handleFilterClick = (newFilter) => {
+    setFilter(newFilter)
+  }
 
-      if (result.stderr) {
-        throw new Error(result.stderr)
+  useEffect(() => {
+    if (records) {
+      let filtered = [...records]
+
+      switch (filter) {
+        case 'not-viewed':
+          filtered = records.filter((record) => !record.cvDTO.view)
+          break
+        case 'viewed':
+          filtered = records.filter((record) => record.cvDTO.view)
+          break
+        case 'today':
+          const today = new Date()
+          const todayDateString = today.toLocaleDateString('en-GB')
+
+          filtered = records.filter((record) => {
+            const startTime = record.startTime
+            const datePart = startTime.split(' ')[1]
+            const formattedDate = datePart.split('/').reverse().join('-')
+            const recordDate = new Date(formattedDate)
+            const recordDateString = recordDate.toLocaleDateString('en-GB')
+
+            return recordDateString === todayDateString
+          })
+          break
+        case 'new-cv':
+          filtered = records.filter((record) => record.cvDTO.state === 'RECEIVE_CV')
+          break
+        case 'interview':
+          filtered = records.filter((record) => record.cvDTO.state === 'SCHEDULE_INTERVIEW')
+          break
+
+        default:
+          break
       }
-      return result.output
-    } catch (error) {
-      console.error('Error executing code:', error)
-      throw new Error(error.message || 'Unable to run code')
+      setFilteredRecords(filtered)
     }
-  }
-
-  const runAllTests = async (records) => {
-    setLoading(true)
-    const tempResults = {}
-    for (const record of records) {
-      const questionResults = await Promise.all(
-        JSON.parse(record.record).map(async (question, index) => {
-          const code = JSON.parse(question.value)[question.language]
-          const testCode = JSON.parse(question.testFunction)[question.language]
-          const fullCode = `${code}\n\n${testCode}`
-          try {
-            const output = await runCode(question.language, fullCode)
-            return output.includes('true') ? 'pass' : 'fail'
-          } catch {
-            return 'wait'
-          }
-        })
-      )
-      tempResults[record.id] = questionResults
-      setLoading(false)
-    }
-    setResults(tempResults)
-  }
-  
-
-  // filter value
-  const [filterButton, setFilterButton] = useState('Tất cả')
+  }, [filter, records])
 
   return (
-    <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
-      <Breadcrumb pt={30}>
+    <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'} overflow='hidden'>
+      <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
         <BreadcrumbItem>
-          <BreadcrumbLink href={`/process/screening/`}>Code Test</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-          <BreadcrumbLink href='#'>Kết quả</BreadcrumbLink>
+          <BreadcrumbLink href='#'>Kết quả Code Test</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      {records && !loading ? (
+      {filterdRecords && !loading ? (
         <VStack mb={30} w={'100%'} minH={800} pl={30} pr={30} spacing={5}>
-          <HStack m={0} p={0} w={'100%'} align={'flex-start'}>
-            <Text fontWeight={'bold'} m={0} p={0}>
-              {records.length} ứng viên đã thực hiện bài test
-            </Text>
-          </HStack>
           <HStack justifyContent={'space-between'} m={0} p={0} w={'100%'} align={'flex-start'}>
-            <HStack>
-              <Button size='sm' colorScheme='blue' variant={filterButton === 'Tất cả' ? 'solid' : 'outline'} onClick={() => setFilterButton('Tất cả')}>
+            <Flex gap={2}>
+              <Button bgColor={filter === 'all' ? 'black' : 'gray.200'} color={filter === 'all' ? 'white' : 'black'} size={'sm'} onClick={() => handleFilterClick('all')}>
                 Tất cả
               </Button>
-              <Button size='sm' colorScheme='blue' variant={filterButton === 'Đã xem' ? 'solid' : 'outline'} onClick={() => setFilterButton('Đã xem')}>
-                Đã xem
-              </Button>
-              <Button size='sm' colorScheme='blue' variant={filterButton === 'Chưa xem' ? 'solid' : 'outline'} onClick={() => setFilterButton('Chưa xem')}>
+              <Button size={'sm'} onClick={() => handleFilterClick('not-viewed')} bgColor={filter === 'not-viewed' ? 'black' : 'gray.200'} color={filter === 'not-viewed' ? 'white' : 'black'}>
                 Chưa xem
               </Button>
-            </HStack>
-            <HStack>
-              <Checkbox>Chọn tất cả</Checkbox>
-              <Button leftIcon={<IoPricetagsOutline />} colorScheme='teal' variant='outline'>
-                Gán nhãn
+              <Button size={'sm'} onClick={() => handleFilterClick('viewed')} bgColor={filter === 'viewed' ? 'black' : 'gray.200'} color={filter === 'viewed' ? 'white' : 'black'}>
+                Đã xem
               </Button>
-            </HStack>
+              <Button size={'sm'} onClick={() => handleFilterClick('today')} bgColor={filter === 'today' ? 'black' : 'gray.200'} color={filter === 'today' ? 'white' : 'black'}>
+                Hôm nay
+              </Button>
+              <Button size={'sm'} onClick={() => handleFilterClick('new-cv')} bgColor={filter === 'new-cv' ? 'black' : 'gray.200'} color={filter === 'new-cv' ? 'white' : 'black'}>
+                CV mới tiếp nhận (trạng thái)
+              </Button>
+              <Button size={'sm'} onClick={() => handleFilterClick('interview')} bgColor={filter === 'interview' ? 'black' : 'gray.200'} color={filter === 'interview' ? 'white' : 'black'}>
+                Lên lịch phỏng vấn (trạng thái)
+              </Button>
+            </Flex>
           </HStack>
           <HStack w={'100%'}>
-            <VStack borderRadius={10} w={'100%'}>
-              {records.map((record) => (
-                <Card bgColor={'#f7fcfc'} _hover={{ boxShadow: 'lg', cursor: 'pointer' }} w={'100%'} key={record.id}>
-                  <CardHeader>
-                    <Flex w={'100%'} spacing='4'>
-                      <Box w={'35%'} h={'100%'}>
-                        <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                          <Checkbox />
-                          <Avatar name={record.user.fullName} src={record.user.avatar} />
-                          <Box>
-                            <Heading size='sm'>{record.user.fullName}</Heading>
-                            <Text m={0} p={0}>
-                              Email: {record.user.email}
+            <SimpleGrid w={'100%'} columns={{ base: 1, md: 2 }} spacing={6}>
+              {filterdRecords.length > 0 ? (
+                <>
+                  {filterdRecords.map((record, index) => (
+                    <Box key={index} w={'100%'} bgColor={'white'} borderRadius={20} boxShadow={'md'} p={5}>
+                      <HStack justifyContent={'space-between'} spacing={4} mb={4}>
+                        <HStack m={0} p={0} justifyContent={'flex-start'}>
+                          <Avatar borderRadius='full' boxSize='50px' src={record.user.avatar} alt={record.user.fullName} />
+                          <VStack spacing={0} align='start'>
+                            <Text m={0} p={0} fontWeight='bold'>
+                              {record.user.fullName}
                             </Text>
-                            <Text m={0} p={0}>
-                              Thời gian: <Tag colorScheme='blue'>{record.startTime}</Tag>
+                            <Text fontStyle={'italic'} m={0} p={0}>
+                              {record.user.email}
                             </Text>
-                            <Box>{record.cvDTO.view ? <Tag colorScheme='grey'>Đã xem</Tag> : <Tag colorScheme='yellow'>Chưa xem</Tag>}</Box>
-                            <ViewCVTestResult cv={record.cvDTO} />
-                          </Box>
-                        </Flex>
-                      </Box>
-                      <Box w={'65%'} h={'100%'}>
-                        <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                          <Box w={'100%'}>
-                            <Heading size='sm'>Kết quả Test</Heading>
-                            <HStack>
-                              {JSON.parse(record.record).map((question, index) => {
-                                const result = results[record.id]?.[index]
-                                return (
-                                  <VStack key={index}>
-                                    <Text m={0} p={0}>
-                                      Câu {index + 1}
-                                    </Text>
-                                    <Icon as={result === 'pass' ? VscPassFilled : MdCancel} w={8} h={8} color={result === 'pass' ? 'green' : 'red'} />
-                                  </VStack>
-                                )
-                              })}
-                            </HStack>
-                            <ViewACodeTestResult results={results} records={record.record} />
-                          </Box>
-                        </Flex>
-                      </Box>
-                    </Flex>
-                  </CardHeader>
-                </Card>
-              ))}
-            </VStack>
+                            {record.cvDTO.view ? <Tag colorScheme='yellow'>Đã xem</Tag> : <Tag colorScheme='green'>Chưa xem</Tag>}
+                          </VStack>
+                        </HStack>
+
+                        <VStack align='end' spacing={0}>
+                          <Text m={0} p={0} fontSize={'xs'} fontStyle={'italic'}>
+                            Thời gian làm bài: <Tag>{record.startTime}</Tag>
+                          </Text>
+                          <ViewACodeTestResult record={record} load={load} setLoad={setLoad} />
+                        </VStack>
+                      </HStack>
+                    </Box>
+                  ))}
+                </>
+              ) : (
+                <>
+                  <Text m={30}>Không có bản ghi nào</Text>
+                </>
+              )}
+            </SimpleGrid>
           </HStack>
         </VStack>
       ) : (

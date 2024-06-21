@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Button, FormControl, FormLabel, HStack, Input, Textarea, Text } from '@chakra-ui/react'
 // frame activate
-export const ResumeJsonActivate = ({ activate, index, onActivateChange, handleAdd, handleDelete }) => {
+export const ResumeJsonActivate = ({ activate, index, onActivateChange, handleAdd, handleDelete, canDelete }) => {
   const handleOnChange = (e) => {
     const { name, value } = e.target
     onActivateChange(index, name, value)
@@ -37,9 +37,12 @@ export const ResumeJsonActivate = ({ activate, index, onActivateChange, handleAd
         </FormControl>
       </HStack>
       <HStack w={'40%'}>
-        <Button onClick={() => handleDelete(index)} color={'white'} backgroundColor={'#94a6a6'} mt={2}>
-          -
-        </Button>
+        {canDelete && (
+          <Button onClick={() => handleDelete(index)} color={'white'} backgroundColor={'#94a6a6'} mt={2}>
+            -
+          </Button>
+        )}
+
         <Button onClick={handleAdd} color={'white'} backgroundColor={'#8ebfb4'} ml={2} mt={2}>
           +
         </Button>

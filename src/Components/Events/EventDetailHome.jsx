@@ -37,7 +37,7 @@ export const EventDetailHome = () => {
         </SlideFade>
         <HStack align={'flex-start'} w={'70vw'} alignItems={'center'} display={'flex'} justifyContent={'center'}>
           <Box bgColor={'white'} maxW='960px' borderWidth='1px' borderRadius='lg' overflow='hidden' w={'100%'}>
-            <Image src={event.image} alt='Image' />
+            <Image w={'100%'} src={event.image} alt='Image' />
 
             <Box p='6'>
               <Box display='flex' mt={2} alignItems='baseline'>

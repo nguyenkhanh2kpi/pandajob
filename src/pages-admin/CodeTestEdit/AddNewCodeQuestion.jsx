@@ -61,21 +61,31 @@ export const AddNewQuestion = ({ jobId, testId, load, setLoad }) => {
     })
     await Promise.all(uploadPromises)
     form.questionText = JSON.stringify(savedData)
-
-    console.log('form', JSON.stringify(form))
-    testService
-      .addCodeQuestionForATest(accessToken, form)
-      .then((response) => {
-        handleClose()
-        toast({
-          title: 'Code Question',
-          description: response.message,
-          status: 'info',
-          duration: 3000,
-          isClosable: true,
-        })
+    if (form.value == '' || form.testFunction == '') {
+      toast({
+        title: 'Code Question',
+        description: 'Yêu cầu nhập hàm mẫu và hàm test',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'bottom-right',
       })
-      .catch((er) => console.log(er))
+    } else {
+      testService
+        .addCodeQuestionForATest(accessToken, form)
+        .then((response) => {
+          handleClose()
+          toast({
+            title: 'Code Question',
+            description: response.message,
+            status: 'info',
+            duration: 3000,
+            isClosable: true,
+            position: 'bottom-right',
+          })
+        })
+        .catch((er) => console.log(er))
+    }
   }
 
   //  upload
@@ -140,12 +150,12 @@ export const AddNewQuestion = ({ jobId, testId, load, setLoad }) => {
 
   return (
     <>
-      <Button onClick={handleOpen} color={'white'} backgroundColor={'#2cccc7'}>
+      <Button size={'sm'} onClick={handleOpen} color={'white'} backgroundColor={'rgb(3, 201, 215)'}>
         + Thêm câu hỏi
       </Button>
 
       <OverlayComponent isOpen={isOpen} onClose={handleClose}>
-        <Box overflow={'auto'} fontFamily={'Roboto'} p={5} w={800} h={650} bgColor={'white'} borderRadius={10}>
+        <Box overflow={'auto'} fontFamily={'Roboto'} p={10} w={800} h={650} bgColor={'white'} borderRadius={20}>
           <Heading size={'md'} fontFamily={'Roboto'}>
             Câu hỏi coding
           </Heading>
@@ -160,7 +170,7 @@ export const AddNewQuestion = ({ jobId, testId, load, setLoad }) => {
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4}>
-                <Box h={500} overflow={'auto'} borderColor={'gray'}>
+                <Box p={5} borderRadius={10} borderWidth={1} h={500} overflow={'auto'} borderColor={'gray'}>
                   <ReactEditorJS editorCore={editorCore} tools={EDITOR_JS_TOOLS} onInitialize={handleInitialize} />
                 </Box>
               </AccordionPanel>
@@ -190,11 +200,14 @@ export const AddNewQuestion = ({ jobId, testId, load, setLoad }) => {
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4}>
+                <Box bgColor={'#f5f7f7'} borderRadius={10} borderLeftWidth={'5px'} borderColor={'orange'}>
+                  <Text>gợi ý: Hàm test kiểm tra kết quả của hàm mẫu có thể trả về log cuối cùng là 0 hoặc 1 thể hiện câu trả lời có pass được test case hay khônng</Text>
+                </Box>
                 <SampleFunction handleChangeValueCode={handleChangeTestFunctionCode} />
               </AccordionPanel>
             </AccordionItem>
 
-            <AccordionItem>
+            {/* <AccordionItem>
               <h2>
                 <AccordionButton>
                   <Box as='span' flex='1' textAlign='left'>
@@ -206,7 +219,7 @@ export const AddNewQuestion = ({ jobId, testId, load, setLoad }) => {
               <AccordionPanel pb={4}>
                 <TestCaseSample testCases={testCases} setTestCases={setTestCases} handleChangeTestCases={handleChangeTestCases} />
               </AccordionPanel>
-            </AccordionItem>
+            </AccordionItem> */}
           </Accordion>
 
           <HStack justifyContent={'flex-end'} mt={5} w={'100%'}>

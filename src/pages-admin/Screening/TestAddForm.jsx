@@ -36,8 +36,10 @@ import { testService } from '../../Service/test.service'
 import { ToastContainer, toast } from 'react-toastify'
 import { load } from '@syncfusion/ej2-react-charts'
 import { ImportExcel } from './ImportExcel'
+import { ChevronRightIcon } from '@chakra-ui/icons'
 
 const TestAddForm = () => {
+  const navigate = useNavigate()
   const [load, setLoad] = useState(false)
   const { id } = useParams()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
@@ -53,34 +55,34 @@ const TestAddForm = () => {
     <>
       {test ? (
         <>
-          <Box spacing={3} h={1100} fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
+          <Box spacing={3} h={1100} fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'} overflow='hidden'>
             <HStack justifyContent={'space-between'} w={'100%'}>
-              <Breadcrumb pt={30}>
+              <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
+                  <BreadcrumbLink onClick={() => navigate(`/process`)}>Quản lý ứng tuyển</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href={`#`}>Job</BreadcrumbLink>
+                  <BreadcrumbLink onClick={() => navigate(`/process/screening/${test.id}`)}>Kiểm tra sàng lọc</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href='#'>Kiểm tra</BreadcrumbLink>
+                  <BreadcrumbLink href='#'>Chỉnh sửa</BreadcrumbLink>
                 </BreadcrumbItem>
               </Breadcrumb>
             </HStack>
             <VStack pl={30} pr={30}>
-              <Box h={1000} borderRadius={20} backgroundColor={'#e9f3f5'} w={'100%'} mb={10}>
+              <Box h={1000} borderRadius={20} backgroundColor={'#f5f9fa'} w={'100%'} mb={10}>
                 <HStack alignItems={'flex-start'} w={'100%'}>
                   <VStack w={'20%'}>
-                    <Box backgroundColor={'#ffffff'} borderRadius={5} pl={4} alignContent={'center'} h={50} overflow={'hidden'} fontWeight={'bold'} fontSize={14} boxShadow={'lg'} w={'100%'}>
+                    <Box backgroundColor={'#ffffff'} borderRadius={20} pl={4} alignContent={'center'} h={50} overflow={'hidden'} fontWeight={'bold'} fontSize={14} boxShadow={'lg'} w={'100%'}>
                       Số câu hỏi: {test.questions.length}
                     </Box>
-                    <Box backgroundColor={'#ffffff'} borderRadius={5} pl={4} alignContent={'center'} h={50} overflow={'hidden'} fontWeight={'bold'} fontSize={14} boxShadow={'lg'} w={'100%'}>
+                    <Box backgroundColor={'#ffffff'} borderRadius={20} pl={4} alignContent={'center'} h={50} overflow={'hidden'} fontWeight={'bold'} fontSize={14} boxShadow={'lg'} w={'100%'}>
                       Thời gian làm bài:{test.time}
                     </Box>
                     <ImportExcel testID={test.id} load={load} setLoad={setLoad} />
                   </VStack>
 
-                  <Box backgroundColor={'#ffffff'} borderRadius={5} borderWidth={1} boxShadow={'lg'} w={'80%'}>
+                  <Box backgroundColor={'#ffffff'} borderRadius={20} borderWidth={1} boxShadow={'lg'} w={'80%'}>
                     <Box h={840} overflowY='auto' mt={30} mb={30} w={'100%'}>
                       {test.questions.length > 0 ? test.questions.map((question) => <QuestionItem setLoad={setLoad} load={load} key={question.id} question={question} testId={test.id} />) : <QuestionItem setLoad={setLoad} load={load} question={null} testId={test.id} />}
                     </Box>

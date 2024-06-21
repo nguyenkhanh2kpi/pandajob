@@ -48,6 +48,7 @@ import { EditEssayTest } from '../pages-admin/Screening/EditeEssayTest'
 import { CodeTestResultMain } from '../pages-admin/TestResult/CodeTestResult/CodeTestResultMain'
 import { MainReccerDashBoard } from '../pages-admin/DashBoard/AdminDashBoard/MainReccerDashBoard'
 import { MainEssayTestResult } from '../pages-admin/TestResult/EssayTestResult/MainEssayTestResult'
+import { MultestMainResult } from '../pages-admin/TestResult/MulTestResult/MultestMainResult'
 
 const AllRoutesAd = ({ role }) => {
   return (
@@ -129,14 +130,19 @@ const AllRoutesAd = ({ role }) => {
       <Route path='/process/item/:jobId/:tab' element={<ProcessItem />} />
       <Route path='/process/edit-code-test/:testId' element={<EditCodeTest />} />
 
+      {/* tét trắc nghiệm - edit test */}
+      <Route path='/process/screening-test/:id' element={<TestAddForm />} />
+
       {/* result test */}
       <Route path='/process/code-test/result/:testId' element={<CodeTestResultMain />} />
       <Route path='/process/view-essay-result/:testId' element={<MainEssayTestResult />} />
+      <Route path='/process/view-mul-test-result/:testId' element={<MultestMainResult />} />
 
       <Route path='/process/edit-essay-test/:testId' element={<EditEssayTest />} />
       <Route path='/process/step/screening-resume/:jobId' element={<SceningProcess />} />
+
       <Route path='/process/screening/:jobId' element={<Screening />} />
-      <Route path='/process/screening-test/:id' element={<TestAddForm />} />
+
       <Route path='/vip' element={<Vip />} />
       <Route path='/vip/my-bills' element={<MyBills />} />
       <Route path='/vip/cart/:packId' element={<VipCart />} />

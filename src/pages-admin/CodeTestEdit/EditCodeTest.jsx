@@ -31,11 +31,11 @@ export const EditCodeTest = () => {
       {test ? (
         <Box minH={1000} fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
           <VStack mb={50} w={'100%'} pl={30} pr={30} spacing={10}>
-            <Card minH={500} mt={30} p={5} w={'100%'} direction={{ base: 'column', sm: 'row' }} overflow='hidden' variant='outline'>
+            <Box minH={500} mt={30} p={5} w={'100%'}>
               <VStack alignItems={'flex-start'} w={'100%'}>
                 <HStack alignItems='center' spacing={4}>
                   <Icon as={FaCode} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                  <Text m={0} fontSize='2xl'>
+                  <Text fontStyle={'italic'} m={0} p={0} fontWeight={'bold'}>
                     {test.summary} - Thời gian: {test.time} phút
                   </Text>
                 </HStack>
@@ -45,7 +45,7 @@ export const EditCodeTest = () => {
                   </HStack>
                 </Box>
                 {test.codeQuestions.length > 0 ? (
-                  <VStack  spacing={4} w='100%'>
+                  <VStack spacing={4} w='100%'>
                     {test.codeQuestions.map((question) => (
                       <TestQuestionItem key={question.id} question={question} load={load} setLoad={setLoad} />
                     ))}
@@ -58,7 +58,7 @@ export const EditCodeTest = () => {
                   </Box>
                 )}
               </VStack>
-            </Card>
+            </Box>
           </VStack>
         </Box>
       ) : (
@@ -102,18 +102,16 @@ const TestQuestionItem = ({ question, load, setLoad }) => {
   }
 
   return (
-    <Card key={question.id} w='100%' maxH={expanded ? 'unset' : '200px'} overflow='hidden'>
-      <CardHeader>
-        <Flex spacing='4'>
-          <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-            <Box>
-              <ReactEditorJS defaultValue={JSON.parse(question.questionText)} editorCore={editorCore} tools={EDITOR_JS_TOOLS} onInitialize={handleInitialize} />
-            </Box>
-          </Flex>
-          <IconButton onClick={() => setExpanded(!expanded)} variant='ghost' colorScheme='gray' aria-label='Toggle expansion' icon={<ArrowUpDownIcon />} />
-          <IconButton onClick={() => handleDeleteCodeQuesiton(question.id)} variant='ghost' colorScheme='gray' aria-label='Delete question' icon={<DeleteIcon />} />
+    <Box boxShadow={'md'} bgColor={'white'} borderRadius={20} p={10} key={question.id} w='60%' maxH={expanded ? 'unset' : '200px'} overflow='hidden'>
+      <Flex spacing='4'>
+        <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+          <Box>
+            <ReactEditorJS readOnly defaultValue={JSON.parse(question.questionText)} editorCore={editorCore} tools={EDITOR_JS_TOOLS} onInitialize={handleInitialize} />
+          </Box>
         </Flex>
-      </CardHeader>
-    </Card>
+        <IconButton onClick={() => setExpanded(!expanded)} variant='ghost' colorScheme='gray' aria-label='Toggle expansion' icon={<ArrowUpDownIcon />} />
+        <IconButton onClick={() => handleDeleteCodeQuesiton(question.id)} variant='ghost' colorScheme='gray' aria-label='Delete question' icon={<DeleteIcon />} />
+      </Flex>
+    </Box>
   )
 }

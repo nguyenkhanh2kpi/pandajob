@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Button, FormControl, FormLabel, HStack, Input, Textarea, Text } from '@chakra-ui/react'
 
-export const ResumeJsonProject = ({ worksProject, index, onProjectChange, handleAdd, handleDelete }) => {
+export const ResumeJsonProject = ({ worksProject, index, onProjectChange, handleAdd, handleDelete, canDelete }) => {
   const handleOnChange = (e) => {
     const { name, value } = e.target
     onProjectChange(index, name, value)
@@ -61,9 +61,11 @@ export const ResumeJsonProject = ({ worksProject, index, onProjectChange, handle
       </HStack>
 
       <HStack w={'40%'}>
-        <Button onClick={() => handleDelete(index)} color={'white'} backgroundColor={'#94a6a6'} mt={2}>
-          -
-        </Button>
+        {canDelete && (
+          <Button onClick={() => handleDelete(index)} color={'white'} backgroundColor={'#94a6a6'} mt={2}>
+            -
+          </Button>
+        )}
         <Button onClick={handleAdd} color={'white'} backgroundColor={'#8ebfb4'} ml={2} mt={2}>
           +
         </Button>

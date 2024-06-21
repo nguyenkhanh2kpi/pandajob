@@ -9,7 +9,7 @@ import { GoogleCalendar } from '../GoogleCalendar/GoogleCalendar'
 import { MdCheckCircle, MdSettings } from 'react-icons/md'
 import { AiOutlineFolderOpen, AiOutlineSetting, AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { BsThreeDotsVertical } from 'react-icons/bs'
-import { ChevronDownIcon } from '@chakra-ui/icons'
+import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { interviewDetailService } from '../../Service/interviewDetail.service'
 import ChatWindow from '../MessageAdmin/ChatWindow'
 const initialRoomData = {
@@ -155,8 +155,8 @@ export const RoomEditInfomation = () => {
   } else {
     return (
       <>
-        <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
-          <Breadcrumb pt={30}>
+        <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'} overflow='hidden'>
+          <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='/roomList'>Phòng họp</BreadcrumbLink>
             </BreadcrumbItem>
@@ -164,177 +164,173 @@ export const RoomEditInfomation = () => {
               <BreadcrumbLink href='#'>Edit</BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-          <VStack pl={30} pr={30} spacing={10}>
-            <Card w={'100%'} direction={{ base: 'column', sm: 'row' }} overflow='hidden' variant='outline'>
-              <Stack>
-                <CardBody>
-                  <List spacing={3}>
-                    <ListItem>
-                      <ListIcon as={MdCheckCircle} color='green.500' />
-                      Tên: {room.roomName}
-                    </ListItem>
-                    <ListItem>
-                      <ListIcon as={MdCheckCircle} color='green.500' />
-                      Mô tả:{room.roomDescription}
-                    </ListItem>
-                    <ListItem>
-                      <ListIcon as={MdCheckCircle} color='green.500' />
-                      Trạng thái: {room.status}
-                    </ListItem>
-                    <ListItem>
-                      <ListIcon as={MdSettings} color='green.500' />
-                      Thời gian: {room.startDate} to {room.endDate}
-                    </ListItem>
-                  </List>
-                </CardBody>
-              </Stack>
-            </Card>
-
-            <Box p={4} borderRadius='lg' backgroundColor={'#FFFFFF'} w={'100%'}>
-              <HStack alignItems='center' spacing={4}>
-                <Icon as={AiOutlineUsergroupAdd} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                <Text m={0} fontSize='2xl'>
-                  Thành viên
-                </Text>
-              </HStack>
-              <Box m={5}>
-                <HStack alignItems={'flex-start'}>
-                  <Text fontWeight={'bold'}>Đội phỏng vấn</Text>
-                  <AssignInterviewer roomId={params.idRoom} />
-                </HStack>
-
-                {room.listInterviewer.map((interviewer) => (
-                  <Card mb={1} key={interviewer.id} p={1}>
-                    <Flex spacing='4'>
-                      <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                        <Avatar name={interviewer.fullName} src={interviewer.avatar} />
-
-                        <Box>
-                          <Heading size='sm'>{interviewer.fullName}</Heading>
-                          <Text>{interviewer.email}</Text>
-                        </Box>
-                      </Flex>
-                      <Menu>
-                        <MenuButton>
-                          <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
-                        </MenuButton>
-                        <MenuList>
-                          <MenuItem>Xem</MenuItem>
-                          <MenuItem>Xóa</MenuItem>
-                        </MenuList>
-                      </Menu>
-                    </Flex>
-                  </Card>
-                ))}
-
-                <HStack mt={10} alignItems={'flex-start'}>
-                  <Text fontWeight={'bold'}>Ứng viên</Text>
-                  <AssignCandidate load={load} setLoad={setLoad} roomId={params.idRoom} jobId={params.id} startDate={room.startDate} endDate={room.endDate} />
-                </HStack>
-                {room.listCandidate.map((candidate) => (
-                  <Card mb={1} key={candidate.itemId} p={1}>
-                    {openChatCandidate === candidate.email && <ChatWindow onClose={() => toggleChatWindow(candidate.email)} email={candidate.email} />}
-                    <Flex spacing='4'>
-                      <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                        <Avatar name={candidate.name} src={candidate.avatar} />
-
-                        <Box>
-                          <Heading size='sm'>{candidate.name}</Heading>
-                          <Text>{candidate.email}</Text>
-                        </Box>
-                      </Flex>
-                      <Menu>
-                        <MenuButton>
-                          <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
-                        </MenuButton>
-                        <MenuList>
-                          <MenuItem>Xem</MenuItem>
-                          <MenuItem onClick={() => toggleChatWindow(candidate.email)}>Gửi tin nhắn</MenuItem>
-                          <MenuItem key={candidate.itemId} value={candidate.itemId} onClick={() => openConfirmModal(candidate.itemId)}>
-                            Xóa
-                          </MenuItem>
-                        </MenuList>
-                      </Menu>
-                    </Flex>
-                  </Card>
-                ))}
-                <DeleteConfirmationModal isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onDelete={handleDeleteCandidate} />
-              </Box>
+          <VStack spacing={10} pl={30} pr={30} align={'flex-start'}>
+            <Box w={'100%'} p={'30px'} borderRadius={20} boxShadow={'md'} bgColor={'white'}>
+              <List spacing={3}>
+                <ListItem>
+                  <ListIcon as={MdCheckCircle} color='green.500' />
+                  Tên: {room.roomName}
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={MdCheckCircle} color='green.500' />
+                  Mô tả:{room.roomDescription}
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={MdCheckCircle} color='green.500' />
+                  Trạng thái: {room.status}
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={MdSettings} color='green.500' />
+                  Thời gian: {room.startDate} to {room.endDate}
+                </ListItem>
+              </List>
             </Box>
-
-            <Box mb={'200px'} p={4} borderRadius='lg' w={'100%'} backgroundColor={'#FFFFFF'}>
-              <HStack justifyContent={'space-between'} w={'100%'}>
-                <HStack>
-                  <Icon as={AiOutlineSetting} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+            <HStack spacing={10} w={'100%'} align={'flex-start'}>
+              <Box w={'50%'} p={'30px'} borderRadius={20} boxShadow={'md'} bgColor={'white'}>
+                <HStack alignItems='center' spacing={4}>
+                  <Icon as={AiOutlineUsergroupAdd} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
                   <Text m={0} fontSize='2xl'>
-                    Cài đặt
+                    Thành viên
                   </Text>
                 </HStack>
+                <Box m={5}>
+                  <HStack alignItems={'flex-start'}>
+                    <Text fontWeight={'bold'}>Đội phỏng vấn</Text>
+                    <AssignInterviewer roomId={params.idRoom} load={load} setLoad={setLoad} />
+                  </HStack>
 
-                <GoogleCalendar startDate={room.startDate} endDate={room.endDate} listEmail={listAttendee} roomId={params.idRoom} />
-              </HStack>
+                  {room.listInterviewer.map((interviewer) => (
+                    <Card mb={1} key={interviewer.id} p={1}>
+                      <Flex spacing='4'>
+                        <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                          <Avatar name={interviewer.fullName} src={interviewer.avatar} />
 
-              <VStack p={10} mt={10} justifyContent={'flex-start'} spacing={4}>
-                <HStack w={'100%'}>
-                  <VStack w={'50%'}>
-                    <FormLabel ml={5} w={'100%'}>
-                      Tên
-                    </FormLabel>
-                    <Input onChange={handleOnChangeForm} name='roomName' backgroundColor={'#FFFFFF'} w={'100%'} placeholder='Room name' value={room.roomName} />
-                  </VStack>
-                  <VStack w={'50%'}>
-                    <FormLabel ml={5} w={'100%'}>
-                      Trạng thái
-                    </FormLabel>
-                    <Select name='status' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} size='md' value={room.status}>
-                      <option value='Created'>Created</option>
-                      <option value='Processing'>Processing</option>
-                      <option value='Ended'>Ended</option>
-                    </Select>
-                  </VStack>
-                </HStack>
+                          <Box>
+                            <Heading size='sm'>{interviewer.fullName}</Heading>
+                            <Text>{interviewer.email}</Text>
+                          </Box>
+                        </Flex>
+                        <Menu>
+                          <MenuButton>
+                            <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
+                          </MenuButton>
+                          <MenuList>
+                            <MenuItem>Xem</MenuItem>
+                            <MenuItem>Xóa</MenuItem>
+                          </MenuList>
+                        </Menu>
+                      </Flex>
+                    </Card>
+                  ))}
 
-                <HStack w={'100%'}>
-                  <VStack w={'50%'}>
-                    <FormLabel ml={5} w={'100%'}>
-                      Thời gian
-                    </FormLabel>
-                    <HStack w='100%'>
-                      <Input onChange={handleOnChangeForm} name='startDate' backgroundColor={'#FFFFFF'} w={'50%'} placeholder='Room description' type='datetime-local' defaultValue={room.startDate} />
-                      <Text>To</Text>
-                      <Input onChange={handleOnChangeForm} name='endDate' backgroundColor={'#FFFFFF'} w={'50%'} placeholder='Room description' type='datetime-local' defaultValue={room.endDate} />
+                  <HStack mt={10} alignItems={'flex-start'}>
+                    <Text fontWeight={'bold'}>Ứng viên</Text>
+                    <AssignCandidate load={load} setLoad={setLoad} roomId={params.idRoom} jobId={params.id} startDate={room.startDate} endDate={room.endDate} />
+                  </HStack>
+                  {room.listCandidate.map((candidate) => (
+                    <Card mb={1} key={candidate.itemId} p={1}>
+                      {openChatCandidate === candidate.email && <ChatWindow onClose={() => toggleChatWindow(candidate.email)} email={candidate.email} />}
+                      <Flex spacing='4'>
+                        <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                          <Avatar name={candidate.name} src={candidate.avatar} />
+
+                          <Box>
+                            <Heading size='sm'>{candidate.name}</Heading>
+                            <Text>{candidate.email}</Text>
+                          </Box>
+                        </Flex>
+                        <Menu>
+                          <MenuButton>
+                            <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
+                          </MenuButton>
+                          <MenuList>
+                            <MenuItem>Xem</MenuItem>
+                            <MenuItem onClick={() => toggleChatWindow(candidate.email)}>Gửi tin nhắn</MenuItem>
+                            <MenuItem key={candidate.itemId} value={candidate.itemId} onClick={() => openConfirmModal(candidate.itemId)}>
+                              Xóa
+                            </MenuItem>
+                          </MenuList>
+                        </Menu>
+                      </Flex>
+                    </Card>
+                  ))}
+                  <DeleteConfirmationModal isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onDelete={handleDeleteCandidate} />
+                </Box>
+              </Box>
+              <VStack w={'50%'}>
+                <Box p={4} borderRadius={20} w={'100%'} backgroundColor={'white'}>
+                  <HStack justifyContent={'space-between'} w={'100%'}>
+                    <HStack>
+                      <Icon as={AiOutlineSetting} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                      <Text m={0} fontSize='2xl'>
+                        Cài đặt
+                      </Text>
+                    </HStack>
+
+                    <GoogleCalendar startDate={room.startDate} endDate={room.endDate} listEmail={listAttendee} roomId={params.idRoom} />
+                  </HStack>
+
+                  <VStack mt={10} justifyContent={'flex-start'} spacing={4}>
+                    <HStack w={'100%'}>
+                      <VStack w={'50%'}>
+                        <FormLabel ml={5} w={'100%'}>
+                          Tên
+                        </FormLabel>
+                        <Input onChange={handleOnChangeForm} name='roomName' backgroundColor={'#FFFFFF'} w={'100%'} placeholder='Room name' value={room.roomName} />
+                      </VStack>
+                      <VStack w={'50%'}>
+                        <FormLabel ml={5} w={'100%'}>
+                          Trạng thái
+                        </FormLabel>
+                        <Select name='status' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} size='md' value={room.status}>
+                          <option value='Created'>Created</option>
+                          <option value='Processing'>Processing</option>
+                          <option value='Ended'>Ended</option>
+                        </Select>
+                      </VStack>
+                    </HStack>
+
+                    <VStack w={'100%'}>
+                      <FormLabel ml={5} w={'100%'}>
+                        Thời gian
+                      </FormLabel>
+                      <HStack w='100%'>
+                        <Input onChange={handleOnChangeForm} name='startDate' backgroundColor={'#FFFFFF'} w={'50%'} placeholder='Room description' type='datetime-local' defaultValue={room.startDate} />
+                        <Text>To</Text>
+                        <Input onChange={handleOnChangeForm} name='endDate' backgroundColor={'#FFFFFF'} w={'50%'} placeholder='Room description' type='datetime-local' defaultValue={room.endDate} />
+                      </HStack>
+                    </VStack>
+
+                    <VStack w={'100%'}>
+                      <FormLabel ml={5} w={'100%'}>
+                        Mô tả
+                      </FormLabel>
+                      <Input name='roomDescription' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} placeholder='Room description' value={room.roomDescription} />
+                    </VStack>
+
+                    <VStack w={'100%'}>
+                      <FormLabel ml={5} w={'100%'}>
+                        Link
+                      </FormLabel>
+
+                      <Input name='link' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} placeholder='link' type='link' value={room.link} />
+                    </VStack>
+
+                    <HStack w={'100%'} justifyContent={'space-between'}>
+                      <Box></Box>
+                      <HStack>
+                        <Button onClick={() => navigate('/roomList')} w={40} colorScheme='gray'>
+                          Thoát
+                        </Button>
+                        <Button w={40} color='white' backgroundColor='rgb(3, 201, 215)' onClick={handleUpdateRoom}>
+                          Lưu
+                        </Button>
+                      </HStack>
                     </HStack>
                   </VStack>
-                  <VStack w={'50%'}>
-                    <FormLabel ml={5} w={'100%'}>
-                      Mô tả
-                    </FormLabel>
-                    <Input name='roomDescription' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} placeholder='Room description' value={room.roomDescription} />
-                  </VStack>
-                </HStack>
-
-                <HStack w={'100%'}>
-                  <VStack w={'50%'}>
-                    <FormLabel ml={5} w={'100%'}>
-                      Link
-                    </FormLabel>
-
-                    <Input name='link' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} placeholder='link' type='link' value={room.link} />
-                  </VStack>
-                </HStack>
-                <HStack w={'100%'} justifyContent={'space-between'}>
-                  <Box></Box>
-                  <HStack>
-                    <Button onClick={() => navigate('/roomList')} w={40} colorScheme='gray'>
-                      Thoát
-                    </Button>
-                    <Button w={40} color='white' backgroundColor='rgb(3, 201, 215)' onClick={handleUpdateRoom}>
-                      Lưu
-                    </Button>
-                  </HStack>
-                </HStack>
+                </Box>
               </VStack>
-            </Box>
+            </HStack>
           </VStack>
         </Box>
       </>

@@ -2,7 +2,7 @@ import React from 'react'
 import { HStack, FormControl, FormLabel, Input, Select, Textarea, Text, Box, Button } from '@chakra-ui/react'
 import { degrees } from './constrain'
 
-export const ResumeJsonEducation = ({ education, index, onEducationChange, handleAdd, handleDelete }) => {
+export const ResumeJsonEducation = ({ education, index, onEducationChange, handleAdd, handleDelete, canDelete }) => {
   const handleOnChange = (e) => {
     const { name, value } = e.target
     onEducationChange(index, name, value)
@@ -47,9 +47,12 @@ export const ResumeJsonEducation = ({ education, index, onEducationChange, handl
         </FormControl>
       </HStack>
       <HStack w={'40%'}>
-        <Button color={'white'} onClick={() => handleDelete(index)} backgroundColor={'#94a6a6'} mt={2}>
-          -
-        </Button>
+        {canDelete && (
+          <Button color={'white'} onClick={() => handleDelete(index)} backgroundColor={'#94a6a6'} mt={2}>
+            -
+          </Button>
+        )}
+
         <Button onClick={handleAdd} color={'white'} backgroundColor={'#8ebfb4'} ml={2} mt={2}>
           +
         </Button>

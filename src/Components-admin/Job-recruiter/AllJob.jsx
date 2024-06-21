@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import { hostName, webHost } from '../../global'
 import { FcFlashOn } from 'react-icons/fc'
 import { MdCheckCircle, MdSettings } from 'react-icons/md'
-import { ArrowUpIcon, CheckIcon, DeleteIcon, Search2Icon, StarIcon, ViewIcon } from '@chakra-ui/icons'
+import { ArrowUpIcon, CheckIcon, ChevronRightIcon, DeleteIcon, Search2Icon, StarIcon, ViewIcon } from '@chakra-ui/icons'
 import { ConfirmDeleteAJob } from './ConfirmDeleteAJob'
 
 export const State = {
@@ -90,15 +90,17 @@ const AllJob = () => {
               <Text noOfLines={1} m={0} p={0} fontWeight={'bold'}>
                 {job.name}
               </Text>
-              <Flex>
-                <Tag colorScheme='blue'>{State[job.state]}</Tag>
-                {job.isVip ? <Tag colorScheme='green'>Áp dụng vip</Tag> : <Tag colorScheme='yellow'>No Vip</Tag>}
-              </Flex>
-              <Text m={0} p={0} size={'xs'} fontStyle={'italic'}>
-                Ngày đăng:{job.createDate}
+              <Text m={0} p={0}>
+                Trạng thái<Tag colorScheme='blue'>{State[job.state]}</Tag>
               </Text>
-              <Text m={0} p={0} size={'xs'} fontStyle={'italic'}>
-                Cập nhật lần cuối:{job.updateAt}
+              <Text m={0} p={0}>
+                Áp dụng vip: {job.isVip ? <Tag colorScheme='green'>Áp dụng vip</Tag> : <Tag colorScheme='yellow'>No Vip</Tag>}{' '}
+              </Text>
+              <Text noOfLines={1} m={0} p={0} size={'xs'} fontStyle={'italic'}>
+                Ngày đăng: <Tag>{job.createDate}</Tag>
+              </Text>
+              <Text noOfLines={1} m={0} p={0} size={'xs'} fontStyle={'italic'}>
+                Cập nhật:<Tag>{job.updateAt}</Tag>
               </Text>
             </VStack>
             <Avatar borderRadius={20} size='xl' name={job.nam} src={job.image} />{' '}
@@ -106,7 +108,7 @@ const AllJob = () => {
 
           <HStack mt={5} w={'100%'} justifyContent={'flex-end'}>
             <Button size='sm' onClick={() => navigate(`/allJob_Recruiter/jobDetail_Recruiter/${job.id}`)} rightIcon={<MdSettings />} colorScheme='gray' variant='outline'>
-              Chỉnh sửa
+              Cập nhật
             </Button>
 
             <ConfirmDeleteAJob job={job} onComfirm={submitHandler} />
@@ -146,14 +148,14 @@ const AllJob = () => {
   } else {
     return (
       <>
-        <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+        <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'}>
           <HStack w={'97%'} justifyContent={'space-between'}>
-            <Breadcrumb pt={30}>
+            <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
               <BreadcrumbItem>
                 <BreadcrumbLink href='/allJob_Recruiter'>Công việc của tôi</BreadcrumbLink>
               </BreadcrumbItem>
             </Breadcrumb>
-            <Button ml={30} borderRadius={10} color='white' backgroundColor='rgb(3, 201, 215)'>
+            <Button size={'sm'} ml={30} borderRadius={10} color='white' backgroundColor='rgb(3, 201, 215)'>
               <Link to={`/allJob_Recruiter/job-posting`}> + Đăng tuyển dụng</Link>
             </Button>
           </HStack>

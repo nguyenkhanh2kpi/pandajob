@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Img, Input, Stack } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, FormControl, FormLabel, HStack, Image, Img, Input, Stack, VStack } from '@chakra-ui/react'
 import { eventService } from '../../Service/event.service'
 import { ToastContainer, toast } from 'react-toastify'
 import { Textarea } from '@chakra-ui/react'
-import { Header } from '../../Components-admin'
-import { DatePickerComponent } from '@syncfusion/ej2-react-calendars'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { storage } from '../../firebase'
 import alt_img from '../../data/product9.jpg'
 import { useNavigate } from 'react-router-dom'
+import { Spinner } from '@chakra-ui/react'
+import { ChevronRightIcon } from '@chakra-ui/icons'
 
 export const EventAdd = () => {
   const naigate = useNavigate()
@@ -104,75 +104,67 @@ export const EventAdd = () => {
   return (
     <>
       <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
-      <Box fontFamily={'Roboto'} fontWeight={400} className='m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl'>
-        <Header category='Add Event' title='Editor' />
+      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'}>
+        <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='#'>Events</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='#'>Edit</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
 
-        <Stack spacing={5}>
-          <Input name='title' variant='outline' placeholder='title' value={form.title} onChange={handleOnChangeForm} />
-
-          <Input name='article' variant='outline' placeholder='article' value={form.article} onChange={handleOnChangeForm} />
-
-          <Input variant='filled' placeholder='image url' name='image' value={form.image} onChange={handleOnChangeForm} />
-
-          <input type='file' accept='image/*' onChange={handleChangeFile} id='fileInput' className='hidden' />
-          <Img
-            src={form.image}
-            onClick={() => {
-              const fileInput = document.getElementById('fileInput')
-              if (fileInput) {
-                fileInput.click()
-              }
-            }}
-          />
-
-          <Button height='50px' color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px' onClick={handleUpload}>
-            Save
-          </Button>
-
-          {/* <DatePickerComponent
-                        id="datepicker"
-                        placeholder="Time"
-                        name="time"
-                        value={form.time}
-                        onChange={handleOnChangeForm}
-                    /> */}
-
-          <Input id='datepicker' placeholder='Select Date and Time' name='time' value={form.time} size='md' type='datetime-local' onChange={handleOnChangeForm} />
-          <br />
-          <Textarea placeholder='Content' name='content' value={form.content} onChange={handleOnChangeForm} />
-        </Stack>
-        <br />
-
-        {/* <RichTextEditorComponent
-                    value={form.content}
-                    onChange={handleOnChangeForm}
-                >
-                    <EditorData />
-                    <Inject
-                        services={[
-                            HtmlEditor,
-                            Toolbar,
-                            Image,
-                            Link,
-                            QuickToolbar,
-                        ]}
-                    />
-                </RichTextEditorComponent> */}
-
-        <br />
-
-        <div className='mt-24'>
-          <div className='flex flex-wrap lg:flex-nowrap justify-center '>
-            <div className='mt-6'>
-              <Button height='50px' color='white' bgColor='#97a4a6' text='Xem chi tiết' borderRadius='10px' onClick={() => naigate('/event')}>
-                Cancel
+        <VStack spacing={3} pl={30} pr={30}>
+          <Box p={10} overflow={'hidden'} w={'70%'} bgColor={'white'} borderRadius={20} boxShadow={'md'}>
+            <FormControl>
+              <FormLabel htmlFor='title'>Tiêu đề</FormLabel>
+              <Input id='title' name='title' variant='outline' placeholder='Title' value={form.title} onChange={handleOnChangeForm} size='sm' />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel htmlFor='article'>Mô tả</FormLabel>
+              <Input id='article' name='article' variant='outline' placeholder='Article' value={form.article} onChange={handleOnChangeForm} size='sm' />
+            </FormControl>
+            <FormControl hidden mt={4}>
+              <FormLabel htmlFor='image'>Image URL</FormLabel>
+              <Input id='image' name='image' variant='filled' placeholder='Image URL' value={form.image} onChange={handleOnChangeForm} size='sm' />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel htmlFor='time'>Thời gian</FormLabel>
+              <Input id='time' name='time' placeholder='Select Date and Time' value={form.time} size='sm' type='datetime-local' onChange={handleOnChangeForm} />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel htmlFor='content'>Nội dung</FormLabel>
+              <Textarea id='content' placeholder='Content' name='content' value={form.content} onChange={handleOnChangeForm} size='sm' />
+            </FormControl>
+            <Image
+              mt={10}
+              borderRadius={20}
+              h={200}
+              src={form.image}
+              onClick={() => {
+                const fileInput = document.getElementById('fileInput')
+                if (fileInput) {
+                  fileInput.click()
+                }
+              }}
+            />
+            <input type='file' accept='image/*' onChange={handleChangeFile} id='fileInput' />
+            <Button mt={2} size={'sm'} color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px' onClick={handleUpload}>
+              Lưu hình ảnh
+            </Button>
+          </Box>
+          <HStack justifyContent={'space-between'} w={'70%'}>
+            <Box></Box>
+            <HStack>
+              <Button size={'sm'} color='white' bgColor='#97a4a6' text='Xem chi tiết' borderRadius='10px' onClick={() => naigate('/event')}>
+                thoát
               </Button>
-              <Button height='50px' color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px' onClick={handleSubmit}>
-                Save
+              <Button size={'sm'} color='white' bgColor='#03C9D7' text='Xem chi tiết' borderRadius='10px' onClick={handleSubmit}>
+                Lưu thay đổi
               </Button>
-            </div>
-          </div>
-        </div>
+            </HStack>
+          </HStack>
+        </VStack>
       </Box>
     </>
   )

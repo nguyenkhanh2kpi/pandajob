@@ -41,7 +41,7 @@ const CompaniesContainer = () => {
           <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
         </HStack>
       ) : (
-        <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={5} mt={8} width='100%'>
+        <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={8} mt={8} width='100%'>
           {filteredCompanies.map((company) => (
             <CompanyCard key={company.id} company={company} />
           ))}
@@ -54,7 +54,7 @@ const CompaniesContainer = () => {
 const CompanyCard = ({ company }) => {
   const navigate = useNavigate()
   return (
-    <Box fontFamily={'Roboto'} bgColor={'white'} borderWidth='1px' borderRadius='lg' overflow='hidden'>
+    <Box onClick={() => navigate('/companies/' + company.id)} fontFamily={'Roboto'} bgColor={'white'} borderWidth='1px' borderRadius='lg' overflow='hidden'>
       <AspectRatio ratio={16 / 9}>
         <Box as='img' src={company.avatar} alt={company.name} objectFit='cover' />
       </AspectRatio>
@@ -81,11 +81,6 @@ const CompanyCard = ({ company }) => {
           </Text>
         </Flex>
         <Text noOfLines={3}>{company.info}</Text>
-        <Flex justify='flex-end' mt={4}>
-          <Button onClick={() => navigate('/companies/' + company.id)} colorScheme='blue' size='sm'>
-            Xem chi tiết
-          </Button>
-        </Flex>
       </Box>
     </Box>
   )

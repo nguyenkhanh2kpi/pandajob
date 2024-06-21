@@ -53,7 +53,7 @@ import { Exposure } from '@mui/icons-material'
 import { skillPositionService } from '../../Service/skillPosition.service'
 import { BreadcrumbItem, Pagination } from 'react-bootstrap'
 import { PaginationItem } from '@mui/material'
-import { AddIcon, ArrowBackIcon, ArrowForwardIcon, CheckIcon, CloseIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import { AddIcon, ArrowBackIcon, ArrowForwardIcon, CheckIcon, ChevronRightIcon, CloseIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom'
 import ReactPaginate from 'react-paginate'
 import './question.css'
@@ -221,244 +221,240 @@ export const Question = () => {
   } else
     return (
       <>
-        <Box minHeight={1000} fontFamily={'Roboto'} backgroundColor={'#e9f3f5'} overflow='hidden'>
-          <Breadcrumb pt={30}>
+        <Box minHeight={1000} fontFamily={'Roboto'} backgroundColor={'#f5f9fa'} overflow='hidden'>
+          <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
             <BreadcrumbItem>
               <BreadcrumbLink href='#'>Bộ câu hỏi</BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-          <VStack mb={10} pl={30} pr={30} spacing={3}>
-            <Card w={'100%'}>
-              <CardBody>
-                <HStack mb={3} alignItems='center' spacing={4}>
-                  <Icon as={AiOutlineEdit} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                  <Text m={0} fontSize='2xl'>
-                    Câu hỏi
-                  </Text>
-                </HStack>
-                <VStack w={'100%'} alignItems={'flex-start'}>
-                  <HStack w={'100%'} spacing={5}>
-                    <Select
-                      w={'25%'}
-                      onChange={(event) => {
-                        const selectedValue = parseInt(event.target.value, 10)
-                        setFilter((filter) => ({
-                          ...filter,
-                          fieldId: selectedValue,
-                        }))
-                      }}
-                      value={filter.fieldId}>
-                      {dropdownField.map((option) => (
-                        <option key={option.id} value={option.id}>
-                          {option.field}
-                        </option>
-                      ))}
-                    </Select>
-
-                    <Select
-                      w={'25%'}
-                      onChange={(event) => {
-                        const selectedValue = parseInt(event.target.value, 10)
-                        setFilter((filter) => ({
-                          ...filter,
-                          skillId: selectedValue,
-                        }))
-                      }}
-                      value={filter.skillId}>
-                      {dropdownSkill(skills).map((option) => (
-                        <option key={option.id} value={option.id}>
-                          {option.field}
-                        </option>
-                      ))}
-                    </Select>
-
-                    <Select
-                      w={'25%'}
-                      onChange={(event) => {
-                        const selectedValue = parseInt(event.target.value, 10)
-                        setFilter((filter) => ({
-                          ...filter,
-                          positionId: selectedValue,
-                        }))
-                      }}
-                      value={filter.positionId}>
-                      {dropdownPosition(positions).map((option) => (
-                        <option key={option.id} value={option.id}>
-                          {option.field}
-                        </option>
-                      ))}
-                    </Select>
-
-                    <Button w={'25%'} onClick={() => navigate('/question/add')} leftIcon={<AddIcon />} bgColor={'#2cccc7'} color={'white'} variant='solid'>
-                      Thêm câu hỏi
-                    </Button>
-                  </HStack>
-                  <Accordion minHeight={450} w={'100%'} allowToggle>
-                    {displayItems.map((item) => (
-                      <AccordionItem key={item.id}>
-                        <h2>
-                          <AccordionButton>
-                            <Box as='span' flex='1' textAlign='left'>
-                              <HStack>
-                                <Text fontWeight={'bold'}>{item.question}</Text>
-                                <IconButton color='#e06cae' backgroundColor='#f7f7f7' aria-label='Search database' icon={<EditIcon />} onClick={() => navigate(`/question/edit/${item.id}`)} />
-                              </HStack>
-                            </Box>
-                            <AccordionIcon />
-                          </AccordionButton>
-                        </h2>
-                        <AccordionPanel pb={4}>
-                          <List spacing={3}>
-                            <ListItem>
-                              <ListIcon as={MdCheckCircle} color='green.500' />
-                              Creator: {item.creatorName}
-                            </ListItem>
-                            <ListItem>
-                              <ListIcon as={MdCheckCircle} color='green.500' />
-                              Answer: {item.answer}
-                            </ListItem>
-                            <ListItem>
-                              <ListIcon as={MdCheckCircle} color='green.500' />
-                              Field: {item.fieldEnum}
-                            </ListItem>
-                            // Đoạn mã trong phần hiển thị các kỹ năng và vị trí:
-                            <ListItem>
-                              <ListIcon as={MdCheckCircle} color='green.500' />
-                              Skill:{' '}
-                              {item.skillIds.map((id) => {
-                                const skill = skills.find((s) => s.id === id)
-                                return skill ? `${skill.skillName}, ` : ''
-                              })}
-                            </ListItem>
-                            <ListItem>
-                              <ListIcon as={MdCheckCircle} color='green.500' />
-                              Position:{' '}
-                              {item.positionIds.map((id) => {
-                                const position = positions.find((p) => p.id === id)
-                                return position ? `${position.positionName}, ` : ''
-                              })}
-                            </ListItem>
-                          </List>
-                        </AccordionPanel>
-                      </AccordionItem>
+          <VStack w={'100%'} align={'flex-start'} mb={10} pl={30} pr={30} spacing={3}>
+            <Box mx={'100px'} w={'80%'} bgColor={'white'} boxShadow={'md'} borderRadius={20} p={30}>
+              <HStack mb={3} alignItems='center' spacing={4}>
+                <Icon as={AiOutlineEdit} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                <Text m={0} fontSize='2xl'>
+                  Câu hỏi
+                </Text>
+              </HStack>
+              <VStack w={'100%'} alignItems={'flex-start'}>
+                <HStack w={'100%'} spacing={5}>
+                  <Select
+                    w={'25%'}
+                    onChange={(event) => {
+                      const selectedValue = parseInt(event.target.value, 10)
+                      setFilter((filter) => ({
+                        ...filter,
+                        fieldId: selectedValue,
+                      }))
+                    }}
+                    value={filter.fieldId}>
+                    {dropdownField.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.field}
+                      </option>
                     ))}
-                  </Accordion>
-                  <ReactPaginate
-                    className='question-panigate'
-                    pageCount={pageCount}
-                    onPageChange={handlePageChange}
-                    previousLabel='<'
-                    nextLabel='>'
-                    breakLabel='...'
-                    breakClassName='page-item'
-                    breakLinkClassName='page-link'
-                    containerClassName='pagination'
-                    pageClassName='page-item'
-                    pageLinkClassName='page-link'
-                    previousClassName='page-item'
-                    previousLinkClassName='page-link'
-                    nextClassName='page-item'
-                    nextLinkClassName='page-link'
-                    activeClassName='active'
-                  />
-                </VStack>
-              </CardBody>
-            </Card>
-            <Card w={'100%'}>
-              <CardBody>
-                <HStack mb={3} alignItems='center' spacing={4}>
-                  <Icon as={AiOutlineEdit} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                  <Text m={0} fontSize='2xl'>
-                    Kĩ năng, vị trí
-                  </Text>
+                  </Select>
+
+                  <Select
+                    w={'25%'}
+                    onChange={(event) => {
+                      const selectedValue = parseInt(event.target.value, 10)
+                      setFilter((filter) => ({
+                        ...filter,
+                        skillId: selectedValue,
+                      }))
+                    }}
+                    value={filter.skillId}>
+                    {dropdownSkill(skills).map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.field}
+                      </option>
+                    ))}
+                  </Select>
+
+                  <Select
+                    w={'25%'}
+                    onChange={(event) => {
+                      const selectedValue = parseInt(event.target.value, 10)
+                      setFilter((filter) => ({
+                        ...filter,
+                        positionId: selectedValue,
+                      }))
+                    }}
+                    value={filter.positionId}>
+                    {dropdownPosition(positions).map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.field}
+                      </option>
+                    ))}
+                  </Select>
+
+                  <Button w={'25%'} onClick={() => navigate('/question/add')} leftIcon={<AddIcon />}>
+                    Thêm câu hỏi
+                  </Button>
                 </HStack>
-                <Tabs position='relative' variant='unstyled'>
-                  <TabList>
-                    <Tab>Kĩ năng</Tab>
-                    <Tab>Vị trí</Tab>
-                  </TabList>
-                  <TabIndicator mt='-1.5px' height='2px' bg='blue.500' borderRadius='1px' />
-                  <TabPanels>
-                    <TabPanel>
-                      <TableContainer>
-                        <Table variant='simple'>
-                          <Thead>
+                <Accordion minHeight={450} w={'100%'} allowToggle>
+                  {displayItems.map((item) => (
+                    <AccordionItem key={item.id}>
+                      <h2>
+                        <AccordionButton>
+                          <Box as='span' flex='1' textAlign='left'>
+                            <HStack>
+                              <Text fontWeight={'bold'}>{item.question}</Text>
+                              <IconButton color='#e06cae' backgroundColor='#f7f7f7' aria-label='Search database' icon={<EditIcon />} onClick={() => navigate(`/question/edit/${item.id}`)} />
+                            </HStack>
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel pb={4}>
+                        <List spacing={3}>
+                          <ListItem>
+                            <ListIcon as={MdCheckCircle} color='green.500' />
+                            Creator: {item.creatorName}
+                          </ListItem>
+                          <ListItem>
+                            <ListIcon as={MdCheckCircle} color='green.500' />
+                            Answer: {item.answer}
+                          </ListItem>
+                          <ListItem>
+                            <ListIcon as={MdCheckCircle} color='green.500' />
+                            Field: {item.fieldEnum}
+                          </ListItem>
+                          // Đoạn mã trong phần hiển thị các kỹ năng và vị trí:
+                          <ListItem>
+                            <ListIcon as={MdCheckCircle} color='green.500' />
+                            Skill:{' '}
+                            {item.skillIds.map((id) => {
+                              const skill = skills.find((s) => s.id === id)
+                              return skill ? `${skill.skillName}, ` : ''
+                            })}
+                          </ListItem>
+                          <ListItem>
+                            <ListIcon as={MdCheckCircle} color='green.500' />
+                            Position:{' '}
+                            {item.positionIds.map((id) => {
+                              const position = positions.find((p) => p.id === id)
+                              return position ? `${position.positionName}, ` : ''
+                            })}
+                          </ListItem>
+                        </List>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+                <ReactPaginate
+                  className='question-panigate'
+                  pageCount={pageCount}
+                  onPageChange={handlePageChange}
+                  previousLabel='<'
+                  nextLabel='>'
+                  breakLabel='...'
+                  breakClassName='page-item'
+                  breakLinkClassName='page-link'
+                  containerClassName='pagination'
+                  pageClassName='page-item'
+                  pageLinkClassName='page-link'
+                  previousClassName='page-item'
+                  previousLinkClassName='page-link'
+                  nextClassName='page-item'
+                  nextLinkClassName='page-link'
+                  activeClassName='active'
+                />
+              </VStack>
+            </Box>
+            <Box mx={'100px'} w={'80%'} bgColor={'white'} boxShadow={'md'} borderRadius={20} p={30}>
+              <HStack mb={3} alignItems='center' spacing={4}>
+                <Icon as={AiOutlineEdit} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
+                <Text m={0} fontSize='2xl'>
+                  Kĩ năng, vị trí
+                </Text>
+              </HStack>
+              <Tabs position='relative' variant='unstyled'>
+                <TabList>
+                  <Tab>Kĩ năng</Tab>
+                  <Tab>Vị trí</Tab>
+                </TabList>
+                <TabIndicator mt='-1.5px' height='2px' bg='blue.500' borderRadius='1px' />
+                <TabPanels>
+                  <TabPanel>
+                    <TableContainer>
+                      <Table variant='simple'>
+                        <Thead>
+                          <Tr>
+                            <Th>id</Th>
+                            <Th>Skill name</Th>
+                            <Th>
+                              <AddSkillOverplay load={load} setLoad={setLoad} />
+                            </Th>
+                          </Tr>
+                        </Thead>
+                        <Tbody>
+                          {skills.filter((s) => !s.isDelete).length > 0 ? (
+                            skills
+                              .filter((s) => !s.isDelete)
+                              .map((skill) => (
+                                <Tr key={skill.id}>
+                                  <Td>{skill.id}</Td>
+                                  <Editable mt={5} textAlign='center' defaultValue={skill.skillName} isPreviewFocusable={false}>
+                                    <HStack>
+                                      <EditablePreview />
+                                      <Input as={EditableInput} name='skillName' value={skillState.skillName} onChange={handleOnChange} />
+                                      <EditableControls id={skill.id} name={skill.skillName} onUpdate={() => handleOnUpdate(skill.id)} />
+                                    </HStack>
+                                  </Editable>
+                                  <Td>
+                                    <IconButton color='#f768b0' backgroundColor='#f7f7f7' aria-label='Search database' icon={<DeleteIcon />} onClick={() => handleOnDeleteSkill(skill.id)} />
+                                  </Td>
+                                </Tr>
+                              ))
+                          ) : (
                             <Tr>
-                              <Th>id</Th>
-                              <Th>Skill name</Th>
-                              <Th>
-                                <AddSkillOverplay load={load} setLoad={setLoad} />
-                              </Th>
+                              <Td colSpan={3} textAlign='center'>
+                                No skills available
+                              </Td>
                             </Tr>
-                          </Thead>
-                          <Tbody>
-                            {skills.filter((s) => !s.isDelete).length > 0 ? (
-                              skills
-                                .filter((s) => !s.isDelete)
-                                .map((skill) => (
-                                  <Tr key={skill.id}>
-                                    <Td>{skill.id}</Td>
-                                    <Editable mt={5} textAlign='center' defaultValue={skill.skillName} isPreviewFocusable={false}>
-                                      <HStack>
-                                        <EditablePreview />
-                                        <Input as={EditableInput} name='skillName' value={skillState.skillName} onChange={handleOnChange} />
-                                        <EditableControls id={skill.id} name={skill.skillName} onUpdate={() => handleOnUpdate(skill.id)} />
-                                      </HStack>
-                                    </Editable>
-                                    <Td>
-                                      <IconButton color='#f768b0' backgroundColor='#f7f7f7' aria-label='Search database' icon={<DeleteIcon />} onClick={() => handleOnDeleteSkill(skill.id)} />
-                                    </Td>
-                                  </Tr>
-                                ))
-                            ) : (
-                              <Tr>
-                                <Td colSpan={3} textAlign='center'>
-                                  No skills available
-                                </Td>
-                              </Tr>
-                            )}
-                          </Tbody>
-                        </Table>
-                      </TableContainer>
-                    </TabPanel>
-                    <TabPanel>
-                      <TableContainer>
-                        <Table variant='simple'>
-                          <Thead>
-                            <Tr>
-                              <Th>id</Th>
-                              <Th>Position name</Th>
-                              <Th>
-                                <Button w={'25%'} leftIcon={<AddIcon />} bgColor={'#2cccc7'} color={'white'} variant='solid'>
-                                  Thêm
-                                </Button>
-                              </Th>
+                          )}
+                        </Tbody>
+                      </Table>
+                    </TableContainer>
+                  </TabPanel>
+                  <TabPanel>
+                    <TableContainer>
+                      <Table variant='simple'>
+                        <Thead>
+                          <Tr>
+                            <Th>id</Th>
+                            <Th>Position name</Th>
+                            <Th>
+                              <Button w={'25%'} leftIcon={<AddIcon />} bgColor={'#2cccc7'} color={'white'} variant='solid'>
+                                Thêm
+                              </Button>
+                            </Th>
+                          </Tr>
+                        </Thead>
+                        <Tbody>
+                          {positions.map((position) => (
+                            <Tr key={position.id}>
+                              <Td>{position.id}</Td>
+                              <Editable mt={5} textAlign='center' defaultValue={position.positionName} isPreviewFocusable={false}>
+                                <HStack>
+                                  <EditablePreview />
+                                  <Input as={EditableInput} />
+                                  <EditableControls />
+                                </HStack>
+                              </Editable>
+                              <Td>
+                                <IconButton color='#f768b0' backgroundColor='#f7f7f7' aria-label='Search database' icon={<DeleteIcon />} />
+                              </Td>
                             </Tr>
-                          </Thead>
-                          <Tbody>
-                            {positions.map((position) => (
-                              <Tr key={position.id}>
-                                <Td>{position.id}</Td>
-                                <Editable mt={5} textAlign='center' defaultValue={position.positionName} isPreviewFocusable={false}>
-                                  <HStack>
-                                    <EditablePreview />
-                                    <Input as={EditableInput} />
-                                    <EditableControls />
-                                  </HStack>
-                                </Editable>
-                                <Td>
-                                  <IconButton color='#f768b0' backgroundColor='#f7f7f7' aria-label='Search database' icon={<DeleteIcon />} />
-                                </Td>
-                              </Tr>
-                            ))}
-                          </Tbody>
-                        </Table>
-                      </TableContainer>
-                    </TabPanel>
-                  </TabPanels>
-                </Tabs>
-              </CardBody>
-            </Card>
+                          ))}
+                        </Tbody>
+                      </Table>
+                    </TableContainer>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+            </Box>
           </VStack>
         </Box>
       </>
