@@ -50,6 +50,7 @@ const RoomList = () => {
   // }
   const dispatch = useDispatch()
   useEffect(() => {
+    window.scrollTo(0, 0)
     dispatch(loadRoom())
   }, [])
 
@@ -126,7 +127,7 @@ const RoomList = () => {
           <Box minHeight={1000} overflow='auto' backgroundColor={'#f5f9fa'} w={'100%'}>
             <Grid mt={10} templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={'30px'}>
               {roomdatas}
-              {roomList.length==0? <Text>Hiện chưa có phòng nào</Text>: <></>}
+              {roomList.length == 0 ? <Text>Hiện chưa có phòng nào</Text> : <></>}
             </Grid>
           </Box>
         </VStack>

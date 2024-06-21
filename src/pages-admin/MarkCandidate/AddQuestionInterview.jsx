@@ -107,7 +107,7 @@ export const AddQuestionInterview = ({ field, onAddClick }) => {
 
   return (
     <>
-      <Button color={'#ffffff'} backgroundColor={'rgb(3, 201, 215)'} w={'16%'} colorScheme='teal' onClick={onOpen}>
+      <Button size={'sm'} color={'#ffffff'} backgroundColor={'rgb(3, 201, 215)'} w={'16%'} colorScheme='teal' onClick={onOpen}>
         + {field}
       </Button>
 
@@ -138,13 +138,13 @@ export const AddQuestionInterview = ({ field, onAddClick }) => {
                         </Text>
                         <HStack w={'30%'}>
                           <NumberInput defaultValue={0} min={0} max={10} name={`mark-${question.id}`} onChange={(valueString) => handleMarkChange(valueString, question.id)}>
-                            <NumberInputField />
+                            <NumberInputField w={'100px'} />
                             <NumberInputStepper>
                               <NumberIncrementStepper />
                               <NumberDecrementStepper />
                             </NumberInputStepper>
                           </NumberInput>
-                          <Button onClick={() => onAddClickWithMark(question)} w={'100%'}>
+                          <Button onClick={() => onAddClickWithMark(question)} w={'30px'}>
                             +
                           </Button>
                         </HStack>
@@ -157,13 +157,13 @@ export const AddQuestionInterview = ({ field, onAddClick }) => {
                         <Text m={3}>{question.question}</Text>
                         <HStack>
                           <NumberInput defaultValue={0} min={0} max={10} name={`mark-${question.id}`} onChange={(valueString) => handleMarkChange(valueString, question.id)}>
-                            <NumberInputField />
+                            <NumberInputField w={'100px'} />
                             <NumberInputStepper>
                               <NumberIncrementStepper />
                               <NumberDecrementStepper />
                             </NumberInputStepper>
                           </NumberInput>
-                          <Button w={'100%'} onClick={() => onAddClickWithMark(question)}>
+                          <Button w={'30px'} onClick={() => onAddClickWithMark(question)}>
                             +
                           </Button>
                         </HStack>

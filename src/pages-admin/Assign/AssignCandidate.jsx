@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Text, Button, HStack, VStack, Checkbox, Avatar, Link, Spacer, WrapItem, useDisclosure, InputGroup, Input, InputRightAddon, Icon, Select, Menu, MenuButton, IconButton, MenuList, MenuItem, Flex, Heading, Card, useToast } from '@chakra-ui/react'
+import { Box, Text, Button, HStack, VStack, Checkbox, Avatar, Link, Spacer, WrapItem, useDisclosure, InputGroup, Input, InputRightAddon, Icon, Select, Menu, MenuButton, IconButton, MenuList, MenuItem, Flex, Heading, Card, useToast, Tag } from '@chakra-ui/react'
 import { AtSignIcon, CloseIcon, ExternalLinkIcon, SearchIcon, StarIcon } from '@chakra-ui/icons'
 import { interviewService } from '../../Service/interview.service'
 import { labelService } from '../../Service/label.service'
 import { BsThreeDotsVertical } from 'react-icons/bs'
+import { IoPricetagsOutline } from 'react-icons/io5'
 
 let states = {
   RECEIVE_CV: 'Tiếp nhận CV',
@@ -215,37 +216,60 @@ export const AssignCandidate = ({ jobId, roomId, startDate, endDate, load, setLo
               </HStack>
               <Box h={400} w={'100%'} overflow={'auto'}>
                 <VStack mt={5} w={'100%'}>
-                  {filteredCandidates.map((candidate) => (
-                    <Card w={'100%'} key={candidate.userId} p={1}>
-                      <Flex spacing='4'>
-                        <Checkbox onChange={handleOnCheckBoxClick} value={candidate.userId} mr={5} isChecked={listSelected.includes(candidate.userId)} />
-                        <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                          <Avatar name={candidate.fullName} src={candidate.avatar} />
-                          <Box>
-                            <Heading size='sm'>{candidate.fullName}</Heading>
-                            <Text>{candidate.email}</Text>
-                          </Box>
+                  {filteredCandidates.map((candidate) => {
+                    const userLabels = candidate.labels ? JSON.parse(candidate.labels) : {}
+                    return (
+                      <Card w={'100%'} key={candidate.userId} p={1}>
+                        <Flex spacing='4'>
+                          <Checkbox onChange={handleOnCheckBoxClick} value={candidate.userId} mr={5} isChecked={listSelected.includes(candidate.userId)} />
+                          <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                            <Avatar name={candidate.fullName} src={candidate.avatar} />
+                            <Box>
+                              <HStack spacing={0} m={0} p={0}>
+                                <Text fontWeight={'bold'} m={0} p={0}>
+                                  {candidate.fullName}
+                                </Text>
+                                <Tag colorScheme='blue'>{candidate.cvStatus}</Tag>
+                              </HStack>
+                              <Text m={0} p={0}>
+                                {candidate.email}
+                              </Text>
+                              {labels ? (
+                                labels.map((label) =>
+                                  userLabels[label.id] ? (
+                                    <Button colorScheme='green' variant='solid' size={'xs'} leftIcon={<IoPricetagsOutline />}>
+                                      {label.name}
+                                    </Button>
+                                  ) : (
+                                    <></>
+                                  )
+                                )
+                              ) : (
+                                <></>
+                              )}
+                            </Box>
+                          </Flex>
+                          <Menu>
+                            <MenuButton>
+                              <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
+                            </MenuButton>
+                            <MenuList>
+                              <MenuItem>
+                                <Link href={candidate.cv} isExternal>
+                                  Xem CV
+                                </Link>
+                              </MenuItem>
+                            </MenuList>
+                          </Menu>
                         </Flex>
-                        <Menu>
-                          <MenuButton>
-                            <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
-                          </MenuButton>
-                          <MenuList>
-                            <MenuItem>
-                              <Link href={candidate.cv} isExternal>
-                                Xem CV
-                              </Link>
-                            </MenuItem>
-                          </MenuList>
-                        </Menu>
-                      </Flex>
-                    </Card>
-                  ))}
+                      </Card>
+                    )
+                  })}
                 </VStack>
               </Box>
 
               <HStack w={'100%'} justifyContent={'space-between'} mt={4}>
-                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={handleClose}>Thoát</Button>
                 <HStack>
                   <Checkbox onChange={handleOnSelectAll}>Chọn tất cả</Checkbox>
                   <Button colorScheme='green' onClick={handleAssign}>

@@ -109,7 +109,7 @@ export default function InterviewerListRoom() {
                 ))}
               </AvatarGroup>
             </Box>
-            <Flex mt={10} gap={2}>
+            <Flex gap={2}>
               <Button bgColor={filter === 'all' ? 'black' : 'gray.200'} color={filter === 'all' ? 'white' : 'black'} size={'sm'} onClick={() => handleFilterClick('all')}>
                 Tất cả
               </Button>

@@ -58,6 +58,7 @@ export const SearchCandidate = () => {
   // location
   const [province, setProvince] = useState([])
   useEffect(() => {
+    window.scrollTo(0, 0)
     locationService
       .getAllProvince()
       .then((response) => {
@@ -128,7 +129,7 @@ export const SearchCandidate = () => {
                 Trình độ học vấn
               </Text>
               <VStack alignItems={'flex-start'}>
-                <Checkbox >Đại học</Checkbox>
+                <Checkbox>Đại học</Checkbox>
                 <Checkbox>Cao đẳng</Checkbox>
                 <Checkbox>Trung cấp</Checkbox>
                 <Checkbox>Sau đại học(thạc sĩ, tiến sĩ)</Checkbox>

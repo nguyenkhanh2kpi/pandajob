@@ -646,7 +646,7 @@ export const reccerLink = [
         icon: <BiNews />,
       },
       {
-        title: 'Xem kết quả',
+        title: 'Bản ghi phỏng vấn',
         name: 'result',
         icon: <BsPeople />,
       },

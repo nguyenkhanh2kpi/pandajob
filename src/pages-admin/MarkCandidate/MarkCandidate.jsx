@@ -47,10 +47,11 @@ export const MarkCandidate = () => {
   const [selected, setIdSelected] = useState(0)
   const [interviewDetail, setInterviewDetail] = useState(null)
   const [clickBox, setClockBox] = useState(false)
+  const [load, setLoad] = useState(false)
 
   useEffect(() => {
     interviewService.getInterviewByID(accessToken, params.roomId).then((res) => setRoom(res))
-  }, [])
+  }, [params])
 
   useEffect(() => {
     if (selected === 0) {
@@ -62,7 +63,7 @@ export const MarkCandidate = () => {
         setClockBox(false)
       })
     }
-  }, [selected])
+  }, [load,selected])
 
   if (room === undefined) {
     return (
@@ -139,12 +140,7 @@ export const MarkCandidate = () => {
               ))}
             </SimpleGrid>
             <HStack align={'flex-start'} w={'100%'}>
-              <Box w={'70%'}>
-                <MarkItem isClick={clickBox} roomId={selected} loadDetail={interviewDetail} />
-              </Box>
-              <Box bgColor={'white'} borderRadius={20} w={'30%'} p={10}>
-                <Text fontWeight={"bold"}>Đánh nhãn ứng viên</Text>
-              </Box>
+              {interviewDetail ? <MarkItem isClick={clickBox} roomId={selected} loadDetail={interviewDetail} load={load} setLoad={setLoad} /> : <></>}
             </HStack>
           </VStack>
         </Box>

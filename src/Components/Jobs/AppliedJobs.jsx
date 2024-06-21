@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Heading, VStack, HStack, Grid, Text, Link, Spinner } from '@chakra-ui/react'
+import { Box, Heading, VStack, HStack, Grid, Text, Link, Spinner, Tag } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { cvService } from '../../Service/cv.service'
 import { JobItemInAppliedJob } from './JobItemInList'
+import { calendarService } from '../../Service/calendar.service'
 
 export const AppliedJobs = () => {
   const navigate = useNavigate()
@@ -19,6 +20,17 @@ export const AppliedJobs = () => {
     cvService
       .getAllMyAppliedJobs(accessToken)
       .then((response) => setAppliedJobs(response.data))
+      .catch((er) => console.log(er))
+  }, [])
+
+  //lịc sự kiện
+  const [calenderLocal, setcalenderLocal] = useState([])
+  useEffect(() => {
+    calendarService
+      .getMyCalendar(accessToken)
+      .then((response) => {
+        setcalenderLocal(response)
+      })
       .catch((er) => console.log(er))
   }, [])
 
@@ -50,15 +62,37 @@ export const AppliedJobs = () => {
             {/* Công việc có thể quan tâm */}
             <Box boxShadow={'md'} borderRadius={5} bgColor={'white'} p={4}>
               <Heading size={'md'} fontFamily={'Roboto'}>
-                Bạn có thể quan tâm
+                Phỏng vấn và sự kiện
               </Heading>
-              <VStack spacing={3} mt={3}>
-                {recommendedJobs.map((job) => (
-                  <Box key={job.id} borderWidth={1} borderRadius={5} p={4} w='100%'>
-                    <Heading size={'sm'}>{job.name}</Heading>
-                    <Link href={`/jobDetail/${job.id}`} color='blue.500'>
-                      Xem chi tiết
-                    </Link>
+              <VStack w={'100%'} spacing={3} mt={3}>
+                {calenderLocal?.map((item, index) => (
+                  <Box w={'100%'} key={index} p={4} mb={4} border='1px' borderColor='gray.200' borderRadius='md'>
+                    <VStack align='flex-start'>
+                      <VStack align={'flex-start'} w={'100%'} justifyContent={'space-between'}>
+                        <HStack key={index} alignItems='center' justifyContent='center'>
+                          <Tag variant='subtle' colorScheme={item.type === 'EVENT' ? 'blue' : 'green'}>
+                            {item.type === 'EVENT' ? 'Sự kiện' : 'Phỏng vấn'}
+                          </Tag>
+                          <Tag>Ngày: {new Date(item.date).toLocaleDateString('vi-VN')}</Tag>
+                        </HStack>
+                        <Text m={0} p={0} fontWeight='bold'>
+                          {item.title}
+                        </Text>
+                      </VStack>
+
+                      {item.time && <Text fontWeight='bold'>Thời gian cụ thể: {item.time}</Text>}
+                      <Text m={0} p={0}>
+                        Mô tả: {item.description}
+                      </Text>
+                      {item.type === 'INTERVIEW' && (
+                        <Text m={0} p={0}>
+                          Link Meet:{' '}
+                          <Link href={item.detail.linkMeet} target='_blank'>
+                            {item.detail.linkMeet}
+                          </Link>
+                        </Text>
+                      )}
+                    </VStack>
                   </Box>
                 ))}
               </VStack>

@@ -152,15 +152,15 @@ export const JobItemInAppliedJob = ({ jobId, appliedHistory, accessToken }) => {
     }
   }
 
-  const [calenderLocal, setcalenderLocal] = useState([])
-  useEffect(() => {
-    calendarService
-      .getMyCalendar(accessToken)
-      .then((response) => {
-        setcalenderLocal(response)
-      })
-      .catch((er) => console.log(er))
-  }, [])
+  // const [calenderLocal, setcalenderLocal] = useState([])
+  // useEffect(() => {
+  //   calendarService
+  //     .getMyCalendar(accessToken)
+  //     .then((response) => {
+  //       setcalenderLocal(response)
+  //     })
+  //     .catch((er) => console.log(er))
+  // }, [])
 
   if (job)
     return (
@@ -270,7 +270,7 @@ export const JobItemInAppliedJob = ({ jobId, appliedHistory, accessToken }) => {
                 )}
               </AccordionPanel>
             </AccordionItem>
-            <AccordionItem>
+            {/* <AccordionItem>
               <h2>
                 <AccordionButton>
                   <Box as='span' flex='1' textAlign='left'>
@@ -311,7 +311,7 @@ export const JobItemInAppliedJob = ({ jobId, appliedHistory, accessToken }) => {
                   </Box>
                 ))}
               </AccordionPanel>
-            </AccordionItem>{' '}
+            </AccordionItem>{' '} */}
           </Accordion>
         </VStack>
       </Box>
