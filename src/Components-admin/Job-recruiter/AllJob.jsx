@@ -14,6 +14,7 @@ import { FcFlashOn } from 'react-icons/fc'
 import { MdCheckCircle, MdSettings } from 'react-icons/md'
 import { ArrowUpIcon, CheckIcon, ChevronRightIcon, DeleteIcon, Search2Icon, StarIcon, ViewIcon } from '@chakra-ui/icons'
 import { ConfirmDeleteAJob } from './ConfirmDeleteAJob'
+import { jobService } from '../../Service/job.service'
 
 export const State = {
   CREATE: 'Tạo',
@@ -81,7 +82,7 @@ const AllJob = () => {
 
   const userId = JSON.parse(localStorage.getItem('data')).data.userInfo.id
   const jobData = useSelector((store) => store.job.data)
-  const jobdatas = jobData.map((job) => {
+  const jobdatas = jobData?.map((job) => {
     return job.status === true && job.user_id === userId ? (
       <Box w='100%' key={job.id} mb={5}>
         <Box w='100%' bgColor={'white'} borderRadius={20} boxShadow={'md'} p={8}>
@@ -120,15 +121,17 @@ const AllJob = () => {
     )
   })
 
-  if (!jobData) {
+  if (jobData === undefined || jobData === null) {
     return (
       <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
         <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
       </HStack>
     )
-  } else if (jobData.length === 0) {
+  }
+
+  if (jobData.length === 0) {
     return (
-      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'}>
         <HStack w={'97%'} justifyContent={'space-between'}>
           <Breadcrumb pt={30}>
             <BreadcrumbItem>
@@ -141,7 +144,7 @@ const AllJob = () => {
         </HStack>
 
         <Box w={'97%'} fontFamily={'Roboto'} display='flex' justifyContent='space-between'>
-          <Text>Bạn hiện chưa có bài đăng nào</Text>
+          <Text ml={30}>Bạn hiện chưa có bài đăng nào</Text>
         </Box>
       </Box>
     )

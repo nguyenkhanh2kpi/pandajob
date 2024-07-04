@@ -1,22 +1,11 @@
-import { Box, Button, Container, Flex, HStack, Heading, Icon, Image, Input, Link, Select, SlideFade, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Container, Flex, Image, Input, Link, Select, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import JobButton from './JobButton'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import JobInterest from './JobInterest'
-import Navbar from '../Navbar/Navbar1'
-import JobSlider from './JobSlider'
 import FeatureCompony from './FeatureCompony'
-import DiscoverJob from './DiscoverJob'
-import JobOption from './JobOption'
 import { useNavigate } from 'react-router-dom'
 import { locationService } from '../../Service/location.service'
 import NewJob from './NewJob'
 import SliderBanner from './Banner'
 import ListIndustry from './ListIndustry'
-import ListCompany from './ListCompany'
-import { Notification } from '../../Components-admin'
-import { AiOutlineUser } from 'react-icons/ai'
 import Tour from 'reactour'
 import AboutUsHomePage from './AboutUsHomePage'
 
@@ -78,9 +67,7 @@ const HomePage = () => {
       selector: '.slider-banner',
       content: 'Đây là banner quảng cáo.',
     },
-    // Thêm các bước hướng dẫn khác tương tự
   ]
-  // Handler mở/closed tour
   const toggleTour = () => {
     setIsTourOpen(!isTourOpen)
   }

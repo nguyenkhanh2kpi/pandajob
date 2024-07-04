@@ -1,6 +1,6 @@
 import { AspectRatio, Box, Button, Container, Flex, HStack, Input, Link, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
-import { PhoneIcon, ExternalLinkIcon, AddIcon } from '@chakra-ui/icons' // import các icon từ Chakra UI
-import { useEffect, useState } from 'react'
+import { PhoneIcon, ExternalLinkIcon, AddIcon } from '@chakra-ui/icons'
+import React, { useEffect, useState } from 'react'
 import { companyService } from '../../Service/company.service'
 import { useNavigate } from 'react-router-dom'
 

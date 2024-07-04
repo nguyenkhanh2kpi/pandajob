@@ -1,17 +1,4 @@
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Spinner,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, FormControl, FormLabel, Input, Spinner, useDisclosure } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import { interviewerService } from '../../Service/interviewer.service'
@@ -49,7 +36,7 @@ export const AddCompany = () => {
       toast.error('Password should be at least 8 characters long')
       return
     }
-    
+
     setIsLoad(true)
     companyService
       .registerReccer(accessToken, input)
@@ -65,56 +52,24 @@ export const AddCompany = () => {
   }
   return (
     <>
-      <ToastContainer
-        position='bottom-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='light'
-      />
-      <Button
-        fontFamily={'Roboto'}
-        fontWeight={400}
-        ml={'8%'}
-        color='white'
-        backgroundColor='rgb(3, 201, 215)'
-        onClick={onOpen}>
+      <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
+      <Button fontFamily={'Roboto'} fontWeight={400} ml={'8%'} color='white' backgroundColor='rgb(3, 201, 215)' onClick={onOpen}>
         + Thêm thành viên
       </Button>
 
-      <AlertDialog
-        fontFamily={'Roboto'}
-        fontWeight={400}
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}>
+      <AlertDialog fontFamily={'Roboto'} fontWeight={400} isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Add Reccer Account
+              Thêm tài khoản nhà tuyển dụng
             </AlertDialogHeader>
 
             <AlertDialogBody>
               <FormControl isRequired>
                 <FormLabel>Email</FormLabel>
-                <Input
-                  name='email'
-                  placeholder='email'
-                  value={input.email}
-                  onChange={handleInputChange}
-                />
-                <FormLabel>Password</FormLabel>
-                <Input
-                  name='password'
-                  placeholder='password'
-                  value={input.password}
-                  onChange={handleInputChange}
-                />
+                <Input name='email' placeholder='email' value={input.email} onChange={handleInputChange} />
+                <FormLabel>Mật khẩu</FormLabel>
+                <Input type='password' name='password' placeholder='password' value={input.password} onChange={handleInputChange} />
               </FormControl>
             </AlertDialogBody>
 
@@ -127,11 +82,7 @@ export const AddCompany = () => {
                 <Spinner m={4} />
               ) : (
                 <>
-                  <Button
-                    color='white'
-                    backgroundColor='rgb(3, 201, 215)'
-                    ml={3}
-                    onClick={handleAddClick}>
+                  <Button color='white' backgroundColor='rgb(3, 201, 215)' ml={3} onClick={handleAddClick}>
                     Add
                   </Button>
                 </>

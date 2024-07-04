@@ -2,6 +2,7 @@ import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, HStack, SimpleGrid, Te
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { testService } from '../../../Service/test.service'
+import { ViewDetailUserMultest } from './ViewDetailUserMultest'
 
 export const MultestMainResult = () => {
   const params = useParams()
@@ -65,6 +66,8 @@ export const MultestMainResult = () => {
     }
   }, [filter, records])
 
+  const totalQuestions = (record) => Object.keys(record).length
+
   if (!filterdRecords) {
     return (
       <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
@@ -78,7 +81,7 @@ export const MultestMainResult = () => {
           <Breadcrumb>
             <BreadcrumbItem>
               <BreadcrumbLink fontStyle={'italic'} fontWeight={'bold'} href='#'>
-                Kết quả test tự luận
+                Kết quả test trắc nghiệm
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
@@ -118,13 +121,14 @@ export const MultestMainResult = () => {
                         <Text m={0} p={0} fontWeight='bold'>
                           Số câu đúng:{' '}
                           <Tag fontWeight={'bold'} colorScheme='green'>
-                            {record.score}
+                            {record.score}/{totalQuestions(JSON.parse(record.record))}
                           </Tag>
                         </Text>
                         <Text fontStyle={'italic'} m={0} p={0}>
                           {record.user.email}
                         </Text>
                         {record.cvDTO.view ? <Tag colorScheme='yellow'>Đã xem</Tag> : <Tag colorScheme='green'>Chưa xem</Tag>}
+                        <ViewDetailUserMultest record={record} load={load} setLoad={setLoad} />
                       </VStack>
                     </HStack>
 

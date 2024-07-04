@@ -63,28 +63,12 @@ export const MarkCandidate = () => {
         setClockBox(false)
       })
     }
-  }, [load,selected])
+  }, [load, selected])
 
   if (room === undefined) {
     return (
       <Box backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
         <VStack spacing={10}>
-          <Skeleton w={'70%'}>
-            <div>contents wrapped</div>
-            <div>won't be visible</div>
-          </Skeleton>
-          <Skeleton h={300} w={'70%'}>
-            <div>contents wrapped</div>
-            <div>won't be visible</div>
-          </Skeleton>
-          <Skeleton w={'70%'}>
-            <div>contents wrapped</div>
-            <div>won't be visible</div>
-          </Skeleton>
-          <Skeleton h={300} w={'70%'}>
-            <div>contents wrapped</div>
-            <div>won't be visible</div>
-          </Skeleton>
           <Skeleton w={'70%'}>
             <div>contents wrapped</div>
             <div>won't be visible</div>
@@ -105,6 +89,7 @@ export const MarkCandidate = () => {
             </BreadcrumbItem>
           </Breadcrumb>
           <VStack spacing={3} ml={30} mr={30}>
+            <Button>Kết thúc phỏng vấn</Button>
             <SimpleGrid w={'100%'} columns={{ base: 1, sm: 2, md: 3 }} spacing='10px'>
               {room.listCandidate.map((candidate) => (
                 <Box key={candidate.itemId} bgColor={'white'} borderRadius={20} boxShadow={'md'} p={1}>
@@ -123,19 +108,16 @@ export const MarkCandidate = () => {
                         </Badge>
                       </Box>
                     </Flex>
-                    <Menu>
-                      <MenuButton as={IconButton} variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
-                      <MenuList>
-                        <MenuItem
-                          onClick={() => {
-                            setIdSelected(candidate.itemId)
-                            setClockBox(true)
-                          }}>
-                          Phỏng vấn
-                        </MenuItem>
-                      </MenuList>
-                    </Menu>
                   </Flex>
+                  <VStack w={'100%'}>
+                    <Button
+                      onClick={() => {
+                        setIdSelected(candidate.itemId)
+                        setClockBox(true)
+                      }}>
+                      Phỏng vấn
+                    </Button>
+                  </VStack>
                 </Box>
               ))}
             </SimpleGrid>

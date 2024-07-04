@@ -1,7 +1,6 @@
 import { ChevronRightIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 import { Avatar, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Card, CardBody, Collapse, Fade, Flex, HStack, Image, Img, Link, Select, Spinner, Stack, Tag, Text, VStack, useDisclosure, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { companyService } from '../../Service/company.service'
 import { jobService } from '../../Service/job.service'
 import { labelService } from '../../Service/label.service'
 import { IoPricetagsOutline } from 'react-icons/io5'
@@ -31,7 +30,6 @@ export const InterviewResult = () => {
   }, [change])
 
   useEffect(() => {
-    window.scrollTo(0, 0)
     jobService
       .getMyJob(accessToken)
       .then((response) => setJobs(response.data))
@@ -120,21 +118,78 @@ export const InterviewResult = () => {
     }))
   }
 
-  // excel
-  const handleExportToExcel = () => {
-    const dataToExport = filteredDetail.map((detail) => ({
-      Name: detail.candidate.name,
-      Email: detail.candidate.email,
-      CV_Url: detail.cv.url,
-      Comment: detail.comment,
-      Interviewer: detail.interviewer,
-      Job_Name: detail.jobPosting.name,
-    }))
+  async function handleExportToExcel(data) {
+    const candidateMap = data.flat().reduce((acc, item) => {
+      const email = item.candidate.email
+      if (!acc[email]) {
+        acc[email] = {
+          name: item.candidate.name,
+          email: email,
+          records: [],
+          labels: new Set(),
+        }
+      }
+      acc[email].records.push({
+        jobName: item.jobPosting.name,
+        roomName: item.roomName,
+        interviewTime: item.interviewTime,
+        interviewNote: item.comment,
+        cvState: item.cv.state,
+        interviewStatus: item.candidate.status,
+      })
+
+      // Add labels to set (to ensure uniqueness)
+      const labelObj = JSON.parse(item.cv.labels)
+      Object.keys(labelObj).forEach((key) => {
+        if (labelObj[key]) {
+          acc[email].labels.add(key)
+        }
+      })
+
+      return acc
+    }, {})
+
+    const dataToExport = Object.values(candidateMap).flatMap((candidate) => {
+      const baseInfo = {
+        Tên: candidate.name,
+        Email: candidate.email,
+        Nhãn: Array.from(candidate.labels).join(', '), // Convert labels set to comma-separated string
+      }
+      return candidate.records.map((record, index) => ({
+        ...baseInfo,
+        'Tên công việc': record.jobName,
+        'Buổi phỏng vấn': record.roomName,
+        'Thời gian phỏng vấn': record.interviewTime,
+        'Ghi chú phỏng vấn': record.interviewNote,
+        'Trạng thái CV': record.cvState,
+        'Trạng thái phỏng vấn': record.interviewStatus,
+      }))
+    })
+
     const worksheet = XLSX.utils.json_to_sheet(dataToExport)
     const workbook = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Interview Details')
-    XLSX.writeFile(workbook, 'InterviewDetails.xlsx')
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Candidates')
+
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'Candidates.xlsx'
+    a.click()
+    window.URL.revokeObjectURL(url)
   }
+
+  const groupedByCandidateId = filteredDetail?.reduce((acc, item) => {
+    const candidateId = item.candidate.candidateId
+    if (!acc[candidateId]) {
+      acc[candidateId] = []
+    }
+    acc[candidateId].push(item)
+    return acc
+  }, {})
+
+  const result = groupedByCandidateId ? Object.values(groupedByCandidateId) : []
 
   return (
     <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} backgroundColor={'#f5f9fa'}>
@@ -177,120 +232,129 @@ export const InterviewResult = () => {
               Tất cả
             </Button>
             <Button onClick={() => handleFilterState('SCHEDULE_INTERVIEW')} bgColor={filter.state === 'SCHEDULE_INTERVIEW' ? 'black' : 'grey.200'} color={filter.state === 'SCHEDULE_INTERVIEW' ? 'white' : 'black'} size={'sm'}>
-              Đã phỏng vấn(Trạng thái)
+              Lên lịch phỏng vấn
             </Button>
           </Flex>
-          <Button onClick={handleExportToExcel} size={'sm'} colorScheme='green' variant='outline'>
+          <Button onClick={() => handleExportToExcel(result)} size={'sm'} colorScheme='green' variant='outline'>
             Xuất file
           </Button>
         </HStack>
       </VStack>
       {/* end -filter */}
       <VStack mb={5} w={'100%'} pl={30} pr={30} spacing={2}>
-        {filteredDetail?.map((detail) => (
-          <Box w={'100%'} borderRadius={20} bgColor={'white'} boxShadow={'lg'} p={5} key={detail.detailId}>
+        {result?.map((item) => (
+          <Box w={'100%'} borderRadius={20} bgColor={'white'} boxShadow={'lg'} p={5} key={item.detailId}>
             <HStack w={'100%'} align={'flex-start'}>
               <HStack w={'50%'}>
-                <Avatar src={detail.candidate.avatar} name={detail.candidate.name} />
+                <Avatar src={item[0].candidate.avatar} name={item[0].candidate.name} />
                 <Box>
                   <Text m={0} p={0} fontWeight={'bold'}>
-                    {detail.candidate.name}
+                    {item[0].candidate.name}
                   </Text>
                   <Text m={0} p={0} fontStyle={'italic'}>
-                    {detail.candidate.email}
+                    {item[0].candidate.email}
                   </Text>
-                  <Link color={'blue'} isExternal href={detail.cv.url}>
-                    Xem CV
-                  </Link>
                 </Box>
               </HStack>
-              <VStack w={'100%'} align={'flex-end'}>
-                <HStack justifyContent={'flex-end'} align={'flex-end'} w={'50%'}>
-                  {labels?.map((label) => (
-                    <>
-                      {JSON.parse(detail.cv.labels)[label.id] ? (
-                        <Button variant='solid' size={'xs'} leftIcon={<IoPricetagsOutline />}>
-                          {label.name}
-                        </Button>
-                      ) : (
-                        <></>
-                      )}
-                    </>
-                  ))}
-                </HStack>
-                <Flex>
-                  <Text size={'xs'} m={0} p={0} mr={4}>
-                    CV
-                  </Text>
-                  <Button size={'xs'}>{detail.cv.state}</Button>
-                </Flex>
-                <Flex>
-                  <Text size={'xs'} m={0} p={0} mr={4}>
-                    Trạng thái phỏng vấn
-                  </Text>
-                  <Button size={'xs'} colorScheme={detail.candidate.status == 'Đã chấm' ? 'green' : 'red'}>
-                    {detail.candidate.status}
-                  </Button>
-                </Flex>
-              </VStack>
             </HStack>
-            <Collapse in={expandedBoxes[detail.id]} animateOpacity>
-              <Box>
-                <Text m={0} p={0} fontWeight={'bold'}>
-                  Ghi chú phỏng vấn:{' '}
-                </Text>
-                <Box p={3} borderRadius={10} borderWidth={1} borderColor={'grey'}>
-                  <Text m={0} p={0}>
-                    {detail.comment}
-                  </Text>
-                </Box>
-                {detail.englishQuestion != '' ? (
-                  <>
+            {item.map((detail) => (
+              <>
+                <Collapse in={expandedBoxes[detail.id]} animateOpacity>
+                  <HStack w={'100%'}>
+                    <Box w={'50%'}>
+                      <Text m={0} p={0} fontStyle={'italic'}>
+                        JOB: {detail.jobPosting.name}
+                      </Text>
+                      <Link color={'blue'} isExternal href={detail.cv.url}>
+                        Xem CV
+                      </Link>
+                    </Box>
+                    <VStack justifyContent={'flex-end'} align={'flex-end'} w={'50%'}>
+                      {labels?.map((label) => (
+                        <>
+                          {JSON.parse(detail.cv.labels)[label.id] ? (
+                            <Button variant='solid' size={'xs'} leftIcon={<IoPricetagsOutline />}>
+                              {label.name}
+                            </Button>
+                          ) : (
+                            <></>
+                          )}
+                        </>
+                      ))}
+                      <Flex>
+                        <Text size={'xs'} m={0} p={0} mr={4}>
+                          CV
+                        </Text>
+                        <Button size={'xs'}>{detail.cv.state}</Button>
+                      </Flex>
+                      <Flex>
+                        <Text size={'xs'} m={0} p={0} mr={4}>
+                          Trạng thái phỏng vấn
+                        </Text>
+                        <Button size={'xs'} colorScheme={detail.candidate.status == 'Đã chấm' ? 'green' : 'red'}>
+                          {detail.candidate.status}
+                        </Button>
+                      </Flex>
+                    </VStack>
+                  </HStack>
+                  <Box>
                     <Text m={0} p={0} fontWeight={'bold'}>
-                      Câu hỏi tiếng Anh:
+                      Ghi chú phỏng vấn:{' '}
                     </Text>
                     <Box p={3} borderRadius={10} borderWidth={1} borderColor={'grey'}>
-                      {JSON.parse(detail.englishQuestion).map((q) => (
-                        <Text key={q.id} m={0} p={0}>
-                          {q.question} (Điểm: {q.mark})
-                        </Text>
-                      ))}
+                      <Text m={0} p={0}>
+                        {detail.comment}
+                      </Text>
                     </Box>
-                  </>
-                ) : null}
-                {detail.technicalQuestion != '' ? (
-                  <>
-                    <Text m={0} p={0} fontWeight={'bold'}>
-                      Câu hỏi kỹ thuật:
-                    </Text>
-                    <Box p={3} borderRadius={10} borderWidth={1} borderColor={'grey'}>
-                      {JSON.parse(detail.technicalQuestion).map((q) => (
-                        <Text key={q.id} m={0} p={0}>
-                          {q.question} (Điểm: {q.mark})
+                    {detail.englishQuestion != '' ? (
+                      <>
+                        <Text m={0} p={0} fontWeight={'bold'}>
+                          Câu hỏi tiếng Anh:
                         </Text>
-                      ))}
-                    </Box>
-                  </>
-                ) : null}
-                {detail.softSkillQuestion != '' ? (
-                  <>
-                    <Text m={0} p={0} fontWeight={'bold'}>
-                      Câu hỏi kỹ năng mềm:
-                    </Text>
-                    <Box p={3} borderRadius={10} borderWidth={1} borderColor={'grey'}>
-                      {JSON.parse(detail.softSkillQuestion).map((q) => (
-                        <Text key={q.id} m={0} p={0}>
-                          {q.question} (Điểm: {q.mark})
+                        <Box p={3} borderRadius={10} borderWidth={1} borderColor={'grey'}>
+                          {JSON.parse(detail.englishQuestion).map((q) => (
+                            <Text key={q.id} m={0} p={0}>
+                              {q.question} (Điểm: {q.mark})
+                            </Text>
+                          ))}
+                        </Box>
+                      </>
+                    ) : null}
+                    {detail.technicalQuestion != '' ? (
+                      <>
+                        <Text m={0} p={0} fontWeight={'bold'}>
+                          Câu hỏi kỹ thuật:
                         </Text>
-                      ))}
-                    </Box>
-                  </>
-                ) : null}
-              </Box>
-            </Collapse>
-            <Button size='xs' onClick={() => toggleExpand(detail.id)}>
-              {expandedBoxes[detail.id] ? 'thu gọn' : 'xem thêm'}
-            </Button>
+                        <Box p={3} borderRadius={10} borderWidth={1} borderColor={'grey'}>
+                          {JSON.parse(detail.technicalQuestion).map((q) => (
+                            <Text key={q.id} m={0} p={0}>
+                              {q.question} (Điểm: {q.mark})
+                            </Text>
+                          ))}
+                        </Box>
+                      </>
+                    ) : null}
+                    {detail.softSkillQuestion != '' ? (
+                      <>
+                        <Text m={0} p={0} fontWeight={'bold'}>
+                          Câu hỏi kỹ năng mềm:
+                        </Text>
+                        <Box p={3} borderRadius={10} borderWidth={1} borderColor={'grey'}>
+                          {JSON.parse(detail.softSkillQuestion).map((q) => (
+                            <Text key={q.id} m={0} p={0}>
+                              {q.question} (Điểm: {q.mark})
+                            </Text>
+                          ))}
+                        </Box>
+                      </>
+                    ) : null}
+                  </Box>
+                </Collapse>
+                <Button size='xs' onClick={() => toggleExpand(detail.id)}>
+                  {expandedBoxes[detail.id] ? 'thu gọn' : detail.roomName}
+                </Button>
+              </>
+            ))}
           </Box>
         ))}
       </VStack>

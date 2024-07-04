@@ -6,4 +6,8 @@ module.exports = {
   },
 
   setupFilesAfterEnv: ['@testing-library/jest-dom'],
+
+  transformIgnorePatterns: [
+    '/node_modules/(?!@chakra-ui)',
+  ],
 }

@@ -50,7 +50,6 @@ const RoomList = () => {
   // }
   const dispatch = useDispatch()
   useEffect(() => {
-    window.scrollTo(0, 0)
     dispatch(loadRoom())
   }, [])
 
@@ -58,7 +57,7 @@ const RoomList = () => {
 
   const roomdatas = roomList.map((job) => {
     return (
-      <Box bgColor={'white'} boxShadow={'md'} borderRadius={20} p='20px'>
+      <Box w={'100%'} bgColor={'white'} boxShadow={'md'} borderRadius={20} p='20px'>
         <HStack justifyContent={'space-between'}>
           <Text noOfLines={1} m={0} p={0} fontWeight={'bold'}>
             {job.roomName} - {job.jobName}
@@ -73,7 +72,7 @@ const RoomList = () => {
           ))}
         </AvatarGroup>
         <Text mt={3}>
-          Trạng thái <Tag colorScheme='blue'>{job.status}</Tag>
+          Trạng thái <Tag colorScheme={getStatusColor(job.status)}>{job.status}</Tag>
         </Text>
         <Text>
           Thời gian <Tag colorScheme='blue'>{job.startDate}</Tag>
@@ -104,31 +103,20 @@ const RoomList = () => {
         <VStack align={'flex-start'} pl={30} pr={30} spacing={3}>
           <Flex gap={2} fontSize={'sm'}>
             <Select fontSize={'sm'} bgColor={'white'} placeholder='Tất cả'>
-              <option value='option1'>Mới tạo</option>
-              <option value='option2'>Đang tiến hành</option>
-              <option value='option3'>Kết thúc</option>
-              <option value='option3'>Đã hủy</option>
+              <option value='Created'>Created</option>
+              <option value='Processing'>Processing</option>
+              <option value='Ended'>Ended</option>
             </Select>
             <Select fontSize={'sm'} bgColor={'white'} placeholder='Công việc'>
-              <option value='option1'>Mới tạo</option>
-              <option value='option2'>Đang tiến hành</option>
-              <option value='option3'>Kết thúc</option>
-              <option value='option3'>Đã hủy</option>
+              
             </Select>
-            <Input fontSize={'sm'} bgColor={'white'} type='date' />
-            <InputGroup bgColor={'white'}>
-              <Input fontSize={'sm'} placeholder='tìm' />
-              <InputRightAddon>
-                <Icon as={SearchIcon} />
-              </InputRightAddon>
-            </InputGroup>
           </Flex>
 
           <Box minHeight={1000} overflow='auto' backgroundColor={'#f5f9fa'} w={'100%'}>
-            <Grid mt={10} templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={'30px'}>
+            <VStack w={'100%'}>
               {roomdatas}
               {roomList.length == 0 ? <Text>Hiện chưa có phòng nào</Text> : <></>}
-            </Grid>
+            </VStack>
           </Box>
         </VStack>
       </Box>
@@ -137,3 +125,16 @@ const RoomList = () => {
 }
 
 export default RoomList
+
+const getStatusColor = (status) => {
+  switch (status) {
+    case 'Created':
+      return 'yellow'
+    case 'Processing':
+      return 'blue'
+    case 'Ended':
+      return 'green'
+    default:
+      return 'gray'
+  }
+}

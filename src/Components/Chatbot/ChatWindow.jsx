@@ -72,20 +72,6 @@ const ChatWindow = ({ onClose }) => {
       </div>
 
       <div className='input-container'>
-        {/* <InputGroup className='message-input'>
-          <Input
-            borderRadius={20}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                handleSendMessage()
-              }
-            }}
-            value={message}
-            onChange={handleChangMessage}
-            placeholder='Text your message...'
-          />
-          <Button onClick={handleSendMessage}>Send</Button>
-        </InputGroup> */}
         <InputGroup borderRadius={20} className='message-input' size='md'>
           <Input
             onKeyDown={(event) => {

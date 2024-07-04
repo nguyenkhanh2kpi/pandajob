@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   Heading,
   HStack,
@@ -71,7 +71,6 @@ export const MarkItem = ({ roomId, loadDetail, isClick, load, setLoad }) => {
         })
       )
       .catch((er) => console.log(er.message))
-    console.log(JSON.stringify(data))
   }
 
   useEffect(() => {
@@ -149,7 +148,6 @@ export const MarkItem = ({ roomId, loadDetail, isClick, load, setLoad }) => {
 
   //   label
   const [userLabels, setUserLabels] = useState(JSON.parse(loadDetail.cv.labels))
-  console.log('dt', JSON.stringify(userLabels))
   const [labels, setLabels] = useState([])
   useEffect(() => {
     labelService
@@ -185,7 +183,9 @@ export const MarkItem = ({ roomId, loadDetail, isClick, load, setLoad }) => {
       .catch((er) => console.log(er))
   }
 
-  useEffect(() => {}, [loadDetail])
+  useEffect(() => {
+    setUserLabels(JSON.parse(loadDetail.cv.labels))
+  }, [loadDetail])
 
   if (isClick === true) {
     return (

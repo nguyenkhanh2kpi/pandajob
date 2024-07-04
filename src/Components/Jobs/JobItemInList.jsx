@@ -152,16 +152,6 @@ export const JobItemInAppliedJob = ({ jobId, appliedHistory, accessToken }) => {
     }
   }
 
-  // const [calenderLocal, setcalenderLocal] = useState([])
-  // useEffect(() => {
-  //   calendarService
-  //     .getMyCalendar(accessToken)
-  //     .then((response) => {
-  //       setcalenderLocal(response)
-  //     })
-  //     .catch((er) => console.log(er))
-  // }, [])
-
   if (job)
     return (
       <Box fontFamily={'Roboto'} key={job.id} borderWidth='1px' borderRadius='lg' overflow='hidden' p={2} bg='white' boxShadow='sm' _hover={{ boxShadow: 'lg' }} display='flex' alignItems='center' width='100%'>
@@ -270,48 +260,6 @@ export const JobItemInAppliedJob = ({ jobId, appliedHistory, accessToken }) => {
                 )}
               </AccordionPanel>
             </AccordionItem>
-            {/* <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box as='span' flex='1' textAlign='left'>
-                    Thông tin phỏng vấn - sự kiện
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                {calenderLocal?.map((item, index) => (
-                  <Box key={index} p={4} mb={4} border='1px' borderColor='gray.200' borderRadius='md'>
-                    <VStack align='flex-start'>
-                      <HStack w={'100%'} justifyContent={'space-between'}>
-                        <HStack key={index} alignItems='center' justifyContent='center'>
-                          <Tag variant='subtle' colorScheme={item.type === 'EVENT' ? 'blue' : 'green'}>
-                            {item.type === 'EVENT' ? 'Sự kiện' : 'Phỏng vấn'}
-                          </Tag>
-                          <Text m={0} p={0} fontWeight='bold'>
-                            {item.title}
-                          </Text>
-                        </HStack>
-                        <Tag>Ngày: {new Date(item.date).toLocaleDateString('vi-VN')}</Tag>
-                      </HStack>
-
-                      {item.time && <Text fontWeight='bold'>Thời gian cụ thể: {item.time}</Text>}
-                      <Text m={0} p={0}>
-                        Mô tả: {item.description}
-                      </Text>
-                      {item.type === 'INTERVIEW' && (
-                        <Text m={0} p={0}>
-                          Link Meet:{' '}
-                          <Link href={item.detail.linkMeet} target='_blank'>
-                            {item.detail.linkMeet}
-                          </Link>
-                        </Text>
-                      )}
-                    </VStack>
-                  </Box>
-                ))}
-              </AccordionPanel>
-            </AccordionItem>{' '} */}
           </Accordion>
         </VStack>
       </Box>

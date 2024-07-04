@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, CardFooter, CardHeader, Divider, Flex, FormControl, Icon, IconButton, List, ListIcon, ListItem, Menu, MenuButton, MenuItem, MenuList, Skeleton, Stack, useToast } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, CardFooter, CardHeader, Divider, Flex, FormControl, Icon, IconButton, List, ListIcon, ListItem, Menu, MenuButton, MenuItem, MenuList, Skeleton, Stack, Tag, useToast } from '@chakra-ui/react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Heading, HStack, SlideFade, VStack, Image, Text, Button, Wrap, WrapItem, Avatar, FormLabel, Input, Select } from '@chakra-ui/react'
 import { AssignInterviewer } from '../Assign/AssignInterviewer'
@@ -177,7 +177,7 @@ export const RoomEditInfomation = () => {
                 </ListItem>
                 <ListItem>
                   <ListIcon as={MdCheckCircle} color='green.500' />
-                  Trạng thái: {room.status}
+                  Trạng thái: <Tag colorScheme={getStatusColor(room.status)}> {room.status}</Tag>
                 </ListItem>
                 <ListItem>
                   <ListIcon as={MdSettings} color='green.500' />
@@ -282,7 +282,7 @@ export const RoomEditInfomation = () => {
                         <FormLabel ml={5} w={'100%'}>
                           Trạng thái
                         </FormLabel>
-                        <Select name='status' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} size='md' value={room.status}>
+                        <Select disabled name='status' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} size='md' value={room.status}>
                           <option value='Created'>Created</option>
                           <option value='Processing'>Processing</option>
                           <option value='Ended'>Ended</option>
@@ -357,4 +357,16 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onDelete }) => {
       </Box>
     </Box>
   )
+}
+const getStatusColor = (status) => {
+  switch (status) {
+    case 'Created':
+      return 'yellow'
+    case 'Processing':
+      return 'blue'
+    case 'Ended':
+      return 'green'
+    default:
+      return 'gray'
+  }
 }

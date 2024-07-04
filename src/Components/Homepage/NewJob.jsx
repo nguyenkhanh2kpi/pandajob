@@ -1,30 +1,20 @@
 import { Badge, Box, Button, Card, CardBody, CardFooter, Center, Grid, GridItem, HStack, Heading, Icon, Image, Link, Skeleton, Stack, Tag, Text, Tooltip, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { AiOutlineAlert, AiOutlineFolderOpen } from 'react-icons/ai'
+import { AiOutlineAlert } from 'react-icons/ai'
 import { dataService } from '../../Service/data.service'
 import { useNavigate } from 'react-router-dom'
-import { resumeService } from '../../Service/resume.service'
-import { JobItemInList } from '../Jobs/JobItemInList'
-import { favoriteService } from '../../Service/favorite.service'
+import { MdAttachMoney, MdEvent, MdFavorite, MdFavoriteBorder, MdLocationOn, MdVideoCall } from 'react-icons/md'
 
 export default function NewJob() {
   const navigate = useNavigate()
   const accessToken = localStorage.getItem('data') ? localStorage.getItem('data').access_token : null
-  const [resume, setResume] = useState(null)
-
-  if (accessToken) {
-    resumeService
-      .getMyResume(accessToken)
-      .then((response) => setResume(response))
-      .catch((er) => console.log(er.message))
-  }
 
   useEffect(() => {
     dataService
       .postRelationJobJava(keyWords ? keyWords : '')
       .then((response) => setFilterJob(response.data))
       .catch((er) => console.log('new job', er))
-  }, [resume, accessToken])
+  }, [accessToken])
 
   let storedData = localStorage.getItem('keyw')
   const keyWords = JSON.parse(storedData).keyw
@@ -83,5 +73,49 @@ const SkeletonCard = () => {
         </Card>
       ))}
     </>
+  )
+}
+
+export const JobItemInList = ({ job, wishLists, handleLike }) => {
+  const navigate = useNavigate()
+  const isJobInWishlist = (jobId) => {
+    try {
+      return wishLists.some((w) => w.jobId === jobId)
+    } catch {
+      return false
+    }
+  }
+  return (
+    <Box fontFamily={'Roboto'} key={job.id} borderWidth='1px' borderRadius='lg' overflow='hidden' p={2} bg='white' boxShadow='sm' _hover={{ boxShadow: 'lg' }} display='flex' alignItems='center' width='100%'>
+      <Image onClick={() => navigate(`/jobDetail/${job.id}`)} src={job.image} alt={job.name} boxSize='80px' objectFit='cover' borderRadius='md' flexShrink={0} marginRight={3} />
+      <VStack align='start' spacing={2} flex={1} overflow='hidden'>
+        <Tooltip label={job.name} hasArrow>
+          <Text name={job.id} onClick={() => navigate(`/jobDetail/${job.id}`)} m={0} p={0} fontSize='md' fontWeight='bold' isTruncated w={'190px'} whiteSpace='nowrap'>
+            {job.name}
+          </Text>
+        </Tooltip>
+        <VStack align='start' spacing={0}>
+          <HStack spacing={1}>
+            <Icon m={0} p={0} as={MdLocationOn} color='gray.500' />
+            <Text m={0} p={0} fontSize='sm'>
+              {job.location}
+            </Text>
+          </HStack>
+          <HStack spacing={1}>
+            <Icon m={0} p={0} as={MdAttachMoney} color='gray.500' />
+            <Text m={0} p={0} fontSize='sm'>
+              {job.salary}
+            </Text>
+          </HStack>
+        </VStack>
+        <HStack w={'100%'} spacing={1} justifyContent={'space-between'}>
+          <HStack>
+            <Tag colorScheme='blue'>{job.position}</Tag>
+            <Tag colorScheme='green'>{job.workingForm}</Tag>
+          </HStack>
+          <Icon boxSize={6} onClick={() => handleLike(job.id)} as={isJobInWishlist(job.id) ? MdFavorite : MdFavoriteBorder} color='red.300' />
+        </HStack>
+      </VStack>
+    </Box>
   )
 }

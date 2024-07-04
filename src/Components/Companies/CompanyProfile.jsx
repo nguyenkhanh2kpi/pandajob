@@ -63,7 +63,7 @@ const CompanyProfile = () => {
                   Công việc
                 </FormLabel>
                 {listJob.map((job) => (
-                  <ItemJobInCompany {...job} />
+                  <ItemJobInCompany key={job.id} {...job} />
                 ))}
               </Box>
             </VStack>

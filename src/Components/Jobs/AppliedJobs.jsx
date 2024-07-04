@@ -6,14 +6,7 @@ import { JobItemInAppliedJob } from './JobItemInList'
 import { calendarService } from '../../Service/calendar.service'
 
 export const AppliedJobs = () => {
-  const navigate = useNavigate()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
-  const recommendedJobs = [
-    { id: 3, name: 'Job 3' },
-    { id: 4, name: 'Job 4' },
-    // Thêm nhiều công việc đề xuất nếu cần
-  ]
-
   const [appliedJobs, setAppliedJobs] = useState(null)
 
   useEffect(() => {

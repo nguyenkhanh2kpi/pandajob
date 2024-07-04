@@ -1,11 +1,9 @@
 import { Box, Button, Flex, HStack, Image, Input, Select, Spinner, Stack, Text, Tooltip, VStack } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
-import { CurriculumVitae } from '../CVBuild/CurriculumVitae'
 import { MainTheme1 } from './Themme1/MainTheme1'
 import { useReactToPrint } from 'react-to-print'
 import { resumeJsonService } from '../../Service/resumeJson.service'
 import { Themme2 } from './Themme2/CurriculumVitae'
-import { AddIcon } from '@chakra-ui/icons'
 
 export const MainCVTheme = () => {
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
@@ -18,7 +16,6 @@ export const MainCVTheme = () => {
       setResumeJson(JSON.parse(response.resumeJson))
     })
   }, [])
-  console.log(resumeJson)
 
   const cvRef = useRef()
   const generatePDF = useReactToPrint({

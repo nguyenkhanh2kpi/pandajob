@@ -26,6 +26,7 @@ import {
   ListItem,
   Select,
   Skeleton,
+  Spinner,
   Stack,
   Tab,
   TabIndicator,
@@ -79,18 +80,6 @@ export const dropdownField = [
   },
 ]
 
-export const dropdownSkill = (skills) => {
-  const dropdownItems = skills?.map((item) => ({ id: item.id, field: item.skillName })) || []
-  dropdownItems.unshift({ id: 0, field: '--Chọn kĩ năng--' })
-  return dropdownItems
-}
-
-export const dropdownPosition = (positions) => {
-  const dropdownItems = positions?.map((item) => ({ id: item.id, field: item.positionName })) || []
-  dropdownItems.unshift({ id: 0, field: '--Chọn vị trí--' })
-  return dropdownItems
-}
-
 export const Question = () => {
   const [load, setLoad] = useState(false)
   const toast = useToast()
@@ -132,24 +121,10 @@ export const Question = () => {
   useEffect(() => {
     const filteredData = allQuestions.filter((question) => {
       const fieldMatch = filter.fieldId === 0 || question.fieldEnum === dropdownField.find((item) => item.id === filter.fieldId)?.field
-      const skillMatch = filter.skillId === 0 || question.skillIds.includes(filter.skillId)
-      const positionMatch = filter.positionId === 0 || question.positionIds.includes(filter.positionId)
-      return fieldMatch && skillMatch && positionMatch
+      return fieldMatch
     })
     setFilteredQuestions(filteredData)
   }, [filter, allQuestions])
-
-  const DropDown = ({ list, onChange, name, value }) => {
-    const handleSelectChange = (event) => {
-      const selectedValue = event.target.value
-      onChange(selectedValue)
-    }
-    return (
-      <div className='w-28 border-1 border-color px-2 py-1 rounded-md'>
-        <DropDownListComponent id='field' name={`${name}`} fields={{ text: 'field', value: 'id' }} style={{ border: 'none' }} value={value} dataSource={list} popupHeight='220px' popupWidth='120px' onChange={handleSelectChange} />
-      </div>
-    )
-  }
 
   // panigate
   const [currentPage, setCurrentPage] = useState(0)
@@ -160,63 +135,11 @@ export const Question = () => {
   }
   const displayItems = filteredQuestions.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
 
-  // skill position
-  const handleOnDeleteSkill = (id) => {
-    skillPositionService
-      .deleteSkill(accessToken, id)
-      .then((res) => toast({ description: 'OK', duration: 1000 }))
-      .catch((er) => toast({ description: 'something went wrong' }))
-      .finally(() => setLoad(!load))
-  }
-  const [skillState, setSkillState] = useState({})
-  const handleOnChange = (event) => {
-    const { value } = event.target
-    setSkillState({ ...skillState, skillName: value })
-  }
-  const handleOnUpdate = (id) => {
-    skillPositionService
-      .updateSkill(accessToken, skillState, id)
-      .then((res) => toast({ description: res.message, duration: 1000 }))
-      .catch((err) => toast({ description: 'Something went wrong', status: 'error', duration: 1000 }))
-      .finally(() => setLoad(!load))
-  }
-  function EditableControls({ id, name, onUpdate }) {
-    const { isEditing, getSubmitButtonProps, getCancelButtonProps, getEditButtonProps } = useEditableControls()
-    const [skill, setSkill] = useState({
-      id: 0,
-      skillName: name,
-    })
-    const handleOnUpdate = () => {
-      onUpdate()
-    }
-
-    return isEditing ? (
-      <ButtonGroup justifyContent='center' size='sm'>
-        <IconButton icon={<CheckIcon />} {...getSubmitButtonProps({ onClick: handleOnUpdate })} />
-        <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
-      </ButtonGroup>
-    ) : (
-      <Flex justifyContent='center'>
-        <IconButton size='sm' icon={<EditIcon />} {...getEditButtonProps()} />
-      </Flex>
-    )
-  }
-
   if (allQuestions.length === 0) {
     return (
-      <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
-        <VStack spacing={10}>
-          <Skeleton w={'100%'} h='60px'>
-            <div>contents wrapped</div>
-          </Skeleton>
-          <Skeleton w={'100%'} h='400px'>
-            <div>contents wrapped</div>
-          </Skeleton>
-          <Skeleton w={'100%'} h='400px'>
-            <div>contents wrapped</div>
-          </Skeleton>
-        </VStack>
-      </Box>
+      <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
+        <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+      </HStack>
     )
   } else
     return (
@@ -229,12 +152,6 @@ export const Question = () => {
           </Breadcrumb>
           <VStack w={'100%'} align={'flex-start'} mb={10} pl={30} pr={30} spacing={3}>
             <Box mx={'100px'} w={'80%'} bgColor={'white'} boxShadow={'md'} borderRadius={20} p={30}>
-              <HStack mb={3} alignItems='center' spacing={4}>
-                <Icon as={AiOutlineEdit} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                <Text m={0} fontSize='2xl'>
-                  Câu hỏi
-                </Text>
-              </HStack>
               <VStack w={'100%'} alignItems={'flex-start'}>
                 <HStack w={'100%'} spacing={5}>
                   <Select
@@ -248,40 +165,6 @@ export const Question = () => {
                     }}
                     value={filter.fieldId}>
                     {dropdownField.map((option) => (
-                      <option key={option.id} value={option.id}>
-                        {option.field}
-                      </option>
-                    ))}
-                  </Select>
-
-                  <Select
-                    w={'25%'}
-                    onChange={(event) => {
-                      const selectedValue = parseInt(event.target.value, 10)
-                      setFilter((filter) => ({
-                        ...filter,
-                        skillId: selectedValue,
-                      }))
-                    }}
-                    value={filter.skillId}>
-                    {dropdownSkill(skills).map((option) => (
-                      <option key={option.id} value={option.id}>
-                        {option.field}
-                      </option>
-                    ))}
-                  </Select>
-
-                  <Select
-                    w={'25%'}
-                    onChange={(event) => {
-                      const selectedValue = parseInt(event.target.value, 10)
-                      setFilter((filter) => ({
-                        ...filter,
-                        positionId: selectedValue,
-                      }))
-                    }}
-                    value={filter.positionId}>
-                    {dropdownPosition(positions).map((option) => (
                       <option key={option.id} value={option.id}>
                         {option.field}
                       </option>
@@ -320,23 +203,6 @@ export const Question = () => {
                             <ListIcon as={MdCheckCircle} color='green.500' />
                             Field: {item.fieldEnum}
                           </ListItem>
-                          // Đoạn mã trong phần hiển thị các kỹ năng và vị trí:
-                          <ListItem>
-                            <ListIcon as={MdCheckCircle} color='green.500' />
-                            Skill:{' '}
-                            {item.skillIds.map((id) => {
-                              const skill = skills.find((s) => s.id === id)
-                              return skill ? `${skill.skillName}, ` : ''
-                            })}
-                          </ListItem>
-                          <ListItem>
-                            <ListIcon as={MdCheckCircle} color='green.500' />
-                            Position:{' '}
-                            {item.positionIds.map((id) => {
-                              const position = positions.find((p) => p.id === id)
-                              return position ? `${position.positionName}, ` : ''
-                            })}
-                          </ListItem>
                         </List>
                       </AccordionPanel>
                     </AccordionItem>
@@ -361,99 +227,6 @@ export const Question = () => {
                   activeClassName='active'
                 />
               </VStack>
-            </Box>
-            <Box mx={'100px'} w={'80%'} bgColor={'white'} boxShadow={'md'} borderRadius={20} p={30}>
-              <HStack mb={3} alignItems='center' spacing={4}>
-                <Icon as={AiOutlineEdit} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                <Text m={0} fontSize='2xl'>
-                  Kĩ năng, vị trí
-                </Text>
-              </HStack>
-              <Tabs position='relative' variant='unstyled'>
-                <TabList>
-                  <Tab>Kĩ năng</Tab>
-                  <Tab>Vị trí</Tab>
-                </TabList>
-                <TabIndicator mt='-1.5px' height='2px' bg='blue.500' borderRadius='1px' />
-                <TabPanels>
-                  <TabPanel>
-                    <TableContainer>
-                      <Table variant='simple'>
-                        <Thead>
-                          <Tr>
-                            <Th>id</Th>
-                            <Th>Skill name</Th>
-                            <Th>
-                              <AddSkillOverplay load={load} setLoad={setLoad} />
-                            </Th>
-                          </Tr>
-                        </Thead>
-                        <Tbody>
-                          {skills.filter((s) => !s.isDelete).length > 0 ? (
-                            skills
-                              .filter((s) => !s.isDelete)
-                              .map((skill) => (
-                                <Tr key={skill.id}>
-                                  <Td>{skill.id}</Td>
-                                  <Editable mt={5} textAlign='center' defaultValue={skill.skillName} isPreviewFocusable={false}>
-                                    <HStack>
-                                      <EditablePreview />
-                                      <Input as={EditableInput} name='skillName' value={skillState.skillName} onChange={handleOnChange} />
-                                      <EditableControls id={skill.id} name={skill.skillName} onUpdate={() => handleOnUpdate(skill.id)} />
-                                    </HStack>
-                                  </Editable>
-                                  <Td>
-                                    <IconButton color='#f768b0' backgroundColor='#f7f7f7' aria-label='Search database' icon={<DeleteIcon />} onClick={() => handleOnDeleteSkill(skill.id)} />
-                                  </Td>
-                                </Tr>
-                              ))
-                          ) : (
-                            <Tr>
-                              <Td colSpan={3} textAlign='center'>
-                                No skills available
-                              </Td>
-                            </Tr>
-                          )}
-                        </Tbody>
-                      </Table>
-                    </TableContainer>
-                  </TabPanel>
-                  <TabPanel>
-                    <TableContainer>
-                      <Table variant='simple'>
-                        <Thead>
-                          <Tr>
-                            <Th>id</Th>
-                            <Th>Position name</Th>
-                            <Th>
-                              <Button w={'25%'} leftIcon={<AddIcon />} bgColor={'#2cccc7'} color={'white'} variant='solid'>
-                                Thêm
-                              </Button>
-                            </Th>
-                          </Tr>
-                        </Thead>
-                        <Tbody>
-                          {positions.map((position) => (
-                            <Tr key={position.id}>
-                              <Td>{position.id}</Td>
-                              <Editable mt={5} textAlign='center' defaultValue={position.positionName} isPreviewFocusable={false}>
-                                <HStack>
-                                  <EditablePreview />
-                                  <Input as={EditableInput} />
-                                  <EditableControls />
-                                </HStack>
-                              </Editable>
-                              <Td>
-                                <IconButton color='#f768b0' backgroundColor='#f7f7f7' aria-label='Search database' icon={<DeleteIcon />} />
-                              </Td>
-                            </Tr>
-                          ))}
-                        </Tbody>
-                      </Table>
-                    </TableContainer>
-                  </TabPanel>
-                </TabPanels>
-              </Tabs>
             </Box>
           </VStack>
         </Box>

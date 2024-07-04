@@ -49,6 +49,10 @@ import { CodeTestResultMain } from '../pages-admin/TestResult/CodeTestResult/Cod
 import { MainReccerDashBoard } from '../pages-admin/DashBoard/AdminDashBoard/MainReccerDashBoard'
 import { MainEssayTestResult } from '../pages-admin/TestResult/EssayTestResult/MainEssayTestResult'
 import { MultestMainResult } from '../pages-admin/TestResult/MulTestResult/MultestMainResult'
+import { MainManageApply } from '../pages-admin/ManageApply/MainManageApply'
+import { MainUserAccount } from '../pages-admin/Admin-DashBoard/MainUserAccount'
+import { MainAdminContact } from '../pages-admin/Admin-DashBoard/MainAdminContact'
+import { MainBanner } from '../pages-admin/Admin-DashBoard/MainBanner'
 
 const AllRoutesAd = ({ role }) => {
   return (
@@ -62,8 +66,11 @@ const AllRoutesAd = ({ role }) => {
       <Route path='/allJob_Recruiter/job-posting/' element={<JobPosting />} />
       <Route path='/list-job/' element={<ListJob />} />
 
-      <Route path='/user-account/' element={<Customers />} />
-      <Route path='/' element={role === 'RECRUITER' ? <MainReccerDashBoard /> : <></>} />
+      <Route path='/user-account/' element={<MainUserAccount />} />
+      <Route path='/feedback' element={<MainAdminContact />} />
+      <Route path='/banner' element={<MainBanner />} />
+      {/* <Route path='/user-account1/' element={<Customers />} /> */}
+      <Route path='/' element={role === 'RECRUITER' ? <MainReccerDashBoard /> : role === 'ADMIN' ? <Line /> : <></>} />
       <Route path='/AdLogout' element={<AdLogout />} />
       <Route path='/ecommerce' element={<Ecommerce />} />
 
@@ -88,7 +95,6 @@ const AllRoutesAd = ({ role }) => {
       <Route path='/color-picker' element={<ColorPicker />} />
 
       {/* charts  */}
-      <Route path='/line' element={<Line />} />
       <Route path='/area' element={<Area />} />
       <Route path='/bar' element={<Bar />} />
       <Route path='/pie' element={<Pie />} />
@@ -125,6 +131,7 @@ const AllRoutesAd = ({ role }) => {
       {/* <Route path='/screening' element={<Screening />} />
       <Route path='/screening-test/:id' element={<TestAddForm />} /> */}
       {/* process */}
+      <Route path='/manage-apply' element={<MainManageApply />} />
       <Route path='/process' element={<Process />} />
       <Route path='/process/item/:jobId' element={<ProcessItem />} />
       <Route path='/process/item/:jobId/:tab' element={<ProcessItem />} />

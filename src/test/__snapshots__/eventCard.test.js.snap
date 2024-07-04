@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="chakra-offset-slide"
+    style="opacity: 0; transform: translateX(-20px) translateY(8px) translateZ(0);"
+  >
+    <div
+      class="css-uyjx1l"
+    >
+      <img
+        alt="https://bit.ly/2Z4KKcF"
+        class="chakra-image css-amzuzo"
+        src="https://bit.ly/2Z4KKcF"
+      />
+      <div
+        class="css-1vae7t2"
+      >
+        <h4
+          class="css-dzd7d1"
+        >
+          Test Event
+        </h4>
+        <div
+          class="css-zvlevn"
+        >
+          This is a test article.
+        </div>
+        <div
+          class="css-15yujhg"
+        >
+          <button
+            class="chakra-button css-4cc577"
+            name="1"
+            type="button"
+          >
+            Xem thêm
+            <span
+              class="chakra-button__icon css-1hzyiq5"
+            >
+              <svg
+                aria-hidden="true"
+                class="chakra-icon css-onkibi"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
+          </button>
+          <button
+            aria-label="Search database"
+            class="chakra-button css-12we9zr"
+            type="button"
+            value="1"
+          >
+            <svg
+              aria-hidden="true"
+              class="chakra-icon css-onkibi"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

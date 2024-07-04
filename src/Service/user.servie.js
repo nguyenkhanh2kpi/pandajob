@@ -153,6 +153,51 @@ const changePassword = async (token, form) => {
     throw error
   }
 }
+
+const banUser = async (token, userId) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    }
+
+    const res = await axios.post(`${API_URL}/user/ban/${userId}`, null, config)
+
+    return res.data
+  } catch (error) {
+    const axiosError = error
+    if (axiosError && axiosError.response && axiosError.response.status === 403) {
+      throw new Error('no_permission')
+    } else {
+      throw error
+    }
+  }
+}
+
+
+const acceptUser = async (token, userId) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    }
+
+    const res = await axios.post(`${API_URL}/user/accept/${userId}`, null, config)
+
+    return res.data
+  } catch (error) {
+    const axiosError = error
+    if (axiosError && axiosError.response && axiosError.response.status === 403) {
+      throw new Error('no_permission')
+    } else {
+      throw error
+    }
+  }
+}
 export const userService = {
   addBlacklist,
   removeBlacklist,
@@ -161,4 +206,6 @@ export const userService = {
   getMyProfile,
   updateProfile,
   changePassword,
+  banUser,
+  acceptUser
 }

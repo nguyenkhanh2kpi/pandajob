@@ -9,41 +9,9 @@ import { ToastContainer, toast } from 'react-toastify'
 import { questionService } from '../../Service/question.service'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 
-const ComponentMultiselect = ({ items, title, onChange, name }) => {
-  const {
-    value,
-    options,
-    onChange: onInternalChange,
-  } = useMultiSelect({
-    value: [],
-    options: items,
-  })
-
-  useEffect(() => {
-    if (onChange) {
-      onChange(value, name)
-    }
-  }, [value])
-
-  return (
-    <MultiSelect
-      selectedListProps={{
-        maxH: 50,
-        overflow: 'hidden',
-      }}
-      options={options}
-      value={value}
-      label={title}
-      onChange={onInternalChange}
-    />
-  )
-}
-
 export const AddQuestion = () => {
   const naigate = useNavigate()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
-  const [positions, setPosition] = useState([])
-  const [skills, setSkill] = useState([])
   const [form, setForm] = useState({
     question: '',
     answer: '',
@@ -55,13 +23,6 @@ export const AddQuestion = () => {
   const handleOnChange = (e) => {
     const { name, value } = e.target
     setForm((form) => ({ ...form, [name]: value }))
-  }
-
-  const handleOnChangeMultiSkill = (newValue, name) => {
-    setForm({
-      ...form,
-      [name]: newValue.map((v) => parseInt(v.value, 10)),
-    })
   }
 
   const handleSubmit = () => {
@@ -79,18 +40,6 @@ export const AddQuestion = () => {
       .catch((er) => toast.error('something went wrong'))
   }
 
-  useEffect(() => {
-    skillPositionService
-      .getSkill(accessToken)
-      .then((res) => setSkill(res))
-      .catch((er) => toast.error('something went wrong'))
-    skillPositionService
-      .getPosition(accessToken)
-      .then((res) => setPosition(res))
-      .catch((er) => toast.error('something went wrong'))
-  }, [])
-
-  console.log(skills)
 
   return (
     <>
@@ -105,11 +54,8 @@ export const AddQuestion = () => {
         </Breadcrumb>
         <VStack w={'100%'} align={'flex-start'} mb={10} pl={30} pr={30} spacing={3}>
           <Box mx={'100px'} w={'80%'} bgColor={'white'} boxShadow={'md'} borderRadius={20} p={30}>
-            <Text fontWeight={'bold'} m={0} fontSize='2xl'>
-              Thêm câu hỏi
-            </Text>
             <HStack w={'100%'}>
-              <VStack align={'flex-start'} w={'50%'}>
+              <VStack align={'flex-start'} w={'100%'}>
                 <label>Nội dung</label>
                 <Textarea name='question' value={form.question} onChange={handleOnChange} />
                 <label>Gợi ý trả lời</label>
@@ -123,32 +69,6 @@ export const AddQuestion = () => {
                 </Select>
               </VStack>
             </HStack>
-            {skills.length > 0 && (
-              <Box w={'50%'}>
-                <ComponentMultiselect
-                  name='skillIds'
-                  items={skills.map((skill) => ({
-                    label: skill.skillName,
-                    value: skill.id.toString(),
-                  }))}
-                  title='Choose Skill'
-                  onChange={handleOnChangeMultiSkill}
-                />
-              </Box>
-            )}
-            {positions.length > 0 && (
-              <Box w={'50%'}>
-                <ComponentMultiselect
-                  name='positionIds'
-                  items={positions.map((position) => ({
-                    label: position.positionName,
-                    value: position.id.toString(),
-                  }))}
-                  title='Choose Position'
-                  onChange={handleOnChangeMultiSkill}
-                />
-              </Box>
-            )}
             <HStack mt={10} w={'100%'} align={'flex-end'}>
               <Button onClick={() => naigate('/question')}>Thoát</Button>
               <Button onClick={handleSubmit}>Lưu</Button>

@@ -98,7 +98,7 @@ export default function InterviewerListRoom() {
             </BreadcrumbItem>
           </Breadcrumb>
           <VStack align={'flex-start'} spacing={3} ml={30} mr={30}>
-            <Box w={'50%'} bgColor={'white'} borderRadius={20} boxShadow={'md'} p={10}>
+            {/* <Box w={'50%'} bgColor={'white'} borderRadius={20} boxShadow={'md'} p={10}>
               <Text fontWeight='bold'>{countInterviewedCandidates} Đã phỏng vấn</Text>
               <Text fontWeight='bold'>{countCandidates - countInterviewedCandidates} Chưa phỏng vấn</Text>
               <Text fontWeight='bold'>{listRooms.length} buổi phỏng vấn</Text>
@@ -108,10 +108,13 @@ export default function InterviewerListRoom() {
                   <Avatar key={candidate.candidateId} name={candidate.name} src={candidate.avatar} />
                 ))}
               </AvatarGroup>
-            </Box>
+            </Box> */}
             <Flex gap={2}>
               <Button bgColor={filter === 'all' ? 'black' : 'gray.200'} color={filter === 'all' ? 'white' : 'black'} size={'sm'} onClick={() => handleFilterClick('all')}>
                 Tất cả
+              </Button>
+              <Button size={'sm'} onClick={() => handleFilterClick('not-viewed')} bgColor={filter === 'not-viewed' ? 'black' : 'gray.200'} color={filter === 'not-viewed' ? 'white' : 'black'}>
+                Mới tạo
               </Button>
               <Button size={'sm'} onClick={() => handleFilterClick('not-viewed')} bgColor={filter === 'not-viewed' ? 'black' : 'gray.200'} color={filter === 'not-viewed' ? 'white' : 'black'}>
                 Đang mở
@@ -128,16 +131,16 @@ export default function InterviewerListRoom() {
                     <Text m={0} p={0} fontWeight={'bold'}>
                       Tên phòng :{room.roomName}
                     </Text>
-                    <Text m={0} p={0}>
+                    <Text fontStyle={'italic'} m={0} p={0}>
                       Tên công việc: {room.jobName}
                     </Text>
-                    <Text m={0} p={0}>
-                      Trạng thái: <Badge>{room.status}</Badge>
+                    <Text fontStyle={'italic'} m={0} p={0}>
+                      Trạng thái: <Tag colorScheme={getStatusColor(room.status)}>{room.status}</Tag>
                     </Text>
-                    <Text m={0} p={0}>
+                    <Text fontStyle={'italic'} m={0} p={0}>
                       <Badge colorScheme='purple'> {formatDateTime(room.startDate)}</Badge>
                     </Text>
-                    <Text m={0} p={0}>
+                    <Text fontStyle={'italic'} m={0} p={0}>
                       Số ứng viên: {room.listCandidate.length}
                     </Text>
 
@@ -158,4 +161,17 @@ export default function InterviewerListRoom() {
         </Box>
       </>
     )
+}
+
+const getStatusColor = (status) => {
+  switch (status) {
+    case 'Created':
+      return 'yellow'
+    case 'Processing':
+      return 'blue'
+    case 'Ended':
+      return 'green'
+    default:
+      return 'gray'
+  }
 }

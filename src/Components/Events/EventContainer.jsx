@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { eventService } from '../../Service/event.service'
 import { ToastContainer, toast } from 'react-toastify'
-
 import { Center, HStack, Heading, SimpleGrid, SlideFade, Spinner, VStack } from '@chakra-ui/react'
 import { EventCard } from './EventCard'
 
@@ -10,7 +9,10 @@ export const EventContainer = () => {
   useEffect(() => {
     eventService
       .getEvent()
-      .then((res) => setEvent(res))
+      .then((res) => {
+        console.log(JSON.stringify(res))
+        setEvent(res)
+      })
       .catch((er) => console.log(er))
   })
   if (!events) {
