@@ -86,7 +86,7 @@ export const MyCompany = () => {
   } else
     return (
       <>
-        <Box minHeight={1000} fontFamily={'Roboto'} backgroundColor={'#e9f3f5'} overflow='hidden'>
+        <Box minHeight={1000} fontFamily={'Roboto'} backgroundColor={'#f5f9fa'} overflow='hidden'>
           <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
 
           <Breadcrumb pt={30}>
@@ -103,7 +103,6 @@ export const MyCompany = () => {
                       <Tab>Thông tin cơ bản</Tab>
                       <Tab>Đội ngủ tuyển dụng</Tab>
                       <Tab>Lịch sử giao dịch</Tab>
-                      <Tab>Lịch sử hoạt động</Tab>
                     </TabList>
                     <TabIndicator mt='-1.5px' height='2px' bg='blue.500' borderRadius='1px' />
                     <TabPanels>
@@ -151,9 +150,6 @@ export const MyCompany = () => {
                       </TabPanel>
                       <TabPanel>
                         <TransactionHistory />
-                      </TabPanel>
-                      <TabPanel>
-                        <p>threqqe!</p>
                       </TabPanel>
                     </TabPanels>
                   </Tabs>

@@ -24,8 +24,8 @@ export default function SliderBanner() {
   }
 
   useEffect(() => {
-    const slideInterval = setInterval(nextSlide, 3000)
-    return () => clearInterval(slideInterval)
+    // const slideInterval = setInterval(nextSlide, 3000)
+    // return () => clearInterval(slideInterval)
   }, [])
 
   return (

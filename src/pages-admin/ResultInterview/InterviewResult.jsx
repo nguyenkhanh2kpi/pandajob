@@ -301,7 +301,7 @@ export const InterviewResult = () => {
                     <Text m={0} p={0} fontWeight={'bold'}>
                       Ghi chú phỏng vấn:{' '}
                     </Text>
-                    <Box p={3} borderRadius={10} borderWidth={1} borderColor={'grey'}>
+                    <Box p={3}>
                       <Text m={0} p={0}>
                         {detail.comment}
                       </Text>
@@ -311,7 +311,7 @@ export const InterviewResult = () => {
                         <Text m={0} p={0} fontWeight={'bold'}>
                           Câu hỏi tiếng Anh:
                         </Text>
-                        <Box p={3} borderRadius={10} borderWidth={1} borderColor={'grey'}>
+                        <Box p={3}>
                           {JSON.parse(detail.englishQuestion).map((q) => (
                             <Text key={q.id} m={0} p={0}>
                               {q.question} (Điểm: {q.mark})
@@ -325,7 +325,7 @@ export const InterviewResult = () => {
                         <Text m={0} p={0} fontWeight={'bold'}>
                           Câu hỏi kỹ thuật:
                         </Text>
-                        <Box p={3} borderRadius={10} borderWidth={1} borderColor={'grey'}>
+                        <Box p={3}>
                           {JSON.parse(detail.technicalQuestion).map((q) => (
                             <Text key={q.id} m={0} p={0}>
                               {q.question} (Điểm: {q.mark})
@@ -339,7 +339,7 @@ export const InterviewResult = () => {
                         <Text m={0} p={0} fontWeight={'bold'}>
                           Câu hỏi kỹ năng mềm:
                         </Text>
-                        <Box p={3} borderRadius={10} borderWidth={1} borderColor={'grey'}>
+                        <Box p={3}>
                           {JSON.parse(detail.softSkillQuestion).map((q) => (
                             <Text key={q.id} m={0} p={0}>
                               {q.question} (Điểm: {q.mark})
