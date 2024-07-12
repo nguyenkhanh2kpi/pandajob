@@ -78,7 +78,7 @@ export const AssignInterviewer = ({ roomId, load, setLoad }) => {
         <Box leastDestructiveRef={cancelRef} position='fixed' top='0' left='0' width='100vw' height='100vh' bg='rgba(0, 0, 0, 0.6)' display='flex' alignItems='center' justifyContent='center' zIndex='1000'>
           <Box bg='white' p={6} borderRadius='md' boxShadow='md' w={'600px'}>
             <Text fontSize='lg' fontWeight='bold' mb={4}>
-              Áp dụng TOP VIP
+              Chọn người phỏng vấn
             </Text>
             {interviewer.map((interviewer) => (
               <>

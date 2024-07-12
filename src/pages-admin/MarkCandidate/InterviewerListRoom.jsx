@@ -24,6 +24,7 @@ export default function InterviewerListRoom() {
   const navigate = useNavigate()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
   const [listRooms, setListRoom] = useState()
+  const [disPlayListRooms, setDisplayRooms] = useState(listRooms)
 
   useEffect(() => {
     interviewService
@@ -45,10 +46,25 @@ export default function InterviewerListRoom() {
     : 0
   const candidates = listRooms ? listRooms.flatMap((interview) => interview.listCandidate) : 0
 
+  // filter
   const [filter, setFilter] = useState('all')
-  const handleFilterClick = () => {}
+  const handleFilterClick = (filt) => {
+    setFilter(filt)
+  }
 
-  if (listRooms === undefined) {
+  useEffect(() => {
+    if (filter === 'all') {
+      setDisplayRooms(listRooms)
+    } else if (filter === 'Created') {
+      setDisplayRooms(listRooms.filter((roomList) => roomList.status === 'Created'))
+    } else if (filter === 'Processing') {
+      setDisplayRooms(listRooms.filter((roomList) => roomList.status === 'Processing'))
+    } else if (filter === 'Ended') {
+      setDisplayRooms(listRooms.filter((roomList) => roomList.status === 'Ended'))
+    }
+  }, [filter, listRooms])
+
+  if (disPlayListRooms === undefined) {
     return (
       <>
         <Box backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
@@ -78,12 +94,31 @@ export default function InterviewerListRoom() {
       </>
     )
   }
-  if (listRooms.length === 0) {
+  if (disPlayListRooms.length === 0) {
     return (
       <>
-        <Box backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
-          <VStack spacing={10}>
-            <Text>No interview room</Text>
+        <Box minH={'1000px'} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'}>
+          <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
+            <BreadcrumbItem>
+              <BreadcrumbLink href='#'>Phòng phỏng vấn</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+          <VStack align={'flex-start'} spacing={3} ml={30} mr={30}>
+            <Flex gap={2}>
+              <Button bgColor={filter === 'all' ? 'black' : 'gray.200'} color={filter === 'all' ? 'white' : 'black'} size={'sm'} onClick={() => handleFilterClick('all')}>
+                Tất cả
+              </Button>
+              <Button size={'sm'} onClick={() => handleFilterClick('Created')} bgColor={filter === 'Created' ? 'black' : 'gray.200'} color={filter === 'Created' ? 'white' : 'black'}>
+                Mới tạo
+              </Button>
+              <Button size={'sm'} onClick={() => handleFilterClick('Processing')} bgColor={filter === 'Processing' ? 'black' : 'gray.200'} color={filter === 'Processing' ? 'white' : 'black'}>
+                Đang tiến hành
+              </Button>
+              <Button size={'sm'} onClick={() => handleFilterClick('Ended')} bgColor={filter === 'Ended' ? 'black' : 'gray.200'} color={filter === 'Ended' ? 'white' : 'black'}>
+                Đã kết thúc
+              </Button>
+            </Flex>
+            <Text>chưa có phòng</Text>
           </VStack>
         </Box>
       </>
@@ -98,40 +133,29 @@ export default function InterviewerListRoom() {
             </BreadcrumbItem>
           </Breadcrumb>
           <VStack align={'flex-start'} spacing={3} ml={30} mr={30}>
-            {/* <Box w={'50%'} bgColor={'white'} borderRadius={20} boxShadow={'md'} p={10}>
-              <Text fontWeight='bold'>{countInterviewedCandidates} Đã phỏng vấn</Text>
-              <Text fontWeight='bold'>{countCandidates - countInterviewedCandidates} Chưa phỏng vấn</Text>
-              <Text fontWeight='bold'>{listRooms.length} buổi phỏng vấn</Text>
-              <Text fontWeight='bold'>{countCandidates} ứng viên</Text>
-              <AvatarGroup size='md' max={5}>
-                {candidates.map((candidate) => (
-                  <Avatar key={candidate.candidateId} name={candidate.name} src={candidate.avatar} />
-                ))}
-              </AvatarGroup>
-            </Box> */}
             <Flex gap={2}>
               <Button bgColor={filter === 'all' ? 'black' : 'gray.200'} color={filter === 'all' ? 'white' : 'black'} size={'sm'} onClick={() => handleFilterClick('all')}>
                 Tất cả
               </Button>
-              <Button size={'sm'} onClick={() => handleFilterClick('not-viewed')} bgColor={filter === 'not-viewed' ? 'black' : 'gray.200'} color={filter === 'not-viewed' ? 'white' : 'black'}>
+              <Button size={'sm'} onClick={() => handleFilterClick('Created')} bgColor={filter === 'Created' ? 'black' : 'gray.200'} color={filter === 'Created' ? 'white' : 'black'}>
                 Mới tạo
               </Button>
-              <Button size={'sm'} onClick={() => handleFilterClick('not-viewed')} bgColor={filter === 'not-viewed' ? 'black' : 'gray.200'} color={filter === 'not-viewed' ? 'white' : 'black'}>
-                Đang mở
+              <Button size={'sm'} onClick={() => handleFilterClick('Processing')} bgColor={filter === 'Processing' ? 'black' : 'gray.200'} color={filter === 'Processing' ? 'white' : 'black'}>
+                Đang tiến hành
               </Button>
-              <Button size={'sm'} onClick={() => handleFilterClick('viewed')} bgColor={filter === 'viewed' ? 'black' : 'gray.200'} color={filter === 'viewed' ? 'white' : 'black'}>
+              <Button size={'sm'} onClick={() => handleFilterClick('Ended')} bgColor={filter === 'Ended' ? 'black' : 'gray.200'} color={filter === 'Ended' ? 'white' : 'black'}>
                 Đã kết thúc
               </Button>
             </Flex>
 
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10}>
-              {listRooms.map((room) => (
+              {disPlayListRooms.map((room) => (
                 <Box bgColor={'white'} borderRadius={20} boxShadow={'md'} p={10} key={room.id} direction={{ base: 'column', sm: 'row' }} overflow='hidden' variant='outline'>
                   <Stack>
                     <Text m={0} p={0} fontWeight={'bold'}>
                       Tên phòng :{room.roomName}
                     </Text>
-                    <Text fontStyle={'italic'} m={0} p={0}>
+                    <Text fontSize={'xs'} fontStyle={'italic'} m={0} p={0}>
                       Tên công việc: {room.jobName}
                     </Text>
                     <Text fontStyle={'italic'} m={0} p={0}>
@@ -145,12 +169,10 @@ export default function InterviewerListRoom() {
                     </Text>
 
                     <Button
-                      color='white'
                       onClick={() => {
                         navigate(`/mark-candidate/${room.id}`)
                       }}
-                      w={'100%'}
-                      backgroundColor={'rgb(3, 201, 215)'}>
+                      w={'100%'}>
                       Đi đến phòng
                     </Button>
                   </Stack>

@@ -10,7 +10,7 @@ const FeatureCompony = () => {
   const navigate = useNavigate()
   const [companies, setCompanies] = useState([])
   const scrollRef = useRef(null)
-  const cardWidth = useBreakpointValue({ base: 300, md: 400 }) 
+  const cardWidth = useBreakpointValue({ base: 300, md: 400 })
 
   useEffect(() => {
     companyService
@@ -62,7 +62,9 @@ const FeatureCompony = () => {
                   <Text noOfLines={1} fontWeight={'bold'}>
                     {company.name}
                   </Text>
-                  <Text noOfLines={1}>{company.website}</Text>
+                  <Text fontSize={'xs'} fontStyle={'italic'} noOfLines={1}>
+                    {company.website}
+                  </Text>
                 </VStack>
               </Box>
             ))}

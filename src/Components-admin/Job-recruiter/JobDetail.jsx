@@ -33,6 +33,7 @@ function JobDetailRecruiter() {
   }, [])
 
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+  const isVip = JSON.parse(localStorage.getItem('data')).data.isVip
   const [name, setName] = useState(data.name)
   const [position, setPosition] = useState(data.position)
   const [requirements, setRequirements] = useState(data.requirements)
@@ -248,7 +249,7 @@ function JobDetailRecruiter() {
                   <FormLabel w={'15%'}>Trạng thái</FormLabel>
                   <JobStateComponent job={data} />
                   <FormLabel w={'15%'}>Top vip</FormLabel>
-                  <ConfirmVipDialog job={data} onConfirm={handleApplyVip} />
+                  <ConfirmVipDialog isVip={isVip} job={data} onConfirm={handleApplyVip} />
                 </HStack>
               </FormControl>
 

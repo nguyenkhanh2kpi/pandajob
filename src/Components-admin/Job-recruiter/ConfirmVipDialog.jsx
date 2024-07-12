@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Text, Button, useDisclosure, Flex, Center, Link } from '@chakra-ui/react'
 
-function ConfirmVipDialog({ job, onConfirm }) {
+function ConfirmVipDialog({ isVip, job, onConfirm }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const handleConfirm = () => {
@@ -11,7 +11,7 @@ function ConfirmVipDialog({ job, onConfirm }) {
 
   return (
     <>
-      <Button size='sm' backgroundColor='rgb(3, 201, 215)' color={'white'} onClick={onOpen}>
+      <Button isDisabled={!isVip} size='sm' backgroundColor='rgb(3, 201, 215)' color={'white'} onClick={onOpen}>
         <Link> Áp dụng TOP VIP </Link>
       </Button>
 

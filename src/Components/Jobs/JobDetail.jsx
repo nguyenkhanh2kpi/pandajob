@@ -393,12 +393,10 @@ const AlertDialogExample = ({ data, user, jobId }) => {
 
   useEffect(() => {}, [jobId])
 
-  console.log('doigua', user.cv_pdf)
-
   return (
     <>
-      <Button name='applyBtn' fontFamily={'Roboto'} w='100%' onClick={onOpen} value={data.id}>
-        Ứng tuyển
+      <Button isDisabled={data.state !== 'ON'} name='applyBtn' fontFamily={'Roboto'} w='100%' onClick={onOpen} value={data.id}>
+        {data.state !== 'ON' ? 'Tạm thời không nhận CV' : 'Ứng tuyển'}
       </Button>
 
       <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>

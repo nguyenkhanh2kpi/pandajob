@@ -40,11 +40,13 @@ const HomePage = () => {
     if (search.keyword !== '') {
       // sessionStorage.setItem('keyw', search.keyword)
       localStorage.setItem('keyw', JSON.stringify({ keyw: search.keyword }))
-      navigate(`/jobpage`)
-      // navigate(`/jobpage/${search.keyword}/${search.location}/${search.experience}/${search.salary}`)
+      navigate(`/jobpage/${search.keyword}/${search.location}/${search.experience}/${search.salary}`)
     } else {
-      navigate(`/jobpage`)
-      // navigate(`/jobpage/${search.location}/${search.experience}/${search.salary}`)
+      if (search.location !== 'all' || search.experience !== 'all' || search.salary !== 'all') {
+        navigate(`/jobpage/${search.location}/${search.experience}/${search.salary}`)
+      } else {
+        navigate(`/jobpage`)
+      }
     }
   }
 
@@ -77,7 +79,7 @@ const HomePage = () => {
       <VStack pb={1} bgGradient='linear(to-b, #8ad4d4, #f0f4f5)' w={'100%'} overflow='hidden' align={'center'}>
         <SliderBanner />
         <Tour steps={steps} isOpen={isTourOpen} onRequestClose={toggleTour} rounded={10} accentColor='#457eff' />
-        {/* <Container mt={10} h={'70px'} maxW={'100%'}>
+        <Container mt={10} h={'70px'} maxW={'100%'}>
           <Flex className='search-bar' boxShadow='base' p='6' rounded='md' bg='white' w={'80%'} h={'100%'} m={'auto'} borderRadius={'50px'} pl={'24px'} pr={'9px'} py={'9px'}>
             <Box w={'28px'} display={'flex'} alignItems={'center'}>
               <Image mr={'8px'} w={'20px'} h={'20px'} src='https://static.naukimg.com/s/7/103/i/search.9ec0e1ac.svg' />
@@ -125,7 +127,7 @@ const HomePage = () => {
               <Link>Tìm</Link>
             </Button>
           </Flex>
-        </Container> */}
+        </Container>
       </VStack>
       <VStack mb={100} minH={1000} align={'flex-start'} w={'80vw'}>
         <VStack w={'100%'} align={'flex-start'}>

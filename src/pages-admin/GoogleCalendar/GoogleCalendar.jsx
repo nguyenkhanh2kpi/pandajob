@@ -159,12 +159,15 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
             <Text>
               Thời gian từ {format(startDate, 'HH:mm dd/MM/yyyy')} đến {format(endDate, 'HH:mm dd/MM/yyyy')}
             </Text>
+            <Box borderRadius={10} borderLeftWidth={10} p={3} borderColor={'orange'} bgColor={'#ebf5f5'}>
+              Lưu ý:Khi tiến hành lên lịch qua Calendar sẽ không thể chỉnh sửa người tham gia nữa
+            </Box>
             <FormControl>
               <FormLabel>Tiêu đề</FormLabel>
               <Input onChange={handleOnChangeForm} type='summary' name='summary' value={formGoogle.summary} />
-              <FormLabel>Lưu ý cho ứng viên</FormLabel>
+              <FormLabel>Lưu ý hoặc link Online ngoài google meet</FormLabel>
               <Input onChange={handleOnChangeForm} type='sescription' name='description' value={formGoogle.description} />
-              <FormLabel>Địa điểm</FormLabel>
+              <FormLabel>Địa điểm( nếu pv offline)</FormLabel>
               <Input onChange={handleOnChangeForm} type='sescription' name='location' value={formGoogle.location} />
               <FormLabel>Hình thức</FormLabel>
               <Checkbox
@@ -175,7 +178,7 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
                   }))
                 }
                 isChecked={formGoogle.offline}>
-                offline
+                Không sử dụng google meet
               </Checkbox>
             </FormControl>
           </DrawerBody>

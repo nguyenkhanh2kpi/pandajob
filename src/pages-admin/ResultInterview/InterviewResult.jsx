@@ -21,7 +21,7 @@ export const InterviewResult = () => {
 
   useEffect(() => {
     interviewDetailService
-      .getAll(accessToken)
+      .getAllEnded(accessToken)
       .then((res) => {
         setInterviewDetail(res)
         setFilteredDetail(res)

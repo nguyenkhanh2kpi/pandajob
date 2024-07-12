@@ -40,7 +40,6 @@ const JobPage = () => {
   }
 
   const handleSearch = () => {
-    console.log(search)
     const filteredJobs = jobList.filter((job) => {
       const keywordMatch = job.name.toLowerCase().includes(search.keyword.toLowerCase())
       const locationMatch = search.location === 'all' || job.location === search.location
@@ -75,6 +74,21 @@ const JobPage = () => {
   }
 
   const displayItems = jobFiltered.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+
+  // Đảm bảo dữ liệu trong localStorage tồn tại
+  // let storedData = localStorage.getItem('keyw')
+  // if (storedData === null) {
+  //   storedData = JSON.stringify({ keyw: '' })
+  //   localStorage.setItem('keyw', storedData)
+  // }
+  // const keyWords = JSON.parse(storedData).keyw
+
+  // const handleSearchKw = () => {
+  //   if (search.keyword !== '') {
+  //     localStorage.setItem('keyw', JSON.stringify({ keyw: search.keyword }))
+  //   } else {
+  //   }
+  // }
 
   const jobdatas =
     displayItems !== null ? (

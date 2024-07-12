@@ -1,4 +1,4 @@
-import { Box, CardHeader, Heading, Container, FormControl, VStack, FormErrorMessage, FormLabel, SlideFade, Stack, Input, HStack, CardBody, Card, Text, Radio, RadioGroup, StackDivider, Button, useToast } from '@chakra-ui/react'
+import { Box, CardHeader, Heading, Container, FormControl, VStack, FormErrorMessage, FormLabel, SlideFade, Stack, Input, HStack, CardBody, Card, Text, Radio, RadioGroup, StackDivider, Button, useToast, Center } from '@chakra-ui/react'
 import { useField } from 'formik'
 import React, { useEffect, useState } from 'react'
 import ReactPaginate from 'react-paginate'
@@ -7,6 +7,7 @@ import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, Ale
 import { useNavigate, useParams } from 'react-router-dom'
 import { testService } from '../../Service/test.service'
 import { toast } from 'react-toastify'
+import { OverlayComponent } from '../../Components-admin/OverlayComponent'
 
 export const TestMain = () => {
   const toast = useToast()
@@ -109,29 +110,31 @@ function AlertDialogExample({ onConfirm }) {
   const cancelRef = React.useRef()
   return (
     <>
-      <Button onClick={onOpen}>Sunmit</Button>
-      <AlertDialog motionPreset='slideInBottom' leastDestructiveRef={cancelRef} onClose={onClose} isOpen={isOpen} isCentered>
-        <AlertDialogOverlay />
-
-        <AlertDialogContent h={'50px'}>
-          <AlertDialogHeader>Discard Changes?</AlertDialogHeader>
-          <AlertDialogCloseButton />
-          <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
-              No
-            </Button>
-            <Button
-              onClick={() => {
-                onConfirm()
-                onClose()
-              }}
-              colorScheme='red'
-              ml={3}>
-              Yes
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <Button onClick={onOpen}>Nộp</Button>
+      <OverlayComponent isOpen={isOpen} onClose={onClose}>
+        <Center h='100vh' w='100vw' bg='rgba(0, 0, 0, 0.4)'>
+          <Box overflow='auto' fontFamily='Roboto' p={5} w='400px' bgColor='white' borderRadius='10px'>
+            <Heading fontFamily={'Roboto'} fontSize='lg' mb={4}>
+              Xác nhận
+            </Heading>
+            <Text mb={4}>Bạn có chắc chắn muốn nộp câu trả lời này không?</Text>
+            <HStack justifyContent='flex-end'>
+              <Button variant='ghost' onClick={onClose}>
+                Hủy
+              </Button>
+              <Button
+                colorScheme='blue'
+                mr={3}
+                onClick={() => {
+                  onConfirm()
+                  onClose()
+                }}>
+                Xác nhận
+              </Button>
+            </HStack>
+          </Box>
+        </Center>
+      </OverlayComponent>
     </>
   )
 }

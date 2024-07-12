@@ -62,8 +62,8 @@ const AllRoutes = () => {
       <Route path='/jobpage' element={<NJobPage />} />
       <Route path='/jobpage/favorite' element={<FavoriteJobs />} />
       <Route path='/jobpage/applied' element={<AppliedJobs />} />
-      <Route path='/jobpage-search/:keyword/:location/:experience/:salary' element={<JobPage />} />
-      <Route path='/jobpage-search/:location/:experience/:salary' element={<JobPage />} />
+      <Route path='/jobpage/:keyword/:location/:experience/:salary' element={<NJobPage />} />
+      <Route path='/jobpage/:location/:experience/:salary' element={<NJobPage />} />
       <Route path='/jobpage/:jobId' element={<JobDetail />} />
       <Route path='/services' element={<ServicesPage />} />
       <Route path='/events' element={<Events />} />

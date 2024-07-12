@@ -142,6 +142,31 @@ export const RoomEditInfomation = () => {
     setOpenChatCandidate(candidateEmail === openChatCandidate ? null : candidateEmail)
   }
 
+  // dele assign
+  const handleDeleteInterviewer = (email) => {
+    interviewService
+      .deleteInterviewerAssign(accessToken, email, room.id)
+      .then((response) => {
+        if (response.message === 'Delete success!') {
+          toastChakra({
+            title: response.message,
+            status: 'success',
+            duration: 3000,
+          })
+        } else {
+          toastChakra({
+            title: response.message,
+            status: 'error',
+            duration: 3000,
+          })
+        }
+      })
+      .catch((er) => console.log(JSON.stringify(er)))
+      .finally(() => {
+        setLoad(!load)
+      })
+  }
+
   if (room.id === 0) {
     return (
       <>
@@ -185,7 +210,7 @@ export const RoomEditInfomation = () => {
                 </ListItem>
               </List>
             </Box>
-            <HStack spacing={10} w={'100%'} align={'flex-start'}>
+            <HStack pb={50} spacing={10} w={'100%'} align={'flex-start'}>
               <Box w={'50%'} p={'30px'} borderRadius={20} boxShadow={'md'} bgColor={'white'}>
                 <HStack alignItems='center' spacing={4}>
                   <Icon as={AiOutlineUsergroupAdd} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
@@ -196,7 +221,7 @@ export const RoomEditInfomation = () => {
                 <Box m={5}>
                   <HStack alignItems={'flex-start'}>
                     <Text fontWeight={'bold'}>Đội phỏng vấn</Text>
-                    <AssignInterviewer roomId={params.idRoom} load={load} setLoad={setLoad} />
+                    {room.status === 'Created' ? <AssignInterviewer roomId={params.idRoom} load={load} setLoad={setLoad} /> : <></>}
                   </HStack>
 
                   {room.listInterviewer.map((interviewer) => (
@@ -210,22 +235,25 @@ export const RoomEditInfomation = () => {
                             <Text>{interviewer.email}</Text>
                           </Box>
                         </Flex>
-                        <Menu>
-                          <MenuButton>
-                            <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
-                          </MenuButton>
-                          <MenuList>
-                            <MenuItem>Xem</MenuItem>
-                            <MenuItem>Xóa</MenuItem>
-                          </MenuList>
-                        </Menu>
+                        {room.status === 'Created' ? (
+                          <Menu>
+                            <MenuButton>
+                              <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
+                            </MenuButton>
+                            <MenuList>
+                              <MenuItem onClick={() => handleDeleteInterviewer(interviewer.email)}>Xóa</MenuItem>
+                            </MenuList>
+                          </Menu>
+                        ) : (
+                          <></>
+                        )}
                       </Flex>
                     </Card>
                   ))}
 
                   <HStack mt={10} alignItems={'flex-start'}>
                     <Text fontWeight={'bold'}>Ứng viên</Text>
-                    <AssignCandidate load={load} setLoad={setLoad} roomId={params.idRoom} jobId={params.id} startDate={room.startDate} endDate={room.endDate} />
+                    {room.status === 'Created' ? <AssignCandidate load={load} setLoad={setLoad} roomId={params.idRoom} jobId={params.id} startDate={room.startDate} endDate={room.endDate} /> : <></>}
                   </HStack>
                   {room.listCandidate.map((candidate) => (
                     <Card mb={1} key={candidate.itemId} p={1}>
@@ -239,18 +267,21 @@ export const RoomEditInfomation = () => {
                             <Text>{candidate.email}</Text>
                           </Box>
                         </Flex>
-                        <Menu>
-                          <MenuButton>
-                            <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
-                          </MenuButton>
-                          <MenuList>
-                            <MenuItem>Xem</MenuItem>
-                            <MenuItem onClick={() => toggleChatWindow(candidate.email)}>Gửi tin nhắn</MenuItem>
-                            <MenuItem key={candidate.itemId} value={candidate.itemId} onClick={() => openConfirmModal(candidate.itemId)}>
-                              Xóa
-                            </MenuItem>
-                          </MenuList>
-                        </Menu>
+                        {room.status === 'Created' ? (
+                          <Menu>
+                            <MenuButton>
+                              <IconButton variant='ghost' colorScheme='gray' aria-label='See menu' icon={<BsThreeDotsVertical />} />
+                            </MenuButton>
+                            <MenuList>
+                              <MenuItem onClick={() => toggleChatWindow(candidate.email)}>Gửi tin nhắn</MenuItem>
+                              <MenuItem key={candidate.itemId} value={candidate.itemId} onClick={() => openConfirmModal(candidate.itemId)}>
+                                Xóa
+                              </MenuItem>
+                            </MenuList>
+                          </Menu>
+                        ) : (
+                          <></>
+                        )}
                       </Flex>
                     </Card>
                   ))}
@@ -310,10 +341,10 @@ export const RoomEditInfomation = () => {
 
                     <VStack w={'100%'}>
                       <FormLabel ml={5} w={'100%'}>
-                        Link
+                        Link google meet( optional)
                       </FormLabel>
 
-                      <Input name='link' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} placeholder='link' type='link' value={room.link} />
+                      <Input disabled name='link' onChange={handleOnChangeForm} backgroundColor={'#FFFFFF'} w={'100%'} placeholder='link' type='link' value={room.link} />
                     </VStack>
 
                     <HStack w={'100%'} justifyContent={'space-between'}>

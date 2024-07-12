@@ -40,6 +40,25 @@ const getInterviewByJobId = async (token, jobId) => {
   }
 }
 
+const endInterviewById = async (token, roomId) => {
+  try {
+    let config = { headers: { Authorization: `Bearer ${token}` } }
+    const res = await axios.get(`${API_URL}/interview/end-interview/${roomId}`, config)
+    if (res.data.status === '200 OK') {
+      return res.data
+    } else {
+      throw new Error(res.data.message)
+    }
+  } catch (error) {
+    const axiosError = error
+    if (axiosError && axiosError.response && axiosError.response.status === 403) {
+      throw new Error('no_permistion')
+    } else {
+      throw error
+    }
+  }
+}
+
 const getAllRooms = async (token) => {
   try {
     let config = { headers: { Authorization: `Bearer ${token}` } }
@@ -116,6 +135,20 @@ const interviewerAssign = async (token, form) => {
     }
   }
 }
+const deleteInterviewerAssign = async (token, email, roomID) => {
+  try {
+    let config = { headers: { Authorization: `Bearer ${token}` } }
+    const res = await axios.delete(`${API_URL}/interview/interviewerAssign/${roomID}/${email}`, config)
+    return res.data
+  } catch (error) {
+    const axiosError = error
+    if (axiosError && axiosError.response && axiosError.response.status === 403) {
+      throw new Error('no_permistion')
+    } else {
+      throw error
+    }
+  }
+}
 
 const candidateAssign = async (token, form) => {
   try {
@@ -173,4 +206,6 @@ export const interviewService = {
   candidateAssign,
   getInterviewByJobId,
   getCandidates,
+  deleteInterviewerAssign,
+  endInterviewById,
 }

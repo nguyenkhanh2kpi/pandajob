@@ -18,6 +18,7 @@ import { JobItemInList } from './JobItemInList'
 import { LoadingComponent } from '../../Components-admin/LoadingComponent'
 
 export const NJobPage = () => {
+  const params = useParams()
   const dispatch = useDispatch()
   const jobList = useSelector((store) => store.job.data)
   useEffect(() => {
@@ -49,11 +50,19 @@ export const NJobPage = () => {
       })
   }, [])
 
+  // param tim
+  const [search, setSearch] = useState({
+    keyword: params.keyword || '',
+    location: params.location || 'all',
+    experience: params.experience || 'all',
+    salary: params.salary || 'all',
+  })
+
   return (
     <Box bgColor={'#f0f4f5'} pb={20} fontFamily={'Roboto'} alignItems={'center'} w={'100%'}>
       <VStack>
         {jobList.length > 0 ? (
-          <JobGrid displayItems={jobList} provinces={provinces} industries={industries} />
+          <JobGrid searchN={search} displayItems={jobList} provinces={provinces} industries={industries} />
         ) : (
           <HStack minH={800} w='100%' justifyContent='center' alignItems='center'>
             <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
@@ -64,15 +73,15 @@ export const NJobPage = () => {
   )
 }
 
-const JobGrid = ({ displayItems, provinces, industries }) => {
+const JobGrid = ({ displayItems, provinces, industries, searchN }) => {
   const accessToken = JSON.parse(localStorage.getItem('data')) !== null ? JSON.parse(localStorage.getItem('data')).access_token : 'abc'
   const navigate = useNavigate()
 
   const [filteredJobs, setFilteredJobs] = useState(displayItems)
-  const [search, setSearch] = useState('')
-  const [province, setProvince] = useState(null)
-  const [experience, setExperience] = useState('all')
-  const [salary, setSalary] = useState('all')
+  const [search, setSearch] = useState(searchN.keyword)
+  const [province, setProvince] = useState(searchN.location !== 'all' ? searchN.location : null)
+  const [experience, setExperience] = useState(searchN.experience ? searchN.experience : 'all')
+  const [salary, setSalary] = useState(searchN.salary ? searchN.experience : 'all')
   const [industry, setIndustry] = useState(null)
 
   const handleSearch = () => {
@@ -115,6 +124,10 @@ const JobGrid = ({ displayItems, provinces, industries }) => {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [currentPage])
+
+  useEffect(() => {
+    handleSearch()
+  }, [searchN])
 
   return (
     <>

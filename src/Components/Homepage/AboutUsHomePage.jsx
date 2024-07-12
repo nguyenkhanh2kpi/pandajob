@@ -18,15 +18,15 @@ const AboutUsHomePage = () => {
 
         <Flex alignItems='center' justifyContent='space-between'>
           <Box maxW='50%'>
-            <Text fontStyle={'italic'} fontWeight={'bold'} mb={4}>
+            <Text lineHeight={2} fontStyle={'italic'} fontWeight={'bold'} mb={4}>
               Chào mừng bạn đến với Panda Job! Chúng tôi cam kết cung cấp các dịch vụ tuyển dụng chất lượng cao. Với sự tận tâm và chuyên nghiệp, chúng tôi mang đến cho bạn cơ hội và giải pháp tối ưu cho sự nghiệp của bạn.
             </Text>
-            <Text fontStyle={'italic'} fontWeight={'bold'}>
+            <Text lineHeight={2} fontStyle={'italic'} fontWeight={'bold'}>
               Tại Panda Job, sứ mệnh của chúng tôi là kết nối những người có tài năng với những cơ hội nghề nghiệp phù hợp nhất. Chúng tôi tin rằng mỗi ứng viên đều có những kỹ năng và phẩm chất độc đáo, và nhiệm vụ của chúng tôi là tìm ra những cơ hội tuyệt vời để họ phát huy tiềm năng của mình.
               Chúng tôi không chỉ tập trung vào việc lấp đầy các vị trí tuyển dụng, mà còn quan tâm đến việc xây dựng các mối quan hệ bền vững giữa các ứng viên và nhà tuyển dụng.
             </Text>
           </Box>
-          <Image src='https://firebasestorage.googleapis.com/v0/b/upload2-23381.appspot.com/o/1718986952142__87202c02-27de-490e-bce5-7db44c5b5946.jpg?alt=media' alt='About Us' borderRadius='md' maxW='50%' boxShadow='lg' />
+          <Image src='https://imageio.forbes.com/specials-images/imageserve/6241e0d6a9cfb1481d6edf2e/Ghost-jobs-permeate-the-job-market-/960x0.jpg?format=jpg&width=960' alt='About Us' borderRadius='md' maxW='50%' boxShadow='lg' />
         </Flex>
       </Box>
     </VStack>

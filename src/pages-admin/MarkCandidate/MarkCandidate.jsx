@@ -33,6 +33,7 @@ import {
   Flex,
   MenuButton,
   Badge,
+  useToast,
 } from '@chakra-ui/react'
 import { MarkItem } from './MarkItem'
 import { interviewDetailService } from '../../Service/interviewDetail.service'
@@ -41,6 +42,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 
 export const MarkCandidate = () => {
+  const toast = useToast()
   const [room, setRoom] = useState()
   const params = useParams()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
@@ -64,6 +66,20 @@ export const MarkCandidate = () => {
       })
     }
   }, [load, selected])
+
+  const handleEndInterview = (roomId) => {
+    interviewService
+      .endInterviewById(accessToken, roomId)
+      .then((response) => {
+        toast({
+          title: response.message,
+          status: 'info',
+          duration: 3000,
+          isClosable: true,
+        })
+      })
+      .catch((er) => console.log(er))
+  }
 
   if (room === undefined) {
     return (
@@ -89,7 +105,7 @@ export const MarkCandidate = () => {
             </BreadcrumbItem>
           </Breadcrumb>
           <VStack spacing={3} ml={30} mr={30}>
-            <Button>Kết thúc phỏng vấn</Button>
+            <Button onClick={() => handleEndInterview(room.id)}>Kết thúc phỏng vấn</Button>
             <SimpleGrid w={'100%'} columns={{ base: 1, sm: 2, md: 3 }} spacing='10px'>
               {room.listCandidate.map((candidate) => (
                 <Box key={candidate.itemId} bgColor={'white'} borderRadius={20} boxShadow={'md'} p={1}>
@@ -111,6 +127,8 @@ export const MarkCandidate = () => {
                   </Flex>
                   <VStack w={'100%'}>
                     <Button
+                      color={'green'}
+                      bgColor={'white'}
                       onClick={() => {
                         setIdSelected(candidate.itemId)
                         setClockBox(true)
