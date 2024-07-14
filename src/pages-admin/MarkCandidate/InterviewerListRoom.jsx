@@ -1,4 +1,36 @@
-import { Avatar, AvatarGroup, Badge, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Card, CardBody, CardFooter, Flex, Grid, GridItem, HStack, Heading, Icon, Image, Link, List, ListIcon, ListItem, SimpleGrid, Skeleton, Stack, Tag, Text, VStack, Wrap, WrapItem } from '@chakra-ui/react'
+import {
+  Avatar,
+  AvatarGroup,
+  Badge,
+  Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  Divider,
+  Flex,
+  Grid,
+  GridItem,
+  HStack,
+  Heading,
+  Icon,
+  Image,
+  Link,
+  List,
+  ListIcon,
+  ListItem,
+  SimpleGrid,
+  Skeleton,
+  Stack,
+  Tag,
+  Text,
+  VStack,
+  Wrap,
+  WrapItem,
+} from '@chakra-ui/react'
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
@@ -7,6 +39,7 @@ import { useNavigate } from 'react-router-dom'
 import { interviewService } from '../../Service/interview.service'
 import { AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { ChevronRightIcon } from '@chakra-ui/icons'
+import { format } from 'date-fns'
 
 function formatDateTime(isoString) {
   const date = new Date(isoString)
@@ -150,32 +183,76 @@ export default function InterviewerListRoom() {
 
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10}>
               {disPlayListRooms.map((room) => (
-                <Box bgColor={'white'} borderRadius={20} boxShadow={'md'} p={10} key={room.id} direction={{ base: 'column', sm: 'row' }} overflow='hidden' variant='outline'>
-                  <Stack>
-                    <Text m={0} p={0} fontWeight={'bold'}>
-                      Tên phòng :{room.roomName}
-                    </Text>
-                    <Text fontSize={'xs'} fontStyle={'italic'} m={0} p={0}>
-                      Tên công việc: {room.jobName}
-                    </Text>
-                    <Text fontStyle={'italic'} m={0} p={0}>
-                      Trạng thái: <Tag colorScheme={getStatusColor(room.status)}>{room.status}</Tag>
-                    </Text>
-                    <Text fontStyle={'italic'} m={0} p={0}>
-                      <Badge colorScheme='purple'> {formatDateTime(room.startDate)}</Badge>
-                    </Text>
-                    <Text fontStyle={'italic'} m={0} p={0}>
-                      Số ứng viên: {room.listCandidate.length}
-                    </Text>
+                // <Box bgColor={'white'} borderRadius={20} boxShadow={'md'} p={5} key={room.id} direction={{ base: 'column', sm: 'row' }} overflow='hidden' variant='outline'>
+                //   <VStack justifyContent={'space-between'}>
+                //     <Text m={0} p={0} fontWeight={'bold'}>
+                //       Tên phòng :{room.roomName}({room.listCandidate.length} Ứng viên)
+                //     </Text>
+                //     <Text fontStyle={'italic'} m={0} p={0}>
+                //       Tên công việc: {room.jobName}
+                //     </Text>
 
-                    <Button
-                      onClick={() => {
-                        navigate(`/mark-candidate/${room.id}`)
-                      }}
-                      w={'100%'}>
-                      Đi đến phòng
-                    </Button>
-                  </Stack>
+                //     <Text fontStyle={'italic'} m={0} p={0}>
+                //       <Tag colorScheme={getStatusColor(room.status)}>{room.status}</Tag>
+                //       <Tag ml={2} colorScheme='purple'>
+                //         {' '}
+                //         {formatDateTime(room.startDate)}
+                //       </Tag>
+                //     </Text>
+
+                //     <Button
+                //       onClick={() => {
+                //         navigate(`/mark-candidate/${room.id}`)
+                //       }}
+                //       w={'100%'}>
+                //       Đi đến phòng
+                //     </Button>
+                //   </VStack>
+                // </Box>
+
+                <Box bgColor={'white'} borderRadius={20} boxShadow={'md'} p={5} key={room.id} direction={{ base: 'column', sm: 'row' }} overflow='hidden' variant='outline'>
+                  <VStack h={'100%'} justifyContent={'space-between'} w={'100%'}>
+                    <HStack w={'100%'}>
+                      <Box w={'20%'}>
+                        <VStack spacing={0}>
+                          <Text color={'#478CCF'} fontWeight={'bold'} m={0} p={0}>
+                            {format(room.startDate, 'HH:mm')}
+                          </Text>
+                          <Text color={'#36C2CE'} fontStyle={'italic'} m={0} p={0}>
+                            {format(room.startDate, 'dd/MM/yyyy')}
+                          </Text>
+                        </VStack>
+                      </Box>
+
+                      <Box pl={2} borderLeftWidth={2} w={'80%'}>
+                        <VStack w={'100%'} align={'flex-start'} spacing={0}>
+                          <Text color={'#478CCF'} fontWeight={'bold'} m={0} p={0}>
+                            {room.roomName}({room.listCandidate.length} Ứng viên)
+                            <Tag colorScheme={getStatusColor(room.status)}>{room.status}</Tag>
+                          </Text>
+                          <Text m={0} p={0}>
+                            Tên công việc: {room.jobName}
+                          </Text>
+                        </VStack>
+                      </Box>
+                    </HStack>
+                    <HStack w={'100%'} justifyContent={'space-between'}>
+                      <AvatarGroup size='md' max={2}>
+                        {room.listCandidate.map((can) => (
+                          <Avatar name={can.name} src={can.avatar} />
+                        ))}
+                      </AvatarGroup>
+                      <Button
+                        size={'sm'}
+                        borderRadius={20}
+                        onClick={() => {
+                          navigate(`/mark-candidate/${room.id}`)
+                        }}
+                        w={'50%'}>
+                        Đi đến phòng
+                      </Button>
+                    </HStack>
+                  </VStack>
                 </Box>
               ))}
             </SimpleGrid>

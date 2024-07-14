@@ -53,10 +53,10 @@ const Process = () => {
           </Button>
         </HStack>
 
-        <SimpleGrid w={'80%'} ml={30} mr={30} columns={{ base: 1, md: 2 }} spacing={10}>
+        <SimpleGrid w={'80%'} ml={30} mr={30} columns={{ base: 1, md: 2 }} spacing={5}>
           {jobData.map((job) => {
             return job.status === true && job.user_id === userId ? (
-              <Box w={'100%'} bgColor={'white'} borderRadius={20} p={30} boxShadow={'md'}>
+              <Box w={'100%'} bgColor={'white'} borderRadius={20} p={'15px'} boxShadow={'md'}>
                 <HStack w={'100%'} justifyContent={'space-between'}>
                   <Text m={0} p={0} onClick={() => navigate(`/process/item/${job.id}`)} fontWeight='bold'>
                     <Link>JOB: {job.name}</Link>

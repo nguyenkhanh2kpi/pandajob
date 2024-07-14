@@ -128,7 +128,7 @@ export const Question = () => {
 
   // panigate
   const [currentPage, setCurrentPage] = useState(0)
-  const itemsPerPage = 7
+  const itemsPerPage = 20
   const pageCount = Math.ceil(filteredQuestions.length / itemsPerPage)
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected)
@@ -151,7 +151,7 @@ export const Question = () => {
             </BreadcrumbItem>
           </Breadcrumb>
           <VStack w={'100%'} align={'flex-start'} mb={10} pl={30} pr={30} spacing={3}>
-            <Box mx={'100px'} w={'80%'} bgColor={'white'} boxShadow={'md'} borderRadius={20} p={30}>
+            <Box mx={'100px'} w={'90%'} bgColor={'white'} boxShadow={'md'} borderRadius={20} p={30}>
               <VStack w={'100%'} alignItems={'flex-start'}>
                 <HStack w={'100%'} spacing={5}>
                   <Select

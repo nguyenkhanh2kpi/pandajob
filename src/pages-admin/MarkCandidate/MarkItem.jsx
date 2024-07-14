@@ -53,24 +53,34 @@ export const MarkItem = ({ roomId, loadDetail, isClick, load, setLoad }) => {
     softSkillQuestion: [],
   })
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+
   const handleMark = async () => {
-    let data = {
-      interviewDetailId: form.interviewDetailId,
-      comment: form.comment,
-      averageMark: avg,
-      englishQuestion: JSON.stringify(form.englishQuestion),
-      technicalQuestion: JSON.stringify(form.technicalQuestion),
-      softSkillQuestion: JSON.stringify(form.softSkillQuestion),
+    if (isNaN(form.averageMark) || form.averageMark < 0 || form.averageMark > 10) {
+      toast({
+        title: 'Yêu cầu chấm điểm',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      })
+    } else {
+      let data = {
+        interviewDetailId: form.interviewDetailId,
+        comment: form.comment,
+        averageMark: form.averageMark,
+        englishQuestion: JSON.stringify(form.englishQuestion),
+        technicalQuestion: JSON.stringify(form.technicalQuestion),
+        softSkillQuestion: JSON.stringify(form.softSkillQuestion),
+      }
+      await interviewDetailService
+        .markCandidate(accessToken, data)
+        .then((res) =>
+          toast({
+            description: res.message,
+            status: 'info',
+          })
+        )
+        .catch((er) => console.log(er.message))
     }
-    await interviewDetailService
-      .markCandidate(accessToken, data)
-      .then((res) =>
-        toast({
-          description: res.message,
-          status: 'info',
-        })
-      )
-      .catch((er) => console.log(er.message))
   }
 
   useEffect(() => {
@@ -89,7 +99,7 @@ export const MarkItem = ({ roomId, loadDetail, isClick, load, setLoad }) => {
       totalQuestions += form.technicalQuestion.length
     }
     const average = totalMarks / totalQuestions
-    setAvg(average)
+    // setAvg(average)
   }, [form])
 
   useEffect(() => {
@@ -212,23 +222,56 @@ export const MarkItem = ({ roomId, loadDetail, isClick, load, setLoad }) => {
     )
   else
     return (
-      <HStack w={'100%'} align={'flex-start'}>
-        <Box bgColor={'white'} borderRadius={20} boxShadow={'md'} p={10} w={'70%'}>
+      <VStack w={'100%'} align={'flex-start'}>
+        <Box bgColor={'white'} borderRadius={20} boxShadow={'md'} p={10} w={'100%'}>
           <VStack alignItems={'flex-start'} w={'100%'}>
             <HStack w={'100%'} justifyContent={'space-between'}>
-              <HStack w={'100%'} mb={3} alignItems='center' spacing={4}>
-                <Icon as={AiOutlineUser} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-                <Text m={0} p={0} fontWeight={'bold'}>
-                  {loadDetail.candidate.name}-{loadDetail.candidate.email}
-                </Text>
+              <HStack w={'80%'} mb={3} alignItems='center' spacing={4}>
+                <Avatar name={loadDetail.candidate.name} src={loadDetail.candidate.avatar} />
+                <VStack align={'flex-start'}>
+                  <Text m={0} p={0} fontWeight={'bold'}>
+                    {loadDetail.candidate.name}-{loadDetail.candidate.email}
+                  </Text>
+                  <Link href={loadDetail.cv.url} isExternal>
+                    Nộp cv ngày {loadDetail.cv.dateApply}
+                    <ExternalLinkIcon mx='2px' />
+                  </Link>
+                </VStack>
               </HStack>
               <Tag colorScheme='yellow'>{loadDetail.candidate.status}</Tag>
             </HStack>
-
-            <Link href={loadDetail.cv.url} isExternal>
-              Nộp cv ngày {loadDetail.cv.dateApply}
-              <ExternalLinkIcon mx='2px' />
-            </Link>
+            <Text fontWeight={'bold'} m={0} p={0}>
+              Nhãn
+            </Text>
+            <Flex gap={3} wrap='wrap'>
+              {labels ? (
+                labels.map((label) => (
+                  <Button onClick={() => handleLabelClick(label.id)} key={label.id} colorScheme='green' variant={userLabels[label.id] ? 'solid' : 'outline'} size={'xs'} leftIcon={<IoPricetagsOutline />}>
+                    {label.name}
+                  </Button>
+                ))
+              ) : (
+                <></>
+              )}
+            </Flex>
+            <Text fontWeight={'bold'} m={0} p={0}>
+              Trạng thái CV
+            </Text>
+            <Flex gap={3} wrap={'wrap'}>
+              {Object.keys(State).map((key) => (
+                <>
+                  {' '}
+                  {loadDetail.cv.state === key ? (
+                    <Button display={loadDetail.cv.state === key} variant={loadDetail.cv.state === key ? 'solid' : 'outline'} size={'xs'} colorScheme='green' key={key}>
+                      {State[key].replace(/_/g, ' ')}
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              ))}
+            </Flex>
+            {/* <iframe src={loadDetail.cv.url} width='100%' height='500px' style={{ border: 'none' }} title='Candidate CV' /> */}
 
             <Accordion w={'100%'} defaultIndex={[0]} allowMultiple>
               <AccordionItem>
@@ -243,7 +286,7 @@ export const MarkItem = ({ roomId, loadDetail, isClick, load, setLoad }) => {
                 <AccordionPanel pb={4}>
                   <HStack w={'100%'}>
                     <FormLabel w={'20%'}>Điểm trung bình</FormLabel>
-                    <Input name='averageMark' onChange={handleOnChangeForm} value={avg} disabled={true} type='number' w={'100%'} />
+                    <Input min={0} max={10} name='averageMark' onChange={handleOnChangeForm} value={form.averageMark} type='number' w={'100%'} step={1} />
                   </HStack>
 
                   <QuestionMarkItem field='Language' question={form.englishQuestion} onAddClick={handleAddQuestion} onDeleteClick={handleDeleteQuestion} />
@@ -265,34 +308,7 @@ export const MarkItem = ({ roomId, loadDetail, isClick, load, setLoad }) => {
             </VStack>
           </VStack>
         </Box>
-        <Box bgColor={'white'} borderRadius={20} w={'30%'} p={10}>
-          <Text fontWeight={'bold'}>Đánh nhãn ứng viên</Text>
-          <Text fontWeight={'bold'} m={0} p={0}>
-            Nhãn
-          </Text>
-          <Flex gap={3} wrap='wrap'>
-            {labels ? (
-              labels.map((label) => (
-                <Button onClick={() => handleLabelClick(label.id)} key={label.id} colorScheme='green' variant={userLabels[label.id] ? 'solid' : 'outline'} size={'xs'} leftIcon={<IoPricetagsOutline />}>
-                  {label.name}
-                </Button>
-              ))
-            ) : (
-              <></>
-            )}
-          </Flex>
-          <Text fontWeight={'bold'} m={0} p={0}>
-            Trạng thái CV
-          </Text>
-          <Flex gap={3} wrap={'wrap'}>
-            {Object.keys(State).map((key) => (
-              <Button onClick={() => handleOnChangeStatus(loadDetail.cv.id, key)} variant={loadDetail.cv.state === key ? 'solid' : 'outline'} size={'xs'} colorScheme='green' key={key}>
-                {State[key].replace(/_/g, ' ')}
-              </Button>
-            ))}
-          </Flex>
-        </Box>
-      </HStack>
+      </VStack>
     )
 }
 

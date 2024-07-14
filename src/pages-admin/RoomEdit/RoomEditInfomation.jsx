@@ -190,7 +190,7 @@ export const RoomEditInfomation = () => {
             </BreadcrumbItem>
           </Breadcrumb>
           <VStack spacing={10} pl={30} pr={30} align={'flex-start'}>
-            <Box w={'100%'} p={'30px'} borderRadius={20} boxShadow={'md'} bgColor={'white'}>
+            {/* <Box w={'100%'} p={'30px'} borderRadius={20} boxShadow={'md'} bgColor={'white'}>
               <List spacing={3}>
                 <ListItem>
                   <ListIcon as={MdCheckCircle} color='green.500' />
@@ -209,7 +209,7 @@ export const RoomEditInfomation = () => {
                   Thời gian: {room.startDate} to {room.endDate}
                 </ListItem>
               </List>
-            </Box>
+            </Box> */}
             <HStack pb={50} spacing={10} w={'100%'} align={'flex-start'}>
               <Box w={'50%'} p={'30px'} borderRadius={20} boxShadow={'md'} bgColor={'white'}>
                 <HStack alignItems='center' spacing={4}>

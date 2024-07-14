@@ -34,12 +34,13 @@ import {
   MenuButton,
   Badge,
   useToast,
+  Tag,
 } from '@chakra-ui/react'
 import { MarkItem } from './MarkItem'
 import { interviewDetailService } from '../../Service/interviewDetail.service'
 import { AiOutlineEdit, AiOutlineUsergroupAdd } from 'react-icons/ai'
 import { BsThreeDotsVertical } from 'react-icons/bs'
-import { ChevronRightIcon } from '@chakra-ui/icons'
+import { ArrowForwardIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
 export const MarkCandidate = () => {
   const toast = useToast()
@@ -104,43 +105,51 @@ export const MarkCandidate = () => {
               <BreadcrumbLink href='#'>Chi tiết</BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-          <VStack spacing={3} ml={30} mr={30}>
-            <Button onClick={() => handleEndInterview(room.id)}>Kết thúc phỏng vấn</Button>
-            <SimpleGrid w={'100%'} columns={{ base: 1, sm: 2, md: 3 }} spacing='10px'>
-              {room.listCandidate.map((candidate) => (
-                <Box key={candidate.itemId} bgColor={'white'} borderRadius={20} boxShadow={'md'} p={1}>
-                  <Flex spacing='4'>
-                    <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                      <Avatar name={candidate.name} src={candidate.avatar} />
-                      <Box>
-                        <Text m={0} p={0} fontWeight={'bold'} isTruncated maxW='275px'>
-                          {candidate.name}
-                        </Text>
-                        <Text m={0} p={0} isTruncated maxW='230px'>
-                          {candidate.email}
-                        </Text>
-                        <Badge m={0} colorScheme={candidate.status === 'Đã chấm' ? 'green' : 'purple'}>
-                          {candidate.status}
-                        </Badge>
-                      </Box>
+          <VStack spacing={0} ml={30} mr={30}>
+            <HStack spacing={0} align={'flex-start'} w={'100%'}>
+              <VStack mr={5} align={'flex-start'} w={'30%'} spacing={1}>
+                <Text size={'md'} fontWeight={'bold'} m={0} p={0}>
+                  Ứng viên
+                </Text>
+                {room.listCandidate.map((candidate) => (
+                  <Box w={'100%'} key={candidate} bgColor={'white'} borderRadius={20} boxShadow={'md'} p={1}>
+                    <Flex spacing='4'>
+                      <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                        <Avatar name={candidate.name} src={candidate.avatar} />
+                        <Box>
+                          <Text m={0} p={0} fontWeight={'bold'} isTruncated maxW='275px'>
+                            {candidate.name}
+                          </Text>
+                          <Text m={0} p={0} isTruncated maxW='230px'>
+                            {candidate.email}
+                          </Text>
+                          <Flex>
+                            <Tag m={0} colorScheme={candidate.status === 'Đã chấm' ? 'green' : 'purple'}>
+                              {candidate.status}
+                            </Tag>
+                          </Flex>
+                        </Box>
+                      </Flex>
                     </Flex>
-                  </Flex>
-                  <VStack w={'100%'}>
-                    <Button
-                      color={'green'}
-                      bgColor={'white'}
-                      onClick={() => {
-                        setIdSelected(candidate.itemId)
-                        setClockBox(true)
-                      }}>
-                      Phỏng vấn
-                    </Button>
-                  </VStack>
-                </Box>
-              ))}
-            </SimpleGrid>
-            <HStack align={'flex-start'} w={'100%'}>
-              {interviewDetail ? <MarkItem isClick={clickBox} roomId={selected} loadDetail={interviewDetail} load={load} setLoad={setLoad} /> : <></>}
+                    <VStack w={'100%'}>
+                      <Button
+                        onClick={() => {
+                          setIdSelected(candidate.itemId)
+                          setClockBox(true)
+                        }}>
+                        <ArrowForwardIcon />
+                      </Button>
+                    </VStack>
+                  </Box>
+                ))}
+                <Button onClick={() => handleEndInterview(room.id)}>Kết thúc phỏng vấn</Button>
+              </VStack>
+              <VStack spacing={1} align={'flex-start'} w={'70%'}>
+                <Text size={'md'} fontWeight={'bold'} m={0} p={0}>
+                  Chi tiết
+                </Text>
+                {interviewDetail ? <MarkItem isClick={clickBox} roomId={selected} loadDetail={interviewDetail} load={load} setLoad={setLoad} /> : <></>}
+              </VStack>
             </HStack>
           </VStack>
         </Box>

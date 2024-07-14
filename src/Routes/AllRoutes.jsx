@@ -39,6 +39,7 @@ import { ContactUs } from '../Components/AboutUs/ContactUs'
 import { PrivacyPolicy } from '../Components/AboutUs/PrivacyPolicy'
 import { TermsOfService } from '../Components/AboutUs/TermsOfService'
 import { UserManual } from '../Components/UserManual/UserManual'
+import { MainErrorPage } from '../Components/Error/MainErrorPage'
 
 const AllRoutes = () => {
   return (
@@ -84,6 +85,7 @@ const AllRoutes = () => {
       <Route path='/privacy-policy' element={<PrivacyPolicy />} />
       <Route path='/term-service' element={<TermsOfService />} />
       <Route path='/user-manual' element={<UserManual />} />
+      <Route path='*' element={<MainErrorPage />} />
     </Routes>
   )
 }

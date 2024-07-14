@@ -20,7 +20,7 @@ import { cometChatService } from './Service/cometchat.service'
 import ChatWindow from './pages-admin/MessageAdmin/ChatWindow'
 import SockJS from 'sockjs-client'
 import { Client } from '@stomp/stompjs'
-import { Box } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 
 function App() {
   const data = JSON.parse(localStorage.getItem('data'))
@@ -37,10 +37,14 @@ function App() {
   }, [])
   // localStorage.removeItem("data");
   const handleAddNewUser = (uid, username, avatar, email, phone) => {
-    cometChatService
-      .createNewUser(uid, username, avatar, email, phone)
-      .then((reponse) => console.log('userBNN', reponse))
-      .catch((er) => console.log(er))
+    try {
+      cometChatService
+        .createNewUser(uid, username, avatar, email, phone)
+        .then((reponse) => console.log('userBNN', reponse))
+        .catch((er) => console.log(er))
+    } catch (error) {
+      console.error('Error creating new user:', error)
+    }
   }
 
   useEffect(() => {
@@ -129,7 +133,7 @@ function App() {
                 <Box>
                   <AllRoutesAd role={data.data.role} />
                 </Box>
-                {/* <ConditionalFooterAdmin /> */}
+                <ConditionalFooterAdmin />
               </Box>
             </Box>
           </Provider>

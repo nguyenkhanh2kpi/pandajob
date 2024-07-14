@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Heading, VStack, HStack, Grid, Text, Link, Spinner, Tag } from '@chakra-ui/react'
+import { Box, Heading, VStack, HStack, Grid, Text, Link, Spinner, Tag, Button, useToast } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { cvService } from '../../Service/cv.service'
 import { JobItemInAppliedJob } from './JobItemInList'
 import { calendarService } from '../../Service/calendar.service'
+import proposalService from '../../Service/proposal.service'
 
 export const AppliedJobs = () => {
+  const toast = useToast()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
   const [appliedJobs, setAppliedJobs] = useState(null)
 
@@ -26,6 +28,29 @@ export const AppliedJobs = () => {
       })
       .catch((er) => console.log(er))
   }, [])
+
+  //
+  const [proposal, setProposal] = useState(null)
+  useEffect(() => {
+    proposalService
+      .getMyProposals(accessToken)
+      .then((response) => setProposal(response.data.data))
+      .catch((er) => console.log(er))
+  })
+
+  const handleAcceptProposal = (proposalId, state) => {
+    proposalService
+      .updateProposalState(proposalId, state, accessToken)
+      .then((response) => {
+        toast({
+          title: response.data.message,
+          status: 'info',
+          duration: 3000,
+          isClosable: true,
+        })
+      })
+      .catch((er) => console.log(er))
+  }
 
   if (!appliedJobs) {
     return (
@@ -49,7 +74,37 @@ export const AppliedJobs = () => {
                     <JobItemInAppliedJob jobId={job.jobPostingId} appliedHistory={job} accessToken={accessToken} />
                   </Box>
                 ))}
+                {appliedJobs.length > 0 ? (
+                  <></>
+                ) : (
+                  <Box>
+                    <Text>Bạn hiện chưa ứng tuyển công việc nào</Text>
+                  </Box>
+                )}
               </VStack>
+              <Heading mt={5} size={'md'} fontFamily={'Roboto'}>
+                Đề nghị công việc
+              </Heading>
+              {proposal.map((p) => (
+                <Box borderRadius={10} w={'100%'} borderWidth={1} p={5}>
+                  <HStack w={'100%'} justifyContent={'space-between'}>
+                    <VStack align={'flex-start'}>
+                      <Text>Bạn có một yêu cầu công việc </Text>
+                      <Text>Job: {p.jobName} </Text>
+                      <Text>Lời nhắn: {p.message}</Text>
+                      <Text>Ứng viên trả lời: {p.status}</Text>
+                    </VStack>
+                    <HStack>
+                      <Button onClick={() => handleAcceptProposal(p.id, 'ACCEPT')} size='sm' colorScheme='blue'>
+                        Nhận việc{' '}
+                      </Button>
+                      <Button onClick={() => handleAcceptProposal(p.id, 'REJECT')} size='sm'>
+                        Từ chối
+                      </Button>
+                    </HStack>
+                  </HStack>
+                </Box>
+              ))}
             </Box>
 
             {/* Công việc có thể quan tâm */}

@@ -17,20 +17,20 @@ export const Vip = () => {
   }, [])
 
   return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+    <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'}>
       <HStack justifyContent={'space-between'} w={'100%'}>
         <Breadcrumb pt={30}>
           <BreadcrumbItem>
-            <BreadcrumbLink href='#'>Nâng cấp tài khoản</BreadcrumbLink>
+            <BreadcrumbLink fontWeight={'bold'} fontStyle={'italic'} href='#'>
+              Nâng cấp tài khoản
+            </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
       </HStack>
       <HStack pl={30} pr={30} justifyContent={'space-around'} w={'100%'}>
-        <Grid templateColumns='repeat(3, 1fr)' gap={6}>
-          {vipPack.map((item) => (
-            <VipItem item={item} />
-          ))}
-        </Grid>
+        {vipPack.map((item) => (
+          <VipItem item={item} />
+        ))}
       </HStack>
     </Box>
   )
@@ -39,23 +39,21 @@ export const Vip = () => {
 const VipItem = ({ item }) => {
   const navigate = useNavigate()
   return (
-    <Card>
-      <CardBody>
-        <Text fontWeight='bold'> {item.name}</Text>
-        <Text fontSize={30} fontWeight='bold'>
-          {item.price}/tuần
-        </Text>
-        <Divider color={'blue'} />
-        <List spacing={3}>
-          <ListItem>
-            <CheckIcon />
-            {item.benefit}
-          </ListItem>
-        </List>
-        <Button color={'white'} onClick={() => navigate(`/vip/cart/${item.id}`)} bgColor={'#2cccc7'} w={'100%'}>
-          Mua
-        </Button>
-      </CardBody>
-    </Card>
+    <Box p={10} bgColor={'white'} borderRadius={20} boxShadow={'md'} w={'100%'}>
+      <Text fontWeight='bold'> {item.name}</Text>
+      <Text fontSize={30} fontWeight='bold'>
+        {item.price}/tuần
+      </Text>
+      <Divider color={'blue'} />
+      <List spacing={3}>
+        <ListItem>
+          <CheckIcon />
+          {item.benefit}
+        </ListItem>
+      </List>
+      <Button color={'white'} onClick={() => navigate(`/vip/cart/${item.id}`)} bgColor={'#2cccc7'} w={'100%'}>
+        Mua
+      </Button>
+    </Box>
   )
 }

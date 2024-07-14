@@ -102,12 +102,12 @@ export const MyCompany = () => {
                     <TabList fontWeight={'bold'}>
                       <Tab>Thông tin cơ bản</Tab>
                       <Tab>Đội ngủ tuyển dụng</Tab>
-                      <Tab>Lịch sử giao dịch</Tab>
+                      <Tab>Lịch sử mua gói vip</Tab>
                     </TabList>
                     <TabIndicator mt='-1.5px' height='2px' bg='blue.500' borderRadius='1px' />
                     <TabPanels>
                       <TabPanel>
-                        <Box borderWidth={1} borderRadius={10} p={10}>
+                        <Box p={10}>
                           <HStack mt={3}>
                             <FormControl>
                               <FormLabel>Tên công ty</FormLabel>

@@ -95,14 +95,16 @@ export const AdminCalendar = () => {
 
   if (displayCalendar === undefined) {
     return (
-      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'}>
+      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'}>
         <Breadcrumb pt={30}>
           <BreadcrumbItem>
-            <BreadcrumbLink href='#'>Calendar</BreadcrumbLink>
+            <BreadcrumbLink fontWeight={'bold'} fontStyle={'italic'} href='#'>
+              Lịch
+            </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
         <Box spacing={3} ml={30} mr={30}>
-          <Skeleton height='650px'/>
+          <Skeleton height='650px' />
         </Box>
       </Box>
     )

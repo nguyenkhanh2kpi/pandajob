@@ -53,6 +53,8 @@ import { MainManageApply } from '../pages-admin/ManageApply/MainManageApply'
 import { MainUserAccount } from '../pages-admin/Admin-DashBoard/MainUserAccount'
 import { MainAdminContact } from '../pages-admin/Admin-DashBoard/MainAdminContact'
 import { MainBanner } from '../pages-admin/Admin-DashBoard/MainBanner'
+import { MainErrorPage } from '../Components/Error/MainErrorPage'
+import { MainVipPackAll } from '../pages-admin/DashBoard/AdminDashBoard/MainVipPackAll'
 
 const AllRoutesAd = ({ role }) => {
   return (
@@ -153,10 +155,12 @@ const AllRoutesAd = ({ role }) => {
       <Route path='/vip' element={<Vip />} />
       <Route path='/vip/my-bills' element={<MyBills />} />
       <Route path='/vip/cart/:packId' element={<VipCart />} />
+      <Route path='/vip-admin' element={<MainVipPackAll />} />
       <Route path='/loading' element={<LoadingComponent />} />
 
       <Route path='/messages' element={<MessageAdmin />} />
       <Route path='/search-candidate' element={<SearchCandidate />} />
+      <Route path='*' element={<MainErrorPage />} />
     </Routes>
   )
 }

@@ -56,11 +56,13 @@ const RoomList = () => {
   const roomList = useSelector((store) => store.room.data)
   const [displayRooms, setDisplayRooms] = useState(roomList)
 
+  useEffect(() => {}, [displayRooms])
+
   const roomdatas = displayRooms.map((job) => {
     return (
-      <Box w={'100%'} bgColor={'white'} boxShadow={'md'} borderRadius={20} p='20px'>
+      <Box w={'100%'} bgColor={'white'} boxShadow={'md'} borderRadius={20} p='10px'>
         <HStack justifyContent={'space-between'}>
-          <Text noOfLines={1} m={0} p={0} fontWeight={'bold'}>
+          <Text color={'#478CCF'} noOfLines={1} m={0} p={0} fontWeight={'bold'}>
             {job.roomName} - {job.jobName}
           </Text>
         </HStack>
@@ -136,15 +138,6 @@ const RoomList = () => {
           </Flex>
         </VStack>
         <VStack align={'flex-start'} pl={30} pr={30} spacing={3}>
-          {/* <Flex gap={2} fontSize={'sm'}>
-            <Select fontSize={'sm'} bgColor={'white'} placeholder='Tất cả'>
-              <option value='Created'>Created</option>
-              <option value='Processing'>Processing</option>
-              <option value='Ended'>Ended</option>
-            </Select>
-            <Select fontSize={'sm'} bgColor={'white'} placeholder='Công việc'></Select>
-          </Flex> */}
-
           <Box minHeight={1000} overflow='auto' backgroundColor={'#f5f9fa'} w={'100%'}>
             <VStack w={'100%'}>
               {roomdatas}

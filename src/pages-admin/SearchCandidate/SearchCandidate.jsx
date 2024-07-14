@@ -67,7 +67,7 @@ export const SearchCandidate = () => {
       .catch((er) => console.log(er))
   }, [])
   return (
-    <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} overflow='hidden'>
+    <Box fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'} overflow='hidden'>
       <Breadcrumb pt={30}>
         <BreadcrumbItem>
           <BreadcrumbLink href='#'>Tìm kiếm ứng viên</BreadcrumbLink>

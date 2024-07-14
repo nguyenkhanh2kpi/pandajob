@@ -230,9 +230,9 @@ export const CandidateDetailInProces = ({ candidate, load, setLoad }) => {
                     <Checkbox onChange={handleChangeView} defaultChecked={candidate.view} colorScheme='green'>
                       Đã xem
                     </Checkbox>
-                    <Button mt={5} w={'100%'} color={'white'} bgColor={'#2cccc7'}>
+                    {/* <Button mt={5} w={'100%'} color={'white'} bgColor={'#2cccc7'}>
                       Báo cáo
-                    </Button>
+                    </Button> */}
                   </CardBody>
                 </Card>
               </VStack>

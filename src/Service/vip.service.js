@@ -43,44 +43,63 @@ const getPackById = async (token, id) => {
 }
 
 const getMyBill = async (token) => {
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      }
-      const res = await axios.get(`${API_URL}/vip-packs/my-bills`, config)
-      return res.data
-    } catch (error) {
-      const axiosError = error
-      if (axiosError && axiosError.response && axiosError.response.status === 403) {
-        throw new Error('no_permistion')
-      } else {
-        throw error
-      }
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
     }
-  }
-  
-
-const payBill = async (form) => {
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-      const response = await axios.post(`${hostName}/payment/pay`, form, config)
-      return response.data
-    } catch (error) {
+    const res = await axios.get(`${API_URL}/vip-packs/my-bills`, config)
+    return res.data
+  } catch (error) {
+    const axiosError = error
+    if (axiosError && axiosError.response && axiosError.response.status === 403) {
+      throw new Error('no_permistion')
+    } else {
       throw error
     }
   }
+}
 
+const getAllBill = async (token) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    }
+    const res = await axios.get(`${API_URL}/vip-packs/all-bills`, config)
+    return res.data
+  } catch (error) {
+    const axiosError = error
+    if (axiosError && axiosError.response && axiosError.response.status === 403) {
+      throw new Error('no_permistion')
+    } else {
+      throw error
+    }
+  }
+}
+
+const payBill = async (form) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    const response = await axios.post(`${hostName}/payment/pay`, form, config)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
 
 export const vipService = {
   getAllService,
   getPackById,
   payBill,
   getMyBill,
+  getAllBill,
 }

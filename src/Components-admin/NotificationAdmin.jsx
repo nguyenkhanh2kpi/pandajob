@@ -1,35 +1,35 @@
-import React from 'react'
-import { Menu, MenuButton, MenuList, MenuItem, IconButton, Flex, Box, Text, Badge } from '@chakra-ui/react'
-import { BellIcon } from '@chakra-ui/icons'
+import React, { useEffect, useState } from 'react'
+import { Menu, MenuButton, MenuList, MenuItem, IconButton, Flex, Box, Text, Badge, Icon, HStack, Link, Card, Heading } from '@chakra-ui/react'
+import { BellIcon, CheckIcon } from '@chakra-ui/icons'
+import { notifyService } from '../Service/notify.service'
+import { format } from 'date-fns'
 
 export const NotificationAdmin = () => {
   // Sample notifications with a 'read' status
-  const notifications = [
-    { id: 1, message: 'New message received', time: '2 mins ago', read: false },
-    { id: 2, message: 'Server update available', time: '10 mins ago', read: true },
-    { id: 3, message: 'New comment on your post', time: '30 mins ago', read: true },
-    // Repeat for demonstration
-    { id: 4, message: 'New comment on your post', time: '30 mins ago', read: true },
-    { id: 5, message: 'New comment on your post', time: '30 mins ago', read: true },
-    { id: 6, message: 'New comment on your post', time: '30 mins ago', read: true },
-    { id: 7, message: 'New comment on your post', time: '30 mins ago', read: true },
-    { id: 8, message: 'New comment on your post', time: '30 mins ago', read: true },
-    { id: 9, message: 'New comment on your post', time: '30 mins ago', read: true },
-    { id: 10, message: 'New comment on your post', time: '30 mins ago', read: false },
-    { id: 11, message: 'New comment on your post', time: '30 mins ago', read: false },
-    { id: 12, message: 'New comment on your post', time: '30 mins ago', read: false },
-    { id: 13, message: 'New comment on your post', time: '30 mins ago', read: true },
-    { id: 14, message: 'New comment on your post', time: '30 mins ago', read: true },
-    { id: 15, message: 'New comment on your post', time: '30 mins ago', read: true },
-    { id: 16, message: 'New comment on your post', time: '30 mins ago', read: false },
-    { id: 17, message: 'New comment on your post', time: '30 mins ago', read: true },
-    { id: 18, message: 'New comment on your post', time: '30 mins ago', read: false },
-    { id: 19, message: 'New comment on your post', time: '30 mins ago', read: false },
-    { id: 20, message: 'New comment on your post', time: '30 mins ago', read: false },
-  ]
 
-  // Count unread notifications
-  const unreadCount = notifications.filter((notification) => !notification.read).length
+  const [myNotifications, setMynotifications] = useState([])
+  const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+
+  const fetchNotifications = () => {
+    notifyService.getMyNotify(accessToken).then((response) => setMynotifications(response))
+  }
+
+  useEffect(() => {
+    fetchNotifications()
+  }, [accessToken])
+
+  const formatDate = (dateString) => {
+    return format(new Date(dateString), 'yyyy-MM-dd HH:mm')
+  }
+
+  const changeStatus = async (id) => {
+    try {
+      const response = await notifyService.changeStatus(accessToken, id)
+      setMynotifications((prevNotifications) => prevNotifications.map((notification) => (notification.id === id ? { ...notification, status: response.status } : notification)))
+    } catch (error) {
+      console.error('Error updating notification status:', error)
+    }
+  }
 
   return (
     <Menu>
@@ -38,9 +38,9 @@ export const NotificationAdmin = () => {
         icon={
           <Box position='relative'>
             <BellIcon />
-            {unreadCount > 0 && (
+            {1 > 0 && (
               <Badge colorScheme='red' borderRadius='full' boxSize={4} position='absolute' top={-1} right={-1} display='flex' alignItems='center' justifyContent='center' fontSize='0.6em'>
-                {unreadCount}
+                {1}
               </Badge>
             )}
           </Box>
@@ -50,24 +50,35 @@ export const NotificationAdmin = () => {
         _hover={{ backgroundColor: 'white' }}
         borderWidth={0}
       />
-      <MenuList fontFamily={'Roboto'} w='300px'>
+      <MenuList fontFamily={'Roboto'} w='500px'>
         <Text ml={3} fontWeight={'bold'}>
           Thông báo
         </Text>
         <Box maxH='400px' overflowY='auto'>
-          {notifications.length === 0 ? (
+          {myNotifications.length === 0 ? (
             <MenuItem>No new notifications</MenuItem>
           ) : (
-            notifications.map((notification) => (
-              <MenuItem fontFamily={'Roboto'} key={notification.id}>
-                <Flex direction='column'>
-                  <Text m={0} p={0}>
+            myNotifications.map((notification) => (
+              <MenuItem fontFamily='Roboto' key={notification.id}>
+                <Card p={2} key={notification.id} w={'100%'}>
+                  <Heading fontFamily={'Roboto'} size={'sm'}>
+                    {notification.title}
+                    {notification.status === 'UNREAD' ? (
+                      <Icon viewBox='0 0 200 200' color='red.500'>
+                        <path fill='currentColor' d='M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0' />
+                      </Icon>
+                    ) : (
+                      <></>
+                    )}
+                  </Heading>
+                  <Link onClick={() => changeStatus(notification.id)} href={notification.link} isExternal>
                     {notification.message}
-                  </Text>
-                  <Text m={0} p={0} fontSize='sm' color='gray.500'>
-                    {notification.time}
-                  </Text>
-                </Flex>
+                  </Link>
+                  <HStack justifyContent={'space-between'} w={'100%'}>
+                    <Text>{format(new Date(notification.createdAt), 'PPpp')}</Text>
+                    <CheckIcon onClick={() => changeStatus(notification.id)} />
+                  </HStack>
+                </Card>
               </MenuItem>
             ))
           )}
