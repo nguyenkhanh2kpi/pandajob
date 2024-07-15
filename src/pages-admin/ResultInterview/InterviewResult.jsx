@@ -193,83 +193,96 @@ export const InterviewResult = () => {
 
   const result = groupedByCandidateId ? Object.values(groupedByCandidateId) : []
 
-  return (
-    <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} backgroundColor={'#f5f9fa'}>
-      <HStack justifyContent={'space-between'} w={'100%'}>
-        <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
-          <BreadcrumbItem>
-            <BreadcrumbLink href='#'>Bản ghi phỏng vấn</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
-      </HStack>
-      {/* filter */}
-      <VStack mb={5} w={'100%'} pl={30} pr={30} spacing={2}>
-        <HStack justifyContent={'space-between'} m={0} p={0} w={'100%'} align={'flex-start'}>
-          <Flex gap={3} wrap='wrap'>
-            <Button value={0} onClick={() => handleJobClick(0)} size={'sm'} bgColor={filter.job === 0 ? 'black' : 'grey.200'} color={filter.job === 0 ? 'white' : 'black'} leftIcon={<MdOutlineWorkOutline />}>
-              Tất cả
-            </Button>
-            {jobs.map((job) => (
-              <Button value={job.id} onClick={() => handleJobClick(job.id)} size={'sm'} bgColor={filter.job === job.id ? 'black' : 'grey.200'} color={filter.job === job.id ? 'white' : 'black'} leftIcon={<MdOutlineWorkOutline />}>
-                {job.name}
+  if (filteredDetail === null) {
+    return (
+      <>
+        <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
+          <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+        </HStack>
+      </>
+    )
+  } else
+    return (
+      <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} backgroundColor={'#f5f9fa'}>
+        <HStack justifyContent={'space-between'} w={'100%'}>
+          <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
+            <BreadcrumbItem>
+              <BreadcrumbLink href='#'>Bản ghi phỏng vấn</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </HStack>
+        {/* filter */}
+        <VStack mb={5} w={'100%'} pl={30} pr={30} spacing={2}>
+          <HStack justifyContent={'space-between'} m={0} p={0} w={'100%'} align={'flex-start'}>
+            <Flex gap={3} wrap='wrap'>
+              <Button value={0} onClick={() => handleJobClick(0)} size={'sm'} bgColor={filter.job === 0 ? 'black' : 'grey.200'} color={filter.job === 0 ? 'white' : 'black'} leftIcon={<MdOutlineWorkOutline />}>
+                Tất cả
               </Button>
-            ))}
-          </Flex>
-        </HStack>
-        <HStack justifyContent={'space-between'} m={0} p={0} w={'100%'} align={'flex-start'}>
-          <Flex gap={3} wrap='wrap'>
-            <Button onClick={() => handleLabelClick(0)} size={'sm'} bgColor={filter.label === 0 ? 'black' : 'grey.200'} color={filter.label === 0 ? 'white' : 'black'} leftIcon={<IoPricetagsOutline />}>
-              Tất cả
-            </Button>
-            {labels?.map((label) => (
-              <Button onClick={() => handleLabelClick(label.id)} size={'sm'} bgColor={filter.label === label.id ? 'black' : 'grey.200'} color={filter.label === label.id ? 'white' : 'black'} leftIcon={<IoPricetagsOutline />}>
-                {label.name}
-              </Button>
-            ))}
-          </Flex>
-        </HStack>
-        <HStack justifyContent={'space-between'} m={0} p={0} w={'100%'} align={'flex-start'}>
-          <Flex gap={2}>
-            <Button onClick={() => handleFilterState('all')} bgColor={filter.state === 'all' ? 'black' : 'grey.200'} color={filter.state === 'all' ? 'white' : 'black'} size={'sm'}>
-              Tất cả
-            </Button>
-            <Button onClick={() => handleFilterState('SCHEDULE_INTERVIEW')} bgColor={filter.state === 'SCHEDULE_INTERVIEW' ? 'black' : 'grey.200'} color={filter.state === 'SCHEDULE_INTERVIEW' ? 'white' : 'black'} size={'sm'}>
-              Lên lịch phỏng vấn
-            </Button>
-          </Flex>
-          <Button onClick={() => handleExportToExcel(result)} size={'sm'} colorScheme='green' variant='outline'>
-            Xuất file
-          </Button>
-        </HStack>
-      </VStack>
-      {/* end -filter */}
-      <VStack mb={5} w={'100%'} pl={30} pr={30} spacing={2}>
-        {result?.map((item) => (
-          <Box borderWidth={1} w={'100%'} borderRadius={20} bgColor={'white'} boxShadow={'lg'} p={5} key={item.detailId}>
-            <HStack w={'100%'} align={'flex-start'}>
-              <HStack p={1} w={'50%'}>
-                <Avatar src={item[0].candidate.avatar} name={item[0].candidate.name} />
-                <Box>
-                  <Text m={0} p={0} fontWeight={'bold'}>
-                    {item[0].candidate.name}
-                  </Text>
-                  <Text m={0} p={0} fontStyle={'italic'}>
-                    {item[0].candidate.email}
-                  </Text>
-                  <SendProposalOverLay cvLink={item[0].cv.url} cemail={item[0].candidate.email} cvId={item[0].cv.id} jobName={item[0].jobPosting.name} />
-                </Box>
-              </HStack>
-            </HStack>
-            <VStack align={'flex-start'} w={'100%'}>
-              {item.map((detail) => (
-                <OverlayAResult detail={detail} />
+              {jobs.map((job) => (
+                <Button value={job.id} onClick={() => handleJobClick(job.id)} size={'sm'} bgColor={filter.job === job.id ? 'black' : 'grey.200'} color={filter.job === job.id ? 'white' : 'black'} leftIcon={<MdOutlineWorkOutline />}>
+                  {job.name}
+                </Button>
               ))}
-            </VStack>
-          </Box>
-        ))}
-      </VStack>
-    </Box>
-  )
+            </Flex>
+          </HStack>
+          <HStack justifyContent={'space-between'} m={0} p={0} w={'100%'} align={'flex-start'}>
+            <Flex gap={3} wrap='wrap'>
+              <Button onClick={() => handleLabelClick(0)} size={'sm'} bgColor={filter.label === 0 ? 'black' : 'grey.200'} color={filter.label === 0 ? 'white' : 'black'} leftIcon={<IoPricetagsOutline />}>
+                Tất cả
+              </Button>
+              {labels?.map((label) => (
+                <Button onClick={() => handleLabelClick(label.id)} size={'sm'} bgColor={filter.label === label.id ? 'black' : 'grey.200'} color={filter.label === label.id ? 'white' : 'black'} leftIcon={<IoPricetagsOutline />}>
+                  {label.name}
+                </Button>
+              ))}
+            </Flex>
+          </HStack>
+          <HStack justifyContent={'space-between'} m={0} p={0} w={'100%'} align={'flex-start'}>
+            <Flex gap={2}>
+              <Button onClick={() => handleFilterState('all')} bgColor={filter.state === 'all' ? 'black' : 'grey.200'} color={filter.state === 'all' ? 'white' : 'black'} size={'sm'}>
+                Tất cả
+              </Button>
+              <Button onClick={() => handleFilterState('SCHEDULE_INTERVIEW')} bgColor={filter.state === 'SCHEDULE_INTERVIEW' ? 'black' : 'grey.200'} color={filter.state === 'SCHEDULE_INTERVIEW' ? 'white' : 'black'} size={'sm'}>
+                Lên lịch phỏng vấn
+              </Button>
+            </Flex>
+            <Button onClick={() => handleExportToExcel(result)} size={'sm'} colorScheme='green' variant='outline'>
+              Xuất file
+            </Button>
+          </HStack>
+        </VStack>
+        {/* end -filter */}
+        <VStack mb={5} w={'100%'} pl={30} pr={30} spacing={2}>
+          {result && result.length > 0 ? (
+            result.map((item) => (
+              <Box borderWidth={1} w={'100%'} borderRadius={20} bgColor={'white'} boxShadow={'lg'} p={5} key={item.detailId}>
+                <HStack w={'100%'} align={'flex-start'}>
+                  <HStack p={1} w={'50%'}>
+                    <Avatar src={item[0].candidate.avatar} name={item[0].candidate.name} />
+                    <Box>
+                      <Text m={0} p={0} fontWeight={'bold'}>
+                        {item[0].candidate.name}
+                      </Text>
+                      <Text m={0} p={0} fontStyle={'italic'}>
+                        {item[0].candidate.email}
+                      </Text>
+                      <SendProposalOverLay cvLink={item[0].cv.url} cemail={item[0].candidate.email} cvId={item[0].cv.id} jobName={item[0].jobPosting.name} />
+                    </Box>
+                  </HStack>
+                </HStack>
+                <VStack align={'flex-start'} w={'100%'}>
+                  {item.map((detail) => (
+                    <OverlayAResult detail={detail} />
+                  ))}
+                </VStack>
+              </Box>
+            ))
+          ) : (
+            <Text>Hiện chưa có bản ghi nào</Text>
+          )}
+        </VStack>
+      </Box>
+    )
 }
 const State = {
   RECEIVE_CV: 'Tiếp nhận CV',

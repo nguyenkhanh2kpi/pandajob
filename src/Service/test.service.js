@@ -21,6 +21,16 @@ const getATest = async (token, id) => {
   }
 }
 
+const deleteATest = async (token, id) => {
+  try {
+    let config = { headers: { Authorization: `Bearer ${token}` } }
+    const response = await axios.delete(`${hostName}/mul-test/${id}`, config)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
 const getTestByjd = async (token, jobid) => {
   try {
     let config = { headers: { Authorization: `Bearer ${token}` } }
@@ -209,4 +219,5 @@ export const testService = {
   addCodeQuestionForATest,
   deleteCodeQuestionById,
   getAllRecordCodeByTestId,
+  deleteATest,
 }

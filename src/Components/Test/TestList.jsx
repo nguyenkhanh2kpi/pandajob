@@ -85,7 +85,7 @@ const TestItem = ({ test }) => {
     <Box p={10} backgroundColor='#ffffff' maxW='sm' borderRadius={10} overflow='hidden' fontFamily={'Roboto'}>
       <HStack alignItems='center' spacing={4}>
         <Icon as={icon} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />
-        <Text m={0} fontSize='2xl'>
+        <Text noOfLines={1} m={0} fontSize='xl'>
           {test.summary}
         </Text>
       </HStack>

@@ -88,12 +88,16 @@ export const MyCompany = () => {
       <>
         <Box minHeight={1000} fontFamily={'Roboto'} backgroundColor={'#f5f9fa'} overflow='hidden'>
           <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
+          <VStack align={'flex-start'} w={'90%'}>
+            <Breadcrumb pt={30}>
+              <BreadcrumbItem>
+                <BreadcrumbLink fontWeight={'bold'} fontStyle={'italic'} href='#'>
+                  Công ty của tôi
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+            </Breadcrumb>
+          </VStack>
 
-          <Breadcrumb pt={30}>
-            <BreadcrumbItem>
-              <BreadcrumbLink href='#'>Công ty của tôi</BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb>
           <VStack mb={10} pl={30} pr={30} spacing={3}>
             <Box w={'100%'}>
               <Card>

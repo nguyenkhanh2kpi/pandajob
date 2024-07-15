@@ -177,6 +177,7 @@ const AllJob = () => {
       </HStack>
     )
   }
+  
 
   if (jobData.length === 0) {
     return (
@@ -193,7 +194,7 @@ const AllJob = () => {
         </HStack>
 
         <Box w={'97%'} fontFamily={'Roboto'} display='flex' justifyContent='space-between'>
-          <Text ml={30}>Bạn hiện chưa có bài đăng nào</Text>
+          <Text ml={30}>Đang tải...</Text>
         </Box>
       </Box>
     )

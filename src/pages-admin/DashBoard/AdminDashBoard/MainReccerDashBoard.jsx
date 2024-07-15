@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, VStack, Heading, Text, SimpleGrid, Stat, StatLabel, StatNumber, StatHelpText, StatGroup, Grid, GridItem, Card, CardBody, HStack, Icon, Table, Thead, Tr, Th, Tbody, Td, Flex, IconButton, Button, Link, Tag } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, VStack, Heading, Text, SimpleGrid, Stat, StatLabel, StatNumber, StatHelpText, StatGroup, Grid, GridItem, Card, CardBody, HStack, Icon, Table, Thead, Tr, Th, Tbody, Td, Flex, IconButton, Button, Link, Tag, Spinner } from '@chakra-ui/react'
 import { BellIcon } from '@chakra-ui/icons'
 import { AiOutlineHome, AiOutlineNotification } from 'react-icons/ai'
 import { IoDocumentTextOutline } from 'react-icons/io5'
@@ -94,15 +94,24 @@ export const MainReccerDashBoard = () => {
       .catch((er) => console.log(er))
   }, [])
   if (reccerDash === null) {
-    return <></>
+    return (
+      <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
+        <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+      </HStack>
+    )
   } else
     return (
       <Box minHeight={1000} fontFamily={'Roboto'} backgroundColor={'#f5f9fa'} overflow='hidden'>
-        <Breadcrumb pt={30}>
-          <BreadcrumbItem>
-            <BreadcrumbLink href='#'>Dashboard</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
+        <VStack align={'flex-start'} w={'90%'}>
+          <Breadcrumb pt={30}>
+            <BreadcrumbItem>
+              <BreadcrumbLink fontWeight={'bold'} fontStyle={'italic'} href='#'>
+                Dashboard
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </VStack>
+
         <VStack mb={100} spacing={6} align='stretch' px={8}>
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} width='100%'>
             <Box p={6} boxShadow='md' borderRadius='lg' bg='white'>

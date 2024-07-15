@@ -94,7 +94,9 @@ const TestAddForm = () => {
           <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
         </>
       ) : (
-        <></>
+        <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
+          <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+        </HStack>
       )}
     </>
   )

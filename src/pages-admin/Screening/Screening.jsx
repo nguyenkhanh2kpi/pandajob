@@ -41,6 +41,7 @@ import {
   MenuButton,
   CardFooter,
   SimpleGrid,
+  useToast,
 } from '@chakra-ui/react'
 import { loadJob } from '../../redux/Job-posting/Action'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -60,6 +61,7 @@ import { AddEssayTest } from './AddEssayTest'
 import { AddNewCodeTest } from '../CodeTestEdit/AddNewCodeTest'
 
 const Screening = () => {
+  const toast = useToast()
   const params = useParams()
   const navigate = useNavigate()
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
@@ -82,7 +84,7 @@ const Screening = () => {
       <HStack justifyContent={'space-between'} w={'100%'}>
         <Breadcrumb separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'} pt={30}>
           <BreadcrumbItem>
-            <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
+            <BreadcrumbLink href='/process'>Quản lý ứng tuyển</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
             <BreadcrumbLink href={`/process/item/${params.jobId}`}> {job ? job.name : ''}</BreadcrumbLink>
@@ -103,7 +105,9 @@ const Screening = () => {
           <TestItemByJob jobId={job.id} load={load} setLoad={setLoad} />
         </SimpleGrid>
       ) : (
-        <></>
+        <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
+          <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+        </HStack>
       )}
       <ToastContainer position='bottom-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='light' />
     </Box>
@@ -113,18 +117,41 @@ const Screening = () => {
 // list item test khi hiện danh sách
 const TestItemByJob = ({ jobId, load, setLoad }) => {
   const accessToken = JSON.parse(localStorage.getItem('data')).access_token
-  const [tests, SetTests] = useState({})
+  const [tests, SetTests] = useState(null)
   useEffect(() => {
     testService
       .getTestByjd(accessToken, jobId)
       .then((response) => SetTests(response))
       .catch((er) => console.log(er))
   }, [load])
-  return <>{tests.length > 0 ? tests.map((test) => <TestItem test={test} jobId={jobId} load={load} setLoad={setLoad} />) : <Text>Không tìm thấy bài test nào</Text>}</>
+  if (tests === null) {
+    return (
+      <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
+        <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+      </HStack>
+    )
+  } else return <>{tests.length > 0 ? tests.map((test) => <TestItem test={test} jobId={jobId} load={load} setLoad={setLoad} />) : <Text>Không tìm thấy bài test nào</Text>}</>
 }
 
 const TestItem = ({ test, jobId, load, setLoad }) => {
+  const toast = useToast()
   const navigate = useNavigate()
+  const accessToken = JSON.parse(localStorage.getItem('data')).access_token
+
+  const handleDeleteTest = (testId) => {
+    testService
+      .deleteATest(accessToken, testId)
+      .then((response) =>
+        toast({
+          title: response.message,
+          duration: 3000,
+          status: 'info',
+        })
+      )
+      .catch((er) => console.log(er))
+      .finally(() => setLoad(!load))
+  }
+
   const renderTestCard = () => {
     switch (test.type) {
       case 'ESSAY':
@@ -145,7 +172,7 @@ const TestItem = ({ test, jobId, load, setLoad }) => {
                 <MenuButton _hover={{ bgcolor: 'white' }} bgColor={'white'} as={Button} rightIcon={<BsThreeDotsVertical />} />
                 <MenuList>
                   <MenuItem onClick={() => navigate(`/process/view-essay-result/${test.id}`)}>Xem kết quả</MenuItem>
-                  <MenuItem>Xóa</MenuItem>
+                  <MenuItem onClick={() => handleDeleteTest(test.id)}>Xóa</MenuItem>
                 </MenuList>
               </Menu>
             </Flex>
@@ -170,7 +197,7 @@ const TestItem = ({ test, jobId, load, setLoad }) => {
                 <MenuList>
                   <MenuItem onClick={() => navigate(`/process/screening-test/${test.id}`)}>Chỉnh sửa</MenuItem>
                   <MenuItem onClick={() => navigate(`/process/view-mul-test-result/${test.id}`)}>Xem kết quả</MenuItem>
-                  <MenuItem>Xóa</MenuItem>
+                  <MenuItem onClick={() => handleDeleteTest(test.id)}>Xóa</MenuItem>
                 </MenuList>
               </Menu>
             </Flex>
@@ -195,7 +222,7 @@ const TestItem = ({ test, jobId, load, setLoad }) => {
                 <MenuList>
                   <MenuItem onClick={() => navigate(`/process/edit-code-test/${test.id}`)}>Chỉnh sửa</MenuItem>
                   <MenuItem onClick={() => navigate(`/process/code-test/result/${test.id}`)}>Xem kết quả test</MenuItem>
-                  <MenuItem>Xóa</MenuItem>
+                  <MenuItem onClick={() => handleDeleteTest(test.id)}>Xóa</MenuItem>
                 </MenuList>
               </Menu>
             </Flex>

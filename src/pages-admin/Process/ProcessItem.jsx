@@ -80,7 +80,7 @@ export const ProcessItem = () => {
     <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#f5f9fa'}>
       <Breadcrumb pt={30} separator={<ChevronRightIcon color='gray.500' />} fontStyle={'italic'} fontWeight={'bold'}>
         <BreadcrumbItem>
-          <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
+          <BreadcrumbLink href='/process'>Quản lý ứng tuyển</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
           <BreadcrumbLink href='#'>{job.name}</BreadcrumbLink>
@@ -241,7 +241,7 @@ const ListCVTab = ({ job, setTabIndex }) => {
     })
 
     worksheet.eachRow((row, rowNumber) => {
-      if (rowNumber === 1) return 
+      if (rowNumber === 1) return
       const cvLinkCell = row.getCell(5)
       cvLinkCell.value = { text: 'CVLink', hyperlink: row.getCell(5).value }
     })

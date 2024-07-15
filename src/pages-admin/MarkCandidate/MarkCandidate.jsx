@@ -35,6 +35,7 @@ import {
   Badge,
   useToast,
   Tag,
+  Spinner,
 } from '@chakra-ui/react'
 import { MarkItem } from './MarkItem'
 import { interviewDetailService } from '../../Service/interviewDetail.service'
@@ -84,14 +85,9 @@ export const MarkCandidate = () => {
 
   if (room === undefined) {
     return (
-      <Box backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
-        <VStack spacing={10}>
-          <Skeleton w={'70%'}>
-            <div>contents wrapped</div>
-            <div>won't be visible</div>
-          </Skeleton>
-        </VStack>
-      </Box>
+      <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
+        <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+      </HStack>
     )
   } else
     return (

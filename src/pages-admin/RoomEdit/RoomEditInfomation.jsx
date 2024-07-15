@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, CardFooter, CardHeader, Divider, Flex, FormControl, Icon, IconButton, List, ListIcon, ListItem, Menu, MenuButton, MenuItem, MenuList, Skeleton, Stack, Tag, useToast } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, CardFooter, CardHeader, Divider, Flex, FormControl, Icon, IconButton, List, ListIcon, ListItem, Menu, MenuButton, MenuItem, MenuList, Skeleton, Spinner, Stack, Tag, useToast } from '@chakra-ui/react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Heading, HStack, SlideFade, VStack, Image, Text, Button, Wrap, WrapItem, Avatar, FormLabel, Input, Select } from '@chakra-ui/react'
 import { AssignInterviewer } from '../Assign/AssignInterviewer'
@@ -169,13 +169,9 @@ export const RoomEditInfomation = () => {
 
   if (room.id === 0) {
     return (
-      <>
-        <Stack>
-          <Skeleton height='20px' />
-          <Skeleton height='20px' />
-          <Skeleton height='20px' />
-        </Stack>
-      </>
+      <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
+        <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+      </HStack>
     )
   } else {
     return (
@@ -289,7 +285,7 @@ export const RoomEditInfomation = () => {
                 </Box>
               </Box>
               <VStack w={'50%'}>
-                <Box p={4} borderRadius={20} w={'100%'} backgroundColor={'white'}>
+                <Box boxShadow={'md'} p={4} borderRadius={20} w={'100%'} backgroundColor={'white'}>
                   <HStack justifyContent={'space-between'} w={'100%'}>
                     <HStack>
                       <Icon as={AiOutlineSetting} boxSize={7} p={1} bgColor='#ddeff0' borderRadius='full' />

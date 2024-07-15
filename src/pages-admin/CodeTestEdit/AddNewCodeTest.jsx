@@ -31,6 +31,12 @@ export const AddNewCodeTest = ({ jobId, load, setLoad }) => {
       [name]: name === 'time' ? (value === '' ? '' : Number(value)) : value,
     })
   }
+  const handleChangeN = (valueString, valueNumber) => {
+    setForm({
+      ...form,
+      time: valueNumber,
+    })
+  }
   // validate
   const validateForm = () => {
     const { summary, time } = form
@@ -95,8 +101,8 @@ export const AddNewCodeTest = ({ jobId, load, setLoad }) => {
             <FormLabel>Tên bài kiểm tra</FormLabel>
             <Input type='text' name='summary' value={form.summary} onChange={handleChange} />
             <FormLabel>Thời gian( Phút)</FormLabel>
-            <NumberInput defaultValue={10} min={10} max={200}>
-              <NumberInputField name='time' value={form.time} onChange={handleChange} />
+            <NumberInput name='time' value={form.time} defaultValue={10} min={10} max={200} onChange={handleChangeN}>
+              <NumberInputField />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />

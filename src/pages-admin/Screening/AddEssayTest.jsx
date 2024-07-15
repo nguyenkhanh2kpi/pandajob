@@ -41,6 +41,13 @@ export const AddEssayTest = ({ jobId, load, setLoad }) => {
     })
   }
 
+  const handleChangeN = (valueString, valueNumber) => {
+    setForm({
+      ...form,
+      time: valueNumber,
+    })
+  }
+
   const handleSave = async () => {
     const savedData = await editorCore.current.save()
     const uploadPromises = savedData.blocks.map(async (element) => {
@@ -108,8 +115,8 @@ export const AddEssayTest = ({ jobId, load, setLoad }) => {
               </Box>
               <Box>
                 <FormLabel>Thời gian( Phút)</FormLabel>
-                <NumberInput defaultValue={10} min={10} max={200}>
-                  <NumberInputField name='time' value={form.time} onChange={handleChange} />
+                <NumberInput name='time' value={form.time} defaultValue={10} min={10} max={200} onChange={handleChangeN}>
+                  <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
                     <NumberDecrementStepper />

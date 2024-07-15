@@ -1,10 +1,11 @@
-import { Box, HStack, Text, Image, Link, VStack, Button, useDisclosure, Flex, Tag, useToast, Checkbox } from '@chakra-ui/react'
+import { Box, HStack, Text, Image, Link, VStack, Button, useDisclosure, Flex, Tag, useToast, Checkbox, Icon } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { EDITOR_JS_TOOLS } from '../../../Components/Essay/tool'
 import { createReactEditorJS } from 'react-editor-js'
 import { labelService } from '../../../Service/label.service'
 import { IoPricetagsOutline } from 'react-icons/io5'
 import { cvService } from '../../../Service/cv.service'
+import { CloseIcon, SearchIcon } from '@chakra-ui/icons'
 
 const State = {
   RECEIVE_CV: 'Tiếp nhận CV',
@@ -78,17 +79,17 @@ export const ViewDetailUserMultest = ({ record, load, setLoad }) => {
 
   return (
     <>
-      <Button mt={2} size={'sm'} onClick={() => handleOpen()}>
-        Xem
-      </Button>
+      <Icon as={SearchIcon} mt={2} size={'sm'} onClick={() => handleOpen()} />
+
       {selectedRecord && (
         <>
           {isOpen && (
             <Box pos='fixed' top={0} left={0} width='100vw' height='100vh' bg='rgba(0, 0, 0, 0.4)' display='flex' justifyContent='center' alignItems='center' zIndex={1000}>
               <Box overflowY='auto' bg='white' borderRadius='md' p={4} w={'800px'} h='700px' boxShadow='xl' pos='relative'>
-                <Box pos='absolute' top={2} right={2} cursor='pointer' fontSize='xl' onClick={onClose}>
+                {/* <Box cursor='pointer' fontSize='xl'>
                   &times;
-                </Box>
+                </Box> */}
+                <Icon pos='absolute' top={2} right={2} as={CloseIcon} onClick={onClose} />
                 <Box p={4}>
                   <HStack w={'100%'} justifyContent={'space-between'}>
                     <VStack align='start' spacing={0}>
@@ -161,8 +162,12 @@ const RecordDisplay = ({ recordData }) => {
       <VStack align={'start'} spacing={4} maxH={isExpanded ? 'none' : '100px'} overflowY={isExpanded ? 'visible' : 'auto'}>
         {Object.entries(parsedRecord).map(([key, value], index) => (
           <HStack key={index} spacing={0} w={'100%'}>
-            <Text m={0} p={0} fontWeight={'bold'}>Question {key}:</Text>
-            <Text m={0} p={0} pl={5}>{value}</Text>
+            <Text m={0} p={0} fontWeight={'bold'}>
+              Question {key}:
+            </Text>
+            <Text m={0} p={0} pl={5}>
+              {value}
+            </Text>
           </HStack>
         ))}
       </VStack>

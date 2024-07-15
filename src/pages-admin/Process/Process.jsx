@@ -1,4 +1,4 @@
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Card, CardBody, Flex, Grid, GridItem, HStack, Image, Link, SimpleGrid, Spinner, Tab, Tag, Text, VStack } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Card, CardBody, Flex, Grid, GridItem, HStack, Image, Link, SimpleGrid, Spinner, Tab, Table, TableContainer, Tag, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -52,8 +52,64 @@ const Process = () => {
             Xem tất cả công việc
           </Button>
         </HStack>
+        <HStack mb={10} w={'100%'} pr={30} pl={30}>
+          <TableContainer bgColor={'white'} w={'100%'}>
+            <Table variant='simple' size='md'>
+              <Thead>
+                <Tr>
+                  <Th border='1px solid' borderColor='gray.200'>
+                    Công việc
+                  </Th>
+                  <Th border='1px solid' borderColor='gray.200'>
+                    Ngày đăng
+                  </Th>
+                  <Th border='1px solid' borderColor='gray.200'>
+                    Trạng thái
+                  </Th>
+                  <Th border='1px solid' borderColor='gray.200'>
+                    Hoạt động
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {jobData.map((job) => {
+                  return job.status === true && job.user_id === userId ? (
+                    <Tr>
+                      <Td border='1px solid' borderColor='gray.200'>
+                        <Text m={0} p={0} onClick={() => navigate(`/process/item/${job.id}`)} fontWeight='bold'>
+                          <Link>JOB: {job.name}</Link>
+                        </Text>
+                      </Td>
+                      <Td border='1px solid' borderColor='gray.200'>
+                        <Tag>{job.createDate}</Tag>
+                      </Td>
+                      <Td border='1px solid' borderColor='gray.200'>
+                        <JobStateTag state={job.state} />
+                      </Td>
+                      <Td border='1px solid' borderColor='gray.200'>
+                        <HStack mt={3}>
+                          <Button size='sm' onClick={() => navigate(`/process/item/${job.id}`)} variant='outline'>
+                            Xem CV đã ứng tuyển
+                          </Button>
 
-        <SimpleGrid w={'80%'} ml={30} mr={30} columns={{ base: 1, md: 2 }} spacing={5}>
+                          {job.requireTest ? (
+                            <Button size='sm' onClick={() => navigate(`/process/screening/${job.id}`)} rightIcon={<CheckIcon />} variant='outline'>
+                              Quản lý Test sàng lọc
+                            </Button>
+                          ) : (
+                            <></>
+                          )}
+                        </HStack>
+                      </Td>
+                    </Tr>
+                  ) : null
+                })}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        </HStack>
+
+        {/* <SimpleGrid w={'80%'} ml={30} mr={30} columns={{ base: 1, md: 2 }} spacing={5}>
           {jobData.map((job) => {
             return job.status === true && job.user_id === userId ? (
               <Box w={'100%'} bgColor={'white'} borderRadius={20} p={'15px'} boxShadow={'md'}>
@@ -86,7 +142,7 @@ const Process = () => {
               </Box>
             ) : null
           })}
-        </SimpleGrid>
+        </SimpleGrid> */}
       </Box>
     )
 }

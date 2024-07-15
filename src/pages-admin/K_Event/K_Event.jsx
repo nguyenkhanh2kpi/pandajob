@@ -53,14 +53,9 @@ export const K_Event = () => {
 
   if (events === undefined) {
     return (
-      <div className='m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl'>
-        <Header category='App' title='Event' />
-        <Stack>
-          <Skeleton height='50px' />
-          <Skeleton height='50px' />
-          <Skeleton height='50px' />
-        </Stack>
-      </div>
+      <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
+        <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+      </HStack>
     )
   } else if (events.length === 0) {
     return (

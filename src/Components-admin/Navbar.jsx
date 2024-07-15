@@ -95,6 +95,10 @@ const Navbar = () => {
               <Icon as={BiMessage} mr={1} />
               Tin nhắn
             </MenuItem>
+            <MenuItem onClick={() => navigate(data?.access_token ? '/change-password' : '/login')}>
+              <Icon as={BiMessage} mr={1} />
+              Đổi mật khẩu
+            </MenuItem>
             <MenuItem onClick={handleLogout}>
               <Icon as={CiLogout} mr={1} />
               Đăng xuất

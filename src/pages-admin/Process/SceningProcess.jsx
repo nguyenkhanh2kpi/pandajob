@@ -71,7 +71,7 @@ export const SceningProcess = () => {
     <Box minHeight={2000} overflow='auto' fontFamily={'Roboto'} fontWeight={400} backgroundColor={'#e9f3f5'} p={30}>
       <Breadcrumb>
         <BreadcrumbItem>
-          <BreadcrumbLink href='/process'>Chiến dịch tuyển dụng</BreadcrumbLink>
+          <BreadcrumbLink href='/process'>Quản lý ứng tuyển</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
           <BreadcrumbLink href={`/process/item/${job.id}`}>{job.name}</BreadcrumbLink>

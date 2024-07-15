@@ -155,7 +155,7 @@ const DoTest = ({ test }) => {
   //// panigate
 
   const [currentPage, setCurrentPage] = useState(0)
-  const itemsPerPage = 3
+  const itemsPerPage = 4
 
   const pageCount = Math.ceil(test.questions.length / itemsPerPage)
   const handlePageChange = ({ selected }) => {

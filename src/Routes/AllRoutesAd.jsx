@@ -55,6 +55,7 @@ import { MainAdminContact } from '../pages-admin/Admin-DashBoard/MainAdminContac
 import { MainBanner } from '../pages-admin/Admin-DashBoard/MainBanner'
 import { MainErrorPage } from '../Components/Error/MainErrorPage'
 import { MainVipPackAll } from '../pages-admin/DashBoard/AdminDashBoard/MainVipPackAll'
+import { ChangeUsePassword } from '../Components/UserInfo/ChangeUsePassword'
 
 const AllRoutesAd = ({ role }) => {
   return (
@@ -160,6 +161,7 @@ const AllRoutesAd = ({ role }) => {
 
       <Route path='/messages' element={<MessageAdmin />} />
       <Route path='/search-candidate' element={<SearchCandidate />} />
+      <Route path='/change-password' element={<ChangeUsePassword />} />
       <Route path='*' element={<MainErrorPage />} />
     </Routes>
   )

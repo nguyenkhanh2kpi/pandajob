@@ -7,6 +7,7 @@ import { interviewService } from '../../Service/interview.service'
 import { useGoogleLogin } from '@react-oauth/google'
 import { format } from 'date-fns'
 import { googleTokenManageService } from '../../Service/google.service'
+import { FaGoogle } from 'react-icons/fa'
 
 const client_id = '854899780211-p148qqqvv8svo8mmviv8tuf6sbmip7iq.apps.googleusercontent.com'
 export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
@@ -144,7 +145,7 @@ export const GoogleCalendar = ({ startDate, endDate, listEmail, roomId }) => {
 
   return (
     <>
-      <Button fontFamily={'Roboto'} leftIcon={<MdVideocam />} color='white' backgroundColor='rgb(3, 201, 215)' onClick={handleOpen}>
+      <Button fontFamily={'Roboto'} leftIcon={<FaGoogle />} color='white' backgroundColor='rgb(3, 201, 215)' onClick={handleOpen}>
         <Link>Lên lịch với ứng viên</Link>
       </Button>
       <Drawer size={'lg'} isOpen={isOpen} placement='right' onClose={onClose} finalFocusRef={btnRef}>

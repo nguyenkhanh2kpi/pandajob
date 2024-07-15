@@ -1,4 +1,43 @@
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, HStack, SimpleGrid, Text, Image, Link, VStack, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, Tag, Flex, Select, Input, Avatar, Spinner, Tab } from '@chakra-ui/react'
+import {
+  Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  HStack,
+  SimpleGrid,
+  Text,
+  Image,
+  Link,
+  VStack,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Tag,
+  Flex,
+  Select,
+  Input,
+  Avatar,
+  Spinner,
+  Tab,
+  TableContainer,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  Tooltip,
+} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { testService } from '../../../Service/test.service'
@@ -68,6 +107,18 @@ export const MultestMainResult = () => {
 
   const totalQuestions = (record) => Object.keys(record).length
 
+  // ffilter by score
+  const [filterNumber, setFilterNumber] = useState(0)
+  const [numberQuestions, setNumberQuestions] = useState(0)
+  const [showTooltip, setShowTooltip] = useState(false)
+  const handleSliderChange = (value) => {
+    setFilterNumber(value)
+  }
+
+  useEffect(() => {
+    if (records !== null && records[0].isDone) setNumberQuestions(totalQuestions(JSON.parse(records[0].record)))
+  }, [records])
+
   if (!filterdRecords) {
     return (
       <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
@@ -106,41 +157,142 @@ export const MultestMainResult = () => {
             Lên lịch phỏng vấn (trạng thái)
           </Button>
         </Flex>
+
         {filterdRecords.length > 0 ? (
           <Box w={'100%'}>
-            <SimpleGrid w={'95%'} m={30} columns={{ base: 1, md: 2 }} spacing={6}>
-              {filterdRecords.map((record, index) => (
-                <Box key={index} w={'100%'} bgColor={'white'} borderRadius={20} boxShadow={'md'} p={5}>
-                  <HStack justifyContent={'space-between'} spacing={4} mb={4}>
-                    <HStack m={0} p={0} justifyContent={'flex-start'}>
-                      <Avatar borderRadius='full' boxSize='50px' src={record.user.avatar} alt={record.user.fullName} />
-                      <VStack spacing={0} align='start'>
-                        <Text m={0} p={0} fontWeight='bold'>
-                          {record.user.fullName}
-                        </Text>
-                        <Text m={0} p={0} fontWeight='bold'>
-                          Số câu đúng:{' '}
-                          <Tag fontWeight={'bold'} colorScheme='green'>
-                            {record.score}/{totalQuestions(JSON.parse(record.record))}
-                          </Tag>
-                        </Text>
-                        <Text fontStyle={'italic'} m={0} p={0}>
-                          {record.user.email}
-                        </Text>
-                        {record.cvDTO.view ? <Tag colorScheme='yellow'>Đã xem</Tag> : <Tag colorScheme='green'>Chưa xem</Tag>}
-                        <ViewDetailUserMultest record={record} load={load} setLoad={setLoad} />
-                      </VStack>
-                    </HStack>
+            <Box m={5} ml={7}>
+              <Slider size='lg' aria-label='filter-slider' defaultValue={0} min={0} max={numberQuestions} value={filterNumber} onChange={handleSliderChange} onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)}>
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <Tooltip hasArrow bg='teal.500' color='white' placement='top' isOpen={showTooltip} label={filterNumber}>
+                  <SliderThumb />
+                </Tooltip>
+              </Slider>
+            </Box>
+            <TableContainer m={5} ml={7} overflow={'hidden'} fontFamily={'Roboto'} mb={10} borderWidth={1} w={'90%'} bgColor={'white'}>
+              <Table
+                variant='simple'
+                sx={{
+                  borderCollapse: 'separate',
+                  borderSpacing: '0',
+                  'th, td': {
+                    borderBottom: '1px solid gray',
+                  },
+                  'th:first-of-type, td:first-of-type': {
+                    borderLeft: '1px solid gray',
+                  },
+                  'th:last-of-type, td:last-of-type': {
+                    borderRight: '1px solid gray',
+                  },
+                  'tr:last-of-type td': {
+                    borderBottom: '1px solid gray',
+                  },
+                  'td:not(:last-of-type)': {
+                    borderRight: '1px solid gray',
+                  },
+                  'thead th': {
+                    borderTop: '1px solid gray',
+                    borderBottom: '1px solid gray',
+                  },
+                  thead: {
+                    'th:not(:first-of-type)': {
+                      borderLeft: '1px solid gray',
+                    },
+                  },
+                }}>
+                <Thead>
+                  <Tr color={'black'}>
+                    <Th>Ứng viên</Th>
+                    <Th>CV</Th>
+                    <Th>Thời gian làm bài</Th>
+                    <Th>Số câu đúng</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {filterdRecords.map((record, index) => (
+                    <>
+                      {record.isDone && record.score >= filterNumber ? (
+                        <Tr>
+                          <Td>
+                            <HStack m={0} p={0} justifyContent={'flex-start'}>
+                              <Avatar borderRadius='full' boxSize='50px' src={record.user.avatar} alt={record.user.fullName} />
+                              <VStack spacing={0} align='start'>
+                                <Text m={0} p={0} fontWeight='bold'>
+                                  {record.user.fullName}
+                                </Text>
 
-                    <VStack align='end' spacing={0}>
-                      <Text m={0} p={0} fontSize={'xs'} fontStyle={'italic'}>
-                        Thời gian làm bài: <Tag>{record.startTime}</Tag>
-                      </Text>
-                    </VStack>
-                  </HStack>
-                </Box>
+                                <Text fontStyle={'italic'} m={0} p={0}>
+                                  {record.user.email}
+                                </Text>
+                              </VStack>
+                            </HStack>
+                          </Td>
+                          <Td>
+                            <VStack>
+                              {record.cvDTO.view ? <Tag colorScheme='yellow'>Đã xem</Tag> : <Tag colorScheme='green'>Chưa xem</Tag>}
+                              <ViewDetailUserMultest record={record} load={load} setLoad={setLoad} />
+                            </VStack>
+                          </Td>
+                          <Td>
+                            <Tag>{record.startTime}</Tag>
+                          </Td>
+                          <Td>
+                            <Tag fontWeight={'bold'} colorScheme='green'>
+                              {record.score}/{totalQuestions(JSON.parse(record.record))}
+                            </Tag>
+                          </Td>
+                        </Tr>
+                      ) : (
+                        <></>
+                      )}
+                    </>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+            {/* <SimpleGrid w={'95%'} m={30} columns={{ base: 1, md: 2 }} spacing={6}>
+              {filterdRecords.map((record, index) => (
+                <>
+                  {record.isDone ? (
+                    <>
+                      {' '}
+                      <Box key={index} w={'100%'} bgColor={'white'} borderRadius={20} boxShadow={'md'} p={5}>
+                        <HStack justifyContent={'space-between'} spacing={4} mb={4}>
+                          <HStack m={0} p={0} justifyContent={'flex-start'}>
+                            <Avatar borderRadius='full' boxSize='50px' src={record.user.avatar} alt={record.user.fullName} />
+                            <VStack spacing={0} align='start'>
+                              <Text m={0} p={0} fontWeight='bold'>
+                                {record.user.fullName}
+                              </Text>
+                              <Text m={0} p={0} fontWeight='bold'>
+                                Số câu đúng:{' '}
+                                <Tag fontWeight={'bold'} colorScheme='green'>
+                                  {record.score}/{totalQuestions(JSON.parse(record.record))}
+                                </Tag>
+                              </Text>
+                              <Text fontStyle={'italic'} m={0} p={0}>
+                                {record.user.email}
+                              </Text>
+                              {record.cvDTO.view ? <Tag colorScheme='yellow'>Đã xem</Tag> : <Tag colorScheme='green'>Chưa xem</Tag>}
+                              <ViewDetailUserMultest record={record} load={load} setLoad={setLoad} />
+                            </VStack>
+                          </HStack>
+
+                          <VStack align='end' spacing={0}>
+                            <Text m={0} p={0} fontSize={'xs'} fontStyle={'italic'}>
+                              Thời gian làm bài: <Tag>{record.startTime}</Tag>
+                            </Text>
+                          </VStack>
+                        </HStack>
+                      </Box>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </>
               ))}
-            </SimpleGrid>
+            </SimpleGrid> */}
           </Box>
         ) : (
           <>

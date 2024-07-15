@@ -24,6 +24,7 @@ import {
   ListItem,
   SimpleGrid,
   Skeleton,
+  Spinner,
   Stack,
   Tag,
   Text,
@@ -99,32 +100,9 @@ export default function InterviewerListRoom() {
 
   if (disPlayListRooms === undefined) {
     return (
-      <>
-        <Box backgroundColor={'#e9f3f5'} p={30} overflow='hidden'>
-          <VStack spacing={10}>
-            <Skeleton w={'70%'}>
-              <div>contents wrapped</div>
-              <div>won't be visible</div>
-            </Skeleton>
-            <Skeleton h={300} w={'70%'}>
-              <div>contents wrapped</div>
-              <div>won't be visible</div>
-            </Skeleton>
-            <Skeleton w={'70%'}>
-              <div>contents wrapped</div>
-              <div>won't be visible</div>
-            </Skeleton>
-            <Skeleton h={300} w={'70%'}>
-              <div>contents wrapped</div>
-              <div>won't be visible</div>
-            </Skeleton>
-            <Skeleton w={'70%'}>
-              <div>contents wrapped</div>
-              <div>won't be visible</div>
-            </Skeleton>
-          </VStack>
-        </Box>
-      </>
+      <HStack minH={500} w='100%' justifyContent='center' alignItems='center'>
+        <Spinner thickness='8px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='4xl' />
+      </HStack>
     )
   }
   if (disPlayListRooms.length === 0) {

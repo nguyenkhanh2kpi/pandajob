@@ -16,12 +16,27 @@ export const MainTheme1 = ({ cvRef, resumeJson }) => {
   useEffect(() => {
     setJsonData(resumeJson)
   }, [resumeJson])
+  const [avatarUrl, setAvatarUrl] = useState('https://i.pinimg.com/564x/eb/57/6f/eb576ff023487bcb1fa3ad61ee7b23ee.jpg')
+  const handleAvatarClick = () => {
+    document.getElementById('avatarInput').click()
+  }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setAvatarUrl(reader.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   return (
     <Box bgColor={'white'} ref={cvRef} w='100%' p='50px' display='grid' gridTemplateColumns='35% 60%' columnGap='5%' rowGap='30px'>
       {/* Avatar and Contact Info */}
       <Box display='flex' justifyContent='end' alignItems='center'>
-        <Avatar size='2xl' name={jsonData.fullName} src='https://i.pinimg.com/564x/eb/57/6f/eb576ff023487bcb1fa3ad61ee7b23ee.jpg' />
+        <Avatar size='2xl' name={jsonData.fullName} src={avatarUrl} onClick={handleAvatarClick} cursor='pointer' /> <input id='avatarInput' type='file' accept='image/*' style={{ display: 'none' }} onChange={handleFileChange} />
       </Box>
       <Box pl='30px' borderLeft='1px solid black'>
         <Heading contentEditable as='h1' size='2xl' fontWeight='300'>

@@ -130,7 +130,7 @@ function App() {
                 <Box bgColor={'white'} className='fixed md:static bg-main-bg dark:bg-main-dark-bg w-full'>
                   <Navbar />
                 </Box>
-                <Box>
+                <Box p={2}>
                   <AllRoutesAd role={data.data.role} />
                 </Box>
                 <ConditionalFooterAdmin />
