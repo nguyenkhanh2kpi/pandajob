@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# Recruitment Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This web application is designed to streamline the recruitment process, allowing candidates, recruiters, and admins to interact efficiently. The system includes features for user management, job postings, event management, interview scheduling, and more.
 
-## Available Scripts
+# Features
 
-In the project directory, you can run:
+# 1. User Registration
+  •	Roles: Candidates, Recruiters (registered by Admin)
+  •	Description: Allows new candidates to sign up and recruiters to be registered by the admin.
+# 2. User Login
+  •	Roles: Candidates, Recruiters, Admin
+  •	Description: Secure login functionality for all user roles.
+# 3. Password Creation
+  •	Roles: Candidates, Recruiters, Admin
+  •	Description: Allows users to create a new password when needed.
+# 4. Password Recovery
+  •	Roles: Candidates, Recruiters, Admin
+  •	Description: Enables users to recover their password in case they forget it.
+# 5. Manage Personal Account Information
+  •	Roles: Candidates, Recruiters, Admin
+  •	Description: Users can view and update their personal account information.
+# 6. Search and View Job Listings
+  •	Roles: Guests, Candidates
+  •	Description: Allows users to search for and view job listings posted by recruiters.
+# 7. Search and View Events
+  •	Roles: Guests, Candidates
+  •	Description: Users can search for and view upcoming events.
+# 8. Apply for Jobs
+  •	Roles: Candidates
+  •	Description: Candidates can submit their CVs and apply for job postings.
+# 9. Create Sub-Accounts
+  •	Roles: Recruiters
+  •	Description: Recruiters can create sub-accounts for other users within their organization.
+# 10. Manage Candidate Profiles & Export CVs
+  •	Roles: Candidates
+  •	Description: Candidates can manage their profiles and export their CVs.
+# 11. Schedule Interviews
+  •	Roles: Candidates (view schedule), Recruiters
+  •	Description: Allows recruiters to schedule interviews, and candidates can view the interview schedule.
+# 12. Manage Job Postings
+  •	Roles: Recruiters
+  •	Description: Recruiters can create, edit, and delete job postings.
+# 13. Manage Events
+  •	Roles: Recruiters
+  •	Description: Recruiters can create, edit, and delete events.
+# 14. Manage Interview Rooms
+  •	Roles: Recruiters
+  •	Description: Recruiters can create and delete interview rooms, assign interviewers, and add candidates to rooms.
+# 15. Manage Recruiters (Blacklist/Unblacklist)
+  •	Roles: Admin
+  •	Description: Admins can manage the status of recruiters, including blacklisting and unblacklisting.
+# 16. Evaluate Candidates
+  •	Roles: Recruiters
+  •	Description: Recruiters can score and evaluate candidates.
+# 17. Manage Interview Questions
+  •	Roles: Recruiters
+  •	Description: Recruiters can create, edit, and delete interview questions.
+# 18. Manage System Accounts (Ban/Accept)
+  •	Roles: Admin
+  •	Description: Admins can manage the system accounts, including banning and accepting users.
+# 19. Manage Screening Tests
+  •	Roles: Recruiters
+  •	Description: Recruiters can manage screening tests for job postings and view the results.
+# 20. View Schedules (Events & Interviews)
+  •	Roles: Candidates, Recruiters
+  •	Description: Users can view schedules for events and interviews.
+# 21. View Recruitment Reports
+  •	Roles: Recruiters
+  •	Description: Recruiters can access detailed reports on recruitment activities.
+# 22. Messaging
+  •	Roles: Candidates, Recruiters
+  •	Description: In-app messaging functionality for communication between candidates and recruiters.
+# 23. Notifications
+  •	Roles: Candidates, Recruiters
+  •	Description: Users receive notifications about updates related to CVs, interview schedules, and more.
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
